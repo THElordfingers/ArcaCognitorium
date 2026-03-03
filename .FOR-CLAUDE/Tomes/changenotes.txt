@@ -1,0 +1,11 @@
+FEBRUARY 21 2026
+
+make menu pane smaller, make main pane larger.
+interface color changing ability.
+legend text formatting - eg for Model: gpt-5-mini     Model should be in bold, in a bigger font size, and gpt-5-mini should remain normal, with a smaler font size than the header
+					   - the status/notification line should be clearly separated, maybe in a sub bubble, potentially include current turn?
+					   - There should be a help section that defines what each row in the legend is.
+Header bubbles - the Legend should be moved to reside above the history column, while a new bubble should be made that spans the remainder of the space over the menu and chat panes that
+			   - contains only a graphical ASCII rendition of the programs name (Which needs defining)
+
+Help section needs serious formatting flow overhaul

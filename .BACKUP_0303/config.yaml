@@ -1,0 +1,85 @@
+#╔══════════════════════════════════════════════════════════════════════════════   
+#║ ⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨    
+#║ ⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨
+#║ ⛨⛨⛨⛨⛨⛨⛨⛨     
+#║ ⛨⛨⛨⛨⛨
+#║ ⛨⛨⛨
+#║ ⛨⛨       
+#║ ⛨        
+#║ ⛨    gpt-client/config.yaml
+#║ ⛨
+#╚══════════════════════════════════════════════════════════════════════════════════════
+
+
+app:
+  name: "ChatGPT Client"
+  version: "3.0-phase1"
+  timezone: "local"
+
+api:
+  api_key: null
+  timeout_seconds: 120
+
+ui:
+  show_timestamps: false
+  show_model_badge: true
+  typing_delay_seconds: 0.0
+
+  menu:
+    max_items: 12
+
+keys:
+  submit_message: "f2"
+
+  # Konsole steals Ctrl+1/2/3 and Alt+1/2/3 for tab switching.
+  # Function keys are reliably delivered to TUIs.
+  focus_left: "f6"
+  focus_middle: "f7"
+  focus_right: "f8"
+
+  copy_last: "ctrl+y"
+
+models:
+  smart: "gpt-5.2"
+  fast: "gpt-5-mini"
+  nano: "gpt-5-nano"
+  summary: "gpt-5-nano"
+  embeddings: "text-embedding-3-small"
+  code: "gpt-5-mini"
+
+routing:
+  default: "fast"
+  long_input_threshold_chars: 2000
+  reasoning_keywords:
+    - explain
+    - derive
+    - architecture
+    - proof
+    - analyze
+    - design
+
+memory:
+  short_term_max_messages: 24
+  retrieve_top_k: 5
+  min_relevance_score: 0.20
+  summarize:
+    enabled: true
+    trigger_after_messages: 18
+    keep_last_messages: 10
+
+storage:
+  conversations_dir: "storage/conversations"
+  vectors_path: "storage/vectors/vectors.pkl"
+  immutable_log_path: "storage/logs/immutable.jsonl"
+  analytics_log_path: "storage/logs/analytics.jsonl"
+
+logging:
+  enabled: true
+  log_user_messages: true
+  log_assistant_messages: true
+
+analytics:
+  enabled: true
+  reflection_interval_turns: 10
+  model: "gpt-5-nano"
+  max_suggestions: 5
