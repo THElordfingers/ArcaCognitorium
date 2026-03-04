@@ -6,14 +6,14 @@
 #║ ⛨⛨⛨
 #║ ⛨⛨       
 #║ ⛨        
-#║ ⛨    gpt-client/config.yaml
+#║ ⛨    ArcaCognitorium/config.yaml
 #║ ⛨
 #╚══════════════════════════════════════════════════════════════════════════════════════
 
 
 app:
-  name: "ChatGPT Client"
-  version: "3.0-phase1"
+  name: "Luminarious"
+  version: "v1.0-phase1_naming_pass"
   timezone: "local"
 
 api:
@@ -71,15 +71,15 @@ storage:
   conversations_dir: "storage/conversations"
   vectors_path: "storage/vectors/vectors.pkl"
   immutable_log_path: "storage/logs/immutable.jsonl"
-  analytics_log_path: "storage/logs/analytics.jsonl"
-
+  reflection_log_path: "storage/logs/reflections.jsonl"
+  
 logging:
   enabled: true
   log_user_messages: true
   log_assistant_messages: true
 
-analytics:
-  enabled: true
-  reflection_interval_turns: 10
-  model: "gpt-5-nano"
-  max_suggestions: 5
+reflection:
+    enabled: true
+    reflection_interval_turns: 10
+    model: "gpt-5-nano"
+    max_suggestions: 5

@@ -85,7 +85,7 @@ class AppConfig:
         conv_dir = storage.get("conversations_dir", "storage/conversations")
         os.makedirs(conv_dir, exist_ok=True)
         os.makedirs(os.path.dirname(storage.get("immutable_log_path", "storage/logs/immutable.jsonl")), exist_ok=True)
-        os.makedirs(os.path.dirname(storage.get("analytics_log_path", "storage/logs/analytics.jsonl")), exist_ok=True)
+        os.makedirs(os.path.dirname(storage.get("reflection_log_path", "storage/logs/reflections.jsonl")), exist_ok=True)
         os.makedirs(os.path.dirname(storage.get("vectors_path", "storage/vectors/vectors.pkl")), exist_ok=True)
 
         return AppConfig(
@@ -99,5 +99,5 @@ class AppConfig:
             memory=Namespace(merged.get("memory", {})),
             storage=Namespace(merged.get("storage", {})),
             logging=Namespace(merged.get("logging", {})),
-            analytics=Namespace(merged.get("analytics", {})),
+            reflection=Namespace(merged.get("reflection", {})),
         )
