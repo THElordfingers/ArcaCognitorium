@@ -65,6 +65,70 @@ def _ts_from_store(cfg: AppConfig, ts: str) -> str:
     return ts if cfg.ui.show_timestamps else ""
 
 
+    sub = args[0].lower()
+
+    if sub == "add":
+        if len(args) < 2:
+            self._set_status("Usage: /grimoire add [category:] content")
+            return
+        rest = " ".join(args[1:])
+        if ":" in args[1]:
+            category, content = rest.split(":", 1)
+            category = category.strip()
+            content = content.strip()
+        else:
+            category = "general"
+            content = rest.strip()
+        if not content:
+            self._set_status("Grimoire entry content cannot be empty.")
+            return
+        entry = self.grimoire.add(content, category)
+        self._set_status(f"Grimoire entry added: [{entry.category}] {entry.entry_id}")
+
+    elif sub == "list":
+        active = self.grimoire.get_active()
+        if not active:
+            self._set_status("Grimoire is empty.")
+            return
+        lines = [f"[{e.entry_id}] [{e.category}] {e.content}" for e in active]
+        self._set_status("Grimoire:\n" + "\n".join(lines))
+
+    elif sub == "remove":
+        if len(args) < 2:
+            self._set_status("Usage: /grimoire remove <entry_id>")
+            return
+        ok = self.grimoire.remove(args[1])
+        self._set_status(f"Removed {args[1]}." if ok else f"Entry not found: {args[1]}")
+
+    elif sub == "restore":
+        if len(args) < 2:
+            self._set_status("Usage: /grimoire restore <entry_id>")
+            return
+        ok = self.grimoire.restore(args[1])
+        self._set_status(f"Restored {args[1]}." if ok else f"Entry not found: {args[1]}")
+
+    elif sub == "edit":
+        if len(args) < 3:
+            self._set_status("Usage: /grimoire edit <entry_id> <new content>")
+            return
+        new_content = " ".join(args[2:]).strip()
+        ok = self.grimoire.edit(args[1], new_content)
+        self._set_status(f"Updated {args[1]}." if ok else f"Entry not found: {args[1]}")
+
+    elif sub == "status":
+        usage = self.grimoire.token_usage()
+        self._set_status(
+            f"Grimoire: {usage['entry_count']} entries · "
+            f"{usage['used']}/{usage['budget']} tokens ({usage['pct']}%)"
+        )
+
+    else:
+        self._set_status(
+            "Grimoire commands: add [cat:] content · list · remove <id> · "
+            "restore <id> · edit <id> <content> · status"
+        )
+
+
 RenderMode = Literal["plain", "markdown"]
 AlignMode = Literal["left", "right", "full"]
 
@@ -92,6 +156,7 @@ class BubbleCombo(Vertical):
         self._render_mode: RenderMode = render_mode
         self.header_widget: Optional[Static] = None
         self.body_widget: Optional[Static] = None
+        
 
     def _renderable(self, text: str):
         text = text or ""
@@ -326,6 +391,19 @@ class ChatTUIApp(App):
             app=self,
             config=AnimationConfig(**self.cfg.raw.get('animations', {}))
         )
+
+        from memory.grimoire import Grimoire
+        # Phase 3 addition — instantiate Grimoire
+        self.grimoire = Grimoire(
+            max_injection_tokens=self.cfg.raw.get("memory", {}).get("grimoire_max_tokens", 800)
+        )
+        
+
+    def _on_conversation_selected(self, cid: str | None) -> None:
+        if cid:
+            self.conversations.load(cid)
+            self._render_full_history_from_store(clear_first=True)
+            self._render_legend()
 
     def compose(self) -> ComposeResult:
         with Vertical():
@@ -1173,6 +1251,21 @@ class ChatTUIApp(App):
         if thread.summary:
             messages.append({"role": "system", "content": f"Conversation summary:\n{thread.summary}"})
 
+        
+        # Phase 3 addition — Grimoire injection
+        grimoire_injection = self.grimoire.build_injection_string()
+        if grimoire_injection:
+            messages.insert(1, {
+                "role": "system",
+                "content": grimoire_injection
+            })
+            # Update status layer — Grimoire is present in this context
+            self.status_layer.update_status(grimoire_active=True)
+            # Fire visual event
+            self.animation_controller.fire_event("grimoire_inject")
+        else:
+            self.status_layer.update_status(grimoire_active=False)
+        
         # Phase 3 decision:
         # retrieval is project-scoped on conversation_ids BUT thread-restricted per conversation
         proj_id = self.projects.project_for_conversation(conv.id)
@@ -1280,6 +1373,77 @@ class ChatTUIApp(App):
                 return m.get("content", "") or ""
         return ""
 
+
+    async def _handle_grimoire_command(self, args: list[str]) -> None:
+        if not args:
+            # push GrimoirePage — placeholder until GrimoirePage is built
+            self._set_status("Grimoire page not yet implemented. Use /grimoire list.")
+            return
+
+        sub = args[0].lower()
+
+        if sub == "add":
+            if len(args) < 2:
+                self._set_status("Usage: /grimoire add [category:] content")
+                return
+            rest = " ".join(args[1:])
+            if ":" in args[1]:
+                category, content = rest.split(":", 1)
+                category = category.strip()
+                content = content.strip()
+            else:
+                category = "general"
+                content = rest.strip()
+            if not content:
+                self._set_status("Grimoire entry content cannot be empty.")
+                return
+            entry = self.grimoire.add(content, category)
+            self._set_status(f"Grimoire entry added: [{entry.category}] {entry.entry_id}")
+
+        elif sub == "list":
+            active = self.grimoire.get_active()
+            if not active:
+                self._set_status("Grimoire is empty.")
+                return
+            lines = [f"[{e.entry_id}] [{e.category}] {e.content}" for e in active]
+            self._set_status("Grimoire:\n" + "\n".join(lines))
+
+        elif sub == "remove":
+            if len(args) < 2:
+                self._set_status("Usage: /grimoire remove <entry_id>")
+                return
+            ok = self.grimoire.remove(args[1])
+            self._set_status(f"Removed {args[1]}." if ok else f"Entry not found: {args[1]}")
+
+        elif sub == "restore":
+            if len(args) < 2:
+                self._set_status("Usage: /grimoire restore <entry_id>")
+                return
+            ok = self.grimoire.restore(args[1])
+            self._set_status(f"Restored {args[1]}." if ok else f"Entry not found: {args[1]}")
+
+        elif sub == "edit":
+            if len(args) < 3:
+                self._set_status("Usage: /grimoire edit <entry_id> <new content>")
+                return
+            new_content = " ".join(args[2:]).strip()
+            ok = self.grimoire.edit(args[1], new_content)
+            self._set_status(f"Updated {args[1]}." if ok else f"Entry not found: {args[1]}")
+
+        elif sub == "status":
+            usage = self.grimoire.token_usage()
+            self._set_status(
+                f"Grimoire: {usage['entry_count']} entries · "
+                f"{usage['used']}/{usage['budget']} tokens ({usage['pct']}%)"
+            )   
+
+        else:
+            self._set_status(
+                "Grimoire commands: add [cat:] content · list · remove <id> · "
+                "restore <id> · edit <id> <content> · status"
+            )
+
+
     # -------------------------
     # Commands (LF spec + Phase 3 additions + /help <topic>)
     # -------------------------
@@ -1291,6 +1455,10 @@ class ChatTUIApp(App):
 
         cmd = (parsed.command or "").lower().strip()
         argv = self._parse_argv((parsed.args or "").strip())
+
+        if cmd == "/grimoire":
+            await self._handle_grimoire_command(argv)
+            return
 
         # -------------------------
         # Help routing: /help <topic>
@@ -1816,10 +1984,10 @@ class ChatTUIApp(App):
         self._set_status(f"Unknown command: {cmd} (try /help)")
 
 
-        self.push_screen(ConversationsPage(self.conversations), self._on_conversation_selected)
-        
-        def _on_conversation_selected(self, cid: str | None) -> None:
-            if cid:
-                self.conversations.load(cid)
-                self._render_full_history_from_store(clear_first=True)
-                self._render_legend()
+#        self.push_screen(ConversationsPage(self.conversations), self._on_conversation_selected)
+#        
+#        def _on_conversation_selected(self, cid: str | None) -> None:
+#            if cid:
+#                self.conversations.load(cid)
+#                self._render_full_history_from_store(clear_first=True)
+#                self._render_legend()
