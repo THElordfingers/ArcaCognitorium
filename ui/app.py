@@ -31,11 +31,11 @@ from client.router import ModelRouter
 from client.input_processor import InputProcessor
 from client.clipboard import copy_to_clipboard
 
-from memory.vector_store import VectorStore
-from memory.summarizer import Summarizer
+from memory.chronicle import Chronicle
+from memory.distillation import Distillation
 from memory.conversation_store import ConversationStore
 from memory.project_store import ProjectStore
-from client.analytics import AnalyticsEngine
+from client.reflection import Reflection
 
 from ui.panes.left_menu import LeftMenuPane
 from ui.panes.active_chat import ActiveChatPane
@@ -219,10 +219,10 @@ class ChatTUIApp(App):
         self.input = InputProcessor()
 
         self.oa_client = self.router.client
-        self.vectors = VectorStore(cfg, client=self.oa_client)
-        self.summarizer = Summarizer(cfg, client=self.oa_client)
-        self.conversations = ConversationStore(cfg, summarizer=self.summarizer)
-        self.analytics = AnalyticsEngine(cfg, client=self.oa_client, vectors=self.vectors)
+        self.vectors = Chronicle(cfg, client=self.oa_client)
+        self.distillation = Distillation(cfg, client=self.oa_client)
+        self.conversations = ConversationStore(cfg, summarizer=self.distillation)
+        self.analytics = Reflection(cfg, client=self.oa_client, vectors=self.vectors)
 
         self.projects = ProjectStore()
 

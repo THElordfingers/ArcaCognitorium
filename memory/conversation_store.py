@@ -23,8 +23,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from client.config import AppConfig
 from client.migrations import ConversationMigrator
-from memory.summarizer import Summarizer
-
+from memory.distillation import Distillation
 
 def _now_local() -> str:
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
