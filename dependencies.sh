@@ -11,3 +11,4 @@ pip install pyyaml
 pip install textual
 pip install numpy
 pip install pytest
+pip install pyfiglet

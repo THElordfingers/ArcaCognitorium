@@ -60,7 +60,7 @@ class AppConfig:
     memory: Namespace
     storage: Namespace
     logging: Namespace
-    analytics: Namespace
+    reflection: Namespace
 
     @staticmethod
     def load(path: str) -> "AppConfig":

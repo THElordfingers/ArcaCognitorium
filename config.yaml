@@ -13,7 +13,7 @@
 
 app:
   name: "Luminarious"
-  version: "v1.0-phase1_naming_pass"
+  version: "v1.0-phase2_status_visibility"
   timezone: "local"
 
 api:
@@ -83,3 +83,22 @@ reflection:
     reflection_interval_turns: 10
     model: "gpt-5-nano"
     max_suggestions: 5
+
+boot:
+  boot_enabled: true
+  banner_fonts:
+    - slant
+    - big
+    - banner3
+  boot_lines:
+    - "The fire is lit. What troubles the Wizard?"
+    - "The Arca Cognitorium stirs."
+    - "All threads accounted for. The Chronicle is ready."
+    - "Luminarious attends."
+
+#animations:
+#  master_enabled: true
+#  glyph_drift: true
+#  color_temp_drift: true
+#  background_pulse: true
+#  event_effects: true

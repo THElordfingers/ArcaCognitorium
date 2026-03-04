@@ -51,8 +51,8 @@ class Reflection:
         if interval <= 0 or (self.turns % interval) != 0:
             return None
 
-        model = self.cfg.analytics.model
-        max_suggestions = int(self.cfg.analytics.max_suggestions)
+        model = self.cfg.reflection.model
+        max_suggestions = int(self.cfg.reflection.max_suggestions)
 
         prompt = (
             "You are an internal quality reviewer for a terminal GPT client.\n"

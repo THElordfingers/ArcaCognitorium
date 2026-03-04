@@ -12,6 +12,9 @@
 
 
 from __future__ import annotations
+from dataclasses import dataclass
+from ui.panes.status_layer import StatusLayer
+
 
 import asyncio
 import shlex
@@ -30,16 +33,20 @@ from client.config import AppConfig
 from client.router import ModelRouter
 from client.input_processor import InputProcessor
 from client.clipboard import copy_to_clipboard
+from client.reflection import Reflection
 
 from memory.chronicle import Chronicle
 from memory.distillation import Distillation
 from memory.conversation_store import ConversationStore
 from memory.project_store import ProjectStore
-from client.reflection import Reflection
 
 from ui.panes.left_menu import LeftMenuPane
 from ui.panes.active_chat import ActiveChatPane
 from ui.panes.history import HistoryPane
+from ui.pages.conversations import ConversationsPage
+from ui.rendering.animations import AnimationController, AnimationConfig
+
+
 
 
 def _ci_contains(haystack: str, needle: str) -> bool:
@@ -126,6 +133,11 @@ class BubbleRow(Horizontal):
             yield spacer_right
 
 
+
+from ui.state import StatusState
+
+
+
 @dataclass
 class PendingArchive:
     """
@@ -194,6 +206,10 @@ class ChatTUIApp(App):
         width: 1fr;
         border: round white;
         border-top: none;
+
+    .boot_sigil { opacity: 8%; color: #C9A84C; height: auto; }
+    .boot_banner { color: #C9A84C; height: auto; }
+    .boot_line { color: #5A6070; height: auto; }
     }
 
     .user .bubble_head { border: round cyan; border-bottom: none; }
@@ -204,7 +220,73 @@ class ChatTUIApp(App):
 
     .system .bubble_head { border: round yellow; border-bottom: none; }
     .system .bubble_tail { border: round yellow; border-top: none; }
+
+    #status_layer { height: 3; border: round white; }
+
+    #conjure-title { color: #C9A84C; text-style: bold; padding: 1 2; }
+    .conjure-section { height: auto; margin: 1 0; }
+    .conjure-section-header { color: #B87333; text-style: bold; padding: 0 1; }
+    .conjure-row { height: auto; padding: 0 1; }
+    .conjure-key { color: #D4C8A8; width: 30; }
+    .conjure-empty { color: #5A6070; padding: 0 2; }
+
+    #convpage-title { color: #C9A84C; text-style: bold; padding: 1 2; }
+    .convpage-empty { color: #5A6070; padding: 1 2; }
+
+
+
+    /* app.css additions for Phase 2 */
+    
+    /* Outer frame — double border on the app itself */
+    ArcaCognitorium {
+        border: double #C9A84C;
+        background: #0D0B0E;
+    }
+    
+    /* Title banner strip */
+    #title-banner {
+        height: 3;
+        background: #0D0B0E;
+        border-bottom: solid #2A2535;
+        content-align: left middle;
+        padding: 0 1;
+        color: #B8860B;
+    }
+    
+    /* Center pane */
+    #chat-pane {
+        background: #0D0B0E;
+        border-right: solid #2A2535;
+        border-left: solid #2A2535;
+    }
+    
+    /* Invocation Field */
+    #invocation-field {
+        height: auto;
+        max-height: 10;
+        background: #161218;
+        border: solid #2A2535;
+        padding: 0 1;
+        color: #D4C8A8;
+    }
+    #invocation-field:focus {
+        border: solid #C68B2A;
+    }
+    
+    /* Entity interrupt pulse — added/removed by AnimationController */
+    .entity-pulse {
+        border: solid #C9A84C;  /* Overridden per entity color in Python */
+    }
+    
+    /* Distillation ripple on history pane */
+    .distillation-ripple {
+        border: solid #C68B2A;
+        transition: border 1200ms;
+    }
+    
     """
+
+
 
     BINDINGS = [Binding("ctrl+q", "quit", "Quit", show=False)]
     SEED_GREETING = "Conversation started. Send your first message when ready."
@@ -222,7 +304,7 @@ class ChatTUIApp(App):
         self.vectors = Chronicle(cfg, client=self.oa_client)
         self.distillation = Distillation(cfg, client=self.oa_client)
         self.conversations = ConversationStore(cfg, summarizer=self.distillation)
-        self.analytics = Reflection(cfg, client=self.oa_client, vectors=self.vectors)
+        self.reflection = Reflection(cfg, client=self.oa_client, vectors=self.vectors)
 
         self.projects = ProjectStore()
 
@@ -240,14 +322,22 @@ class ChatTUIApp(App):
         # Pending archive state (LF invariant)
         self._pending: Optional[PendingArchive] = None
 
+        self.animation_controller = AnimationController(
+            app=self,
+            config=AnimationConfig(**self.cfg.raw.get('animations', {}))
+        )
+
     def compose(self) -> ComposeResult:
-        with Horizontal():
-            self.left = LeftMenuPane(id="left")
-            self.middle = ActiveChatPane(id="middle")
-            self.right = HistoryPane(id="right")
-            yield self.left
-            yield self.middle
-            yield self.right
+        with Vertical():
+            with Horizontal():
+                self.left = LeftMenuPane(id="left")
+                self.middle = ActiveChatPane(id="middle")
+                self.right = HistoryPane(id="right")
+                yield self.left
+                yield self.middle
+                yield self.right
+            self.status_layer = StatusLayer(id="status_layer")
+            yield self.status_layer
 
     def _app_bind(self, key: str, action: str) -> None:
         try:
@@ -260,7 +350,75 @@ class ChatTUIApp(App):
         self._app_bind(str(self.cfg.keys.focus_middle), "focus_middle")
         self._app_bind(str(self.cfg.keys.focus_right), "focus_right")
         self._app_bind(str(self.cfg.keys.submit_message), "submit_message")
+        await self._run_boot_sequence()
+        self.animation_controller.start_idle()
 
+    async def _run_boot_sequence(self) -> None:
+        """
+        Boot sequence procedure:
+        1. Render dark screen with single sigil from sigils/ directory
+           - Load random .txt file from sigils/ directory
+           - If sigils/ empty, use fallback: single '◆' centered
+           - Display at low opacity in center of chat pane
+        2. Render ASCII title via pyfiglet
+           - Select random font from config.boot.banner_fonts list
+           - Call: pyfiglet.figlet_format('ARCA COGNITORIUM', font=font)
+           - Display in title banner region in gold color
+        3. Display opening line
+           - Select random line from config.boot.boot_lines list
+           - Render in center pane in mist italic
+           - Await asyncio.sleep(1.5)  # Let Wizard read it
+        4. Resolve interface
+           - Remove boot overlay
+           - Mount StatusLayer, left menu, history pane (already composed)
+           - StatusLayer initial state populated from config
+        5. Focus Invocation Field
+        """
+        if not self.cfg.raw.get('boot', {}).get('boot_enabled', True):
+            return
+
+        from pathlib import Path
+        import random
+        import pyfiglet
+        from textual.widgets import Static
+
+        # 1. Sigil
+        sigil_text = '◆'
+        sigil_files = list(Path('sigils').glob('*.txt'))
+        if sigil_files:
+            sigil_text = random.choice(sigil_files).read_text()
+
+        sigil = Static(sigil_text, classes='boot_sigil', markup=False)
+        await self.middle.current_turn.mount(sigil)
+        await asyncio.sleep(0.8)
+
+        # 2. ASCII title banner
+        banner_fonts = self.cfg.raw.get('boot', {}).get('banner_fonts', ['slant'])
+        font = random.choice(banner_fonts)
+        try:
+            banner_text = pyfiglet.figlet_format('ARCA COGNITORIUM', font=font)
+        except Exception:
+            banner_text = 'ARCA COGNITORIUM'
+
+        banner = Static(f'[bold #C9A84C]{banner_text}[/]', classes='boot_banner')
+        await self.middle.current_turn.mount(banner)
+        await asyncio.sleep(0.6)
+
+        # 3. Opening line
+        boot_lines = self.cfg.raw.get('boot', {}).get('boot_lines', ['The fire is lit.'])
+        line = random.choice(boot_lines)
+        opening = Static(f'[italic #5A6070]{line}[/]', classes='boot_line')
+        await self.middle.current_turn.mount(opening)
+        await asyncio.sleep(1.5)
+
+        # 4. Remove boot overlay
+        sigil.remove()
+        banner.remove()
+        opening.remove()
+
+        # 5. Focus
+        self.middle.focus_input()
+        
         copy_key = str(self.cfg.keys.get("copy_last", "") or "")
         if copy_key:
             self._app_bind(copy_key, "copy_last")
@@ -290,6 +448,7 @@ class ChatTUIApp(App):
             focus_right=str(self.cfg.keys.focus_right),
         )
 
+
         # Phase 3 migration + backups (one-time as needed)
         try:
             migrated, backup_dir = await asyncio.to_thread(self.conversations.migrate_all_if_needed)
@@ -311,6 +470,7 @@ class ChatTUIApp(App):
         self._go_left_page("home", push=False)
         self._render_legend()
         self.middle.focus_input()
+
 
     # -------------------------
     # Status / legend
@@ -967,7 +1127,7 @@ class ChatTUIApp(App):
             # thread-scoped summary for analytics
             t = self.conversations.get_thread(thread_id)
             await asyncio.to_thread(
-                self.analytics.observe,
+                self.reflection.observe,
                 conversation_id=self.conversations.active.id,
                 summary=t.summary,
                 last_user=user_text,
@@ -1654,3 +1814,12 @@ class ChatTUIApp(App):
             return
 
         self._set_status(f"Unknown command: {cmd} (try /help)")
+
+
+        self.push_screen(ConversationsPage(self.conversations), self._on_conversation_selected)
+        
+        def _on_conversation_selected(self, cid: str | None) -> None:
+            if cid:
+                self.conversations.load(cid)
+                self._render_full_history_from_store(clear_first=True)
+                self._render_legend()
