@@ -1,3 +1,11 @@
 {
-  "projects": []
+  "projects": [
+    {
+      "id": "32047af3be00",
+      "name": "Wizard",
+      "created_at": "2026-03-04 06:25:11",
+      "updated_at": "2026-03-04 06:25:11",
+      "conversation_ids": []
+    }
+  ]
 }

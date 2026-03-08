@@ -201,3 +201,58 @@ class ProjectStore:
 
     def drop_conversation_everywhere(self, conv_id: str) -> None:
         self.unassign_conversation(conv_id)
+
+
+
+    def get_tome_entries(self, project_id: str) -> list[dict]:
+        """
+        Return the raw tome_entries list for a project.
+        Returns [] if project not found or tome_entries key absent.
+    
+        Implementation:
+          project = self._load_project(project_id)
+          if not project:
+              return []
+          return project.get("tome_entries", [])
+        """
+        project = self._load_project(project_id)
+        if not project:
+            return []
+        return project.get("tome_entries", [])
+    
+    
+    def save_tome_entries(self, project_id: str,
+                          entries: list[dict]) -> bool:
+        """
+        Persist tome_entries list to project JSON.
+        Returns True on success, False if project not found.
+        Uses atomic write pattern — write to .tmp then rename.
+    
+        Implementation:
+          project = self._load_project(project_id)
+          if not project:
+              return False
+          project["tome_entries"] = entries
+          self._save_project(project_id, project)  # existing atomic save method
+          return True
+        """
+        project = self._load_project(project_id)
+        if not project:
+            return False
+        project["tome_entries"] = entries
+        self._save_project(project_id, project)
+        return True
+    
+    
+    def get_project_name(self, project_id: str) -> str:
+        """
+        Return the display name of a project.
+        Returns "Unknown Project" if project_id not found.
+        Used by Tome.build_injection_string() for the header line.
+        """
+        project = self._load_project(project_id)
+        if not project:
+            return "Unknown Project"
+        return project.get("name", project_id)
+    
+    

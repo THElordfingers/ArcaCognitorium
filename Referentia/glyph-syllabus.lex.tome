@@ -1,0 +1,198 @@
+I have a weird problem with unicode character rendering. Im on Linux Debian 13 with KDE plasma 6.  I have a set of glyphs that are the phases of the moon, but some of them have switched to be a computers, a plane, and some road signs.
+
+                          
+                           
+ 
+
+5:58 PM
+
+Searched the web
+Searched the web
+This is a classic font fallback conflict issue on Linux. Here's what's happening and how to fix it:
+
+The Root Cause
+
+The moon phase characters (U+1F311–U+1F318 etc.) sit in the Unicode "Miscellaneous Symbols and Pictographs" block. The Qt font resolution algorithm (used by KDE/Plasma) is notably poor at selecting the right font for emoji/symbol characters, and can pick the wrong font depending on what's installed — even with Noto Color Emoji present. 
+Arch Linux Forums
+ Some of your installed fonts (likely DejaVu, FreeMono, or a similar general-purpose font) contain some glyphs in that Unicode range — but those glyphs happen to be computers, planes, or road signs rather than moons, because different fonts map different symbols to those codepoints.
+
+The Fix
+
+The best solution is to create a fontconfig rule that forces the correct font for the emoji/symbol range. Create this file:
+
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+
+  <!-- ============================================================
+       EMOJI / SYMBOL PRIORITY FIX
+       Force Noto Color Emoji to win over any text font (DejaVu,
+       Liberation, etc.) that happens to have B&W glyphs in
+       emoji/symbol Unicode ranges.
+       ============================================================ -->
+  <alias binding="strong">
+    <family>serif</family>
+    <prefer>
+      <family>Noto Serif</family>
+      <family>Noto Color Emoji</family>
+      <family>Noto Sans</family>
+      <family>FreeSans</family>
+      <family>Unifont</family>
+    </prefer>
+  </alias>
+
+  <alias binding="strong">
+    <family>sans-serif</family>
+    <prefer>
+      <family>Noto Sans</family>
+      <family>Noto Color Emoji</family>
+      <family>Noto Serif</family>
+      <family>FreeSans</family>
+      <family>Unifont</family>
+    </prefer>
+  </alias>
+
+  <alias binding="strong">
+    <family>monospace</family>
+    <prefer>
+      <family>Noto Sans Mono</family>
+      <family>Noto Color Emoji</family>
+      <family>FreeMono</family>
+      <family>Unifont</family>
+    </prefer>
+  </alias>
+
+  <!-- ============================================================
+       EMOJI FONT ALIAS
+       So apps that ask for "emoji" by name get the right thing.
+       ============================================================ -->
+  <alias>
+    <family>emoji</family>
+    <prefer>
+      <family>Noto Color Emoji</family>
+    </prefer>
+  </alias>
+
+  <!-- ============================================================
+       BLOCK DEJAVU FROM STEALING SYMBOL/EMOJI RANGES
+       If you kept DejaVu installed, this prevents it from being
+       selected for any character it technically has but renders
+       wrong (the B&W computer/plane/sign glyphs).
+       ============================================================ -->
+  <selectfont>
+    <rejectfont>
+      <!-- Comment these out if you actually need DejaVu for something -->
+      <!-- <pattern><patelt name="family"><string>DejaVu Sans</string></patelt></pattern> -->
+      <!-- <pattern><patelt name="family"><string>DejaVu Serif</string></patelt></pattern> -->
+      <!-- <pattern><patelt name="family"><string>DejaVu Sans Mono</string></patelt></pattern> -->
+    </rejectfont>
+  </selectfont>
+
+  <!-- ============================================================
+       CJK FALLBACK
+       Prefer the full CJK font for Chinese/Japanese/Korean chars.
+       ============================================================ -->
+  <match>
+    <test name="lang" compare="contains"><string>zh</string></test>
+    <edit name="family" mode="append">
+      <string>Noto Sans CJK SC</string>
+      <string>Noto Serif CJK SC</string>
+    </edit>
+  </match>
+  <match>
+    <test name="lang" compare="contains"><string>ja</string></test>
+    <edit name="family" mode="append">
+      <string>Noto Sans CJK JP</string>
+    </edit>
+  </match>
+  <match>
+    <test name="lang" compare="contains"><string>ko</string></test>
+    <edit name="family" mode="append">
+      <string>Noto Sans CJK KR</string>
+    </edit>
+  </match>
+
+  <!-- ============================================================
+       RENDERING QUALITY
+       Subpixel hinting and antialiasing for sharp, clean text.
+       ============================================================ -->
+  <match target="font">
+    <edit name="antialias" mode="assign"><bool>true</bool></edit>
+    <edit name="hinting" mode="assign"><bool>true</bool></edit>
+    <edit name="hintstyle" mode="assign"><const>hintslight</const></edit>
+    <edit name="rgba" mode="assign"><const>rgb</const></edit>
+    <edit name="lcdfilter" mode="assign"><const>lcddefault</const></edit>
+    <edit name="embeddedbitmap" mode="assign"><bool>false</bool></edit>
+  </match>
+
+</fontconfig>
+
+
+DactylusRex:
+oh believe me, I have dug to unimaginable depths of Unicode fonts that I don't think people would even understand, 
+if they even knew what Unicode even was. Funny  how it's so prevalent and engrained yet ask a single person on the 
+street if they know what it is, and theres not a chance of anything but blank stares from dead idiot eyes. anyways. 
+I have an obsession deep within me to find every last Unicode character. I use them for a lot. I used to draw 
+pictures with them. of castles or whatever else.
+
+Claude:
+Ha, you're speaking my language. Unicode art with actual semantic glyphs rather than just box-drawing characters 
+is a genuinely underappreciated art form. Most people think ASCII art peaked in the 90s and don't realize there's
+ this entire universe of box-drawing characters, block elements, geometric shapes, Braille patterns (incredible 
+ for shading), technical symbols, alchemical symbols, playing cards, dominos, Mahjong tiles, Byzantine musical 
+ notation...
+ 
+The Unicode Consortium basically accidentally built the world's largest symbol art toolkit and almost nobody noticed.
+Since you clearly go deep on this — a few fonts that most Linux guides never mention that are worth having:
+Symbola by George Douros — this one is specifically made to cover all symbol, ornament, dingbat, and ancient/historic 
+script ranges with beautiful consistent rendering. It's not in the Debian repos but worth grabbing manually from his
+ site (users.teilar.gr). He maintains it obsessively to track new Unicode releases.
+Quivira — another Douros font, covers a huge swath of obscure historic scripts and symbols that even Noto hasn't
+ gotten to yet.
+STIX Two — if you ever use mathematical or technical symbols, this covers the entire mathematical Unicode range 
+properly.
+LastResort — Apple's font that renders every Unicode block as a little labeled placeholder. Not for display but
+ useful for knowing what block an unrenderable character belongs to.
+For actually hunting characters, do you use a tool like Gucharmap or KCharselect (the KDE one), or do you go raw 
+and browse the Unicode charts at unicode.org? Because if you're doing castle art I'm curious what blocks you're
+ pulling from — the Miscellaneous Symbols block, the geometric shapes extended range, the box drawing supplements?
+
+
+DactylusRex:
+ok I am not saying you didn't make that better, but that didn't change those glyphs back. I am also using konsole terminal, if that makes any difference. I also noticed that theres some sets or individual glyphs that are rendered as a colorful emoji version, which i hate. for example the zodiac signs.
+
+Claude:
+Both of those problems are the same underlying issue, just two flavors of it:
+
+Noto Color Emoji is winning when it shouldn't — it's grabbing zodiac signs, rendering them as colorful cartoon 
+emoji instead of the clean text/symbol glyphs
+Something other than Noto Color Emoji is winning when it should — the moon phases are still getting stolen by
+ whatever wrong font had planes and computers in it
+Konsole specifically is the key detail. Konsole uses Qt's font stack directly and is notoriously stubborn about
+ emoji/symbol resolution. It often ignores fontconfig aliases and only respects explicit per-application rules or 
+ its own profile font settings.
+
+Before we go further, I need to know what's actually installed and what fontconfig is currently doing on your 
+system so we can diagnose precisely rather than guess. Can you run these and paste the output? 
+
+
+# What fonts do you have installed that touch symbol/emoji ranges?
+fc-list | grep -iE "emoji|symbol|noto|deja|unifont|symbola|quivira|free" | sort
+
+# What actually wins for the moon phase U+1F311?
+fc-match --sort :charset=0x1F311 | head -10
+
+# What wins for a zodiac sign e.g. Aries U+2648?
+fc-match --sort :charset=0x2648 | head -10
+
+# What does your current fontconfig mess look like?
+cat ~/.config/fontconfig/fonts.conf 2>/dev/null || echo "no user config"
+ls /etc/fonts/conf.d/
+
+
+
+

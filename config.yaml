@@ -66,6 +66,11 @@ memory:
     enabled: true
     trigger_after_messages: 18
     keep_last_messages: 10
+  memory:
+    distillation_threshold: 6000      # token estimate to trigger distillation
+    distillation_min_messages: 6      # minimum thread length before distillation fires
+    distillation_compress_model: "gpt-4o-mini"  # model used for _compress() call
+    chronicle_auto_extract: true      # whether distillation feeds Chronicle
 
 storage:
   conversations_dir: "storage/conversations"

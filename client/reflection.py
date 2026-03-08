@@ -31,7 +31,7 @@ def _utc_now() -> str:
 class Reflection:
     cfg: AppConfig
     client: OpenAI
-    vectors: Chronicle
+    chronicle: Chronicle
 
     turns: int = 0
 
@@ -72,7 +72,7 @@ class Reflection:
         )
         suggestions = resp.output_text.strip()
 
-        self.vectors.add(
+        self.chronicle.add(
             suggestions,
             metadata={"type": "self_analytics", "conversation_id": conversation_id, "ts": _utc_now()},
         )
@@ -89,3 +89,39 @@ class Reflection:
             f.write(json.dumps(event, ensure_ascii=False) + "\n")
 
         return event
+
+    def extract_routing_signals(self, messages: list[dict]) -> dict:
+            import re, json
+            from datetime import datetime, timezone
+            from collections import Counter
+              
+            user_messages = [m for m in messages if m.get("role") == "user"]
+            all_content = " ".join(m.get("content", "") for m in user_messages)
+              
+            stopwords = {"the","a","an","is","it","i","to","of","in","for",
+                            "that","this","and","or","but","with","be","was","are"}
+            words = [w.lower() for w in re.findall(r"\b\w{4,}\b", all_content)
+                        if w.lower() not in stopwords]
+            top_topics = [w for w,_ in Counter(words).most_common(3)]
+              
+            signals = {
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "dominant_topics": top_topics,
+                "message_length_avg": (
+                    sum(len(m.get("content", "").split()) for m in user_messages)
+                    / max(len(user_messages), 1)
+                ),
+                "code_present": bool(re.search(r"```|def |class |import ", all_content)),
+                "question_count": sum(
+                    1 for m in user_messages if m.get("content", "").rstrip().endswith("?")
+                ),
+                "turn_count": len(messages),
+            }
+              
+            from pathlib import Path
+            log_path = Path(self.cfg.storage.reflection_log_path)
+            log_path.parent.mkdir(parents=True, exist_ok=True)
+            with log_path.open("a") as f:
+                f.write(json.dumps(signals) + "\n")
+              
+            return signals

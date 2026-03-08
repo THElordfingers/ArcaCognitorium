@@ -1,0 +1,73 @@
+# entities/canon/entity_canon.yaml
+# Canonical Entity roster. Source of truth for IDs, names, colors.
+entities:
+  - entity_id: luminarious
+    display_name: LUMINARIOUS
+    color_hex: C9A84C
+    role: anchor
+    summoned_only: false
+    description: "The anchor. Always present."
+
+  - entity_id: assessor
+    display_name: THE ASSESSOR
+    color_hex: 8B2020
+    role: profiler
+    summoned_only: true
+    description: "Observes and profiles. Writes to Grimoire."
+
+  # Phase 8 Entities — stub entries only in Phase 6
+  - entity_id: archivist
+    display_name: THE ARCHIVIST
+    color_hex: 4682B4
+    role: retriever
+    summoned_only: false
+    description: "Precise Chronicle retrieval specialist."
+
+  - entity_id: contrarian
+    display_name: THE CONTRARIAN
+    color_hex: 8B008B
+    role: challenger
+    summoned_only: false
+    description: "Challenges assumptions. Never satisfied."
+
+  - entity_id: minimalist
+    display_name: THE MINIMALIST
+    color_hex: 808070
+    role: distiller
+    summoned_only: false
+    description: "One sentence. Every time."
+
+  - entity_id: speculator
+    display_name: THE SPECULATOR
+    color_hex: CD6600
+    role: explorer
+    summoned_only: false
+    description: "Explores possibilities beyond the obvious."
+
+  - entity_id: pessimist
+    display_name: THE PESSIMIST
+    color_hex: 556B2F
+    role: devil_advocate
+    summoned_only: false
+    description: "What could go wrong. Always."
+
+  - entity_id: toolsmith
+    display_name: THE TOOLSMITH
+    color_hex: 008B8B
+    role: abstraction_builder
+    summoned_only: false
+    description: "Finds the reusable pattern in every problem."
+
+  - entity_id: systems_thinker
+    display_name: THE SYSTEMS THINKER
+    color_hex: 6B8E6B
+    role: constraint_mapper
+    summoned_only: false
+    description: "Maps the whole system. Every constraint visible."
+
+  - entity_id: socratic
+    display_name: THE SOCRATIC
+    color_hex: B8A060
+    role: question_asker
+    summoned_only: false
+    description: "Answers every question with a better question."

@@ -128,3 +128,26 @@ class Chronicle:
 
     def stats(self) -> Dict[str, Any]:
         return {"count": len(self.items), "path": self.path, "embedding_model": self.cfg.models.embeddings}
+
+    def add_from_distillation(self, text: str,
+                              metadata: dict | None = None) -> None:
+        """
+        Add a distillation-extracted muscle entry to the Chronicle.
+        Thin wrapper over add() that stamps source=distillation in metadata.
+    
+        Parameters:
+          text: The extracted muscle string (sentence or paragraph).
+          metadata: Optional additional metadata. source key will be set/overridden.
+    
+        Implementation:
+          meta = metadata or {}
+          meta["source"] = "distillation"
+          meta["extracted_at"] = datetime.now(timezone.utc).isoformat()
+          self.add(text, metadata=meta)
+        """
+        from datetime import datetime, timezone
+        meta = metadata or {}
+        meta["source"] = "distillation"
+        meta["extracted_at"] = datetime.now(timezone.utc).isoformat()
+        self.add(text, metadata=meta)
+    

@@ -12,6 +12,7 @@
 
 
 from __future__ import annotations
+from pathlib import Path
 from dataclasses import dataclass
 from ui.panes.status_layer import StatusLayer
 
@@ -366,10 +367,10 @@ class ChatTUIApp(App):
         self.input = InputProcessor()
 
         self.oa_client = self.router.client
-        self.vectors = Chronicle(cfg, client=self.oa_client)
-        self.distillation = Distillation(cfg, client=self.oa_client)
+        self.chronicle = Chronicle(cfg, client=self.oa_client)
+        self.distillation = Distillation(api_client=self.oa_client)
         self.conversations = ConversationStore(cfg, summarizer=self.distillation)
-        self.reflection = Reflection(cfg, client=self.oa_client, vectors=self.vectors)
+        self.reflection = Reflection(cfg, client=self.oa_client, chronicle=self.chronicle)
 
         self.projects = ProjectStore()
 
@@ -395,6 +396,7 @@ class ChatTUIApp(App):
         from memory.grimoire import Grimoire
         # Phase 3 addition — instantiate Grimoire
         self.grimoire = Grimoire(
+            store_path=Path("storage/grimoire/grimoire.json"),
             max_injection_tokens=self.cfg.raw.get("memory", {}).get("grimoire_max_tokens", 800)
         )
         
@@ -1197,7 +1199,7 @@ class ChatTUIApp(App):
                 )
 
             await asyncio.to_thread(
-                self.vectors.add,
+                self.chronicle.add,
                 f"USER: {user_text}\nASSISTANT: {assistant_text}",
                 {"type": "turn", "conversation_id": self.conversations.active.id, "thread_id": thread_id},
             )
@@ -1279,7 +1281,7 @@ class ChatTUIApp(App):
             else:
                 thread_by_conv[cid] = self.conversations.peek_active_thread_id(cid)
 
-        retrieved = self.vectors.query(
+        retrieved = self.chronicle.query(
             user_text,
             top_k=int(mem_cfg.retrieve_top_k),
             conversation_ids=allowed_ids,
@@ -1289,7 +1291,24 @@ class ChatTUIApp(App):
             blob = "\n\n".join(f"[score={r['score']:.3f}] {r['text']}" for r in retrieved)
             messages.append({"role": "system", "content": "Relevant long-term memory:\n" + blob})
 
+
+        # Phase 5: distillation trigger
+        if self.distillation.should_distill(thread.messages, getattr(self.cfg.memory, 'distillation_threshold', 6000)):
+            result = self.distillation.distill(
+                thread.messages,
+                extract_to_chronicle=True,
+                chronicle=self.chronicle,
+                reflection=self.reflection
+            )
+            messages.append(result.compressed_message)
+            self.animation_controller.fire_event('distillation')
+            self.status_layer.update_status(
+                distillation_count=self.status_layer.state.distillation_count + 1
+            )
+            return messages
+        
         short_max = int(mem_cfg.short_term_max_messages)
+
         for m in thread.messages[-short_max:]:
             messages.append({"role": m.get("role", ""), "content": m.get("content", "")})
 
