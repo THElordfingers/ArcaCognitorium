@@ -366,11 +366,10 @@ class ChatTUIApp(App):
         self.router = ModelRouter(cfg, api_key=api_key)
         self.input = InputProcessor()
 
-        self.oa_client = self.router.client
-        self.chronicle = Chronicle(cfg, client=self.oa_client)
-        self.distillation = Distillation(api_client=self.oa_client)
+        self.chronicle = Chronicle(cfg)
+        self.distillation = Distillation(box=self.router._box, cfg=cfg)
         self.conversations = ConversationStore(cfg, summarizer=self.distillation)
-        self.reflection = Reflection(cfg, client=self.oa_client, chronicle=self.chronicle)
+        self.reflection = Reflection(cfg, box=self.router._box, chronicle=self.chronicle)
 
         self.projects = ProjectStore()
 

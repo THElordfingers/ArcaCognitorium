@@ -6,7 +6,7 @@
 #║ ⛨⛨⛨
 #║ ⛨⛨       
 #║ ⛨        
-#║ ⛨    gpt-client/client/config.py
+#║ ⛨    ArcaCognitorium/client/config.py
 #║ ⛨
 #╚══════════════════════════════════════════════════════════
 

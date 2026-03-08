@@ -6,7 +6,7 @@
 #║ ⛨⛨⛨
 #║ ⛨⛨       
 #║ ⛨        
-#║ ⛨    gpt-client/memory/conversation_store.py
+#║ ⛨    ArcaCognitorium/memory/conversation_store.py
 #║ ⛨
 #╚══════════════════════════════════════════════════════════════════════════════════════
 

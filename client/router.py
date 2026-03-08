@@ -6,17 +6,18 @@
 #║ ⛨⛨⛨
 #║ ⛨⛨
 #║ ⛨
-#║ ⛨    gpt-client/client/router.py  
+#║ ⛨    ArcaCognitorium/client/router.py  
 #║ ⛨
 #╚═════════════════════════════════════════════════════════════════════════════════════════════
 
 
 from __future__ import annotations
 
+import threading
 from dataclasses import dataclass
 from typing import Dict, Generator, List, Optional, Tuple
 
-from openai import OpenAI
+from claudebox import ClaudeBox
 from client.config import AppConfig
 
 
@@ -27,27 +28,35 @@ class ModelDecision:
 
 
 class ModelRouter:
+
     def __init__(self, cfg: AppConfig, api_key: str):
         self.cfg = cfg
-        self.client = OpenAI(api_key=api_key)
+        self._api_key = api_key
+        # One ClaudeBox instance per router — multi_session handles concurrency
+        self._box = ClaudeBox(api_key=api_key, stream=True)
+
+    # ------------------------------------------------------------------
+    # Routing logic — unchanged from OpenAI version
+    # ------------------------------------------------------------------
 
     def decide(self, user_text: str, *, forced: Optional[str] = None) -> ModelDecision:
         models = self.cfg.models
-
         if forced == "smart":
             return ModelDecision(model=models.smart, reason="forced smart")
-
         lowered = user_text.lower()
         for kw in self.cfg.routing.reasoning_keywords:
             if kw in lowered:
                 return ModelDecision(model=models.smart, reason=f"keyword '{kw}'")
-
         if len(user_text) >= int(self.cfg.routing.long_input_threshold_chars):
             return ModelDecision(model=models.smart, reason="long input")
-
         default_bucket = self.cfg.routing.default
         chosen = getattr(models, default_bucket, models.fast)
         return ModelDecision(model=chosen, reason=f"default={default_bucket}")
+
+    # ------------------------------------------------------------------
+    # Streaming — same public signature as OpenAI version
+    # Returns: (generator_of_str, meta_dict)
+    # ------------------------------------------------------------------
 
     def stream_response_text(
         self,
@@ -57,38 +66,58 @@ class ModelRouter:
         max_output_tokens: Optional[int] = None,
         instructions: Optional[str] = None,
     ) -> Tuple[Generator[str, None, None], Dict]:
+
         meta: Dict = {"usage": None}
 
-        # Responses API only accepts user/assistant roles in input
-        filtered = [m for m in input_messages if m.get("role") in ("user", "assistant")]
+        # Collect system messages into instructions if not provided
         if instructions is None:
             system_parts = [m["content"] for m in input_messages if m.get("role") == "system"]
             if system_parts:
                 instructions = "\n\n".join(system_parts)
-        create_kwargs = dict(
-            model=model,
-            input=filtered,
-            max_output_tokens=max_output_tokens,
-            stream=True,
+
+        # ClaudeBox only accepts user/assistant roles
+        filtered = [m for m in input_messages if m.get("role") in ("user", "assistant")]
+
+        # Build a unique session for this call
+        session_id = f"stream_{threading.get_ident()}_{id(meta)}"
+        self._box.create_session(session_id)
+
+        # Inject history (all messages except the final user turn)
+        history = filtered[:-1]
+        for msg in history:
+            if msg["role"] == "user":
+                self._box.conversation.add_user_message(msg["content"], session_id)
+            elif msg["role"] == "assistant":
+                self._box.conversation.add_assistant_message(msg["content"], session_id)
+
+        # The final user message is the live prompt
+        last_user = next(
+            (m["content"] for m in reversed(filtered) if m["role"] == "user"),
+            ""
         )
+
+        # Build send kwargs
+        send_kwargs: Dict = {"model": model, "session_id": session_id}
         if instructions:
-            create_kwargs["instructions"] = instructions
-        stream = self.client.responses.create(**create_kwargs)
+            send_kwargs["system"] = instructions
+        if max_output_tokens:
+            send_kwargs["max_tokens"] = max_output_tokens
 
         def gen() -> Generator[str, None, None]:
-            for event in stream:
-                if event.type == "response.output_text.delta":
-                    yield event.delta
-                elif event.type == "response.completed":
-                    # best effort; usage shapes vary by SDK version
-                    try:
-                        meta["usage"] = getattr(event, "response", None).usage
-                    except Exception:
-                        pass
-                    break
-                elif event.type == "response.error":
-                    raise RuntimeError(getattr(event, "error", "Unknown streaming error"))
-                else:
-                    open("/tmp/router_events.log","a").write(f"{event.type}: {repr(event)[:200]}\n")
+            try:
+                for token in self._box.stream(last_user, **send_kwargs):
+                    yield token
+                # Capture usage after stream completes
+                try:
+                    usage = self._box.get_token_usage(session_id)
+                    meta["usage"] = usage
+                except Exception:
+                    pass
+            finally:
+                # Always clean up the session
+                try:
+                    self._box.delete_session(session_id)
+                except Exception:
+                    pass
 
         return gen(), meta

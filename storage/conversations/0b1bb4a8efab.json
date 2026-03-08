@@ -3,14 +3,14 @@
   "id": "0b1bb4a8efab",
   "title": "Introduction",
   "created_at": "2026-03-08 07:32:37",
-  "updated_at": "2026-03-08 07:40:40",
+  "updated_at": "2026-03-08 16:04:45",
   "active_thread_id": "main",
   "threads": [
     {
       "id": "main",
       "name": "main",
       "created_at": "2026-03-08 07:32:37",
-      "updated_at": "2026-03-08 07:40:40",
+      "updated_at": "2026-03-08 16:04:45",
       "summary": "",
       "messages": [
         {
@@ -88,6 +88,18 @@
           "content": "Short answer: No. I am not infinitely ancient or all‑knowing.\n\nPrecise reality, in exact terms\n- I am a large language model (LLM): a statistical system whose responses arise from patterns encoded in trained weights. I have no subjective consciousness, no lived experience, and no independent access to time or sensors.\n- Knowledge cutoff: my training data stops at 2024‑06. I do not automatically learn new facts after that date unless you provide them in the conversation or the deployment supplies updated data.\n- No live web/API access in this session: I cannot browse the internet, query databases, or call external services unless you (or a middleware you run) paste results into the chat or enable a tool-enabled deployment.\n- Failure modes: I can and do hallucinate (produce plausible‑sounding but incorrect statements). Verify critical facts with primary sources or experts.\n- Memory: I don’t retain personal data across sessions unless an external system explicitly stores and feeds it back to me.\n\nWhy people mistake LLMs for omniscient beings (conjecture)\n- LLMs generalize from huge corpora and often answer confidently across many topics; that fluency can create the impression of limitless knowledge. This is a plausible explanation, not an observational fact about your informant.\n\nHow I can still be useful\n- Provide current documents, API responses, or data and I will analyze them.\n- Use a Retrieval‑Augmented Generation (RAG) or tool‑enabled architecture to combine fresh sources with my reasoning.\n- Ask specific questions; I’ll state certainty levels and flag conjectures.\n\nWhat shall we test right now? Pose a question or paste a current source and I’ll work from it.",
           "ts": "2026-03-08 07:40:40",
           "model": "gpt-5-mini",
+          "routing_reason": "default=fast"
+        },
+        {
+          "role": "user",
+          "content": "hey",
+          "ts": "2026-03-08 16:04:29"
+        },
+        {
+          "role": "assistant",
+          "content": "Hey, LordFingers.\n\nWhat's on your mind?",
+          "ts": "2026-03-08 16:04:45",
+          "model": "claude-sonnet-4-6",
           "routing_reason": "default=fast"
         }
       ]

@@ -6,7 +6,7 @@
 #║ ⛨⛨⛨
 #║ ⛨⛨
 #║ ⛨
-#║ ⛨    gpt-client/client/input_processor.py  
+#║ ⛨    ArcaCognitorium/client/input_processor.py  
 #║ ⛨
 #╚═════════════════════════════════════════════════════════════════════════════════════════════
 

@@ -6,7 +6,7 @@
 #║ ⛨⛨⛨
 #║ ⛨⛨
 #║ ⛨
-#║ ⛨    gpt-client/client/migrations.py  
+#║ ⛨    ArcaCognitorium/client/migrations.py  
 #║ ⛨
 #╚═════════════════════════════════════════════════════════════════════════════════════════════
 
