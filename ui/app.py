@@ -12,9 +12,9 @@
 
 
 from __future__ import annotations
-from pathlib import Path
 from dataclasses import dataclass
 from ui.panes.status_layer import StatusLayer
+from pathlib import Path
 
 
 import asyncio
@@ -400,6 +400,18 @@ class ChatTUIApp(App):
             max_injection_tokens=self.cfg.raw.get("memory", {}).get("grimoire_max_tokens", 800)
         )
         
+
+        from memory.tome import Tome
+        self.tome = Tome(
+            project_store=self.projects,
+            max_injection_tokens=self.cfg.raw.get("memory", {}).get("tome_max_tokens", 600)
+        )
+
+        from entities.entity_compiler import EntityCompiler
+        from entities.council import Council
+        self.compiler = EntityCompiler("entities")
+        self.council = Council(self.compiler)
+
 
     def _on_conversation_selected(self, cid: str | None) -> None:
         if cid:
@@ -1224,7 +1236,6 @@ class ChatTUIApp(App):
         gen, _meta = self.router.stream_response_text(
             model,
             context,
-            temperature=self.cfg.raw.get("temperature", None),
             max_output_tokens=self.cfg.raw.get("max_output_tokens", None),
         )
         delay = float(self.cfg.ui.typing_delay_seconds)
@@ -1248,6 +1259,22 @@ class ChatTUIApp(App):
 
         mem_cfg = self.cfg.memory
         messages: List[Dict] = []
+        # Phase 6: Entity instruction string — always first in context
+        active_entity = self.council.active
+        if active_entity:
+            messages.append({
+                "role": "system",
+                "content": active_entity.instruction_str
+            })
+
+        # Phase 6: Entity instruction string — always first in context
+        active_entity = self.council.active
+        if active_entity:
+            messages.append({
+                "role": "system",
+                "content": active_entity.instruction_str
+            })
+
 
         thread = self.conversations.get_thread(thread_id)
         if thread.summary:
@@ -1291,7 +1318,6 @@ class ChatTUIApp(App):
             blob = "\n\n".join(f"[score={r['score']:.3f}] {r['text']}" for r in retrieved)
             messages.append({"role": "system", "content": "Relevant long-term memory:\n" + blob})
 
-
         # Phase 5: distillation trigger
         if self.distillation.should_distill(thread.messages, getattr(self.cfg.memory, 'distillation_threshold', 6000)):
             result = self.distillation.distill(
@@ -1306,9 +1332,8 @@ class ChatTUIApp(App):
                 distillation_count=self.status_layer.state.distillation_count + 1
             )
             return messages
-        
-        short_max = int(mem_cfg.short_term_max_messages)
 
+        short_max = int(mem_cfg.short_term_max_messages)
         for m in thread.messages[-short_max:]:
             messages.append({"role": m.get("role", ""), "content": m.get("content", "")})
 
@@ -1466,6 +1491,238 @@ class ChatTUIApp(App):
     # -------------------------
     # Commands (LF spec + Phase 3 additions + /help <topic>)
     # -------------------------
+
+    async def _handle_tome_command(self, args: list[str]) -> None:
+        if not self.tome.is_active:
+            self._set_status("No project is active. Open a project to use the Tome.")
+            return
+        if not args:
+            self._set_status("Tome page not yet implemented. Use /tome list.")
+            return
+        sub = args[0].lower()
+        if sub == "add":
+            if len(args) < 2:
+                self._set_status("Usage: /tome add [category:] content")
+                return
+            rest = " ".join(args[1:])
+            if ":" in args[1]:
+                category, content = rest.split(":", 1)
+                category = category.strip()
+                content = content.strip()
+            else:
+                category = "general"
+                content = rest.strip()
+            if not content:
+                self._set_status("Tome entry content cannot be empty.")
+                return
+            entry = self.tome.add(content, category)
+            if entry:
+                self._set_status(f"Tome entry added: [{entry.category}] {entry.entry_id}")
+            else:
+                self._set_status("Failed to add Tome entry.")
+        elif sub == "list":
+            active = self.tome.get_active()
+            if not active:
+                self._set_status("Tome is empty.")
+                return
+            lines = [f"[{e.entry_id}] [{e.category}] {e.content}" for e in active]
+            self._set_status("Tome:\n" + "\n".join(lines))
+        elif sub == "remove":
+            if len(args) < 2:
+                self._set_status("Usage: /tome remove <entry_id>")
+                return
+            ok = self.tome.remove(args[1])
+            self._set_status(f"Removed {args[1]}." if ok else f"Entry not found: {args[1]}")
+        elif sub == "restore":
+            if len(args) < 2:
+                self._set_status("Usage: /tome restore <entry_id>")
+                return
+            ok = self.tome.restore(args[1])
+            self._set_status(f"Restored {args[1]}." if ok else f"Entry not found: {args[1]}")
+        elif sub == "edit":
+            if len(args) < 3:
+                self._set_status("Usage: /tome edit <entry_id> <new content>")
+                return
+            new_content = " ".join(args[2:]).strip()
+            ok = self.tome.edit(args[1], new_content)
+            self._set_status(f"Updated {args[1]}." if ok else f"Entry not found: {args[1]}")
+        elif sub == "status":
+            usage = self.tome.token_usage()
+            self._set_status(
+                f"Tome: {usage['entry_count']} entries · "
+                f"{usage['used']}/{usage['budget']} tokens ({usage['pct']}%)"
+            )
+        else:
+            self._set_status(
+                "Tome commands: add [cat:] content · list · remove <id> · "
+                "restore <id> · edit <id> <content> · status"
+            )
+
+    async def _handle_summon_command(self, args: list[str]) -> None:
+        if not args:
+            try:
+                import yaml
+                with open("entities/canon/entity_canon.yaml") as f:
+                    canon = yaml.safe_load(f)
+                lines = [
+                    f"[{e['entity_id']}] {e['display_name']} #{e['color_hex']}"
+                    for e in canon.get("entities", [])
+                ]
+                self._set_status("Entities:\n" + "\n".join(lines))
+            except Exception as e:
+                self._set_status(f"Could not load entity canon: {e}")
+            return
+        entity_id = args[0].lower().strip()
+        if entity_id == "luminarious":
+            self._set_status("Luminarious is already the anchor. Nothing to summon.")
+            return
+        if entity_id == "assessor":
+            await self._run_assessor()
+            return
+        try:
+            self.council.summon(entity_id)
+            entity = self.council.active
+            self.status_layer.update_status(
+                entity_name=entity.display_name,
+                entity_color=entity.color_hex
+            )
+            self._set_status(f"Summoned: {entity.display_name}")
+        except Exception as e:
+            self._set_status(f"Summon failed: {e}")
+
+    async def _run_assessor(self) -> None:
+        if not self.conversations.active:
+            self._set_status("No conversation loaded. Assessor requires an active Thread.")
+            return
+        try:
+            self.council.summon("assessor")
+        except Exception as e:
+            self._set_status(f"Assessor compilation failed: {e}")
+            return
+        assessor = self.council.active
+        self.status_layer.update_status(
+            entity_name=assessor.display_name,
+            entity_color=assessor.color_hex
+        )
+        thread = self.conversations.get_thread(
+            self.conversations.active.active_thread_id
+        )
+        # Assessor instruction string — passed as instructions param, not in messages
+        assessor_instructions = assessor.instruction_str
+
+        # Build context as user/assistant messages only
+        messages = []
+
+        # Grimoire context as user message
+        grimoire_injection = self.grimoire.build_injection_string()
+        if grimoire_injection:
+            messages.append({"role": "user", "content": "GRIMOIRE (existing long-term memory):\n" + grimoire_injection})
+            messages.append({"role": "assistant", "content": "Grimoire context received."})
+
+        # Chronicle fragments as user message
+        retrieved = self.chronicle.query(
+            "wizard profile patterns preferences communication style",
+            top_k=3,
+            conversation_ids=[self.conversations.active.id],
+            thread_by_conversation={
+                self.conversations.active.id: self.conversations.active.active_thread_id
+            }
+        )
+        if retrieved:
+            blob = "\n\n".join(f"[score={r['score']:.3f}] {r['text']}" for r in retrieved)
+            messages.append({"role": "user", "content": "CHRONICLE FRAGMENTS:\n" + blob})
+            messages.append({"role": "assistant", "content": "Chronicle context received."})
+
+        # Thread history
+        for m in thread.messages[-10:]:
+            role = m.get("role", "")
+            content_text = m.get("content", "").strip()
+            if role in ("user", "assistant") and content_text:
+                messages.append({"role": role, "content": content_text})
+
+        # Task prompt
+        messages.append({
+            "role": "user",
+            "content": (
+                "Analyze this Thread. Produce a structured profile observation "
+                "of the Wizard using EXACTLY the section headers specified. "
+                "Skip observations already present in the Grimoire."
+            )
+        })
+        try:
+            profile = assessor.sampling_profile
+            response_text = await asyncio.to_thread(
+                self._assessor_api_call,
+                messages,
+                profile,
+                assessor_instructions,
+            )
+        except Exception as e:
+            self._set_status(f"Assessor API call failed: {e}")
+            self.council.dismiss()
+            return
+        self._mount_combo(
+            self.middle.current_turn,
+            header="THE ASSESSOR",
+            body=response_text,
+            render_mode="markdown",
+            align="full",
+            combo_classes="system assessor",
+        )
+        written, skipped = self._assessor_write_grimoire(response_text)
+        self.council.dismiss()
+        entity = self.council.active
+        self.status_layer.update_status(
+            entity_name=entity.display_name,
+            entity_color=entity.color_hex
+        )
+        self._set_status(
+            f"Assessor complete. {written} observations written · {skipped} skipped. "
+            f"Returned to {entity.display_name}."
+        )
+
+    def _assessor_api_call(self, messages: list, profile: dict, instructions: str | None = None) -> str:
+        gen, _meta = self.router.stream_response_text(
+            self.router.decide("assessor profile observation").model,
+            messages,
+            max_output_tokens=profile.get("max_output_tokens", 1500),
+            instructions=instructions,
+        )
+        return "".join(gen)
+
+    def _assessor_write_grimoire(self, response_text: str) -> tuple[int, int]:
+        import re
+        sections = {
+            "COMMUNICATION_STYLE": "communication_style",
+            "WORK_PATTERNS": "work_patterns",
+            "FRICTION_POINTS": "friction_points",
+            "PREFERENCES": "preferences",
+        }
+        written = 0
+        skipped = 0
+        active_entries = [e.content.lower() for e in self.grimoire.get_active()]
+        for section_header, category in sections.items():
+            pattern = rf"{section_header}:\s*\n((?:\s*-[^\n]+\n?)+)"
+            match = re.search(pattern, response_text)
+            if not match:
+                continue
+            block = match.group(1)
+            observations = re.findall(r"-\s*(.+?)(?:\s*\[.*?\])?$", block, re.MULTILINE)
+            for obs in observations:
+                obs = obs.strip()
+                if not obs:
+                    continue
+                obs_lower = obs.lower()
+                if any(
+                    len(set(obs_lower.split()) & set(e.split())) / max(len(obs_lower.split()), 1) > 0.6
+                    for e in active_entries
+                ):
+                    skipped += 1
+                    continue
+                self.grimoire.add(obs, category, source="assessor")
+                written += 1
+        return written, skipped
+
     async def _handle_menu_command(self, raw: str) -> None:
         parsed = self.input.parse(raw)
         if parsed.kind != "command":
@@ -1478,6 +1735,25 @@ class ChatTUIApp(App):
         if cmd == "/grimoire":
             await self._handle_grimoire_command(argv)
             return
+
+        if cmd == "/tome":
+            await self._handle_tome_command(argv)
+            return
+
+        if cmd == "/summon":
+            await self._handle_summon_command(argv)
+            return
+
+        if cmd == "/dismiss":
+            self.council.dismiss()
+            entity = self.council.active
+            self.status_layer.update_status(
+                entity_name=entity.display_name,
+                entity_color=entity.color_hex
+            )
+            self._set_status(f"Returned to: {entity.display_name}")
+            return
+
 
         # -------------------------
         # Help routing: /help <topic>
@@ -2003,10 +2279,4 @@ class ChatTUIApp(App):
         self._set_status(f"Unknown command: {cmd} (try /help)")
 
 
-#        self.push_screen(ConversationsPage(self.conversations), self._on_conversation_selected)
-#        
-#        def _on_conversation_selected(self, cid: str | None) -> None:
-#            if cid:
-#                self.conversations.load(cid)
-#                self._render_full_history_from_store(clear_first=True)
-#                self._render_legend()
+

@@ -54,18 +54,26 @@ class ModelRouter:
         model: str,
         input_messages: List[Dict],
         *,
-        temperature: Optional[float] = None,
         max_output_tokens: Optional[int] = None,
+        instructions: Optional[str] = None,
     ) -> Tuple[Generator[str, None, None], Dict]:
         meta: Dict = {"usage": None}
 
-        stream = self.client.responses.create(
+        # Responses API only accepts user/assistant roles in input
+        filtered = [m for m in input_messages if m.get("role") in ("user", "assistant")]
+        if instructions is None:
+            system_parts = [m["content"] for m in input_messages if m.get("role") == "system"]
+            if system_parts:
+                instructions = "\n\n".join(system_parts)
+        create_kwargs = dict(
             model=model,
-            input=input_messages,
-            temperature=temperature,
+            input=filtered,
             max_output_tokens=max_output_tokens,
             stream=True,
         )
+        if instructions:
+            create_kwargs["instructions"] = instructions
+        stream = self.client.responses.create(**create_kwargs)
 
         def gen() -> Generator[str, None, None]:
             for event in stream:
@@ -80,5 +88,7 @@ class ModelRouter:
                     break
                 elif event.type == "response.error":
                     raise RuntimeError(getattr(event, "error", "Unknown streaming error"))
+                else:
+                    open("/tmp/router_events.log","a").write(f"{event.type}: {repr(event)[:200]}\n")
 
         return gen(), meta
