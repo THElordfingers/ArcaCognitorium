@@ -1,0 +1,23 @@
+# ╔══════════════════════════════════════════════════════════════════════════
+# ║  ArcaCognitorium/entities/models.yaml
+# ║  Model Registry — available models, tiers, display names
+# ╚══════════════════════════════════════════════════════════════════════════
+
+models:
+  - id: "claude-opus-4-6"
+    tier: "smart"
+    display_name: "Opus"
+    description: "Deep analysis, architecture decisions, long-form synthesis, code generation."
+    default: true
+
+  - id: "claude-sonnet-4-6"
+    tier: "fast"
+    display_name: "Sonnet"
+    description: "Conversational exchanges, short questions, follow-up clarifications."
+    default: true
+
+  - id: "claude-haiku-4-5-20251001"
+    tier: "nano"
+    display_name: "Haiku"
+    description: "Ultra-fast. Summary generation, distillation compression, reflection scoring."
+    default: false

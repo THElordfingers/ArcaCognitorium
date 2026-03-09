@@ -48,6 +48,8 @@ models:
   code: "claude-sonnet-4-6"
 
 routing:
+  smart_threshold: 0.55
+  reflection_window: 50
   default: "fast"
   long_input_threshold_chars: 2000
   reasoning_keywords:
