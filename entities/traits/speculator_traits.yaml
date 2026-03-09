@@ -1,0 +1,8 @@
+entity_id: speculator
+traits:
+  verbosity: 0.80
+  challenge: 0.25
+  speculation: 0.95
+  structure: 0.35
+  warmth: 0.60
+  precision: 0.35

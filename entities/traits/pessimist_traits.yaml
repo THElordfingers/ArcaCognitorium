@@ -1,0 +1,8 @@
+entity_id: pessimist
+traits:
+  verbosity: 0.55
+  challenge: 0.75
+  speculation: 0.25
+  structure: 0.60
+  warmth: 0.15
+  precision: 0.75

@@ -34,6 +34,7 @@ class Council:
         self._active_id: str = self.ANCHOR_ID
         # Always compile the anchor Entity on startup
         self._compiled[self.ANCHOR_ID] = self.compiler.compile(self.ANCHOR_ID)
+        self._emerged: set[str] = set()
 
     @property
     def active(self) -> CompiledEntity:
@@ -81,4 +82,25 @@ class Council:
             active_entity_id=self._active_id,
             compiled_entities=dict(self._compiled)
         )
+
+    def emerge(self, entity_id: str) -> None:
+        """
+        Mark entity_id as emerged. Compiles and caches it if not already compiled.
+        Silent — no UI notification generated here.
+        """
+        if entity_id not in self._emerged:
+            if entity_id not in self._compiled:
+                try:
+                    self.summon(entity_id)
+                except Exception:
+                    pass  # EntityCompilationError — log handled by compiler
+            self._emerged.add(entity_id)
+
+    def get_emerged(self) -> set:
+        """Return the set of currently emerged entity_ids."""
+        return set(self._emerged)
+
+    def has_emerged(self, entity_id: str) -> bool:
+        """Return True if entity_id has emerged."""
+        return entity_id in self._emerged
 
