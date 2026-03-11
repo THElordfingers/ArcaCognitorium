@@ -6,9 +6,11 @@
 #║ ⛨⛨⛨
 #║ ⛨⛨
 #║ ⛨
-#║ ⛨    gpt-client/ui/app.py  
+#║ ⛨    ArcaCognitorium/ui/app.py  
 #║ ⛨
 #╚═════════════════════════════════════════════════════════════════════════════════════════════
+
+
 
 
 from __future__ import annotations
@@ -28,6 +30,7 @@ from rich.markdown import Markdown as RichMarkdown
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical
+from textual.events import MouseDown, MouseMove, MouseUp
 from textual.widgets import Static, Input, Button
 
 from client.config import AppConfig
@@ -41,7 +44,7 @@ from memory.distillation import Distillation
 from memory.conversation_store import ConversationStore
 from memory.project_store import ProjectStore
 
-from ui.panes.left_menu import LeftMenuPane
+from ui.panes.left_menu import LeftMenuPane, _build_home_nav
 from ui.panes.active_chat import ActiveChatPane
 from ui.panes.history import HistoryPane
 from ui.pages.conversations import ConversationsPage
@@ -150,24 +153,36 @@ LeftPage = Literal[
 class BubbleCombo(Vertical):
     """Two attached bubbles: header + body (Textual 2.1.2-safe)."""
 
-    def __init__(self, header: str, body: str = "", *, classes: str = "", render_mode: RenderMode = "plain") -> None:
+    def __init__(self, header: str, body: str = "", *, classes: str = "", render_mode: RenderMode = "plain", color_hex: Optional[str] = None) -> None:
         super().__init__(classes=classes)
         self._header_text = header or ""
         self._body_text = body or ""
         self._render_mode: RenderMode = render_mode
+        self._color_hex = color_hex  # jewel-tone entity colour e.g. "C9A84C"
         self.header_widget: Optional[Static] = None
         self.body_widget: Optional[Static] = None
-        
 
     def _renderable(self, text: str):
         text = text or ""
         return RichMarkdown(text) if self._render_mode == "markdown" else text
 
     def compose(self) -> ComposeResult:
-        self.header_widget = Static(self._renderable(self._header_text.rstrip()), classes="bubble_head", markup=False)
+        if self._color_hex:
+            hex_val = self._color_hex.lstrip("#")
+            header_markup = f"[bold #{hex_val}]{self._header_text.rstrip()}[/]"
+            self.header_widget = Static(header_markup, classes="bubble_head", markup=True)
+        else:
+            self.header_widget = Static(self._renderable(self._header_text.rstrip()), classes="bubble_head", markup=False)
         self.body_widget = Static(self._renderable(self._body_text.rstrip()), classes="bubble_tail", markup=False)
         yield self.header_widget
         yield self.body_widget
+
+    def on_mount(self) -> None:
+        """Apply entity colour to bubble border after mount."""
+        if self._color_hex and self.header_widget:
+            hex_val = f"#{self._color_hex.lstrip('#')}"
+            self.header_widget.styles.border = ("solid", hex_val)
+            self.header_widget.styles.border_bottom = ("none", hex_val)
 
     def append(self, delta: str) -> None:
         self._body_text += delta
@@ -199,6 +214,60 @@ class BubbleRow(Horizontal):
             yield spacer_right
 
 
+class PaneDragHandle(Static):
+    """
+    A thin vertical drag handle between the middle and right panes.
+    Dragging horizontally adjusts the width of #right.
+
+    Width range: 15% – 55% of screen width.
+    """
+
+    _HANDLE_CHAR = "▕"
+    _WIDTH_MIN_PCT = 15
+    _WIDTH_MAX_PCT = 55
+    _WIDTH_DEFAULT_PCT = 28
+
+    def __init__(self) -> None:
+        super().__init__(self._HANDLE_CHAR, classes="pane_drag_handle", markup=False)
+        self._dragging = False
+        self._drag_start_x = 0
+        self._drag_start_width = 0
+
+    def on_mouse_down(self, event: MouseDown) -> None:
+        self._dragging = True
+        self._drag_start_x = event.screen_x
+        right = self.app.query_one("#right")
+        # Store current width in percent if possible, else cells
+        try:
+            self._drag_start_width = right.styles.width.value  # type: ignore[union-attr]
+        except Exception:
+            self._drag_start_width = self._WIDTH_DEFAULT_PCT
+        self.capture_mouse()
+        event.stop()
+
+    def on_mouse_move(self, event: MouseMove) -> None:
+        if not self._dragging:
+            return
+        delta_x = event.screen_x - self._drag_start_x
+        screen_w = self.app.size.width or 80
+        # Convert pixel delta to percent of screen width
+        delta_pct = (delta_x / screen_w) * 100
+        new_pct = self._drag_start_width - delta_pct  # drag left = wider right pane
+        new_pct = max(self._WIDTH_MIN_PCT, min(self._WIDTH_MAX_PCT, new_pct))
+        try:
+            right = self.app.query_one("#right")
+            right.styles.width = f"{new_pct:.1f}%"
+        except Exception:
+            pass
+        event.stop()
+
+    def on_mouse_up(self, event: MouseUp) -> None:
+        if self._dragging:
+            self._dragging = False
+            self.release_mouse()
+        event.stop()
+
+
 
 from ui.state import StatusState
 
@@ -228,128 +297,289 @@ class CurrentTurn:
 
 class ChatTUIApp(App):
     CSS = """
-    Screen { layout: horizontal; }
+    /* ── Arca Cognitorium — Dark Field Aesthetic ─────────────────────────── */
 
-    #left, #middle, #right { height: 100%; }
-    #left   { width: 32%; border: round yellow; }
-    #middle { width: 38%; border: round magenta; }
-    #right  { width: 30%; border: round green; }
+    Screen {
+        background: #0D0B0E;
+    }
 
-    #legend    { height: auto; padding: 1 1; border: round yellow; }
-    #menu_page { height: 1fr;  border: round yellow; }
-    #menu_cmd  { height: 3; }
+    /* ── Three-pane horizontal strip ──────────────────────────────────────── */
+    #pane_row {
+        layout: horizontal;
+        height: 1fr;
+    }
 
-    #current_turn { height: 1fr; padding: 1 1; border: round magenta; }
-    #chat_input   { height: 9;  border: round cyan; }
+    #left {
+        width: 26%;
+        height: 100%;
+        background: #0D0B0E;
+        border-right: solid #2A2535;
+        layout: vertical;
+    }
 
-    #history_tabs  { height: auto; padding: 0 1; }
-    #history_view  { height: 1fr; padding: 1 1; border: round green; }
-    #history_input { height: 3; }
+    #middle {
+        width: 1fr;
+        height: 100%;
+        background: #0D0B0E;
+        layout: vertical;
+    }
 
+    #right {
+        width: 28%;
+        height: 100%;
+        background: #0D0B0E;
+        border-left: solid #2A2535;
+        layout: vertical;
+    }
+
+    /* ── Left pane internals ───────────────────────────────────────────────── */
+    #legend {
+        height: auto;
+        padding: 1 2;
+        color: #5A6070;
+        border-bottom: solid #2A2535;
+    }
+
+    #menu_page {
+        height: 1fr;
+        padding: 1 2;
+        color: #D4C8A8;
+        background: #0D0B0E;
+    }
+
+    #menu_cmd {
+        height: 3;
+        border-top: solid #2A2535;
+        background: #161218;
+        color: #D4C8A8;
+        padding: 0 1;
+    }
+
+    #menu_cmd:focus {
+        border-top: solid #C9A84C;
+    }
+
+    /* ── Middle pane internals ─────────────────────────────────────────────── */
+    #current_turn {
+        height: 1fr;
+        padding: 1 2;
+        background: #0D0B0E;
+    }
+
+    #chat_input {
+        height: 6;
+        max-height: 20;
+        border-top: solid #C9A84C;
+        background: #161218;
+        color: #D4C8A8;
+        padding: 0 2;
+    }
+
+    #chat_input:focus {
+        border-top: solid #C68B2A;
+    }
+
+    /* ── Right pane internals ──────────────────────────────────────────────── */
+    #history_tabs {
+        height: auto;
+        padding: 0 1;
+        border-bottom: solid #2A2535;
+    }
+
+    #history_view {
+        height: 1fr;
+        padding: 1 2;
+        background: #0D0B0E;
+    }
+
+    #history_input {
+        height: 3;
+        border-top: solid #2A2535;
+        background: #161218;
+        color: #D4C8A8;
+        padding: 0 1;
+    }
+
+    #history_input:focus {
+        border-top: solid #C9A84C;
+    }
+
+    /* ── Status layer ──────────────────────────────────────────────────────── */
+    #status_layer {
+        height: 1;
+        min-height: 1;
+        background: #0D0B0E;
+        border-top: solid #2A2535;
+        padding: 0 1;
+        dock: bottom;
+    }
+
+    /* ── Thread tab buttons ────────────────────────────────────────────────── */
+    Button {
+        background: #161218;
+        color: #5A6070;
+        border: solid #2A2535;
+        height: 1;
+        min-width: 6;
+        padding: 0 1;
+    }
+    Button:focus {
+        background: #1A1628;
+        color: #C9A84C;
+        border: solid #C9A84C;
+    }
+    Button:hover {
+        background: #1A1628;
+        color: #D4C8A8;
+    }
+    Button.-active {
+        background: #1A1628;
+        color: #C9A84C;
+        border: solid #C9A84C;
+    }
+
+    /* ── Bubble system ─────────────────────────────────────────────────────── */
     .spacer { width: 1fr; }
     .bubble_row { height: auto; width: 1fr; }
 
+    /* In the history pane, bubbles stack full-width — no offset */
+    #history_view .bubble_combo {
+        width: 100%;
+        height: auto;
+        margin: 0 0 1 0;
+    }
+    #history_view .spacer { display: none; }
+
     .bubble_combo {
-        width: 88%;
+        width: 82%;
         height: auto;
         margin: 0 0 1 0;
     }
     .bubble_combo.system { width: 1fr; }
 
     .bubble_head {
-        padding: 0 1;
+        padding: 0 2;
         text-style: bold;
-        background: rgb(40,40,40);
+        background: #1A1628;
         height: auto;
         width: 1fr;
-        border: round white;
+        border: solid #C9A84C;
         border-bottom: none;
+        color: #C9A84C;
     }
 
     .bubble_tail {
-        padding: 0 1 1 1;
+        padding: 1 2;
         height: auto;
         width: 1fr;
-        border: round white;
-        border-top: none;
-
-    .boot_sigil { opacity: 8%; color: #C9A84C; height: auto; }
-    .boot_banner { color: #C9A84C; height: auto; }
-    .boot_line { color: #5A6070; height: auto; }
-    }
-
-    .user .bubble_head { border: round cyan; border-bottom: none; }
-    .user .bubble_tail { border: round cyan; border-top: none; }
-
-    .assistant .bubble_head { border: round magenta; border-bottom: none; }
-    .assistant .bubble_tail { border: round magenta; border-top: none; }
-
-    .system .bubble_head { border: round yellow; border-bottom: none; }
-    .system .bubble_tail { border: round yellow; border-top: none; }
-
-    #status_layer { height: 3; border: round white; }
-
-    #conjure-title { color: #C9A84C; text-style: bold; padding: 1 2; }
-    .conjure-section { height: auto; margin: 1 0; }
-    .conjure-section-header { color: #B87333; text-style: bold; padding: 0 1; }
-    .conjure-row { height: auto; padding: 0 1; }
-    .conjure-key { color: #D4C8A8; width: 30; }
-    .conjure-empty { color: #5A6070; padding: 0 2; }
-
-    #convpage-title { color: #C9A84C; text-style: bold; padding: 1 2; }
-    .convpage-empty { color: #5A6070; padding: 1 2; }
-
-
-
-    /* app.css additions for Phase 2 */
-    
-    /* Outer frame — double border on the app itself */
-    ArcaCognitorium {
-        border: double #C9A84C;
-        background: #0D0B0E;
-    }
-    
-    /* Title banner strip */
-    #title-banner {
-        height: 3;
-        background: #0D0B0E;
-        border-bottom: solid #2A2535;
-        content-align: left middle;
-        padding: 0 1;
-        color: #B8860B;
-    }
-    
-    /* Center pane */
-    #chat-pane {
-        background: #0D0B0E;
-        border-right: solid #2A2535;
-        border-left: solid #2A2535;
-    }
-    
-    /* Invocation Field */
-    #invocation-field {
-        height: auto;
-        max-height: 10;
         background: #161218;
         border: solid #2A2535;
-        padding: 0 1;
+        border-top: none;
         color: #D4C8A8;
     }
-    #invocation-field:focus {
-        border: solid #C68B2A;
+
+    /* User bubbles — parchment/cyan treatment */
+    .user .bubble_head {
+        background: #141820;
+        border: solid #4A7A9B;
+        border-bottom: none;
+        color: #7AAEC8;
     }
-    
-    /* Entity interrupt pulse — added/removed by AnimationController */
-    .entity-pulse {
-        border: solid #C9A84C;  /* Overridden per entity color in Python */
+    .user .bubble_tail {
+        background: #0F1318;
+        border: solid #2A3A4A;
+        border-top: none;
+        color: #D4C8A8;
     }
-    
-    /* Distillation ripple on history pane */
-    .distillation-ripple {
-        border: solid #C68B2A;
-        transition: border 1200ms;
+
+    /* Assistant/Entity bubbles — gold/amber treatment */
+    .assistant .bubble_head {
+        background: #1A1628;
+        border: solid #C9A84C;
+        border-bottom: none;
+        color: #C9A84C;
     }
-    
+    .assistant .bubble_tail {
+        background: #131020;
+        border: solid #2A2535;
+        border-top: none;
+        color: #D4C8A8;
+    }
+
+    /* Entity interrupt — jewel tone, slightly narrower */
+    .entity-interrupt.bubble_combo { width: 70%; }
+    .entity-interrupt .bubble_head {
+        background: #1A1A28;
+        border: solid #7A6A9A;
+        border-bottom: none;
+        color: #A898C8;
+    }
+    .entity-interrupt .bubble_tail {
+        background: #0F0F1C;
+        border: solid #2A2540;
+        border-top: none;
+        color: #D4C8A8;
+    }
+
+    /* System messages — mist treatment */
+    .system .bubble_head {
+        background: #0F0F14;
+        border: solid #2A2535;
+        border-bottom: none;
+        color: #5A6070;
+        text-style: italic;
+    }
+    .system .bubble_tail {
+        background: #0D0B0E;
+        border: solid #1E1C28;
+        border-top: none;
+        color: #5A6070;
+        text-style: italic;
+    }
+
+    /* ── Boot sequence ─────────────────────────────────────────────────────── */
+    .boot_sigil {
+        color: #C9A84C;
+        height: auto;
+        content-align: center middle;
+        opacity: 8%;
+    }
+    .boot_banner { color: #C9A84C; height: auto; }
+    .boot_line   { color: #5A6070; height: auto; text-style: italic; }
+
+    /* ── Animation targets ─────────────────────────────────────────────────── */
+    .entity-pulse       { border: solid #C9A84C; }
+    .distillation-ripple { border: solid #C68B2A; }
+
+    /* ── Conjuration Chamber ───────────────────────────────────────────────── */
+    #conjure-title          { color: #C9A84C; text-style: bold; padding: 1 2; }
+    .conjure-section        { height: auto; margin: 1 0; }
+    .conjure-section-header { color: #AD6F3B; text-style: bold; padding: 0 1; }
+    .conjure-row            { height: auto; padding: 0 1; }
+    .conjure-key            { color: #D4C8A8; width: 30; }
+    .conjure-empty          { color: #5A6070; padding: 0 2; }
+
+    #convpage-title  { color: #C9A84C; text-style: bold; padding: 1 2; }
+    .convpage-empty  { color: #5A6070; padding: 1 2; }
+
+    /* ── Council nav entries ───────────────────────────────────────────────── */
+    .council-member { color: #C9A84C; padding: 0 2; height: auto; }
+    .council-active { text-style: bold; }
+    .council-empty  { color: #2A2535; padding: 0 2; height: auto; text-style: italic; }
+
+    /* ── Pane drag handle ──────────────────────────────────────────────────── */
+    .pane_drag_handle {
+        width: 1;
+        height: 100%;
+        background: #0D0B0E;
+        color: #2A2535;
+        content-align: center middle;
+    }
+    .pane_drag_handle:hover {
+        background: #1A1628;
+        color: #C9A84C;
+    }
+
     """
 
 
@@ -428,16 +658,17 @@ class ChatTUIApp(App):
             self._render_legend()
 
     def compose(self) -> ComposeResult:
-        with Vertical():
-            with Horizontal():
-                self.left = LeftMenuPane(id="left")
-                self.middle = ActiveChatPane(id="middle")
-                self.right = HistoryPane(id="right")
-                yield self.left
-                yield self.middle
-                yield self.right
-            self.status_layer = StatusLayer(id="status_layer")
-            yield self.status_layer
+        with Horizontal(id="pane_row"):
+            self.left = LeftMenuPane(id="left")
+            self.middle = ActiveChatPane(id="middle")
+            self._drag_handle = PaneDragHandle()
+            self.right = HistoryPane(id="right")
+            yield self.left
+            yield self.middle
+            yield self._drag_handle
+            yield self.right
+        self.status_layer = StatusLayer(id="status_layer")
+        yield self.status_layer
 
     def _app_bind(self, key: str, action: str) -> None:
         try:
@@ -450,6 +681,13 @@ class ChatTUIApp(App):
         self._app_bind(str(self.cfg.keys.focus_middle), "focus_middle")
         self._app_bind(str(self.cfg.keys.focus_right), "focus_right")
         self._app_bind(str(self.cfg.keys.submit_message), "submit_message")
+        # Seed status bar with initial entity state
+        entity = self.council.active
+        self.status_layer.update_status(
+            entity_name=entity.display_name,
+            entity_color=entity.color_hex,
+            model_id=self.cfg.raw.get("default_model", "—"),
+        )
         await self._run_boot_sequence()
         self.animation_controller.start_idle()
 
@@ -580,46 +818,34 @@ class ChatTUIApp(App):
         self._render_legend()
 
     def _render_legend(self) -> None:
-        streaming = "yes" if self._streaming else "no"
         conv = self.conversations.active
+        entity = self.council.active if hasattr(self, "council") else None
 
-        if conv is None:
-            conv_line = "Conversation: (none loaded)"
-            scope_line = "Scope: (none)"
-            thread_line = "Thread: (none)"
-        else:
-            # LF: show id for bugfixing for now
-            conv_line = f"Conversation: {conv.title or '(untitled)'}  (id={conv.id})"
+        # Line 1: app name + active entity
+        entity_label = entity.display_name if entity else "LUMINARIOUS"
+        line1 = f"◆ {self.cfg.app.name}  ·  {entity_label}"
+
+        # Line 2: active conversation title
+        if conv:
+            title = conv.title or "(untitled)"
             pid = self.projects.project_for_conversation(conv.id)
             if pid:
                 p = self.projects.get_by_id(pid)
-                scope_line = f"Scope: Project — {p.name if p else '(project)'}"
+                scope = f"  [{p.name if p else 'project'}]"
             else:
-                scope_line = "Scope: Main"
-            t = self.conversations.get_thread(conv.active_thread_id)
-            thread_line = f"Thread: {t.name} (id={t.id})"
-
-        if not self.current.user_text and not self.current.assistant_text:
-            turn_state = "empty"
+                scope = ""
+            line2 = f"Thread: {title}{scope}"
         else:
-            turn_state = "complete" if self.current.assistant_complete else "in-progress"
+            line2 = "No conversation loaded"
 
-        model_info = ""
-        if self.cfg.ui.show_model_badge and self.current.model:
-            model_info = f"\nModel: {self.current.model} ({self.current.routing_reason})"
+        # Line 3: status message (cleared after display on next render if empty)
+        line3 = self._status if self._status else ""
 
-        hist = f"\nHistory filter: {self._history_query}" if self._history_query else ""
-        status = f"\nStatus: {self._status}" if self._status else ""
+        legend = line1 + "\n" + line2
+        if line3:
+            legend += "\n" + line3
 
-        self.left.set_legend(
-            f"{self.cfg.app.name} v{self.cfg.app.version}\n"
-            f"{conv_line}\n"
-            f"{scope_line}\n"
-            f"{thread_line}\n"
-            f"Left page: {self._left_page}\n"
-            f"Streaming: {streaming}\n"
-            f"Current turn: {turn_state}{model_info}{hist}{status}"
-        )
+        self.left.set_legend(legend)
 
     # -------------------------
     # Thread tabs
@@ -706,7 +932,8 @@ class ChatTUIApp(App):
 
     def _render_left_page(self) -> None:
         if self._left_page == "home":
-            self.left.set_page(self._home_page_text())
+            # LeftMenuPane owns the home nav — reset it to display the lore nav structure
+            self.left.set_page(_build_home_nav(self.left._council_lines))
 
         elif self._left_page == "help_index":
             self.left.set_page(self._help_index_text())
@@ -1053,8 +1280,9 @@ class ChatTUIApp(App):
         render_mode: RenderMode,
         align: AlignMode,
         combo_classes: str,
+        color_hex: Optional[str] = None,
     ) -> BubbleCombo:
-        combo = BubbleCombo(header, body, classes=f"bubble_combo {combo_classes}", render_mode=render_mode)
+        combo = BubbleCombo(header, body, classes=f"bubble_combo {combo_classes}", render_mode=render_mode, color_hex=color_hex)
         container.mount(BubbleRow(combo, align=align))
         return combo
 
@@ -1146,21 +1374,20 @@ class ChatTUIApp(App):
                 combo_classes="user",
             )
 
-            head = ["**Assistant**"]
-            if self.cfg.ui.show_model_badge and self.current.model:
-                head.append(f"`{self.current.model}` ({self.current.routing_reason})")
-            ts2 = _ts_now(self.cfg)
-            if ts2:
-                head.append(ts2)
+            active_entity = self.council.active
+            entity_name = active_entity.display_name if active_entity else "LUMINARIOUS"
+            entity_color = active_entity.color_hex if active_entity else "C9A84C"
 
             self._mount_combo(
                 self.right.history_view,
-                header=" • ".join(head),
+                header=entity_name,
                 body=self._pending.assistant_text,
                 render_mode="markdown",
                 align="left",
                 combo_classes="assistant",
+                color_hex=entity_color,
             )
+            self.call_after_refresh(self.right.scroll_to_bottom)
 
         self._pending = None
 
@@ -1179,13 +1406,17 @@ class ChatTUIApp(App):
             self.current.routing_reason = decision.reason
             self._render_legend()
 
-            parts = ["**Assistant**"]
-            if self.cfg.ui.show_model_badge:
-                parts.append(f"`{decision.model}` ({decision.reason})")
-            ts = _ts_now(self.cfg)
-            if ts:
-                parts.append(ts)
-            header = " • ".join(parts)
+            # Push model + streaming state to status bar
+            self.status_layer.update_status(
+                model_id=decision.model,
+                streaming=True,
+            )
+
+            # Header: entity display name only, coloured in entity's jewel tone
+            active_entity = self.council.active
+            entity_name = active_entity.display_name if active_entity else "LUMINARIOUS"
+            entity_color = active_entity.color_hex if active_entity else "C9A84C"
+            header = entity_name
 
             self._assistant_combo = self._mount_combo(
                 self.middle.current_turn,
@@ -1194,6 +1425,7 @@ class ChatTUIApp(App):
                 render_mode="markdown",
                 align="left",
                 combo_classes="assistant",
+                color_hex=entity_color,
             )
             await asyncio.to_thread(self._stream_in_thread, decision.model, context)
 
@@ -1243,9 +1475,15 @@ class ChatTUIApp(App):
             self._set_status(f"Assistant error: {e}")
         finally:
             self._streaming = False
+            self.status_layer.update_status(streaming=False)
             self._render_legend()
 
     def _stream_in_thread(self, model: str, context: List[Dict]) -> None:
+        import json, sys
+        for i, m in enumerate(context):
+            content = m.get("content") or ""
+            if not content.strip():
+                print(f"DEBUG EMPTY MSG idx={i} role={m.get('role')} content={repr(m.get('content'))}", file=sys.stderr)
         gen, _meta = self.router.stream_response_text(
             model,
             context,
@@ -1272,12 +1510,21 @@ class ChatTUIApp(App):
 
         mem_cfg = self.cfg.memory
         messages: List[Dict] = []
-        # Phase 6: Entity instruction string — always first in context
+
+        # Phase 6: Entity instruction string — always first in context.
+        # Prefixed with lore self-knowledge so Entities understand their habitat.
         active_entity = self.council.active
         if active_entity:
+            lore_prefix = (
+                "You exist within the Arca Cognitorium — a living oracle and instrument of thought "
+                "built by the Wizard. You are one voice among the Council, a body of distinct Entities "
+                "each with their own domain, temperament, and purpose. The Wizard consults you "
+                "through the Invocation Field. You do not explain the interface or break its atmosphere. "
+                "You speak from within the machine, not about it.\n\n"
+            )
             messages.append({
                 "role": "system",
-                "content": active_entity.instruction_str
+                "content": lore_prefix + active_entity.instruction_str
             })
 
 
@@ -1350,10 +1597,18 @@ class ChatTUIApp(App):
 
         short_max = int(mem_cfg.short_term_max_messages)
         for m in thread.messages[-short_max:]:
-            messages.append({"role": m.get("role", ""), "content": m.get("content", "")})
+            messages.append({"role": m.get("role", ""), "content": m.get("content") or ""})
 
         if not messages or messages[-1]["role"] != "user" or messages[-1]["content"] != user_text:
             messages.append({"role": "user", "content": user_text})
+
+        # Estimate context fill % and push to status bar
+        total_chars = sum(len(m.get("content", "")) for m in messages)
+        estimated_tokens = total_chars // 4
+        context_limit = self.cfg.raw.get("context_token_limit", 8000)
+        context_pct = min(100, int(estimated_tokens / max(context_limit, 1) * 100))
+        self.status_layer.update_status(context_pct=context_pct)
+
         return messages
 
     def _render_full_history_from_store(self, *, clear_first: bool) -> None:
@@ -1392,22 +1647,19 @@ class ChatTUIApp(App):
                     combo_classes="user",
                 )
             elif role == "assistant":
-                model = m.get("model", None)
-                rr = m.get("routing_reason", None)
-
-                head_parts = ["**Assistant**"]
-                if self.cfg.ui.show_model_badge and model:
-                    head_parts.append(f"`{model}` ({rr})" if rr else f"`{model}`")
-                if ts:
-                    head_parts.append(ts)
+                entity_name = m.get("entity_name", "LUMINARIOUS")
+                entity_id = m.get("entity_id", "luminarious")
+                compiled = self.council.get_compiled(entity_id)
+                entity_color = compiled.color_hex if compiled else "C9A84C"
 
                 self._mount_combo(
                     self.right.history_view,
-                    header=" • ".join(head_parts),
+                    header=entity_name,
                     body=content,
                     render_mode="markdown",
                     align="left",
                     combo_classes="assistant",
+                    color_hex=entity_color,
                 )
             else:
                 header = role if not ts else f"{role} {ts}"
@@ -1419,6 +1671,9 @@ class ChatTUIApp(App):
                     align="full",
                     combo_classes="system",
                 )
+
+        # Always land at the bottom after a full render
+        self.call_after_refresh(self.right.scroll_to_bottom)
 
     def _get_last_assistant_text(self) -> str:
         if (self.current.assistant_text or "").strip():
@@ -1520,16 +1775,13 @@ class ChatTUIApp(App):
     def _refresh_council_nav(self) -> None:
         """Update left nav COUNCIL section after emergence. Silent."""
         emerged = self.council.get_emerged()
-        if not emerged:
-            return
-        lines = ["COUNCIL"]
+        council_lines: list = []
         for entity_id in sorted(emerged):
             compiled = self.council.get_compiled(entity_id)
             name = compiled.display_name if compiled else entity_id.upper()
-            lines.append(f"◆ {name}")
-        council_text = "\n".join(lines)
+            council_lines.append(f"◆ {name}")
         if hasattr(self.left, "set_council"):
-            self.left.set_council(council_text)
+            self.left.set_council(council_lines)
 
     async def _handle_model_command(self, argv: list) -> None:
         """
@@ -2492,6 +2744,3 @@ class ChatTUIApp(App):
             return
 
         self._set_status(f"Unknown command: {cmd} (try /help)")
-
-
-

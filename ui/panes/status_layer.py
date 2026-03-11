@@ -1,4 +1,19 @@
 
+#╔═════════════════════════════════════════════════════════════════════════════════════════════
+#║ ⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨
+#║ ⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨⛨
+#║ ⛨⛨⛨⛨⛨⛨⛨⛨
+#║ ⛨⛨⛨⛨⛨
+#║ ⛨⛨⛨
+#║ ⛨⛨
+#║ ⛨
+#║ ⛨    ArcaCognitorium/ui/panes/status_layer.py
+#║ ⛨
+#╚═════════════════════════════════════════════════════════════════════════════════════════════
+
+
+
+
 from __future__ import annotations
 from dataclasses import dataclass, replace
 from textual.widget import Widget
@@ -6,6 +21,9 @@ from textual.reactive import reactive
 from rich.text import Text
 from rich.style import Style
 from ui.state import StatusState
+
+
+C_RULE = 'C9A84C'  # Aureate gold — rule lines and lore borders
 
 
 class StatusLayer(Widget):
@@ -93,5 +111,3 @@ class StatusLayer(Widget):
             t.append(f'  │  {s.project_name}', style=Style(color='#5A6070'))
 
         return t
-
-C_RULE = 'C9A84C'  # module-level constant for rule color

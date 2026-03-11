@@ -430,10 +430,13 @@ class ModelRouter:
 
         history = filtered[:-1]
         for msg in history:
+            import sys
+            content = msg.get("content")
+            print(f"DEBUG HISTORY role={msg['role']} content={repr(str(content)[:80])}", file=sys.stderr)
             if msg["role"] == "user":
-                self._box.conversation.add_user_message(msg["content"], session_id)
+                self._box.conversation.add_user_message(content or " ", session_id)
             elif msg["role"] == "assistant":
-                self._box.conversation.add_assistant_message(msg["content"], session_id)
+                self._box.conversation.add_assistant_message(content or " ", session_id)
 
         last_user = next(
             (m["content"] for m in reversed(filtered) if m["role"] == "user"),
@@ -448,6 +451,9 @@ class ModelRouter:
 
         def gen() -> Generator[str, None, None]:
             try:
+                import sys
+                if not (last_user or "").strip():
+                    print(f"DEBUG EMPTY last_user: filtered={filtered}", file=sys.stderr)
                 for token in self._box.stream(last_user, **send_kwargs):
                     yield token
                 try:

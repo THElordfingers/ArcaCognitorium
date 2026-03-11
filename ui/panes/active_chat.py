@@ -6,7 +6,7 @@
 #║ ⛨⛨⛨
 #║ ⛨⛨
 #║ ⛨
-#║ ⛨    gpt-client/ui/panes/active_chat.py  
+#║ ⛨    ArcaCognitorium/ui/panes/active_chat.py  
 #║ ⛨
 #╚═════════════════════════════════════════════════════════════════════════════════════════════
 
@@ -20,16 +20,29 @@ from textual.events import Key
 from textual.widgets import TextArea
 
 
+_INPUT_HEIGHT_MIN = 3
+_INPUT_HEIGHT_MAX = 20
+_INPUT_HEIGHT_DEFAULT = 6
+
+
 def _norm(key: str) -> str:
     return (key or "").strip().lower().replace(" ", "")
 
 
 class ChatInput(TextArea):
-    """TextArea that intercepts configured hotkeys and forwards to the App."""
+    """
+    TextArea that:
+      - Intercepts configured hotkeys and forwards to the App
+      - Ctrl+Up expands its own height
+      - Ctrl+Down shrinks its own height
+      - Resize only adjusts this widget — the current_turn scroll above it
+        absorbs the change via 1fr layout.
+    """
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self._keys: Dict[str, str] = {}
+        self._input_height: int = _INPUT_HEIGHT_DEFAULT
 
     def set_keymap(
         self,
@@ -48,8 +61,24 @@ class ChatInput(TextArea):
             "copy_last": _norm(copy_last or ""),
         }
 
+    def _set_height(self, h: int) -> None:
+        self._input_height = max(_INPUT_HEIGHT_MIN, min(_INPUT_HEIGHT_MAX, h))
+        self.styles.height = self._input_height
+
     async def on_key(self, event: Key) -> None:
         k = _norm(event.key)
+
+        # Ctrl+Up — grow input
+        if k == "ctrl+up":
+            self._set_height(self._input_height + 1)
+            event.stop()
+            return
+
+        # Ctrl+Down — shrink input
+        if k == "ctrl+down":
+            self._set_height(self._input_height - 1)
+            event.stop()
+            return
 
         if k and k == self._keys.get("submit"):
             self.app.action_submit_message()

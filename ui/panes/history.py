@@ -6,7 +6,7 @@
 #║ ⛨⛨⛨
 #║ ⛨⛨
 #║ ⛨
-#║ ⛨    gpt-client/ui/panes/history.py  
+#║ ⛨    ArcaCognitorium/ui/panes/history.py  
 #║ ⛨
 #╚═════════════════════════════════════════════════════════════════════════════════════════════
 
@@ -16,8 +16,15 @@ from __future__ import annotations
 from typing import Dict, List, Tuple
 
 from textual.containers import Vertical, VerticalScroll, Horizontal
-from textual.events import Key
+from textual.events import Key, MouseScrollDown, MouseScrollUp
+from textual.reactive import reactive
 from textual.widgets import Input, Button, Static
+
+
+# Text size range (cells / CSS font-size approximation via padding-based scaling)
+_TEXT_SIZE_MIN = 1
+_TEXT_SIZE_MAX = 5
+_TEXT_SIZE_DEFAULT = 1
 
 
 def _norm(key: str) -> str:
@@ -113,12 +120,10 @@ class ThreadTabsBar(Horizontal):
 
             btn = existing.get(tid)
             if btn is None:
-                # Textual-safe id: only letters/numbers/_/-
                 btn = Button(label, id=f"{self.ID_PREFIX}{tid}", variant=variant)
                 self.mount(btn)
                 continue
 
-            # Update in place (avoids remove+readd races)
             try:
                 btn.label = label
             except Exception:
@@ -135,20 +140,69 @@ class ThreadTabsBar(Horizontal):
                 btn.remove()
 
 
+class HistoryScrollView(VerticalScroll):
+    """
+    VerticalScroll that:
+      - Auto-scrolls to bottom when children are added
+      - Intercepts Ctrl+ScrollDown / Ctrl+ScrollUp to resize bubble text
+    """
+
+    # Reactive text size: 1 = default, higher = more padding / larger feel
+    text_size: reactive[int] = reactive(_TEXT_SIZE_DEFAULT)
+
+    def watch_text_size(self, size: int) -> None:
+        """Apply text size to all bubble tail widgets via padding."""
+        padding = size - 1  # 0 at default, grows with size
+        for child in self.walk_children():
+            if "bubble_tail" in (child.classes if hasattr(child, "classes") else []):
+                try:
+                    child.styles.padding = (padding, 2)
+                except Exception:
+                    pass
+
+    def on_mouse_scroll_down(self, event: MouseScrollDown) -> None:
+        if event.ctrl:
+            self.text_size = max(_TEXT_SIZE_MIN, self.text_size - 1)
+            event.stop()
+
+    def on_mouse_scroll_up(self, event: MouseScrollUp) -> None:
+        if event.ctrl:
+            self.text_size = min(_TEXT_SIZE_MAX, self.text_size + 1)
+            event.stop()
+
+    def scroll_to_bottom_now(self) -> None:
+        """Immediately scroll to the bottom of history."""
+        self.scroll_end(animate=False)
+
+    def on_mount(self) -> None:
+        self.scroll_end(animate=False)
+
+
 class HistoryPane(Vertical):
+    """
+    Right-side history pane.
+
+    Bubbles are stacked vertically with no left/right offset.
+    Pane width is controlled externally via the drag handle in app.py.
+    Text size is adjusted via Ctrl+MouseWheel inside the scroll view.
+    """
+
     def compose(self):
         self.tabs_bar = ThreadTabsBar(id="history_tabs")
-        self.history_view = VerticalScroll(id="history_view")
-        self.history_input = HistorySearchInput(placeholder="History search", id="history_input")
+        self.history_view = HistoryScrollView(id="history_view")
+        self.history_input = HistorySearchInput(placeholder="Search history…", id="history_input")
         yield self.tabs_bar
         yield self.history_view
         yield self.history_input
 
     def clear_history(self) -> None:
         self.history_view.remove_children()
+        self.history_view.scroll_end(animate=False)
+
+    def scroll_to_bottom(self) -> None:
+        self.history_view.scroll_end(animate=False)
 
     def set_tabs(self, tabs: List[Tuple[str, str, bool]]) -> None:
-        # Tabs changes must not wipe history.
         self.tabs_bar.set_tabs(tabs)
 
     def focus_input(self) -> None:
