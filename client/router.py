@@ -430,18 +430,22 @@ class ModelRouter:
 
         history = filtered[:-1]
         for msg in history:
-            import sys
-            content = msg.get("content")
-            print(f"DEBUG HISTORY role={msg['role']} content={repr(str(content)[:80])}", file=sys.stderr)
+            content = (msg.get("content") or "").strip()
+            if not content:
+                continue
             if msg["role"] == "user":
-                self._box.conversation.add_user_message(content or " ", session_id)
+                self._box.conversation.add_user_message(content, session_id)
             elif msg["role"] == "assistant":
-                self._box.conversation.add_assistant_message(content or " ", session_id)
-
-        last_user = next(
+                self._box.conversation.add_assistant_message(content, session_id)
+        _raw_last = next(
             (m["content"] for m in reversed(filtered) if m["role"] == "user"),
-            ""
+            None
         )
+        last_user = (_raw_last or "").strip()
+        if not last_user:
+            import sys
+            print(f"DEBUG: last_user empty! filtered={[(m['role'], repr((m.get('content') or '')[:40])) for m in filtered]}", file=sys.stderr)
+            last_user = "Continue."
 
         send_kwargs: Dict = {"model": model, "session_id": session_id}
         if instructions:

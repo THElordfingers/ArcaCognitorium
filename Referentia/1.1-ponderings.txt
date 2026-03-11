@@ -110,16 +110,7 @@ Main Menu:
 		⋆ Mechanica
 	🟀 Grimoire
 		⋆ Initium
-		⋆ Mechanica
-		⋆ The Assessor
-	🟀 Wizards
-		⋆ Quis
-		⋆ Quid
-		⋆ Quare
-		⋆ Ego Manifestus
-	🟀 Arx Arcana
-		⋆ Initium
-		⋆ Mechanica
+                                                                                                                         
 
 	
 ◆ Ego Manifestus							-		User Profile
