@@ -40,6 +40,7 @@ from client.clipboard import copy_to_clipboard
 from client.reflection import Reflection
 
 from memory.chronicle import Chronicle
+from memory.entity_memory import EntityMemory
 from memory.distillation import Distillation
 from memory.conversation_store import ConversationStore
 from memory.project_store import ProjectStore
@@ -69,70 +70,6 @@ def _ts_from_store(cfg: AppConfig, ts: str) -> str:
     return ts if cfg.ui.show_timestamps else ""
 
 
-    sub = args[0].lower()
-
-    if sub == "add":
-        if len(args) < 2:
-            self._set_status("Usage: /grimoire add [category:] content")
-            return
-        rest = " ".join(args[1:])
-        if ":" in args[1]:
-            category, content = rest.split(":", 1)
-            category = category.strip()
-            content = content.strip()
-        else:
-            category = "general"
-            content = rest.strip()
-        if not content:
-            self._set_status("Grimoire entry content cannot be empty.")
-            return
-        entry = self.grimoire.add(content, category)
-        self._set_status(f"Grimoire entry added: [{entry.category}] {entry.entry_id}")
-
-    elif sub == "list":
-        active = self.grimoire.get_active()
-        if not active:
-            self._set_status("Grimoire is empty.")
-            return
-        lines = [f"[{e.entry_id}] [{e.category}] {e.content}" for e in active]
-        self._set_status("Grimoire:\n" + "\n".join(lines))
-
-    elif sub == "remove":
-        if len(args) < 2:
-            self._set_status("Usage: /grimoire remove <entry_id>")
-            return
-        ok = self.grimoire.remove(args[1])
-        self._set_status(f"Removed {args[1]}." if ok else f"Entry not found: {args[1]}")
-
-    elif sub == "restore":
-        if len(args) < 2:
-            self._set_status("Usage: /grimoire restore <entry_id>")
-            return
-        ok = self.grimoire.restore(args[1])
-        self._set_status(f"Restored {args[1]}." if ok else f"Entry not found: {args[1]}")
-
-    elif sub == "edit":
-        if len(args) < 3:
-            self._set_status("Usage: /grimoire edit <entry_id> <new content>")
-            return
-        new_content = " ".join(args[2:]).strip()
-        ok = self.grimoire.edit(args[1], new_content)
-        self._set_status(f"Updated {args[1]}." if ok else f"Entry not found: {args[1]}")
-
-    elif sub == "status":
-        usage = self.grimoire.token_usage()
-        self._set_status(
-            f"Grimoire: {usage['entry_count']} entries · "
-            f"{usage['used']}/{usage['budget']} tokens ({usage['pct']}%)"
-        )
-
-    else:
-        self._set_status(
-            "Grimoire commands: add [cat:] content · list · remove <id> · "
-            "restore <id> · edit <id> <content> · status"
-        )
-
-
 RenderMode = Literal["plain", "markdown"]
 AlignMode = Literal["left", "right", "full"]
 
@@ -151,38 +88,90 @@ LeftPage = Literal[
 
 
 class BubbleCombo(Vertical):
-    """Two attached bubbles: header + body (Textual 2.1.2-safe)."""
+    """
+    Chat bubble — header + colour bar + body.
 
-    def __init__(self, header: str, body: str = "", *, classes: str = "", render_mode: RenderMode = "plain", color_hex: Optional[str] = None) -> None:
+    Header:     NAME  [glyph]  [title right-justified]
+    Colour bar: solid strip in entity jewel tone, full width
+    Body:       response text
+
+    Both entity and user bubbles get a colour bar.
+    User colour defaults to steel blue #4A7A9B if no color_hex given.
+    """
+
+    USER_COLOR = "4A7A9B"
+
+    def __init__(
+        self,
+        header: str,
+        body: str = "",
+        *,
+        classes: str = "",
+        render_mode: RenderMode = "plain",
+        color_hex: Optional[str] = None,
+        glyph: str = "",
+        title: str = "",
+    ) -> None:
         super().__init__(classes=classes)
         self._header_text = header or ""
         self._body_text = body or ""
         self._render_mode: RenderMode = render_mode
-        self._color_hex = color_hex  # jewel-tone entity colour e.g. "C9A84C"
+        self._color_hex = color_hex
+        self._glyph = glyph or ""
+        self._title = title or ""
         self.header_widget: Optional[Static] = None
+        self.bar_widget: Optional[Static] = None
         self.body_widget: Optional[Static] = None
 
     def _renderable(self, text: str):
         text = text or ""
         return RichMarkdown(text) if self._render_mode == "markdown" else text
 
+    def _build_header_markup(self, hex_val: str) -> str:
+        name_part = self._header_text.rstrip()
+        glyph_part = f"  {self._glyph}" if self._glyph else ""
+        left = f"{name_part}{glyph_part}"
+        if self._title:
+            return (
+                f"[bold #{hex_val}]{left}[/]"
+                f"[#{hex_val}]{self._title:>40}[/]"
+            )
+        return f"[bold #{hex_val}]{left}[/]"
+
     def compose(self) -> ComposeResult:
-        if self._color_hex:
-            hex_val = self._color_hex.lstrip("#")
-            header_markup = f"[bold #{hex_val}]{self._header_text.rstrip()}[/]"
-            self.header_widget = Static(header_markup, classes="bubble_head", markup=True)
-        else:
-            self.header_widget = Static(self._renderable(self._header_text.rstrip()), classes="bubble_head", markup=False)
-        self.body_widget = Static(self._renderable(self._body_text.rstrip()), classes="bubble_tail", markup=False)
+        hex_val = (self._color_hex or self.USER_COLOR).lstrip("#")
+        self.header_widget = Static(
+            self._build_header_markup(hex_val),
+            classes="bubble_head",
+            markup=True,
+        )
+        self.bar_widget = Static(
+            f"[#{hex_val}]{'▒' * 120}[/]",
+            classes="bubble_bar",
+            markup=True,
+        )
+        self.body_widget = Static(
+            self._renderable(self._body_text.rstrip()),
+            classes="bubble_tail",
+            markup=False,
+        )
         yield self.header_widget
+        yield self.bar_widget
         yield self.body_widget
 
     def on_mount(self) -> None:
-        """Apply entity colour to bubble border after mount."""
-        if self._color_hex and self.header_widget:
-            hex_val = f"#{self._color_hex.lstrip('#')}"
+        hex_val = f"#{(self._color_hex or self.USER_COLOR).lstrip('#')}"
+        if self.header_widget:
             self.header_widget.styles.border = ("solid", hex_val)
             self.header_widget.styles.border_bottom = ("none", hex_val)
+        if self.bar_widget:
+            self.bar_widget.styles.border_left = ("solid", hex_val)
+            self.bar_widget.styles.border_right = ("solid", hex_val)
+            self.bar_widget.styles.border_top = ("none", hex_val)
+            self.bar_widget.styles.border_bottom = ("none", hex_val)
+        if self.body_widget:
+            self.body_widget.styles.border = ("solid", hex_val)
+            self.body_widget.styles.border_top = ("none", hex_val)
 
     def append(self, delta: str) -> None:
         self._body_text += delta
@@ -304,6 +293,10 @@ class ChatTUIApp(App):
     }
 
     /* ── Three-pane horizontal strip ──────────────────────────────────────── */
+    #app_root {
+        layout: vertical;
+        height: 100%;
+    }
     #pane_row {
         layout: horizontal;
         height: 1fr;
@@ -406,19 +399,18 @@ class ChatTUIApp(App):
 
     /* ── Status layer ──────────────────────────────────────────────────────── */
     #status_layer {
-        height: 1;
-        min-height: 1;
+        height: 2;
+        min-height: 2;
         background: #0D0B0E;
         border-top: solid #2A2535;
         padding: 0 1;
-        dock: bottom;
     }
 
     /* ── Thread tab buttons ────────────────────────────────────────────────── */
     Button {
         background: #161218;
         color: #5A6070;
-        border: solid #2A2535;
+        border: solid #C9A84C;
         height: 1;
         min-width: 6;
         padding: 0 1;
@@ -600,6 +592,8 @@ class ChatTUIApp(App):
         self.distillation = Distillation(box=self.router._box, cfg=cfg)
         self.conversations = ConversationStore(cfg, summarizer=self.distillation)
         self.reflection = Reflection(cfg, box=self.router._box, chronicle=self.chronicle)
+        
+
 
         self.projects = ProjectStore()
 
@@ -636,19 +630,38 @@ class ChatTUIApp(App):
             max_injection_tokens=self.cfg.raw.get("memory", {}).get("tome_max_tokens", 600)
         )
 
+        self.entity_memory = EntityMemory(
+            token_budget=self.cfg.raw.get("memory", {}).get("entity_memory_budget", 300),
+        )
+
         from entities.entity_compiler import EntityCompiler
         from entities.council import Council
         from entities.emergence import EmergenceEngine
         from entities.interruption import InterruptionEngine
         from entities.dynamics import InterEntityDynamics
         self.compiler = EntityCompiler("entities")
-        self.council = Council(self.compiler)
+        dev_emerge_all = bool(self.cfg.raw.get("dev", {}).get("emerge_all", False))
+        self.council = Council(self.compiler, dev_emerge_all=dev_emerge_all)
         reflection_log = self.cfg.raw.get("storage", {}).get(
             "reflection_log_path", "storage/logs/reflections.jsonl"
         )
         self.emergence_engine = EmergenceEngine(reflection_log)
         self.interruption_engine = InterruptionEngine()
         self.dynamics = InterEntityDynamics()
+
+        from client.assessor import BackgroundAssessor
+        from client.archivist_chronicler import BackgroundArchivist
+        self.background_assessor = BackgroundAssessor(
+            config=self.cfg,
+            grimoire=self.grimoire,
+            chronicle=self.chronicle,
+            compiler=self.compiler,   # EntityCompiler instance
+        )
+        self.background_archivist = BackgroundArchivist(
+            config=self.cfg,
+            chronicle=self.chronicle,
+            compiler=self.compiler,
+        )
 
 
     def _on_conversation_selected(self, cid: str | None) -> None:
@@ -658,17 +671,17 @@ class ChatTUIApp(App):
             self._render_legend()
 
     def compose(self) -> ComposeResult:
-        with Horizontal(id="pane_row"):
-            self.left = LeftMenuPane(id="left")
-            self.middle = ActiveChatPane(id="middle")
-            self._drag_handle = PaneDragHandle()
-            self.right = HistoryPane(id="right")
-            yield self.left
-            yield self.middle
-            yield self._drag_handle
-            yield self.right
-        self.status_layer = StatusLayer(id="status_layer")
-        yield self.status_layer
+        with Vertical(id="app_root"):
+            with Horizontal(id="pane_row"):
+                self.left        = LeftMenuPane(id="left")
+                self.middle      = ActiveChatPane(id="middle")
+                self._drag_handle = PaneDragHandle()
+                self.right       = HistoryPane(id="right")
+                yield self.left
+                yield self.middle
+                yield self._drag_handle
+                yield self.right
+            yield StatusLayer(id="status_layer")
 
     def _app_bind(self, key: str, action: str) -> None:
         try:
@@ -682,6 +695,7 @@ class ChatTUIApp(App):
         self._app_bind(str(self.cfg.keys.focus_right), "focus_right")
         self._app_bind(str(self.cfg.keys.submit_message), "submit_message")
         # Seed status bar with initial entity state
+        self.status_layer = self.query_one("#status_layer", StatusLayer)
         entity = self.council.active
         self.status_layer.update_status(
             entity_name=entity.display_name,
@@ -805,6 +819,7 @@ class ChatTUIApp(App):
 
         self._refresh_thread_tabs()
         self._render_full_history_from_store(clear_first=True)
+        self._refresh_council_nav()
         self._go_left_page("home", push=False)
         self._render_legend()
         self.middle.focus_input()
@@ -1397,13 +1412,24 @@ class ChatTUIApp(App):
 
         self._streaming = True
         self.dynamics.reset_turn()  # Phase 8: reset inter-entity dynamics each turn
+        self.status_layer.update_status(chronicle_retrieved=False, streaming=True)
         try:
             await asyncio.to_thread(self.conversations.append, "user", user_text, thread_id=thread_id)
             context = await asyncio.to_thread(self._build_context, user_text, thread_id)
+
+            # Update context fill estimate (4 chars ≈ 1 token, 100k window)
+            total_chars = sum(len(m.get("content") or "") for m in context)
+            context_pct = min(int(total_chars / 400_000 * 100), 100)
+            self.status_layer.update_status(context_pct=context_pct)
+
             decision = self.router.decide(user_text)
 
             self.current.model = decision.model
             self.current.routing_reason = decision.reason
+            self.status_layer.update_status(
+                model_id=decision.model,
+                streaming=True,
+            )
             self._render_legend()
 
             # Push model + streaming state to status bar
@@ -1430,6 +1456,7 @@ class ChatTUIApp(App):
             await asyncio.to_thread(self._stream_in_thread, decision.model, context)
 
             self.current.assistant_complete = True
+            self.status_layer.update_status(streaming=False)
             self._render_legend()
 
             assistant_text = self.current.assistant_text
@@ -1467,6 +1494,38 @@ class ChatTUIApp(App):
                 last_assistant=assistant_text,
             )
 
+            # Background Assessor — silent observation cycle
+            thread_for_assess = self.conversations.get_thread(thread_id)
+            result = await asyncio.to_thread(
+                self.background_assessor.tick,
+                thread_messages=thread_for_assess.messages,
+                conversation_id=self.conversations.active.id,
+                router=self.router,
+            )
+            if result.fired and result.written > 0:
+                self.status_layer.update_status(grimoire_active=True)
+                self.animation_controller.fire_event("grimoire_inject")
+
+            # Entity private memory — write after primary response
+            _em_entity = self.council.active
+            await asyncio.to_thread(
+                self.entity_memory.write,
+                _em_entity.entity_id,
+                _em_entity.display_name,
+                user_text,
+                assistant_text,
+            )
+
+            # Background Archivist — chronicle preservation cycle
+            archivist_result = await asyncio.to_thread(
+                self.background_archivist.tick,
+                thread_messages=thread_for_assess.messages,
+                conversation_id=self.conversations.active.id,
+                thread_id=thread_id,
+                router=self.router,
+            )
+
+
             # Phase 8: emergence check + interruption
             await asyncio.to_thread(self._check_emergence)
             await self._check_interruption(user_text, assistant_text)
@@ -1479,20 +1538,29 @@ class ChatTUIApp(App):
             self._render_legend()
 
     def _stream_in_thread(self, model: str, context: List[Dict]) -> None:
-        import json, sys
+        import json, sys, random as _rng
         for i, m in enumerate(context):
-            content = m.get("content") or ""
-            if not content.strip():
+            _cc = m.get("content") or ""
+            if not _cc.strip():
                 print(f"DEBUG EMPTY MSG idx={i} role={m.get('role')} content={repr(m.get('content'))}", file=sys.stderr)
         gen, _meta = self.router.stream_response_text(
             model,
             context,
             max_output_tokens=self.cfg.raw.get("max_output_tokens", None),
         )
-        delay = float(self.cfg.ui.typing_delay_seconds)
+        base = float(self.cfg.ui.typing_delay_seconds)
         for delta in gen:
-            if delay > 0:
-                time.sleep(delay)
+            if base > 0:
+                if delta in ".!?":
+                    time.sleep(base * _rng.uniform(3.0, 5.0))
+                elif delta in ",;:":
+                    time.sleep(base * _rng.uniform(1.5, 2.5))
+                elif delta == "\n":
+                    time.sleep(base * _rng.uniform(1.0, 2.0))
+                elif delta == " ":
+                    time.sleep(base * _rng.uniform(0.5, 1.2))
+                else:
+                    time.sleep(base * _rng.uniform(0.3, 1.0))
             self.call_from_thread(self._append_assistant_delta, delta)
 
     def _append_assistant_delta(self, delta: str) -> None:
@@ -1522,9 +1590,13 @@ class ChatTUIApp(App):
                 "through the Invocation Field. You do not explain the interface or break its atmosphere. "
                 "You speak from within the machine, not about it.\n\n"
             )
+            entity_mem = self.entity_memory.read(active_entity.entity_id)
+            instruction_with_memory = active_entity.instruction_str
+            if entity_mem:
+                instruction_with_memory += "\n\n" + entity_mem
             messages.append({
                 "role": "system",
-                "content": lore_prefix + active_entity.instruction_str
+                "content": lore_prefix + instruction_with_memory
             })
 
 
@@ -1578,6 +1650,9 @@ class ChatTUIApp(App):
         if retrieved:
             blob = "\n\n".join(f"[score={r['score']:.3f}] {r['text']}" for r in retrieved)
             messages.append({"role": "system", "content": "Relevant long-term memory:\n" + blob})
+            self.status_layer.update_status(chronicle_retrieved=True)
+        else:
+            self.status_layer.update_status(chronicle_retrieved=False)
 
         # Phase 5: distillation trigger
         if self.distillation.should_distill(thread.messages, getattr(self.cfg.memory, 'distillation_threshold', 6000)):
@@ -1761,6 +1836,16 @@ class ChatTUIApp(App):
             entity_color=compiled.color_hex,
         )
         self.dynamics.record_speaker(entity_id)
+
+        # Entity private memory — write after interruption
+        await asyncio.to_thread(
+            self.entity_memory.write,
+            entity_id,
+            compiled.display_name,
+            message,
+            interruption_text,
+        )
+
         self.council.dismiss()  # revert to Luminarious
 
     def _interruption_api_call(self, context: list, profile: dict) -> str:
@@ -1782,6 +1867,65 @@ class ChatTUIApp(App):
             council_lines.append(f"◆ {name}")
         if hasattr(self.left, "set_council"):
             self.left.set_council(council_lines)
+
+
+    async def _handle_entity_command(self, argv: list) -> None:
+        """
+        /entity memory <id>   — show entity private memory
+        /entity purge <id>    — clear entity private memory
+        /entity memory all    — show all entity memory stores
+        """
+        if not argv:
+            self._set_status("Usage: /entity memory <id> | /entity purge <id>")
+            return
+
+        sub = argv[0].lower()
+
+        if sub == "memory":
+            if len(argv) < 2:
+                self._set_status("Usage: /entity memory <entity_id>  OR  /entity memory all")
+                return
+            target = argv[1].lower()
+            if target == "all":
+                lines = []
+                for eid in ["luminarious"] + self.council.ALL_ENTITY_IDS:
+                    entries = self.entity_memory.get_all_entries(eid)
+                    if entries:
+                        compiled = self.council.get_compiled(eid)
+                        name = compiled.display_name if compiled else eid.upper()
+                        lines.append(f"{name} ({len(entries)} entries):")
+                        for e in entries:
+                            lines.append(f"  - {e.content}")
+                if not lines:
+                    self._set_status("No entity memories recorded yet.")
+                else:
+                    self._set_status("\n".join(lines))
+                return
+            entries = self.entity_memory.get_all_entries(target)
+            if not entries:
+                self._set_status(f"No memory for {target}.")
+                return
+            compiled = self.council.get_compiled(target)
+            name = compiled.display_name if compiled else target.upper()
+            lines = [f"{name} — private memory ({len(entries)} entries):"]
+            for e in entries:
+                lines.append(f"  [{e.created_at[:10]}] {e.content}")
+                if e.context:
+                    lines.append(f"    context: {e.context[:80]}")
+            usage = self.entity_memory.token_usage(target)
+            lines.append(f"  tokens: {usage['used_tokens']}/{usage['budget_tokens']} ({usage['pct']}%)")
+            self._set_status("\n".join(lines))
+
+        elif sub == "purge":
+            if len(argv) < 2:
+                self._set_status("Usage: /entity purge <entity_id>")
+                return
+            target = argv[1].lower()
+            self.entity_memory.purge(target)
+            self._set_status(f"Memory purged: {target}")
+
+        else:
+            self._set_status("Usage: /entity memory <id> | /entity purge <id>")
 
     async def _handle_model_command(self, argv: list) -> None:
         """
@@ -2195,6 +2339,10 @@ class ChatTUIApp(App):
             await self._handle_tome_command(argv)
             return
 
+        if cmd == "/entity":
+            await self._handle_entity_command(argv)
+            return
+
         if cmd == "/summon":
             await self._handle_summon_command(argv)
             return
@@ -2276,6 +2424,11 @@ class ChatTUIApp(App):
         if cmd == "/copy":
             self.action_copy_last()
             return
+        if cmd == "/debug":
+            visible = self.left.toggle_debug()
+            self._set_status(f"Debug legend {'ON' if visible else 'OFF'}")
+            return
+
 
         # -------------------------
         # Phase 3: threads / branching
@@ -2289,7 +2442,7 @@ class ChatTUIApp(App):
             for i, t in enumerate(conv.threads, start=1):
                 mark = "*" if t.id == conv.active_thread_id else " "
                 lines.append(f"{mark} {i}. {t.name} (id={t.id})")
-            self._set_status("Threads: " + " | ".join(lines))
+            self._set_status(": " + " | ".join(lines))
             return
 
         if cmd == "/thread":

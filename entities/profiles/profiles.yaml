@@ -29,3 +29,8 @@ profiles:
     temperature: 0.3
     top_p: 0.8
     max_output_tokens: 1500
+
+  assessor:
+    temperature: 0.2
+    top_p: 0.85
+    max_output_tokens: 600

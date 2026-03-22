@@ -1,0 +1,106 @@
+
+
+  1. First I'll show you show simple weaving techniques.
+     Pick a line weight, right now it's not important but later
+     Your choices can make a great effect on your flow.
+     Make a square.
+
+
+
+		┏╍╍╍╍╍╍╍╍╍╍╍╍╍┓
+        ┋             ┋
+        ┋             ┋
+        ┋             ┋
+        ┋             ┋
+        ┋             ┋
+        ┋             ┋
+		┗╍╍╍╍╍╍╍╍╍╍╍╍╍┛
+
+
+
+  2. Now, I switch to a solid line weight. The choice is again arbitrary.
+     I make a second square, so I can conjoin them in a nicely balanced interlink.
+     
+
+
+
+        ┏╍╍╍╍╍╍╍╍╍╍╍╍╍┓
+        ┋             ┋
+        ┋             ┋   One line from the second square goes "under" the line of the other square.
+        ┋             ┋  
+        ┋          ┏━━┋━━━━━━━━━━┓
+        ┋          ┃  ┋          ┃
+        ┋          ┃  ┋          ┃
+        ┗╍╍╍╍╍╍╍╍╍╍┃╍╍┛          ┃
+                   ┃             ┃
+                   ┃             ┃
+                   ┃             ┃
+                   ┗━━━━━━━━━━━━━┛
+
+
+       The next line goes "over" the line of the first square.
+
+
+
+
+  As a rule, lines should always try to follow an "over, under, over under rule.
+
+
+3. Add more shapes.
+
+
+
+         ┏╍╍╍╍╍╍╍╍╍╍╍╍╍┓      ┏╍╍╍╍╍╍╍╍╍╍╍╍╍┓
+         ┋             ┋      ┋             ┋
+         ┋             ┋      ┋             ┋
+         ┋             ┋      ┋             ┋
+         ┋         ┏━━━━━━━━━━┋━━━┓         ┋
+         ┋         ┃   ┋      ┋   ┃         ┋
+         ┋         ┃   ┋      ┋   ┃         ┋ 
+         ┗╍╍╍╍╍╍╍╍╍╍╍╍╍┛      ┗╍╍╍┃╍╍╍╍╍╍╍╍╍┛      
+                   ┃              ┃          
+         ┏╍╍╍╍╍╍╍╍╍┃╍╍╍┓      ┏╍╍╍╍╍╍╍╍╍╍╍╍╍┓
+         ┋         ┃   ┋      ┋   ┃         ┋
+         ┋         ┃   ┋      ┋   ┃         ┋
+         ┋         ┗━━━┋━━━━━━━━━━┛         ┋
+         ┋             ┋      ┋             ┋
+         ┋             ┋      ┋             ┋
+         ┋             ┋      ┋             ┋ 
+         ┗╍╍╍╍╍╍╍╍╍╍╍╍╍┛      ┗╍╍╍╍╍╍╍╍╍╍╍╍╍┛ 
+
+
+	** I changed up the weaving pattern a bit here so it would all flow better.
+
+
+4. Just keep going til youre satisfied.	
+
+
+
+
+
+                    ░░░░░░░░░░░░░░
+                    ░░          ░░
+                    ░░          ░░
+                   	░░          ░░
+         󰓈 ╍╍╍╍╍╍╍╍╍╍╍╍┓      ┏╍╍╍╍╍╍╍╍╍╍╍╍ 󰓈
+         ┋          ░░ ┋      ┋ ░░          ┋
+         ┋          ░░ ┋      ┋ ░░          ┋
+         ┋          ░░ ┋      ┋ ░░          ┋
+         ┋         ┏━━━━━━━━━━┋━━━┓         ┋
+      ▓▓▓┋▓▓▓▓▓▓▓▓▓┃░░▓┋▓▓▓▓▓▓┋▓░░┃▓▓▓▓▓▓▓▓▓┋▓▓▓
+      ▓  ┋         ┃░░󰝨┋      ┋󰝨░░┃         ┋  ▓
+      ▓  ┗╍╍╍╍╍╍╍╍╍╍╍╍╍┛      ┗╍╍╍┃╍╍╍╍╍╍╍╍╍┛  ▓     
+      ▓            ┃░░          ░░┃            ▓
+      ▓  ┏╍╍╍╍╍╍╍╍╍┃╍╍╍┓      ┏╍╍╍╍╍╍╍╍╍╍╍╍╍┓  ▓
+      ▓  ┋         ┃░░󰝨┋      ┋󰝨░░┃         ┋  ▓
+      ▓▓▓┋▓▓▓▓▓▓▓▓▓┃░░▓┋▓▓▓▓▓▓┋▓░░┃▓▓▓▓▓▓▓▓▓┋▓▓▓
+         ┋         ┗━━━┋━━━━━━━━━━┛         ┋
+         ┋          ░░ ┋      ┋ ░░          ┋
+         ┋          ░░ ┋      ┋ ░░          ┋
+         ┋          ░░ ┋      ┋ ░░          ┋ 
+         󰓈 ╍╍╍╍╍╍╍╍╍╍╍╍┛      ┗╍╍╍╍╍╍╍╍╍╍╍╍ 󰓈
+                    ░░          ░░
+                    ░░          ░░
+                    ░░          ░░
+                    ░░          ░░
+                    ░░░░░░░░░░░░░░

@@ -1,0 +1,97 @@
+you know I suppose I spent so much time while building this first version envisioning a massive flow of additional features, 
+I forgot what the foundational version was supposed to include. As of this moment, I have a working chat interface, 
+with Luminarious and (afaik) the full canonical roster of council entities. I can create and save new conversatios and 
+projects. There are three panes: menu, main chat, and cat history. I am not entirely sure the extent of functionality 
+surrounding the Tome Chronicle and Grimoire features. The UI could still use extensive polishing and the menu needs to be 
+brought to a cohesive, attractive and inclusive level of ability. As for what I want to add before I share this with anyone, 
+there is quite an extensive list of implemenations I wish to apply. For now my goal is to solidify the v1.0 functionality until 
+it is a reliable, consistent and interface.
+
+as for version 1.1
+
+The environment of the ArcaCognitarium is envisioned as a Wizard's Tower. With sustained and intentional usage, the Tower will 
+grow around the Wizard with reflective and emergent qualities. A core philosophy for this evolution is that there is no standard 
+configuration and instructional guidance as you would find in typical software. You are not meant to be immediately (or ever really) 
+be aware of the inner mechanisms of the interface, you are meant to interact with it and the system will react accordingly aroud you 
+to create a living, breathing and organic reflection of the personal traits that is inherent in the individual usage style of the 
+particular Wizard. If the user is straightforward in their desire for a simple assistant chatbot, it will be reflected as such. On 
+the other hand, if the user dives in and eplores the emergent qualities and features, the possibilites should hopefully be limitless.
+
+A ground level mechanism  - The Aura - is an unseen, silently compiled bank of information put together by the  system as it 
+observes certain traits about how the Wizard interacts with it. These qualities range from consultation style, to engagement 
+with emergent features (like various crafting workshops) to levels of participation in certain facets like Celestial event observation, 
+to aesthetic preference tendencies, to noticeable patterns of behaviour over an extended period of time. The Aura is used to determine 
+what kind of emergences occur specifically for the user, in the context of what, and when. There is no explicit sequence or order to 
+emergence, it is governed entirely by the whim of the system and the WIzards Aura.
+
+
+The first emergent category was the Council Entities. 
+
+After that, it is the Inventory and Item Economy.In the cogniverse, items are a layer of engagement below/outside the chat interface. 
+They are not necessary for the primary function of the chat interface. Items can affect aspects of the chat function but never to a 
+degree that interferes or overshadows with it. Notification of emergence is non-invasive but noticeable and frequently enough to make 
+it interesting. Item emergence can be triggered by various circumstances, ranging from certain milestones, to celestial events, as the 
+result of user participation in workshops, and of course as randomized events. Items  range in type from potions, scrolls, wands and 
+enchanted objects, to gear and clothing, and all are generated with a level of quality based on a tiered system. Additionally, materials 
+may be produced either by emergence or by refinement, that can be used to enhance objects possessed by the user. Enchanments may be inherent 
+to emergent items, or appled by the user in a crafting workshop. Items may also generate, or, gain defects through chance in the crafting 
+process, based on user experience level. Let it be noted that defects are bot deficiences and act to add to the lore of the item. SKill 
+progression, like the Aura, is not a linear set of experience gains, but a reflective and accumulative product of the tie and context 
+that has been put into a certain line of craft work.
+
+Another emergent property is Arcane Essence. This is similar to materials in that it produced from disassembling or strippong enchantments 
+from items. It is a tiered system, and also a craft skill in it's own right. Arcane Essence can be used to recharge enchanted items when 
+they have been depleted from usage. (And I think used also to enchant items?).
+
+Logically, the next emergent asset is the Arx Arcana: Workshops.
+Workshops appear as rooms in the tower, and each is designed to support a specific function. For instance, We have the Wandwright's Annex, 
+the Alchemical Laboratory, the Conservatory, et cetera. These are wrought into existence based on the systems analytical observations of 
+the user and may appear in no certain or preconcieved order. Users may gravitate naturally towards certain workshops and this will reflect 
+the level of experience nd proficiency gains in those areas, which will determine even more branches of emergence, and so on and so forth. 
+Are you starting to get the picture?
+
+
+
+Moving on from emergent qualities, we reach the Celestial Layer: Observatory. This feature pulls from several data sources simltaneously 
+in order to provide a real time knowledge of the world. Tis will include elements such as astronomical, meterological,and calendars. This 
+can span across all kinds of information sets to provide a massive clockwork of potential for patterns of overlapping and cyclical events. 
+Notabley here, aside from real-world systems, There is an opening to include some Cogniverse based lore, and chance for the analytical 
+engine to piece together important dates in the Wizards life and mark the as significant. (eg. Dostoevskys death date). Also, as a legendary 
+tier emergent entity line, with the arrival of very specific alignments of heavenly bodies and internal logic points, the user could see the 
+arrival of Planetary Entitites, such as Jupiter, Mars, Venus, etc.
+
+Another noteworthy Emergent "Workshop" is the Seers Hut. The Seers hut differs from any other area in that it is not a consistently accessible 
+feature, nor does it have a crafting system accompanying it.  This is a circumstantially available event moreso than an unlockable workshop, 
+and offers a cryptic revelation of information regarding the users experience in the cogniverse, It will present itself based around various 
+alignments of conditions that involve celestial alignments, or noteable milestone events. The Seer will speak to the Wizard in the form of trance 
+like visions, with no real plainly stated facts, but in lore-steeped and cryptic messages that are not immediately obvious but are somehow 
+indicative of true and actual events, whether analytical or prophetic in nature. One of the most vague, yet somehow pertinent and thought 
+provoking events in the roster. Since the Seers Hut is fleetingly available, the session will be documented in some way for the user to keep 
+to revisit.
+
+Next up is the Sigillarium. This is another feature that is based on circumstantial and noteworthy alignments/events. AFter it's eventual 
+introduction, which will not be immediately following the instantiation of the particular Wizard's Tower, the sigillarium will mark noteable 
+events and other suitable emergent circumstances in the users timeline. This will require an engine to produce graphical sigils that are the 
+product of an aggregation of certain textual information. Sigils will be made available for perusal in a special Tome, and will be available 
+for application as the background of the chat display. Eventually the Sigil Engine will be made available to the Wizard for the custom creation 
+of sigils.
+
+
+Equipment Loadout & Portrait - This idea was formed before the concept of the Ego Manifestus, and will either be a part of it or, or the portrait 
+aspect will be left with the Ego and the equipment loadout will be it's own section. This basically involves an rpg style equipment slot system. 
+Items that are acquired and crafted can be equipped by the Wizard for aesthetic value and magical function. Slots include the typical wearable 
+items such as pants, shirts, robes, capes, hats, bhands, feet. etc. There will be amulet and ring slots, as well as a slot for a wand/staff and 
+an offhand slot for an object. Items can provide the user with useable enchantments based on the Arcane Essence mechanic, and/or passive effects. 
+
+
+Yes, the next feature I had catalogued is the Wizard's biography. This and the portrait will be included as a part of the Ego Manifestus suite. 
+This is not a stats screen or a progress log, but a living document that is written in the lore register, with aspects written and decided by the 
+Wizard but also aspects written by the Assessor. Not only can it be a static declaration of traits, it can also be a regularly updated  reflection 
+of the Wizards personal progress over the timeline of the use of the Tower. The Biography will include observatios on the Wizard's style, tendencies 
+and character traits, A collection of their awarded Accolades, notable canon events, earned titles, and  a personal calendar derived from their 
+interests and own important personal dates. Portraits will be produced either by user prompting or manipulation (Maybe, I cant decide if I want the 
+machine to have a finger in this) and will also be able to be updated over periods of time to produce a chronological record of progression over a 
+long usage period. It will reflect the current item loadout as well. Titles and accolades, like many other aspects, can be earned not through a linear 
+levelling system but by meeting circumstantial requirements that are decided by the Assessor (with assistance I suppose) and bestowed upon the Wizard. 
+Some are generic and earned commonly across different instantiations, and some are incredibly personal and specific. Titles can also be lost, if the aura 
+of the Wizard shifts far enough away from the cirumstances that made it available in the first place.

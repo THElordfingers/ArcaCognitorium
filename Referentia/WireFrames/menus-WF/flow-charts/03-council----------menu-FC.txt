@@ -1,0 +1,20 @@
+# 03-council----------menu-FC.txt
+#
+# FLOW CHART
+# COUNCIL MENU PAGE
+
+
+
+
+
+THE COUNCIL─╮
+	  ╰─┬──MEMBRA Page
+	    │    - Front page is a menu listing all the members of the council.          
+	    │    - Each can be selected, navigating to their info page.         
+	    │              
+	    │              
+	    │              
+	    │              
+	    │              
+	    │              
+	    │              

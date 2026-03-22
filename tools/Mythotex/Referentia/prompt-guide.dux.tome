@@ -1,0 +1,70 @@
+Alright, let’s optimize prompt crafting so your CPU-only generations look rich and detailed even with only ~20 steps. The key is precision and layering, not length. Here are some techniques:
+
+	1. Layer your prompt: Think in terms of Subject → Environment → Style → Mood/Lighting → Detail. Example:
+
+		Subject: “a medieval wizard”
+		Environment: “in a stone tower, surrounded by books and glowing runes”
+		Style: “digital painting, concept art”
+		Mood/Lighting: “cinematic lighting, misty atmosphere”
+		Detail: “ultra-detailed, sharp focus, intricate textures”
+
+
+
+		Full prompt:
+
+		a medieval wizard in a stone tower surrounded by books and glowing runes, digital painting, cinematic lighting, misty atmosphere, ultra-detailed, intricate textures, sharp focus
+
+		The order matters subtly. SD tends to emphasize first tokens more, so put the core subject first, modifiers after.
+
+
+
+	2. Use negative prompts:
+
+	Prevent common CPU annoyances like low-res artifacts. Examples:
+
+		blurry, low quality, watermark, text, deformed anatomy
+
+	Always include this — it’s like a filter for bad iterations. On CPU, this is your shortcut to fewer wasted images.
+
+
+
+	3. Weight your keywords:
+
+	Parentheses and colons can amplify or reduce emphasis:
+
+		(glowing runes:1.5) → more prominent
+		(wizard:0.8) → slightly de-emphasized
+
+
+	Example:
+
+		(a medieval wizard:1.2) in a stone tower, (glowing runes:1.5), digital painting, cinematic lighting
+
+	This lets you guide the model precisely without changing the whole prompt.
+
+
+	4. Style references:
+
+	Instead of vague adjectives, reference styles or artists. SD knows these better:
+
+		“by Greg Rutkowski” → often increases fantasy illustration detail
+		“studio Ghibli style” → for soft, whimsical textures
+		“cinematic lighting” → sharp highlights and shadows
+		“photorealistic, 8k” → increases micro-detail
+
+
+	5. Experiment with framing and composition:
+
+		“Close-up portrait of…”
+		“Wide-angle view of…”
+		“From above / bird’s-eye view”
+		“Foreground focus with blurred background”
+
+
+	Composition words dramatically affect perceived detail and clarity, especially on limited steps.
+
+
+	6. Keep it concise but layered:
+
+	CPU steps are limited; overloading the prompt can confuse the model. Aim for 5–10 strong modifiers. Fewer, high-impact 
+	words often outperform long rambling prompts.

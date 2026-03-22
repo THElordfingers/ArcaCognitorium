@@ -1,0 +1,161 @@
+Ok. we're lookin better.
+
+
+Let's start small. I want to revamp the history pane a bit.
+the bubbles dont have to be offset here, they can just be a vertical stack.
+I want the pane to be resizable, and I want to be able to also resize the text.
+I'm thinking a draggable bar for the pane resize if thats possible, and ctrl + mousewheel
+to resize the text. The history pane should by default be scrolled to the bottom.
+
+The main chat text entry box should be bigger or resizable. but when it resizes, I want it to only 
+go up and down, and not affect the other prompt boxes.
+
+
+
+Now lets talk about the nameplates on the bubbles.
+
+For the user, it says You. theres nothing wrong with that.
+but lets make it able to display a custom title as well:
+
+	─────────────────────────────────────
+   |  You	             󰍆 LordFingers 󰍆 |
+   |─────────────────────────────────────|
+   |     					             |
+   |     	        				     |
+    ─────────────────────────────────────
+
+
+you can change it in the settings.
+	pick name, pick glyphs, pick colour. Entities will refer to you by the name and know the colour choice.
+
+For entity chat bubbles, this needs a big overhaul.
+now it says 
+
+Assistant . claude-sonnet-4-6 (Score 0.10
+(threshold 0.55) . Dominant signal:
+topic_novelty (0.50).)
+
+It should be more like 
+
+   🬕▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔🬨
+   ▌░ 󱗖 ░░Luminarious░░░░░░░░░░░░(mood)░ ▐ <--- header in entities colour
+   ▌◸───────────────────────────────────◹▐
+   ▌     					             ▐
+   ▌     	        				     ▐
+   🬲▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁🬷
+
+(mood) could either be just a static, simple one or two words that reflects the base nature of the given entity.
+or it could be something that changes on a timely basis, a mood the entity would be in that reflects its nature.
+this follows the joseph heller protocol, and it doesnt necessarily have to be useful for anything.
+
+
+
+The menu needs drastic work. It still has leftovers from the old app and what is new is severely lacking.
+I think it needs to have a page style navigation. And buttons. and a proper graphical title header. instead of
+doing a pyfiglet banner, letsget rid of the legend, any info thats in there can go in the missing status bar on 
+the bottom. We can have a nice looking header that says ARCA COGNITORIUM in a font like "Ebon Sigil". 
+I will be adding in a bunch of usable glyphs soon, there is actually some in ~/ArcaCognitorium/glyphs for now.
+
+
+This isn't necessarily a visual representation of the menu but what actions are available in each.
+
+Main Menu:
+
+◆ Filum  									-		Conversations
+	🟀 Novum
+	🟀 Advoca
+	🟀 Abolus
+	🟀 Dicta
+	🟀 In Folio
+
+
+◆ Folios									-		Projects
+	🟀 Novum
+	🟀 Advoca
+	🟀 Abolus
+	🟀 Dicta
+	🟀 Ex Folio
+
+	
+◆ The Council								-		Entities
+	🟀 Index 
+	🟀 Specta								
+	🟀 Evoca 
+	🟀 Dimitte
+		
+◆ The Grimoire								-		User Knowledge Base
+	🟀 Specta
+	🟀 Append 		 						
+	🟀 The Assessor
+
+◆ Arx Arcana								-		Workshops
+	🟀 Index
+	🟀 Specta
+	🟀 Mechanica
+	
+◆ Referentia								-		ArcaCognit Help/Info
+	🟀 Arca Cognitorium
+		⋆ Genesis
+		⋆ Cogniverse
+		⋆ Luminarious
+	🟀 Filum
+		⋆ Initium
+		⋆ Mechanica	
+		⋆ Tomes
+	🟀 Folios
+		⋆ Initium
+		⋆ Mechanica
+	🟀 Entities
+		⋆ Initium
+		⋆ Mechanica
+	🟀 Grimoire
+		⋆ Initium
+                                                                                                                         
+
+	
+◆ Ego Manifestus							-		User Profile
+	🟀 
+	🟀
+	🟀
+
+		
+◆ Arx Configuratio							-		Settings/Config
+	🟀
+	🟀
+	🟀
+	🟀
+
+
+
+
+
+Reference:
+
+Filum			-	Thread/Conversation
+Novum			-	New
+Advoca			-	Load
+Abolus			-	Delete
+Dicta			-	Rename
+Folio			-	Project
+In Folio		- 	Move to project
+Ex Folio		- 	Remove from project
+Index 			-	List
+Evoca			-   Summon
+Dimitte			-	Dismiss
+Append 			-	Edit
+Specta			-	Inspect/view
+Mechanica		-	Mechanics/how it works
+Initium			- 	Introduction
+Genesis			-	Origins
+Quis			-	Who
+Quid			-	What
+Quare			-	Why
+Ego Manifestus	- 	Self portrait/profile
+
+
+
+
+
+
+
+Assistant error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'messages.0: user messages must have non-empty content'}, 'request_id': 'req_011CYs96CWPbdGdUwtMgXUeo'}

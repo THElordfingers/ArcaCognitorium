@@ -19,6 +19,17 @@ class EntitySignalState:
     has_emerged: bool = False
 
 
+_DIAG_LOG_EMERGENCE = Path("storage/logs/emergence_diag.log")
+
+def _diag(msg: str) -> None:
+    try:
+        _DIAG_LOG_EMERGENCE.parent.mkdir(parents=True, exist_ok=True)
+        with open(_DIAG_LOG_EMERGENCE, "a") as f:
+            f.write(f"[EMERGENCE_DIAG] {msg}\n")
+            f.flush()
+    except Exception:
+        pass
+
 class EmergenceEngine:
     """
     Reads the Reflection log. Computes per-Entity signal scores.

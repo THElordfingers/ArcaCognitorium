@@ -162,9 +162,9 @@ class AnimationController:
     def _event_worker(self, event_type: str, entity_color: str | None) -> None:
         if event_type == 'entity_interrupt' and entity_color:
             css_class = f'entity-pulse-{entity_color}'
-            self.app.call_from_thread(self.app.query_one('#chat-pane').add_class, css_class)
+            self.app.call_from_thread(self.app.query_one('#middle').add_class, css_class)
             time.sleep(0.8)
-            self.app.call_from_thread(self.app.query_one('#chat-pane').remove_class, css_class)
+            self.app.call_from_thread(self.app.query_one('#middle').remove_class, css_class)
 
         elif event_type == 'distillation':
             self.app.call_from_thread(self.app.query_one('#right').add_class, 'distillation-ripple')

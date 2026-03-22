@@ -1,0 +1,184 @@
+𝗟𝗨𝗡𝗔𝗥	-	LUN
+
+New Moon  
+Waxing Crescent  
+First Quarter  
+Waxing Gibbous  
+Full Moon  
+Waning Gibbous  
+Last Quarter  
+Waning Crescent  
+Lunar Eclipse  
+Supermoon  
+Micromoon  
+Black Moon  
+Blue Moon  
+Harvest Moon  
+Blood Moon  
+Perigee 
+Apogee
+
+𝗦𝗢𝗟𝗔𝗥	-	SOL
+
+Current 
+Solar Sign  
+Spring Equinox  
+Summer Solstice  
+Autumn Equinox  
+Winter Solstice  
+Solar Eclipse  
+Perihelion  
+Aphelion  
+Solar Noon  
+Golden Hour  
+Civil Twilight  
+Nautical Twilight  
+Astronomical Twilight
+
+𝗣𝗟𝗔𝗡𝗘𝗧𝗔𝗥𝗬 𝗣𝗢𝗦𝗜𝗧𝗜𝗢𝗡𝗦
+
+Mercury Position  
+Venus Position  
+Mars Position  
+Jupiter Position  
+Saturn Position  
+Uranus Position  
+Neptune Position  
+Pluto Position  
+Current Dominant Planet 
+Planetary Hour
+
+
+𝗣𝗟𝗔𝗡𝗘𝗧𝗔𝗥𝗬 𝗘𝗩𝗘𝗡𝗧𝗦
+
+Mercury Retrograde  
+Venus Retrograde  
+Mars Retrograde  
+Jupiter Retrograde  
+Saturn Retrograde  
+Mercury Direct  
+Venus Direct  
+Planetary Conjunction  
+Planetary Opposition  
+Planetary Trine  
+Planetary Square  
+Planetary Sextile  
+Grand Trine  
+Grand Cross  
+Stellium
+
+𝐙𝗢𝗗𝗜𝗔𝗖𝗔𝗟
+
+Current Solar Sign 
+Current Lunar Sign  
+Current 
+Rising Sign  
+Cusp Proximity  
+Sign Transition Countdown 
+Elemental Dominance (Fire/Earth/Air/Water)  
+Modal Dominance (Cardinal/Fixed/Mutable)  
+Current Decan  
+Current Dwad
+
+𝗧𝗥𝗔𝗗𝗜𝗧𝗜𝗢𝗡𝗔𝗟 𝗣𝗔𝗚𝗔𝗡/𝗦𝗘𝗔𝗦𝗢𝗡𝗔𝗟
+
+Samhain  
+Yule  
+Imbolc  
+Ostara  
+Beltane  
+Litha  
+Lughnasadh  
+Mabon  
+Days Until Next Sabbat  
+Current Sabbat Window 
+Celtic Tree Month  
+Current Ogham
+
+𝗘𝗦𝗢𝗧𝗘𝗥𝗜𝗖/𝗔𝗧𝗥𝗢𝗟𝗢𝗚𝗜𝗖𝗔𝗟
+
+North Node Position  
+South Node Position  
+Chiron Position  
+Lilith Position  
+Part of Fortune  
+Void of Course Moon  
+Planetary Rulership of Current Hour  
+Planetary Rulership of Current Day  
+Astrological Age  
+Current Astrological Weather  
+Cazimi  
+Out of Bounds Planet 
+Mutual Reception  
+Planetary Dignity  
+Planetary Debility  
+Exaltation  
+Fall
+
+𝗡𝗨𝗠𝗘𝗥𝗢𝗟𝗢𝗚𝗜𝗖𝗔𝗟
+
+Current Universal Day Number  
+Current Personal Day Number  
+Current Universal Month  
+Current Universal Year  
+Life Path Resonance  
+Expression Number Cycle  
+Current Pinnacle  
+Current Challenge Number  
+Personal Year Cycle  
+Karmic Cycle Indicator
+
+
+𝗧𝗜𝗠𝗘 & 𝗥𝗛𝗬𝗧𝗛𝗠
+
+Local Sidereal Time  
+Greenwich Mean Sidereal Time  
+Planetary Hours  
+Hour Lord
+Day Lord
+Week Number  
+Day of Year  
+Days Since Epoch  
+Current Aeon  
+Age of Aquarius Proximity  
+Metonic Cycle Position  
+Saros Cycle Position  
+Callippic Cycle  
+Jubilee Cycle
+
+𝗡𝗔𝗧𝗨𝗥𝗔𝗟/𝗘𝗡𝗩𝗜𝗥𝗢𝗡𝗠𝗘𝗡𝗧𝗔𝗟
+
+Sunrise  
+Sunset  
+Moonrise  
+Moonset  
+Dawn  
+Dusk  
+Local Weather Condition  
+Temperature  
+Wind Direction  
+Barometric Pressure  
+Season Day Count  
+Days Until Next Season  
+Current Phenological Season  
+Tidal State (Ocean)
+Aurora Probability
+
+
+𝗔𝗦𝗧𝗥𝗢𝗡𝗢𝗠𝗜𝗖𝗔𝗟
+Meteor Shower  Comet Visibility  Planet Visibility  Conjunction of Visible Planets  International Space Station Pass  Asteroid Proximity  Solar Wind Activity  Geomagnetic Storm Level  Schumann Resonance  Zodiacal Light Conditions  Gegenschein  Galactic Centre Alignment
+
+
+
+
+
+COGNIVERSE-NATIVE INVENTED CYCLES
+The Tidal Cycle  The Wizard's Internal Season  The Council Emergence Cycle  The WiseCracken Tide  The Verbum Crystallisation Window  The Mercurial Convocation Countdown  The Assessor's Observation Cycle  The Grimoire Density Cycle  The Chronicle Sediment Depth  The Aura Resonance Cycle  The Tower Age  The Tacitus Accumulation Level  The Builder's Last Visit  The Dreaming Depth  The Feral Verbum Age  The Schism Tension Level  The Conservatory Secret Plot Phase  The Palimpsest Depth  The Weathering Stage  The Tidal Perfect Alignment Proximity
+
+PERSONAL CALENDAR
+Wizard's Birthday  Referenced Author Death/Birth Dates  Canon Event Anniversaries  First Session Anniversary  Convocation Anniversaries  First Entity Emergence Dates  First Verbum Cast Date  Notable Item Acquisition Dates  Personal Sabbaths  Self-Defined Significant Dates  Days Since Last Session  Longest Gap On Record  Streak Counter  Session Centenary Countdown
+
+
+
+TRADITIONAL CALENDAR SYSTEMS
+Julian Date  Hebrew Calendar Date  Islamic Hijri Date  Chinese Lunar Date  Chinese Zodiac Year  Chinese Zodiac Month  Chinese Five Elements Cycle  Mayan Tzolkin Day  Mayan Haab Date  Mayan Long Count  Egyptian Calendar  Ethiopian Calendar  Persian Calendar  Coptic Calendar  Vedic Panchanga

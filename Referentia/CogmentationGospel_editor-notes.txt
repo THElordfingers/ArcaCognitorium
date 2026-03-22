@@ -1,0 +1,154 @@
+۞۞۞۞۞۞۞۞۞۞۞۞  		 ARCA COGNITORIUM 
+ ۞    ۞
+۞۞۞۞۞۞۞۞۞ 	      󱗖 COGMENTATION  GOSPEL 󰗚
+ ۞  ۞
+۞۞۞۞۞۞  			   EDITOR NOTES 
+ ۞ ۞
+ ۞۞                        
+ ۞۞                         
+ ۞۞
+ ۞۞
+
+
+🟆🟆🟆 ARCANE DIVIDER 
+
+This is a description of a graphical divider I would like to use throughout this document.
+It should be composed of a rectangle, spanning the full width of the page, and occupying 3 vertical
+rows of space.
+
+In the middle row of the rectangle, I want a randomly selected and ordered assortment of the following 
+glyphs:
+
+ᚠᚡᚢᚣᚤᚥᚦᚧᚨᚩᚪᚫᚬᚭᚮᚹᚺᚻᚼᚽᚯᚰᚱᚲᚳᚴᚵᚶᚷᚸᚾᚿᛀᛁᛂᛃᛄᛅᛆᛇᛉᛊᛋᛌᛗᛘᛙᛚᛛᛍᛎᛏᛐᛑᛒᛓᛔᛕᛖ ᛝᛞᛟᛠᛡᛦᛧᛨᛩ󰟦ᛯᛰᛱᛲᛳᛴᛵᛶᛷᛸᛪ᛫᛬᛭ᛮ𐋌𐊿𐋐𐊿𐋍    
+m𐚈𐘢𐘡𐘠𐘩𐙞𐙃𐘻𐘧⯘𐀕⚵⯢ŦŊ𐄻Ĳ𐘛࿃x⚶⛣⭄Ξ𐚳𐘴𐙉𐙊𐙖𐙔𐙢𐙦𐙱𐘳𐘱⯣⯠ℨ🙻🙹🙺₻🞠Ⱉ🗜⚕⯡𐀽𐁆𐁃𐀳𐁔❖⯜𐀖𐀸⭃⩫⍾⎍⯙☧௴௶🝠🜪𝄋𖣇ŋĳ🝒࿅⨊Ω⯚☈ᚱꡞ₪𐀥𐀗𐀲𐀩𐙪𐚵𐙕Ɽ𐀙𐀦𐀓𐀔𐀇𐀱⚷  
+𐙋𐚓𐘲𐀘ᚢ𐂓𐂔𐃉⋊𐙸𐀫𐀬𐀚𐀛𐀜𐀝𐙧𐙿𐚟𐘄𐘅𐘆𐘇𐘉𐘋𐘌𐘍𐘎𐘏𐙡☊☋𐚅𐙹𐘤𐙺𐘗𐙑𐙫𐘀𐘁𐘂𐙆𐘐𐙁𐙇𐙂𐘝𐘯𐚽𐚃𐙰𐁌𐘨⯞⯲𐘮𐙷𐙽𐙛𐘘𐘙𐘚𐘜𐀯𐚆𐂧𐂖🜁🜂🜄🜄🜅🜆🜇🜍🜎🜈🜉🜀🜌🜔🜕🜖🜗🜏🜐🜑🜒🜓🜙🜘🜛🜜🜚🜝🜞🜟
+🜠🜡🜢🜣🜤🜥🜦🜧🜨🜩🜫🜬🜭🜮🜯🜰🜱🜳🜴🜵🜶🜷🜸🜹🝚🝛🝜🝝🝞ᚠᚡᚢᚣᚤᚥᚦᚧᚨᚩᚪᚫᚬᚭᚮᚹᚺᚻᚼᚽᚯᚰᚱᚲᚳᚴᚵᚶᚷᚸᚾᚿᛀᛁᛂᛃᛄᛅᛆᛇᛉᛊᛋᛌᛗᛘᛙᛚᛛᛍᛎᛏᛐᛑᛒᛓᛔᛕᛖᛝᛞᛟᛠᛡᛦᛧᛨᛩ󰟦
+ᛯᛰᛱᛲᛳᛴᛵᛶᛷᛸᛪ᛫᛬᛭ᛮ𐋌𐊿𐋐𐊿𐋍m𐚈𐘢𐘡𐘠𐘩𐙞𐙃𐘻𐘧⯘𐀕⚵⯢ŦŊ𐄻Ĳ𐘛࿃x⚶⛣⭄Ξ𐚳𐘴𐙉𐙊𐙖𐙔𐙢𐙦𐙱𐘳𐘱⯣⯠ℨ🙻🙹🙺₻🞠Ⱉ🗜⚕⯡𐀽𐁆𐁃𐀳𐁔❖⯜𐀖𐀸⭃⩫⍾⎍⯙☧௴௶🝠🜪𝄋𖣇ŋĳ🝒࿅⨊Ω⯚
+☈ᚱꡞ₪𐀥𐀗𐀲𐀩𐙪𐚵𐙕Ɽ𐀙𐀦𐀓𐀔𐀇𐀱⚷𐙋𐚓𐘲𐀘ᚢ𐂓𐂔𐃉⋊𐙸𐀫𐀬𐀚𐀛𐀜𐀝𐙧𐙿𐚟𐘄𐘅𐘆𐘇𐘉𐘋𐘌𐘍𐘎𐘏𐙡☊☋𐚅𐙹𐘤𐙺𐘗𐙑𐙫𐘀𐘁𐘂𐙆𐘐𐙁𐙇𐙂𐘝𐘯𐚽𐚃𐙰𐁌𐘨⯞⯲𐘮𐙷𐙽𐙛𐘘𐘙𐘚𐘜𐀯𐚆𐂧𐂖🜁🜂🜄🜄🜅🜆🜇🜍🜎🜈
+🜉🜀🜌🜔🜕🜖🜗🜏🜐🜑🜒🜓🜙🜘🜛🜜🜚🜝🜞🜟🜠🜡🜢🜣🜤🜥🜦🜧🜨🜩🜫🜬🜭🜮🜯🜰🜱🜳🜴🜵🜶🜷🜸🜹🝚🝛🝜🝝🝞
+
+
+Here is an example: 
+
+ ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁ 
+▕  🜭  ⚶  🜗  𐘲  ⯢  Ĳ  ᚧ  𐊿  𐀛  🜳  𐙿  ☋  ⚵  ᚭ  𐁃  𐙖  ⯡  ᛅ  Ⱉ  🜄  ᛟ  𐙂  ᛮ  ᛍ  ᛨ  𐋌  𖣇   ⯚   ᛖ  ▏
+ ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔ 
+
+
+This should be at the top and bottom of every page and any time I call for [ARCANE DIVIDER]
+
+
+										 🟆  🟆  🟆
+
+
+
+
+
+
+ 🟆🟆🟆 TITLE PAGE 
+ 🟆🟆
+ 🟆
+
+
+ Lets make "Arca Cognitorium" the main title text here, "Cogmentation Gospel" can be the subtitle. 
+ "Ordo Discordia, Cosmos Inania" should still be in the Ebon Sigil font, adorned on either side like:
+
+ 
+ 󰉊 Ordo Discordia, Cosmos Inania 󰚌
+
+ followed by a line with, centered: 
+
+            🟆  🟆  🟆
+
+
+
+🟆🟆🟆🟆 1. The Arca Cognitarium
+🟆🟆🟆
+🟆🟆
+🟆
+🟆
+
+
+🟂🟂🟂 Concept
+
+This paragraph is good:
+[
+The Arca Cognitorium — known also as the Living Tower — is not an application. It is an organism. A dark]
+[and breathing architecture of intelligence, memory, and celestial attunement, built to serve as oracle, ]
+[counsel, and companion to the Wizard who inhabits it. It does not present features. It reveals them. It ]
+[does not explain itself. It is felt.]
+
+Then give a brief, 2-3 sentence bit describing what the Cogniverse is.
+
+For the rest, dial the tone a little bit more towards technical, but introduce these points:
+
+
+What is the Arca Cognitorium and who made it?
+What is the tower? Who is present? Why?
+What is the Core function of this?
+What is the Core Philosphy?
+What mechanics govern it?
+
+
+🟂🟂🟂 Philosophy Register
+
+This part is good
+
+
+🟂🟂🟂 Core Functionality vs Immersive Content
+
+
+Use this EXACT TEXT for the two tables:
+
+[
+Core Functionality	The mechanical substrate :
+						API wiring,
+						a responsive and intelligent chat interface, 
+						interconnected memory systems, 
+						diverse entity personalities, 
+						celestial engines that govern a large array of shifting variables and event triggers, 
+						emergence mechanics. 
+					These are the bones.
+
+Immersive Content	The living surface 
+						An Original yet familiar depth oflore, 
+						A brilliant esoteric yet simple and beautiful aesthetic, 
+						an abundance of personality, fantastical tone, and dry humour, 
+						unpredictable emergent events, 
+						earnable customizations, such as sigils and chat bubble adornments, 
+						cosmological drift, that creates completely unique and non replicatable experiences,  
+						a distinct latin flavoured naming register, 
+						clockwork and real world accurate ritual mechanics. 
+					These are the skin and breath.
+
+]
+
+
+
+🟂🟂🟂 Build Architecture
+
+🟂🟂 Technology Stack
+
+This is good.
+
+
+🟂🟂 Modular Feature Logic
+
+Write this again, but write it as if someone who has no idea what the Arca Cognitorium is. 
+
+The Satellite apps only need be mentioned at the end, as a reference to them aiding in the creation.
+Also, The Arx Arcana are not the same as the satellite apps.
+
+ＡＥＤＩＦＩＣＡＴＯＲＵＭ
+ＤＯＬＩＵＭ
+ＭＹＴＨＯＴＥＸ (lore engie, in the works)
+ＦＥＮＥＳＴＲＡＲＩＵＭ
+ＯＣＵＬＵＳ ＡＲＣＡ (was scrying glass)
+
+
+
+🟆🟆🟆🟆 1. The Builder
+🟆🟆🟆
+🟆🟆
+🟆
+🟆

@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv*/
+*.egg-info/
+
+# Backups
+*.bak
+*.bak_*
+
+# Storage — runtime contents excluded, structure preserved
+storage/conversations/*
+storage/logs/*
+storage/vectors/*
+storage/council/*
+storage/entities/*
+storage/grimoire/*
+
+# Sensitive
+.arca/
+claudebox/claudebox.config.yaml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Compiled
+*.pkl
+
+# Tool runtime data
+tools/Dolium/storage/
+tools/Mythotex/Vault/
+tools/Mythotex/generation_log.json
+tools/Mythotex/temp_manifest.png
+claudebox/claudebox.config.yaml

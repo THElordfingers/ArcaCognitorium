@@ -1,0 +1,63 @@
+# 01-filum------------menu-FC.txt 
+#
+# FLOW CHART
+# FILUM MENU PAGE 
+
+
+
+ FILUM─╮  
+   ╰─┬INDEX FILORUM   
+	 │ 	- Main Display
+	 │	- List of current threads 
+	 │ 	- List of actionable commands
+	 │  - Focus rests on top entry of actionable list 
+	 │ 
+	 │ 
+	 │ 
+	 │ 
+	 │ 
+	 │ 
+	 ├─NOVUM 
+	 │  - Creates new thread
+	 │  	- Focus moves to Prompt dialog for name entry 
+	 │  	- New thread becomes  Ⅰ , existing shuffle down
+	 │  	- New thread opens in chat, focus moves to chat prompt
+	 │ 	 
+     ├─ADVOCA
+	 │ 	- Loads selected thread
+	 │  - Upon action, focus moves to index selection dialog
+	 │ 	- Selected thread opens in chat, focus moves to chat prompt 
+	 │ 	 
+     ├─ABOLUS
+	 │ - Deletes selected thread
+	 │ - Upon action, focus moves to index selection dialog
+	 │ - Upon selection: 
+   	 │ 		- Focus moves to Prompt dialog
+	 │ 		- "Delete {thread}? ESC | ENTER"
+	 │ 	 	- Press ESC to cancel, ENTER to confirm
+	 │ - Upon confirmation, releases to actionable selection	 
+	 │ 	 
+     ├─DICTA
+	 │ - Renames selected thread
+	 │ - Upon action, focus moves to index selection dialog
+	 │ - Upon selection: 
+	 │ 		- Focus moves to Prompt dialog for name entry
+	 │ 	 	- Press ESC to cancel, ENTER to confirm
+	 │ - Upon confirmation, releases to actionable selection	 
+	 │ 	 
+     └─IN FOLIUM
+	   - Adds selected thread to a specified project
+	   - Upon action: 
+	   		- Displays FOLIA list
+	   		- Focus moves to FOLIA index selection dialog
+	   - Upon selection: 		
+			- Focus moves to Prompt dialog
+		    - "Move {thread}? ESC | ENTER"
+			- Press ESC to cancel, ENTER to confirm
+			- Upon confirmation: 
+				- Moves selected filum to specified folio
+				- Releases to actionable selection	 
+
+
+
+# NOTES

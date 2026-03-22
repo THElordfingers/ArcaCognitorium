@@ -1,0 +1,59 @@
+# 02-folios-----------menu-FC.txt
+#
+# FLOW CHART
+# FOLIO MENU PAGE 
+
+
+
+ FOLIOS─╮  
+   ╰─┬INDEX FOLIORUM  
+	 │ 	- Main Display                                                   
+	 │	- List of current projects                                       
+	 │ 	- List of actionable commands                                    
+	 │  - Focus rests on top entry of actionable list                    
+	 │                                                                   
+	 │                                                                   
+	 │                                                                   
+	 │                                                                   
+	 │                                                                   
+	 │                                                                   
+	 ├─NOVUM───────────────────────────────────────────────────────────╮ 
+	 │  - Creates new project                                          │
+	 │  	- Focus moves to Prompt dialog for name entry              │
+	 │  	- New project becomes  Ⅰ , existing shuffle down           ├─────┬FOLIUM
+	 │  	- New project opens in Project Display page                │	 │  - Displays new/loaded project.
+	 │ 	                                                               │	 │  - Threads can be stickied and moved around
+     ├─ADVOCA──────────────────────────────────────────────────────────╯	 │  	 ADHAERE - Sticky thread
+	 │ 	- Loads selected projects			                                 │     	 MUTA    - Move thread
+	 │  - Upon action, focus moves to index selection dialog                 │
+	 │ 	- Selected project opens in Project Display page                     │
+	 │ 	                                                                     ├─NOVUM
+     ├─ABOLUS                                                                │	- Creates new thread within the project.
+	 │ - Deletes selected project                                            │
+	 │ - Upon action, focus moves to index selection dialog                  │
+	 │ - Upon selection:                                                     │ 
+   	 │ 		- Focus moves to Prompt dialog                                   ├─ABOLUS
+	 │ 		- "Delete {project} and all of it's threads?  ESC | ENTER"       │	- Deletes threads from the project.
+	 │ 	 	- Press ESC to cancel, ENTER to confirm                          │
+	 │ - Upon confirmation, releases to actionable selection	             │
+	 │ 	                                                                     │
+     ╰─DICTA                                                                 ├─DICTA
+	   - Renames selected project                                            │  - Changes the name of a thread in the project.
+	   - Upon action, focus moves to index selection dialog                  │ 
+	   - Upon selection:                                                     │
+	   		- Focus moves to Prompt dialog for name entry                    │ 
+	   	 	- Press ESC to cancel, ENTER to confirm                          └─EX FOLIO
+	   - Upon conformation, releases to actionable selection	                  - Removes selected filum from specified project
+	   	                                                                          - Upon action, focus moves to index selection dialog
+                	                                                              - Upon Selection:
+                                                                                       - Focus moves to Prompt dialog
+	                                                                                   - "Move {FILUM} from FOLIO?? ESC | ENTER"
+	                                                                                   - Press ESC to cancel, ENTER to confirm
+	                                                                              - Upon confirmation: 
+	                   			                                            	    	- Moves selected filum to specified folio
+                                                                                        - Releases to actionable selection	 
+			 
+
+
+	  
+ 

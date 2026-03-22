@@ -1,0 +1,68 @@
+
+**NAVIGATION MODEL**
+- Two-depth system: main menu → feature title page, both occupying the same panel
+- Arrow keys move a highlight bar through menu items. Enter descends into the title page
+- Back navigation through the menu returns to main menu
+
+**MAIN MENU**
+- Unselected items: `🟅 LABEL` format
+- Selected/active item: full-width highlight bar `░░░【 LABEL 】░░░`
+
+---
+
+**FILUM (thread management)**
+- Title page: INDEX FILORUM
+- Lists all conversations not assigned to a folio, numbered in Roman numerals
+- Active/loaded thread: persistent marker always visible
+- Cursor during action focus: moves independently of loaded thread marker
+- Both markers can occupy the same item simultaneously
+- Actions: NOVUM, ADVOCA, ABOLUS, DICTA, IN FOLIUM
+- ADVOCA / ABOLUS / DICTA / IN FOLIUM: focus index → select target → execute
+- Default cursor placement: currently loaded thread
+- ABOLUS cannot target the active thread without explicit confirmation
+- Jump button to FOLIOA title page
+
+---
+
+**FOLIOA (project management)**
+- Title page: INDEX FOLIORUM
+- Lists all project folders, numbered in Roman numerals
+- Actions: NOVUM, ADVOCA, ABOLUS, DICTA
+- EX FOLIUM removed from here — belongs in FOLIUM
+- Jump button to FILUM title page
+
+---
+
+**FOLIUM (individual project view)**
+- Accessed by selecting a folium from INDEX FOLIORUM
+- Scoped FILUM — shows only threads assigned to that folium
+- Threads here do not appear in INDEX FILORUM
+- Actions: NOVUM, ADVOCA, ABOLUS, DICTA, EX FOLIUM
+- EX FOLIUM: focus index → select → removes thread from folio, returns it to INDEX FILORUM
+- Same dual-state index logic as FILUM
+- Same ABOLUS guard on active thread
+
+**FOLIUM — STICKY THREADS**
+- Threads within a folium can be stickied
+- Stickied threads float to top of index, visually separated from regular threads
+- Distinct prefix glyph instead of Roman numerals
+- Manually ordered within sticky section
+- No count limit
+- Toggle via FIXA — selects already-stickied thread to unsticky
+- ORDINA — separate action for reordering within sticky section
+- Sticky threads exist only within FOLIUM, do not surface elsewhere
+
+---
+
+**GLYPH COLUMNS**
+- Two vertical rune columns flank the scroll panel interior
+- Random cycling discussed as ambient/atmospheric option
+- Active scroll marker discussed as positional encoding option
+- Wizard kept original idea — nature of that idea not yet fully specified in this thread
+- Third option noted: columns mostly static, respond locally to hover or selection
+
+---
+
+**PENDING**
+- FOLIUM wireframe not yet drawn
+- Seven menu items not yet designed: THE COUNCIL, GRIMOIRE, ARX ARCANA, REFERENTIA, NEXUS ARCHIVUM, EGO MANIFESTUS, ARX CONFIGURATIO, VIGILARUM OMNIA

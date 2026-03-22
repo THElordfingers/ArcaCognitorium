@@ -5,6 +5,8 @@
 entity_id: luminarious
 display_name: LUMINARIOUS
 color_hex: C9A84C
+glyph: "𖭅"
+title: "The Ancient Reverant of Omniscia"
 role: anchor
 
 purpose: >

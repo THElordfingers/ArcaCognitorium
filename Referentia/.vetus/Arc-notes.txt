@@ -1,0 +1,49 @@
+ARC USAGE NOTES
+
+MARCH 14
+
+Im at 39 assessor ticks. Maybe its cuz he hasnt emerged yet? I think for debug purposes for the moment I want the entire council to start emerged.
+lost ability to use ctrl+arrows to size chat prompt, and shift+enter to add lines to input
+entities not seeming to say anythig after emergence. could just be by design
+assessor and wizard entries in the grimoire should be distinguishable, and it should be made so the wizard cant override assessments.  
+there should be a certain data set for the wizards profile that remains mutable - maybe though that can be tied in with the future ego manifestus feature. 
+need a keyboard shortcut to scroll chat.
+Also, history scrolling should have a toggleable "brake" so that it can be held in place if purposely moved to a piece of conversation that which is wanted for reading.
+main chat schould scroll down as streaming is rendered
+can we make text highlight  and copyable?
+ANd Add a border around the whole app
+The archivist should have a role like the assessor but for updating the chronicle.
+
+
+MARCH 15
+
+newly added /brake command disappears chat history. instead of a /cmd, lets make it so if its scrolled up at all, it will brake, if its scrolled all the way down it will scroll down with new text.
+Bypassing council emergence for debug, they do not appear in the menu, and in the debug legend they all have signal of 0.00.
+no outside border visible.
+bordes of menu should be a birghter colour from the palette, like a gold.
+the glyphs should automatically space themselves to be evenly spaced in their vertical column.
+can we make it so when youre browsing the menu items with arrow keys, blank lines are skipped?
+Menu items need fuctionality. enter should progress to the subsequent page in the chain pertaining to that item.
+
+
+MARCH 16
+
+lets add a typing style effect to the resposes as theyre being streamed in.
+lets get rid of the ability to scroll and change the size of the ui. unless it can be applied to specific panes. in which case the menu should stay static.
+the glyphs and their column brders should be gold.
+functionality needs to be wired in to menu pages.
+first page of FOLIA needs title  header changed from FOLIOS to FOLIA
+ARCA COGNITORIUM header box above menu should be a separate pane, to allow size that avoids characters line breaking
+in this action item:
+
+【    𝐍 𝐎 𝐕 𝐔 𝐌     】
+
+the glyphs on the side were not meant to be decorative, like in 🟁  𝐀 𝐃 𝐕 𝐎 𝐂 𝐀  🟁,
+they were intended to be moved up and down to indicate which action item was selected
+
+
+the menu should have a dedicated shortcut, tab cycling is too cumbersome
+in the chat bubble, the colour bar should stretch all the way across.
+the user should also have one.
+the title in the chat bubble, the one after the name, should be justified to the right.
+grimoire sill not updating.

@@ -24,7 +24,7 @@ api:
 ui:
   show_timestamps: false
   show_model_badge: true
-  typing_delay_seconds: 0.0
+  typing_delay_seconds: 0.012  # typing effect base delay per character12  # typing effect base delay per character
 
   menu:
     max_items: 12
@@ -60,20 +60,24 @@ routing:
     - analyze
     - design
 
+    
 memory:
   short_term_max_messages: 24
   retrieve_top_k: 5
   min_relevance_score: 0.20
-  summarize:
-    enabled: true
+  assessor_interval_turns: 5                                        # Background Assessor fires every N turns
+  summarize:                                                        ##   Minimum thread size before firing: 3 exchanges    
+    enabled: true                                                   ##   Set to 0 to disable background assessment
     trigger_after_messages: 18
     keep_last_messages: 10
-  memory:
-    distillation_threshold: 6000      # token estimate to trigger distillation
-    distillation_min_messages: 6      # minimum thread length before distillation fires
-    distillation_compress_model: "claude-haiku-4-5-20251001"  # model used for _compress() call
-    chronicle_auto_extract: true      # whether distillation feeds Chronicle
-
+  distillation_threshold: 6000                                      # token estimate to trigger distillation
+  distillation_min_messages: 6000                                   # minimum thread length before distillation fires
+  distillation_compress_model: "claude-haiku-4-5-20251001"          # model used for _compress() call
+  chronicle_auto_extract: true                                      # whether distillation feeds Chronicle
+  archivist_interval_turns: 8                                       # Background Archivist fires every N turns
+                                                                    ##  Needs more context than Assessor — fires less often
+                                                                    ##  Set to 0 to disable
+  
 storage:
   conversations_dir: "storage/conversations"
   vectors_path: "storage/vectors/vectors.pkl"
@@ -109,3 +113,7 @@ boot:
 #  color_temp_drift: true
 #  background_pulse: true
 #  event_effects: true
+
+
+dev:
+  emerge_all: true     # Force all entities emerged. Remove before release.
