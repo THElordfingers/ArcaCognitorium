@@ -23,6 +23,9 @@ storage/grimoire/*
 .arca/
 claudebox/claudebox.config.yaml
 
+# Ephemeral storage 
+ storage/
+
 # OS
 .DS_Store
 Thumbs.db
@@ -36,3 +39,7 @@ tools/Mythotex/Vault/
 tools/Mythotex/generation_log.json
 tools/Mythotex/temp_manifest.png
 claudebox/claudebox.config.yaml
+
+
+# Type checking
+.mypy_cache/
