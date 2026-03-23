@@ -25,7 +25,7 @@ systems outputs.
   built into a collection. This can be used if the Wizard wishes to start a new Tower Session, or eventually a feature 
   could be implemented in which a Wizard may place their Grimoire Encylopedia into another wizards tower. 
   
-🟆 
+🟆 The Systems Thinker needs a role like the Assessor and the Archivist. It can analyze the way the Towers systems work together.
   
 🟆 
   

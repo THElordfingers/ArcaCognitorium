@@ -1,934 +1,1595 @@
+#!/usr/bin/env python3
+"""   
+🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃▍
+🮈      ███    ███ ██    ██ ████████ ██   ██  ██████  ████████ ███████ ██   ██       ▍
+🮈      ████  ████  ██  ██     ██    ██   ██ ██    ██    ██    ██       ██ ██        ▍
+🮈      ██ ████ ██   ████      ██    ███████ ██    ██    ██    █████     ███         ▍
+🮈      ██  ██  ██    ██       ██    ██   ██ ██    ██    ██    ██       ██ ██        ▍
+🮈      ██      ██    ██       ██    ██   ██  ██████     ██    ███████ ██   ██       ▍
+🮈                                                                                   ▍      
+🮈                                                                                   ▍
+🮈                                  Python Script                                    ▍      
+🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃🭐
+█████████████████████████████████████████████████████████████████████████████████████
+█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█
+█░⯨░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░⯩░░░░░░█
+█░⯨░░░𝐀𝐍𝐍𝐔𝐒 🟌 ＭＭＸＸＶＩ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░Mythotex_.py░░░░⯩░░░░█
+█░⯨░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░⯩░░░░░░█
+█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█
+█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█
+█🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃█
 """
-MYTHOTEX — THE LIVING TOWER
-Generative lore engine for the Arca Cognitarium.
 
-Architecture:
-  MythotexWorker      — QThread: lore generation (GPT) + image generation (SD)
-  AnalysisWorker      — QThread: self-refining engine, runs off main thread
-  CompendiumTome      — QDialog: vault review and aesthetic rating
-  ControlPanel        — QFrame: all GPT + SD parameters, slide-out
-  MythotexApp         — QMainWindow: primary interface
-"""
 
-import sys
 import os
-import json
 import re
+import sys
+import json
+import time
 import shutil
-import datetime
-import torch
-import openai
+import subprocess
+from datetime import datetime
+from pathlib import Path
 
+import anthropic
+
+from PyQt6.QtCore import (
+    Qt, QThread, QTimer, QPropertyAnimation,
+    QEasingCurve, QSize, pyqtSignal, QObject
+)
+from PyQt6.QtGui import (
+    QPixmap, QFont, QFontDatabase, QPalette, QColor,
+    QIcon
+)
 from PyQt6.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
-    QPushButton, QLabel, QTextEdit, QFrame, QStatusBar, QProgressBar,
-    QScrollArea, QDialog, QSlider, QSizePolicy, QComboBox, QSpinBox,
-    QTabWidget,
-)
-from PyQt6.QtCore import Qt, QThread, pyqtSignal, QPropertyAnimation, QEasingCurve
-from PyQt6.QtGui import QPixmap, QFont
-
-from diffusers import (
-    StableDiffusionPipeline,
-    EulerDiscreteScheduler,
-    DPMSolverMultistepScheduler,
-    LMSDiscreteScheduler,
-    PNDMScheduler,
+    QApplication, QMainWindow, QWidget, QFrame, QLabel,
+    QPushButton, QComboBox, QSlider, QScrollArea,
+    QVBoxLayout, QHBoxLayout, QGridLayout, QFormLayout,
+    QTextEdit, QDialog, QDialogButtonBox, QProgressBar,
+    QSizePolicy, QSpacerItem, QSplitter, QScrollBar
 )
 
+# ─────────────────────────────────────────────────────────────────────────────
+# CONSTANTS & PATHS
+# ─────────────────────────────────────────────────────────────────────────────
 
-# ---------------------------------------------------------------------------
-# PATHS
-# ---------------------------------------------------------------------------
-BASE_DIR       = os.path.expanduser("~/Mythotex")
-VAULT_DIR      = os.path.join(BASE_DIR, "Vault")
-REFERENTIA_DIR = os.path.join(BASE_DIR, "Referentia")
-DNA_FILE       = os.path.join(BASE_DIR, "aesthetic_dna.json")
-IMMUTABLE_LORE = os.path.join(REFERENTIA_DIR, "lore_immutable.md")
-MUTABLE_LORE   = os.path.join(REFERENTIA_DIR, "lore_mutable.md")
-GENERATION_LOG = os.path.join(BASE_DIR, "generation_log.json")
+BASE_DIR        = Path.home() / "Mythotex"
+VAULT_DIR       = BASE_DIR / "Vault"
+REFERENTIA_DIR  = BASE_DIR / "Referentia"
+IMMUTABLE_PATH  = REFERENTIA_DIR / "lore_immutable.md"
+MUTABLE_PATH    = REFERENTIA_DIR / "lore_mutable.md"
+DNA_PATH        = BASE_DIR / "aesthetic_dna.json"
+GEN_LOG_PATH    = BASE_DIR / "generation_log.json"
+TEMP_IMAGE      = BASE_DIR / "temp_manifest.png"
 
-for _d in (VAULT_DIR, REFERENTIA_DIR):
-    os.makedirs(_d, exist_ok=True)
+SD_BINARY      = Path.home() / "ArcaCognitorium/tools/Mythotex/stable-diffusion.cpp/build/bin/sd-cli"
+SD_MODELS_DIR  = Path.home() / "ArcaCognitorium/tools/Mythotex/models"
+SD_MODEL_EXTS  = {".safetensors", ".ckpt", ".bin"}
+SD_VAE         = SD_MODELS_DIR / "vae-ft-mse-840000-ema-pruned.safetensors"
 
+CLAUDE_MODEL = "claude-sonnet-4-20250514"
 
-# ---------------------------------------------------------------------------
-# CANONICAL ATELIER -> PRODUCT MAP
-# ---------------------------------------------------------------------------
-ATELIER_PRODUCTS = {
-    "The Verba Arcanum":              "a spell, word of power, or arcane incantation rendered as a physical inscription or glyph",
-    "The Bureau of Scrollworks":      "a tome, grimoire, scroll, or cryptically bound text of significant arcane import",
-    "Arx Opus":                       "an enchanted object, arcane construction, or powerful relic of unknown original purpose",
-    "The Hall of Future Antiquities": "a peculiar artifact, strange heirloom, or bewildering curiosity of deeply uncertain provenance",
-    "The Stavewrights Annex":         "a wand, staff, or rod of focused magical intent",
-    "The Weaver's Loom":              "a ceremonial robe, protective cowl, or piece of wizardry garb",
-    "The Biogenica Nexus":            "a mythical entity, familiar, homunculus, or sentient creature of biological or alchemical origin",
-    "The Expansum Botanica":          "a rare mystical plant, alchemical reagent, or bottled botanical essence",
-    "The Curio Cabinet":              "an eccentric oddity, puzzling contraption, or strange magical toy of obscure function",
-    "The Laborum Alchemica":          "a volatile potion, elixir, or magical philtre",
-    "The Jeweller's":                 "an enchanted ring, soul-gem amulet, inlaid talisman, or precious arcane adornment",
+# ─────────────────────────────────────────────────────────────────────────────
+# COLOURS & STYLES
+# ─────────────────────────────────────────────────────────────────────────────
+
+C_BG        = "#050507"
+C_PANEL     = "#0a0a12"
+C_GOLD      = "#d4af37"
+C_GOLD_DIM  = "#7a6a2a"
+C_GOLD_DARK = "#3a2e10"
+C_CRIMSON   = "#8b1a1a"
+C_TEAL      = "#1a5a5a"
+C_TEXT      = "#c8b88a"
+C_SUBTLE    = "#3a3528"
+C_WHITE     = "#e8e0cc"
+
+FONT_SERIF = "Constantia, Georgia, serif"
+
+GLOBAL_STYLE = f"""
+QMainWindow, QWidget {{
+    background-color: {C_BG};
+    color: {C_TEXT};
+    font-family: Georgia, Constantia, serif;
+}}
+QScrollBar:vertical {{
+    background: {C_PANEL};
+    width: 8px;
+    border: none;
+}}
+QScrollBar::handle:vertical {{
+    background: {C_GOLD_DARK};
+    border-radius: 4px;
+    min-height: 20px;
+}}
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {{
+    height: 0px;
+}}
+QScrollBar:horizontal {{
+    background: {C_PANEL};
+    height: 8px;
+    border: none;
+}}
+QScrollBar::handle:horizontal {{
+    background: {C_GOLD_DARK};
+    border-radius: 4px;
+}}
+QToolTip {{
+    background: {C_PANEL};
+    color: {C_GOLD};
+    border: 1px solid {C_GOLD_DARK};
+    font-family: Georgia, serif;
+    padding: 4px;
+}}
+"""
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ARX ARCANA  (the workshops of the Arca Cognitarium)
+# ─────────────────────────────────────────────────────────────────────────────
+
+ARX_ARCANA = {
+    "Staves & Wands":       "Magical staves, wands, rods, and channelling implements",
+    "Grimoires & Tomes":    "Spellbooks, forbidden texts, enchanted scrolls, arcane journals",
+    "Potions & Phials":     "Elixirs, brews, bottled magic, alchemical concoctions",
+    "Rings & Amulets":      "Enchanted rings, necklaces, talismans, and warding medallions",
+    "Blades & Daggers":     "Magical swords, enchanted daggers, cursed blades, runic knives",
+    "Cloaks & Robes":       "Enchanted garments, wizard robes, cloaks of concealment",
+    "Orbs & Crystals":      "Scrying orbs, crystal balls, seeing stones, focus gems",
+    "Masks & Helms":        "Enchanted helms, arcane masks, visored crowns, spirit-bound hoods",
+    "Relics & Idols":       "Ancient relics, cult idols, divine artefacts, god-touched objects",
+    "Bags & Containers":    "Bags of holding, enchanted pouches, dimensional chests, bound vessels",
+    "Keys & Locks":         "Skeleton keys, dimensional locks, puzzle boxes, sealed vaults",
+    "Skulls & Bones":       "Necromantic foci, spell-bound skulls, cursed bones, death relics",
 }
 
-ATELIERS = list(ATELIER_PRODUCTS.keys())
+# ─────────────────────────────────────────────────────────────────────────────
+# STYLE PRESETS  (Styli Praescripti)
+# ─────────────────────────────────────────────────────────────────────────────
 
-SAMPLERS = {
-    "Euler":    EulerDiscreteScheduler,
-    "DPM++ 2M": DPMSolverMultistepScheduler,
-    "LMS":      LMSDiscreteScheduler,
-    "PNDM":     PNDMScheduler,
+STYLE_PRESETS = {
+    "Woodcut Ink": {
+        "positive": (
+            "bold black ink outline, woodcut illustration, linocut print, "
+            "white background, isolated object, flat colour fills, "
+            "limited palette, deep teal crimson amber accents only, "
+            "high contrast, crisp graphic linework, no gradients, "
+            "woodblock print aesthetic, sharp edges"
+        ),
+        "negative": (
+            "soft, blurry, blur, bokeh, depth of field, painterly, photorealistic, "
+            "watercolour, gradient, smooth shading, 3d render, noisy, low contrast, "
+            "pastel, washed out, muddy colours, sketch, pencil, dof, lens flare, "
+            "chromatic aberration, ugly, deformed, extra limbs, extra fingers, "
+            "malformed hands, jpeg artifacts, signature, watermark, text, "
+            "username, cropped, out of frame, worst quality, low quality"
+        ),
+        "cfg": 14,
+    },
+    "Silhouette": {
+        "positive": (
+            "bold black silhouette, stark white background, isolated object, "
+            "minimal single colour accent, flat graphic, high contrast, "
+            "clean edges, vector-style illustration, shadow play"
+        ),
+        "negative": (
+            "detailed interior, soft edges, gradient, painterly, "
+            "photorealistic, colourful, noisy, blurry, blur, bokeh, textured fill, "
+            "dof, lens flare, chromatic aberration, ugly, deformed, extra limbs, "
+            "extra fingers, malformed hands, jpeg artifacts, signature, watermark, "
+            "text, worst quality, low quality, multiple objects"
+        ),
+        "cfg": 15,
+    },
+    "Enamel Pin": {
+        "positive": (
+            "enamel pin design, hard black outline, flat colour fills, "
+            "cel shaded, white background, isolated object, bold graphic, "
+            "cloisonné style, limited palette, crisp edges, "
+            "no gradients, high contrast illustration"
+        ),
+        "negative": (
+            "soft, blurry, blur, bokeh, painterly, photorealistic, watercolour, "
+            "gradient shading, 3d render, rough edges, sketch lines, dof, "
+            "lens flare, chromatic aberration, ugly, deformed, extra limbs, "
+            "extra fingers, malformed hands, jpeg artifacts, signature, watermark, "
+            "text, worst quality, low quality, noisy, grainy"
+        ),
+        "cfg": 13,
+    },
+    "Inkpunk": {
+        "positive": (
+            "inkpunk style, punk woodcut, rough ink edges, scratchy linework, "
+            "bold black outlines, white background, isolated object, "
+            "high energy graphic, teal crimson amber, grungy texture, "
+            "zine aesthetic, linocut distress, high contrast"
+        ),
+        "negative": (
+            "clean, smooth, polished, photorealistic, painterly, soft, blurry, blur, "
+            "gradient, 3d render, low contrast, pastel, watercolour, bokeh, dof, "
+            "lens flare, chromatic aberration, ugly, deformed, extra limbs, "
+            "extra fingers, malformed hands, jpeg artifacts, signature, watermark, "
+            "text, worst quality, low quality"
+        ),
+        "cfg": 12,
+    },
 }
 
-VAULT_THRESHOLD    = 5
-PERIODIC_THRESHOLD = 10
+STYLE_KEYS = list(STYLE_PRESETS.keys())
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MODEL PROFILES  (Indices Machinarum)
+# Keyed on lowercase filename fragments — matched via substring.
+# Applied automatically when a model is selected in ControlPanel.
+# ─────────────────────────────────────────────────────────────────────────────
+
+MODEL_PROFILES = [
+    {
+        "match":   ["inkpunk"],
+        "label":   "Inkpunk Diffusion",
+        "cfg":     8,
+        "steps":   25,
+        "sampler": "euler_a",
+        "trigger": "nvinkpunk",
+        "note":    "Trigger token 'nvinkpunk' applied automatically",
+    },
+    {
+        "match":   ["dreamshaper_8", "dreamshaper8", "dreamshaper_8_pruned"],
+        "label":   "DreamShaper 8",
+        "cfg":     9,
+        "steps":   28,
+        "sampler": "dpm++2s_a",
+        "note":    "General illustration · fantasy · arcana",
+    },
+    {
+        "match":   ["neverending", "neverendingdream"],
+        "label":   "NeverEnding Dream",
+        "cfg":     8,
+        "steps":   28,
+        "sampler": "dpm++2s_a",
+        "note":    "Dark fantasy · atmospheric objects",
+    },
+    {
+        "match":   ["toonyou"],
+        "label":   "ToonYou",
+        "cfg":     7,
+        "steps":   24,
+        "sampler": "euler_a",
+        "note":    "Cel-shaded · enamel pin style",
+    },
+    {
+        "match":   ["deliberate"],
+        "label":   "Deliberate",
+        "cfg":     12,
+        "steps":   30,
+        "sampler": "dpm++2s_a",
+        "note":    "Detailed illustration · concept art",
+    },
+    {
+        "match":   ["analog"],
+        "label":   "Analog Diffusion",
+        "cfg":     10,
+        "steps":   28,
+        "sampler": "euler_a",
+        "trigger": "analog style",
+        "note":    "Trigger token 'analog style' applied automatically",
+    },
+    {
+        "match":   ["meinamix", "meina"],
+        "label":   "MeinaMix",
+        "cfg":     8,
+        "steps":   25,
+        "sampler": "dpm++2s_a",
+        "note":    "Cel-shaded · flat colour illustration",
+    },
+    {
+        "match":   ["epicrealism", "epicreal"],
+        "label":   "epiCRealism",
+        "cfg":     6,
+        "steps":   35,
+        "sampler": "dpm++2s_a",
+        "note":    "Hyperreal metal · mechanical objects",
+    },
+    {
+        "match":   ["dreamlike"],
+        "label":   "DreamLike Diffusion",
+        "cfg":     9,
+        "steps":   28,
+        "sampler": "euler_a",
+        "trigger": "dreamlikeart",
+        "note":    "Trigger token 'dreamlikeart' applied automatically",
+    },
+    {
+        "match":   ["v1-5", "v1_5", "sd15", "pruned-emaonly"],
+        "label":   "SD 1.5 Base",
+        "cfg":     14,
+        "steps":   28,
+        "sampler": "euler_a",
+        "note":    "Vanilla SD 1.5 — consider a fine-tune",
+    },
+]
 
 
-# ---------------------------------------------------------------------------
-# PERSISTENCE
-# ---------------------------------------------------------------------------
-def load_dna() -> dict:
-    default = {"favored": [], "forbidden": []}
-    if os.path.exists(DNA_FILE):
-        try:
-            with open(DNA_FILE) as f:
-                return json.load(f)
-        except Exception:
-            pass
-    return default
+def _match_model_profile(filename: str) -> dict | None:
+    """Return the first matching MODEL_PROFILES entry for a filename, or None."""
+    name_lower = filename.lower()
+    for profile in MODEL_PROFILES:
+        if any(frag in name_lower for frag in profile["match"]):
+            return profile
+    return None
 
 
-def save_dna(dna: dict):
-    with open(DNA_FILE, "w") as f:
-        json.dump(dna, f, indent=4)
+# ─────────────────────────────────────────────────────────────────────────────
+# UTILITIES
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _parse_json_block(raw: str) -> dict:
+    fenced = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", raw, re.DOTALL)
+    if fenced:
+        return json.loads(fenced.group(1))
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError:
+        pass
+    brace = re.search(r"\{.*\}", raw, re.DOTALL)
+    if brace:
+        return json.loads(brace.group(0))
+    raise ValueError(f"No JSON found in response:\n{raw[:300]}")
 
 
-def load_gen_log() -> dict:
-    default = {"total_generated": 0, "total_sealed": 0,
-               "since_last_analysis": 0, "last_analysis_sealed": 0}
-    if os.path.exists(GENERATION_LOG):
-        try:
-            with open(GENERATION_LOG) as f:
-                return json.load(f)
-        except Exception:
-            pass
-    return default
+def _ensure_dirs():
+    for d in [BASE_DIR, VAULT_DIR, REFERENTIA_DIR]:
+        d.mkdir(parents=True, exist_ok=True)
+    if not IMMUTABLE_PATH.exists():
+        IMMUTABLE_PATH.write_text(
+            "# Lore Immutable — World Canon\n\n"
+            "The Arca Cognitarium is an atelier of ateliers, a vast arcane manufactory "
+            "hidden between the folds of known cartography. Its products are artifacts: "
+            "objects of occult power, strange provenance, and inexplicable beauty. "
+            "Each atelier specialises in a domain. All objects share one quality — "
+            "they exist at the threshold between the mundane and the impossible.\n"
+        )
+    if not MUTABLE_PATH.exists():
+        MUTABLE_PATH.write_text(
+            "# Lore Mutable — Current Strategy\n\n"
+            "No analysis yet conducted. Generate and rate artifacts to refine this strategy.\n"
+        )
+    if not DNA_PATH.exists():
+        DNA_PATH.write_text(json.dumps({"favored": [], "forbidden": []}, indent=2))
+    if not GEN_LOG_PATH.exists():
+        GEN_LOG_PATH.write_text(json.dumps([], indent=2))
 
 
-def save_gen_log(log: dict):
-    with open(GENERATION_LOG, "w") as f:
-        json.dump(log, f, indent=4)
+def _load_dna() -> tuple[list, list]:
+    try:
+        dna = json.loads(DNA_PATH.read_text())
+        return dna.get("favored", []), dna.get("forbidden", [])
+    except Exception:
+        return [], []
 
 
-def read_file(path: str) -> str:
-    if os.path.exists(path):
-        try:
-            with open(path) as f:
-                return f.read()
-        except Exception:
-            pass
-    return ""
+def _save_dna(favored: list, forbidden: list):
+    DNA_PATH.write_text(json.dumps({"favored": favored, "forbidden": forbidden}, indent=2))
 
 
-def append_mutable(content: str):
-    ts    = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-    entry = f"\n\n--- Analysis Pass: {ts} ---\n{content}\n"
-    with open(MUTABLE_LORE, "a") as f:
-        f.write(entry)
+def _log_generation(entry: dict):
+    try:
+        log = json.loads(GEN_LOG_PATH.read_text())
+    except Exception:
+        log = []
+    log.append({"timestamp": datetime.now().isoformat(), **entry})
+    GEN_LOG_PATH.write_text(json.dumps(log[-200:], indent=2))  # keep last 200
 
 
-def vault_entries() -> list:
-    out = []
-    if not os.path.isdir(VAULT_DIR):
-        return out
-    for folder in sorted(os.listdir(VAULT_DIR)):
-        fp = os.path.join(VAULT_DIR, folder)
-        if not os.path.isdir(fp):
-            continue
-        files  = os.listdir(fp)
-        json_f = next((x for x in files if x.endswith(".json")), None)
-        if not json_f:
-            continue
-        try:
-            with open(os.path.join(fp, json_f)) as f:
-                out.append(json.load(f))
-        except Exception:
-            pass
-    return out
+def _scan_models() -> list[Path]:
+    """Return sorted list of model files in SD_MODELS_DIR."""
+    if not SD_MODELS_DIR.exists():
+        return []
+    return sorted(
+        p for p in SD_MODELS_DIR.iterdir()
+        if p.suffix.lower() in SD_MODEL_EXTS
+    )
 
 
-# ---------------------------------------------------------------------------
-# ANALYSIS WORKER
-# ---------------------------------------------------------------------------
-class AnalysisWorker(QThread):
-    status_update = pyqtSignal(str)
-    analysis_done = pyqtSignal(str)
-    error_signal  = pyqtSignal(str)
+def gold_label(text: str, size: int = 11, bold: bool = False) -> QLabel:
+    lbl = QLabel(text)
+    weight = "bold" if bold else "normal"
+    lbl.setStyleSheet(
+        f"color: {C_GOLD}; font-family: Georgia, serif; "
+        f"font-size: {size}px; font-weight: {weight}; background: transparent;"
+    )
+    return lbl
+
+
+def dim_label(text: str, size: int = 10) -> QLabel:
+    lbl = QLabel(text)
+    lbl.setStyleSheet(
+        f"color: {C_GOLD_DIM}; font-family: Georgia, serif; "
+        f"font-size: {size}px; background: transparent;"
+    )
+    return lbl
+
+
+def arcane_button(text: str, accent: str = C_GOLD) -> QPushButton:
+    btn = QPushButton(text)
+    btn.setStyleSheet(f"""
+        QPushButton {{
+            background: {C_PANEL};
+            color: {accent};
+            border: 1px solid {C_GOLD_DARK};
+            font-family: Georgia, serif;
+            font-size: 11px;
+            padding: 6px 14px;
+            letter-spacing: 1px;
+        }}
+        QPushButton:hover {{
+            background: {C_GOLD_DARK};
+            border-color: {accent};
+        }}
+        QPushButton:pressed {{
+            background: {C_SUBTLE};
+        }}
+        QPushButton:disabled {{
+            color: {C_GOLD_DARK};
+            border-color: {C_SUBTLE};
+        }}
+    """)
+    return btn
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# WORKER: MythotexWorker  (lore + image generation)
+# ─────────────────────────────────────────────────────────────────────────────
+
+class MythotexWorker(QThread):
+
+    progress      = pyqtSignal(str)           # status messages
+    step_progress = pyqtSignal(int, int)      # current step, total steps
+    finished      = pyqtSignal(dict, str)     # lore dict, image path
+    errored       = pyqtSignal(str)
+
+    def __init__(self, atelier: str, style_key: str, cfg: int, steps: int,
+                 sampler: str, width: int, height: int, model_path: Path,
+                 parent=None):
+        super().__init__(parent)
+        self.atelier    = atelier
+        self.style_key  = style_key
+        self.cfg        = cfg
+        self.steps      = steps
+        self.sampler    = sampler
+        self.width      = width
+        self.height     = height
+        self.model_path = model_path
+        self._client    = anthropic.Anthropic(
+            api_key=os.environ.get("CLAUDE_API_KEY", "")
+        )
 
     def run(self):
         try:
-            self.status_update.emit("  ◈ The engine is reviewing its own work...")
+            self.progress.emit("Consulting the Arca Cognitarium…")
+            lore = self._generate_lore()
 
-            entries = vault_entries()
-            if not entries:
-                self.analysis_done.emit("No vault entries to analyse.")
-                return
+            self.progress.emit("Distilling visual essence…")
+            pos, neg = self._sd_prompts(lore)
 
-            rated    = [e for e in entries if "style_integrity" in e]
-            favored  = [e for e in rated if e.get("style_integrity", 0) >= 4]
-            poor     = [e for e in rated if e.get("style_integrity", 0) <= 2]
-            unrated  = len([e for e in entries if "style_integrity" not in e])
+            self.progress.emit("Manifesting the artifact…")
+            image_path = self._generate_image(pos, neg)
 
-            lines = []
-            for e in entries[-20:]:
-                r = e.get("style_integrity", "unrated")
-                lines.append(f"- [{r}★] {e.get('title','?')}: {e.get('description','')}")
-            summary = "\n".join(lines)
+            _log_generation({"atelier": self.atelier, "title": lore.get("title", "?"),
+                             "style": self.style_key})
 
-            immutable = read_file(IMMUTABLE_LORE)
-            mutable   = read_file(MUTABLE_LORE)
-
-            system_prompt = (
-                "You are the analytical intelligence of the Mythotex lore engine. "
-                "Review recent vault entries and their ratings. Identify patterns. "
-                "Produce a concrete, specific, actionable strategy revision for both "
-                "lore generation and Stable Diffusion prompting. "
-                "This document is used directly — vague instructions are useless. "
-                "Be honest. Reference actual entries. "
-                "Tone: esoteric gravity with wry awareness.\n\n"
-                "IMMUTABLE FOUNDATION:\n" + immutable[:3500] + "\n\n"
-                "CURRENT STRATEGY (you are revising this):\n" + mutable[:2000]
-            )
-
-            user_prompt = (
-                f"Recent entries:\n{summary}\n\n"
-                f"High-rated ({len(favored)}): {[e.get('title') for e in favored]}\n"
-                f"Low-rated ({len(poor)}): {[e.get('title') for e in poor]}\n"
-                f"Unrated: {unrated}\n\n"
-                "Produce two clearly labelled sections:\n"
-                "1. LORE GENERATION STRATEGY\n"
-                "2. SD PROMPT STRATEGY\n"
-                "Be specific. Reference actual titles and patterns."
-            )
-
-            client   = openai.OpenAI()
-            response = client.chat.completions.create(
-                model="gpt-4o",
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user",   "content": user_prompt},
-                ],
-                temperature=0.4,
-            )
-            result = response.choices[0].message.content
-            append_mutable(result)
-            self.analysis_done.emit(result)
+            self.finished.emit(lore, image_path)
 
         except Exception as exc:
-            self.error_signal.emit(str(exc))
+            self.errored.emit(str(exc))
 
-
-# ---------------------------------------------------------------------------
-# GENERATION WORKER
-# ---------------------------------------------------------------------------
-class MythotexWorker(QThread):
-    finished      = pyqtSignal(dict)
-    status_update = pyqtSignal(str)
-    progress_val  = pyqtSignal(int)
-    error_signal  = pyqtSignal(str)
-
-    def __init__(self, atelier, pipe, settings, reforge=False, lore=None):
-        super().__init__()
-        self.atelier  = atelier
-        self.pipe     = pipe
-        self.settings = settings
-        self.reforge  = reforge
-        self.lore     = lore
-
-    def _lore_system_prompt(self) -> str:
-        immutable = read_file(IMMUTABLE_LORE)
-        mutable   = read_file(MUTABLE_LORE)
-        dna       = load_dna()
-
-        dna_hint = ""
-        if dna["favored"]:
-            dna_hint = (
-                "\n\nAESTHETIC DNA — FAVOURED (qualities from Wizard-approved outputs):\n"
-                + "\n".join(f"- {d}" for d in dna["favored"][-5:])
-            )
-
-        return (
-            "You are the generative oracle of the Mythotex lore engine. "
-            "Your purpose: manifest arcane objects as wiki-style lore entries "
-            "for the Arca Cognitarium.\n\n"
-            "FOUNDATION:\n" + immutable[:4000] + "\n\n"
-            "CURRENT ENGINE STRATEGY:\n" + mutable[:2000]
-            + dna_hint
-            + "\n\nReturn ONLY valid JSON with exactly four keys: "
-            "title, description (one sentence), history (2-4 sentences), aura (brief). "
-            "No preamble. No markdown. No extra keys."
-        )
-
-    def _sd_prompts(self, lore: dict) -> tuple:
-        mutable = read_file(MUTABLE_LORE)
-        dna     = load_dna()
-
-        neg = (
-            "modern, photorealistic, photograph, photo, 3d render, CGI, "
-            "plastic, shiny, blurry, low quality, watermark, signature, text, "
-            "human figure, face, vibrant colors, neon, saturated, "
-            "cartoon, anime, deformed, distorted, bad anatomy"
-        )
-        if dna["forbidden"]:
-            neg += ", " + ", ".join(dna["forbidden"][-5:])
-
-        pos = (
-            f"Isolated single object, {lore['title']}, {lore['description']}, "
-            "centered on aged parchment, fine copperplate etching, "
-            "17th century alchemical illustration, esoteric engraving style, "
-            "intricate linework, sharp focus, masterwork, antiquarian"
-        )
-        return pos, neg
+    # ── Lore ──────────────────────────────────────────────────────────────────
 
     def _generate_lore(self) -> dict:
-        product = ATELIER_PRODUCTS.get(self.atelier, "a mysterious arcane artifact")
-        client  = openai.OpenAI()
-        resp    = client.chat.completions.create(
-            model=self.settings.get("gpt_model", "gpt-4o"),
-            messages=[
-                {"role": "system", "content": self._lore_system_prompt()},
-                {"role": "user",   "content": (
-                    f"Manifest {product} from {self.atelier}. "
-                    "Make it specific, strange, and genuinely novel. "
-                    "Avoid generic fantasy tropes. Avoid heroic framing. "
-                    "The object should feel discovered, not designed."
-                )},
-            ],
-            response_format={"type": "json_object"},
-            temperature=self.settings.get("gpt_temperature", 1.0),
+        immutable = IMMUTABLE_PATH.read_text() if IMMUTABLE_PATH.exists() else ""
+        mutable   = MUTABLE_PATH.read_text()   if MUTABLE_PATH.exists()   else ""
+        favored, forbidden = _load_dna()
+
+        dna_clause = ""
+        if favored:
+            dna_clause += f"\nFavoured descriptors (lean toward these): {', '.join(favored[:10])}"
+        if forbidden:
+            dna_clause += f"\nForbidden descriptors (avoid these): {', '.join(forbidden[:10])}"
+
+        system = (
+            "You are the Arca Cognitarium, a generative lore engine for arcane artifacts. "
+            "Respond ONLY with a single raw JSON object — no markdown fences, no preamble, "
+            "no commentary whatsoever.\n\n"
+            f"World canon (immutable):\n{immutable}\n\n"
+            f"Current lore strategy (mutable):\n{mutable}"
+            f"{dna_clause}"
         )
-        return json.loads(resp.choices[0].message.content)
 
-    def _generate_image(self, lore: dict) -> tuple:
-        pos, neg = self._sd_prompts(lore)
+        user = (
+            f"Generate a unique arcane artifact from the Arx Arcana: {self.atelier}\n"
+            f"Category theme: {ARX_ARCANA.get(self.atelier, '')}\n\n"
+            "Return exactly this JSON structure:\n"
+            "{\n"
+            '  "title": "name of the artifact",\n'
+            '  "description": "one evocative sentence",\n'
+            '  "history": "two to four sentences of history and provenance",\n'
+            '  "aura": "brief sensory impression of its presence",\n'
+            '  "visual_keywords": ["6 to 10 concrete visual descriptors — '
+            'materials, textures, colours, shapes only, no quality adjectives"]\n'
+            "}"
+        )
 
-        sampler_cls = SAMPLERS.get(self.settings.get("sampler", "Euler"), EulerDiscreteScheduler)
-        self.pipe.scheduler = sampler_cls.from_config(self.pipe.scheduler.config)
+        response = self._client.messages.create(
+            model=CLAUDE_MODEL,
+            max_tokens=1024,
+            system=system,
+            messages=[{"role": "user", "content": user}],
+        )
+        return _parse_json_block(response.content[0].text.strip())
 
-        steps  = self.settings.get("steps",  25)
-        cfg    = self.settings.get("cfg",    7.0)
-        width  = self.settings.get("width",  512)
-        height = self.settings.get("height", 512)
-        seed   = self.settings.get("seed",   -1)
+    # ── SD Prompts ────────────────────────────────────────────────────────────
 
-        actual_seed = torch.seed() if seed == -1 else int(seed)
-        generator   = torch.Generator("cpu").manual_seed(actual_seed)
+    def _sd_prompts(self, lore: dict) -> tuple[str, str]:
+        preset   = STYLE_PRESETS.get(self.style_key, STYLE_PRESETS["Woodcut Ink"])
+        title    = lore.get("title", "arcane artifact")
+        desc     = lore.get("description", "")
+        keywords = lore.get("visual_keywords", [])
+        kw_str   = ", ".join(keywords[:3])
 
-        def _cb(step, timestep, latents):
-            self.progress_val.emit(int((step / steps) * 100))
+        # Prepend model trigger token if the active model profile defines one
+        profile = _match_model_profile(self.model_path.name)
+        trigger = profile.get("trigger", "") if profile else ""
 
-        image = self.pipe(
-            prompt=pos,
-            negative_prompt=neg,
-            num_inference_steps=steps,
-            guidance_scale=cfg,
-            width=width,
-            height=height,
-            generator=generator,
-            callback=_cb,
-            callback_steps=1,
-        ).images[0]
+        positive = f"{trigger}, {preset['positive']}, {title}, {desc}, {kw_str}" \
+                   if trigger else \
+                   f"{preset['positive']}, {title}, {desc}, {kw_str}"
+        negative = preset["negative"]
+        return positive, negative
 
-        tmp = os.path.join(BASE_DIR, "temp_manifest.png")
-        image.save(tmp)
-        return tmp, actual_seed
+    # ── Image ─────────────────────────────────────────────────────────────────
+
+    def _generate_image(self, positive: str, negative: str) -> str:
+        if not SD_BINARY.exists():
+            raise FileNotFoundError(f"sd-cli not found at {SD_BINARY}")
+        if not self.model_path.exists():
+            raise FileNotFoundError(f"Model not found: {self.model_path}")
+
+        out_path = str(TEMP_IMAGE)
+
+        cmd = [
+            str(SD_BINARY),
+            "--model",           str(self.model_path),
+            "--prompt",          positive,
+            "--negative-prompt", negative,
+            "--cfg-scale",       str(self.cfg),
+            "--steps",           str(self.steps),
+            "--sampling-method", self.sampler,
+            "-W",                str(self.width),
+            "-H",                str(self.height),
+            "--output",          out_path,
+            "--seed",            str(int(time.time()) % 2**31),
+        ]
+
+        if SD_VAE.exists():
+            cmd += ["--vae", str(SD_VAE)]
+
+        # Stream output to parse step progress
+        # sd-cli emits lines like: "  |====...| 12/28 - 1.23s/it"
+        proc = subprocess.Popen(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+        )
+
+        stderr_lines = []
+        step_re = re.compile(r"\|\s*(\d+)\s*/\s*(\d+)")
+
+        for line in proc.stdout:
+            stderr_lines.append(line)
+            m = step_re.search(line)
+            if m:
+                current = int(m.group(1))
+                total   = int(m.group(2))
+                self.step_progress.emit(current, total)
+
+        proc.wait()
+
+        if proc.returncode != 0:
+            tail = "".join(stderr_lines[-20:])
+            raise RuntimeError(f"sd-cli failed:\n{tail}")
+
+        if not TEMP_IMAGE.exists():
+            raise FileNotFoundError("sd-cli completed but produced no image.")
+
+        return out_path
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# WORKER: AnalysisWorker  (self-refining strategy engine)
+# ─────────────────────────────────────────────────────────────────────────────
+
+class AnalysisWorker(QThread):
+
+    finished = pyqtSignal(str)
+    errored  = pyqtSignal(str)
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self._client = anthropic.Anthropic(
+            api_key=os.environ.get("CLAUDE_API_KEY", "")
+        )
 
     def run(self):
         try:
-            if not self.reforge:
-                self.status_update.emit(f"  Consulting {self.atelier}...")
-                self.lore = self._generate_lore()
+            rated = self._gather_rated_vault()
+            if not rated:
+                self.finished.emit("Insufficient rated specimens for analysis.")
+                return
 
-            self.status_update.emit(f"  Forging {self.lore.get('title', '...')}...")
-            img_path, used_seed = self._generate_image(self.lore)
+            current = MUTABLE_PATH.read_text() if MUTABLE_PATH.exists() else ""
 
-            log = load_gen_log()
-            log["total_generated"]     = log.get("total_generated", 0) + 1
-            log["since_last_analysis"] = log.get("since_last_analysis", 0) + 1
-            save_gen_log(log)
+            system = (
+                "You are the Arca Cognitarium's self-refining oracle. "
+                "Analyse the rated artifact corpus and produce a concise lore strategy. "
+                "Respond ONLY with raw markdown — no preamble, no fences."
+            )
 
-            self.finished.emit({"path": img_path, "lore": self.lore, "seed": used_seed})
+            user = (
+                f"Current strategy:\n{current}\n\n"
+                f"Rated artifact corpus:\n{json.dumps(rated, indent=2)}\n\n"
+                "Write an updated lore_mutable.md strategy that:\n"
+                "- Identifies patterns in high-rated (4–5★) artifacts: themes, materials, moods\n"
+                "- Identifies what makes low-rated (1–2★) artifacts fail\n"
+                "- Gives 3–5 concrete directives for future generation\n"
+                "- Is under 300 words, directive not descriptive\n"
+                "- Preserves directives still validated by the data"
+            )
+
+            response = self._client.messages.create(
+                model=CLAUDE_MODEL,
+                max_tokens=600,
+                system=system,
+                messages=[{"role": "user", "content": user}],
+            )
+
+            strategy = response.content[0].text.strip()
+            MUTABLE_PATH.write_text(strategy)
+
+            # Update aesthetic DNA from ratings
+            self._update_dna(rated)
+
+            self.finished.emit(strategy)
 
         except Exception as exc:
-            self.error_signal.emit(str(exc))
+            self.errored.emit(str(exc))
+
+    def _gather_rated_vault(self) -> list:
+        rated = []
+        if not VAULT_DIR.exists():
+            return rated
+        for entry_dir in sorted(VAULT_DIR.iterdir()):
+            meta_path = entry_dir / "meta.json"
+            if meta_path.is_file():
+                try:
+                    meta   = json.loads(meta_path.read_text())
+                    rating = meta.get("rating")
+                    if rating is not None:
+                        rated.append({
+                            "title":          meta.get("title", entry_dir.name),
+                            "visual_keywords": meta.get("visual_keywords", []),
+                            "aura":           meta.get("aura", ""),
+                            "atelier":        meta.get("atelier", ""),
+                            "rating":         rating,
+                        })
+                except Exception:
+                    pass
+        return rated
+
+    def _update_dna(self, rated: list):
+        favored, forbidden = _load_dna()
+        for item in rated:
+            kws = item.get("visual_keywords", [])
+            r   = item.get("rating", 3)
+            if r >= 4:
+                for kw in kws:
+                    if kw not in favored:
+                        favored.append(kw)
+            elif r <= 2:
+                for kw in kws:
+                    if kw not in forbidden:
+                        forbidden.append(kw)
+        # Cap lists
+        _save_dna(favored[-40:], forbidden[-40:])
 
 
-# ---------------------------------------------------------------------------
-# COMPENDIUM TOME
-# ---------------------------------------------------------------------------
+# ─────────────────────────────────────────────────────────────────────────────
+# COMPENDIUM TOME  (vault review dialog)
+# ─────────────────────────────────────────────────────────────────────────────
+
 class CompendiumTome(QDialog):
+
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("MYTHOTEX  //  COMPENDIUM TOME")
-        self.setMinimumSize(1060, 750)
-        self.setStyleSheet(
-            "QDialog  { background: #050507; }"
-            "QLabel   { color: #d4af37; font-family: 'Constantia', serif; }"
-            "QPushButton { background: #0e0e16; color: #d4af37; border: 1px solid #1e1e2a; "
-            "              padding: 6px 10px; font-size: 11px; }"
-            "QPushButton:hover { background: #14141e; border-color: #d4af37; }"
-            "QScrollArea { border: none; background: transparent; }"
-        )
-        outer = QVBoxLayout(self)
-        outer.setContentsMargins(0, 0, 0, 0)
-        scroll = QScrollArea()
-        scroll.setWidgetResizable(True)
-        content = QWidget()
-        self.list_lay = QVBoxLayout(content)
-        self.list_lay.setSpacing(0)
-        self.list_lay.setContentsMargins(0, 0, 0, 0)
-        self._populate()
-        scroll.setWidget(content)
-        outer.addWidget(scroll)
-
-    def _populate(self):
-        while self.list_lay.count():
-            item = self.list_lay.takeAt(0)
-            if item.widget():
-                item.widget().deleteLater()
-        if not os.path.isdir(VAULT_DIR):
-            return
-        for folder in sorted(os.listdir(VAULT_DIR), reverse=True):
-            path = os.path.join(VAULT_DIR, folder)
-            if os.path.isdir(path):
-                self._add_entry(path)
-        self.list_lay.addStretch()
-
-    def _add_entry(self, fp):
-        files  = os.listdir(fp)
-        json_f = next((x for x in files if x.endswith(".json")), None)
-        png_f  = next((x for x in files if x.endswith(".png")),  None)
-        if not (json_f and png_f):
-            return
-        try:
-            with open(os.path.join(fp, json_f)) as f:
-                data = json.load(f)
-        except Exception:
-            return
-
-        row = QFrame()
-        row.setStyleSheet(
-            "QFrame { border-bottom: 1px solid #0e0e14; padding: 14px; background: #050507; }"
-        )
-        h = QHBoxLayout(row)
-        h.setSpacing(20)
-
-        thumb = QLabel()
-        pix   = QPixmap(os.path.join(fp, png_f)).scaled(
-            210, 210, Qt.AspectRatioMode.KeepAspectRatio,
-            Qt.TransformationMode.SmoothTransformation
-        )
-        thumb.setPixmap(pix)
-        thumb.setFixedSize(210, 210)
-        thumb.setStyleSheet("border: 1px solid #16161e;")
-
-        info = QVBoxLayout()
-        info.setSpacing(5)
-
-        t = QLabel(data.get("title", "Unknown Relic"))
-        t.setFont(QFont("Constantia", 13, QFont.Weight.Bold))
-        t.setStyleSheet("color: #d4af37;")
-
-        d = QLabel(data.get("description", ""))
-        d.setWordWrap(True)
-        d.setStyleSheet("color: #6a5a40; font-size: 12px; font-style: italic;")
-
-        a = QLabel(f"◈  {data.get('aura','')}")
-        a.setStyleSheet("color: #3a3a2e; font-size: 11px;")
-
-        rl = QLabel("Rate the stylistic integrity — visual tone only, not lore quality:")
-        rl.setStyleSheet("color: #2e2e2e; font-size: 10px; margin-top: 10px;")
-
-        stars = QHBoxLayout()
-        cur   = data.get("style_integrity", 0)
-        for i in range(1, 6):
-            btn = QPushButton(str(i))
-            btn.setFixedSize(34, 34)
-            if i <= cur:
-                btn.setStyleSheet(
-                    "background:#d4af37; color:#000; border-radius:17px; "
-                    "font-weight:bold; border:none; font-size:12px;"
-                )
-            else:
-                btn.setStyleSheet(
-                    "background:#0a0a12; color:#333; border-radius:17px; "
-                    "border:1px solid #1e1e28; font-size:12px;"
-                )
-            btn.clicked.connect(
-                lambda _c, v=i, f=fp, jf=json_f: self._save_rating(f, jf, v)
-            )
-            stars.addWidget(btn)
-        stars.addStretch()
-
-        for w in (t, d, a, rl):
-            info.addWidget(w)
-        info.addLayout(stars)
-        info.addStretch()
-
-        h.addWidget(thumb)
-        h.addLayout(info, 1)
-        self.list_lay.addWidget(row)
-
-    def _save_rating(self, fp, json_f, value):
-        full = os.path.join(fp, json_f)
-        try:
-            with open(full, "r+") as f:
-                data = json.load(f)
-                data["style_integrity"] = value
-                f.seek(0); json.dump(data, f, indent=4); f.truncate()
-        except Exception:
-            return
-        dna  = load_dna()
-        desc = data.get("description", "")
-        if value >= 4:
-            dna["favored"].append(desc)
-        elif value <= 2:
-            dna["forbidden"].append(desc)
-        save_dna(dna)
-        self._populate()
-
-
-# ---------------------------------------------------------------------------
-# CONTROL PANEL
-# ---------------------------------------------------------------------------
-class ControlPanel(QFrame):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setObjectName("ControlPanel")
-        self.setMinimumWidth(0)
-        self.setMaximumWidth(0)
-        self._build()
-
-    def _sty_label(self):
-        return "color: #555; font-size: 10px; margin-top: 5px;"
-
-    def _sty_section(self):
-        return (
-            "color: #3a3a2a; font-size: 9px; letter-spacing: 2px; "
-            "padding: 5px 0 3px 0; border-bottom: 1px solid #111118;"
-        )
-
-    def _sty_combo(self):
-        return (
-            "QComboBox { background:#0a0a12; color:#c4a030; border:1px solid #1e1e2a; "
-            "            padding:4px 8px; font-size:11px; }"
-            "QComboBox::drop-down { border:none; }"
-            "QComboBox QAbstractItemView { background:#0a0a12; color:#c4a030; "
-            "                              border:1px solid #1e1e2a; }"
-        )
-
-    def _sty_spin(self):
-        return (
-            "QSpinBox { background:#0a0a12; color:#c4a030; border:1px solid #1e1e2a; "
-            "           padding:4px 8px; font-size:11px; }"
-        )
-
-    def _sty_slider(self):
-        return (
-            "QSlider::groove:horizontal { background:#111118; height:3px; border-radius:2px; }"
-            "QSlider::handle:horizontal { background:#c4a030; width:10px; height:10px; "
-            "                             margin:-4px 0; border-radius:5px; }"
-        )
-
-    def _add_slider(self, lay, name, lo, hi, default, step=1):
-        lbl = QLabel(f"{name}:  {default}")
-        lbl.setStyleSheet(self._sty_label())
-        sld = QSlider(Qt.Orientation.Horizontal)
-        sld.setRange(lo, hi); sld.setValue(default); sld.setSingleStep(step)
-        sld.valueChanged.connect(lambda v, l=lbl, n=name: l.setText(f"{n}:  {v}"))
-        sld.setStyleSheet(self._sty_slider())
-        lay.addWidget(lbl); lay.addWidget(sld)
-        return sld
-
-    def _build(self):
-        outer = QVBoxLayout(self)
-        outer.setContentsMargins(10, 14, 10, 14)
-        outer.setSpacing(0)
-
-        tabs = QTabWidget()
-        tabs.setStyleSheet(
-            "QTabWidget::pane { border:1px solid #111118; background:#07070c; }"
-            "QTabBar::tab { background:#050508; color:#3a3a3a; padding:6px 10px; "
-            "               border:1px solid #0e0e18; font-size:10px; }"
-            "QTabBar::tab:selected { background:#09090e; color:#c4a030; "
-            "                        border-bottom:1px solid #09090e; }"
-        )
-
-        # ---- SD tab -------------------------------------------------------
-        sw  = QWidget()
-        sl  = QVBoxLayout(sw)
-        sl.setSpacing(6); sl.setContentsMargins(8, 10, 8, 8)
-
-        sec = QLabel("STABLE DIFFUSION"); sec.setStyleSheet(self._sty_section())
-        sl.addWidget(sec)
-
-        self.step_sld   = self._add_slider(sl, "Steps",    10, 80,  25)
-        self.cfg_sld    = self._add_slider(sl, "CFG",       1, 20,   7)
-        self.width_sld  = self._add_slider(sl, "Width",   256, 768, 512, step=64)
-        self.height_sld = self._add_slider(sl, "Height",  256, 768, 512, step=64)
-
-        sl.addWidget(QLabel("Sampler")).setStyleSheet if False else None
-        lbl_s = QLabel("Sampler"); lbl_s.setStyleSheet(self._sty_label()); sl.addWidget(lbl_s)
-        self.sampler_box = QComboBox()
-        self.sampler_box.addItems(list(SAMPLERS.keys()))
-        self.sampler_box.setStyleSheet(self._sty_combo())
-        sl.addWidget(self.sampler_box)
-
-        lbl_seed = QLabel("Seed  (-1 = random)"); lbl_seed.setStyleSheet(self._sty_label())
-        sl.addWidget(lbl_seed)
-        self.seed_spin = QSpinBox()
-        self.seed_spin.setRange(-1, 2**31 - 1); self.seed_spin.setValue(-1)
-        self.seed_spin.setStyleSheet(self._sty_spin())
-        sl.addWidget(self.seed_spin)
-        sl.addStretch()
-        tabs.addTab(sw, "SD FORGE")
-
-        # ---- GPT tab ------------------------------------------------------
-        gw  = QWidget()
-        gl  = QVBoxLayout(gw)
-        gl.setSpacing(6); gl.setContentsMargins(8, 10, 8, 8)
-
-        sec2 = QLabel("GPT ORACLE"); sec2.setStyleSheet(self._sty_section()); gl.addWidget(sec2)
-
-        lbl_m = QLabel("Model"); lbl_m.setStyleSheet(self._sty_label()); gl.addWidget(lbl_m)
-        self.model_box = QComboBox()
-        self.model_box.addItems(["gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-3.5-turbo"])
-        self.model_box.setStyleSheet(self._sty_combo())
-        gl.addWidget(self.model_box)
-
-        self.temp_sld = self._add_slider(gl, "Temperature (×0.1)", 0, 20, 10)
-
-        sec3 = QLabel("ANALYSIS ENGINE"); sec3.setStyleSheet(self._sty_section()); gl.addWidget(sec3)
-
-        lbl_vt = QLabel("Vault threshold (every N seals)"); lbl_vt.setStyleSheet(self._sty_label())
-        gl.addWidget(lbl_vt)
-        self.vault_thresh = QSpinBox()
-        self.vault_thresh.setRange(1, 50); self.vault_thresh.setValue(VAULT_THRESHOLD)
-        self.vault_thresh.setStyleSheet(self._sty_spin())
-        gl.addWidget(self.vault_thresh)
-
-        lbl_pt = QLabel("Periodic threshold (every N generated)"); lbl_pt.setStyleSheet(self._sty_label())
-        gl.addWidget(lbl_pt)
-        self.periodic_thresh = QSpinBox()
-        self.periodic_thresh.setRange(1, 100); self.periodic_thresh.setValue(PERIODIC_THRESHOLD)
-        self.periodic_thresh.setStyleSheet(self._sty_spin())
-        gl.addWidget(self.periodic_thresh)
-
-        gl.addStretch()
-        tabs.addTab(gw, "GPT ORACLE")
-
-        outer.addWidget(tabs)
-
-    def settings(self) -> dict:
-        return {
-            "steps":              self.step_sld.value(),
-            "cfg":                self.cfg_sld.value(),
-            "width":              self.width_sld.value(),
-            "height":             self.height_sld.value(),
-            "sampler":            self.sampler_box.currentText(),
-            "seed":               self.seed_spin.value(),
-            "gpt_model":          self.model_box.currentText(),
-            "gpt_temperature":    self.temp_sld.value() / 10.0,
-            "vault_threshold":    self.vault_thresh.value(),
-            "periodic_threshold": self.periodic_thresh.value(),
-        }
-
-
-# ---------------------------------------------------------------------------
-# MAIN APPLICATION
-# ---------------------------------------------------------------------------
-class MythotexApp(QMainWindow):
-
-    def __init__(self, pipe):
-        super().__init__()
-        self.pipe            = pipe
-        self.latest_data     = None
-        self.worker          = None
-        self.analysis_worker = None
-        self._panel_open     = False
-
-        self.setWindowTitle("MYTHOTEX  //  THE LIVING TOWER")
-        self.setMinimumSize(1300, 920)
-        self.setStyleSheet(self._styles())
+        self.setWindowTitle("Compendium Tome — The Sealed Vault")
+        self.setMinimumSize(900, 640)
+        self.setStyleSheet(f"""
+            QDialog {{
+                background: {C_BG};
+                color: {C_TEXT};
+            }}
+            QFrame#tome_card {{
+                background: {C_PANEL};
+                border: 1px solid {C_GOLD_DARK};
+            }}
+        """)
         self._build_ui()
-        self._maybe_analyse(on_save=False)
-
-    def _styles(self):
-        return """
-        QMainWindow, QWidget#Root { background: #050507; }
-        QFrame#Sidebar {
-            background: #06060a;
-            border-right: 1px solid #111118;
-        }
-        QLabel { color: #d4af37; font-family: 'Constantia', 'Georgia', serif; }
-        QPushButton {
-            background: #080810;
-            color: #b09030;
-            border: 1px solid #18182a;
-            padding: 10px 12px;
-            font-family: 'Constantia', 'Georgia', serif;
-            font-size: 11px;
-            font-weight: bold;
-            text-align: left;
-        }
-        QPushButton:hover {
-            background: #0e0e1a;
-            border-color: #d4af37;
-            color: #d4af37;
-        }
-        QPushButton:disabled { color: #252525; border-color: #0e0e14; }
-        QPushButton#Action {
-            text-align: center;
-            padding: 10px 24px;
-            border-color: #1e1e2a;
-        }
-        QProgressBar {
-            border: 1px solid #111118;
-            background: #020203;
-            height: 4px;
-        }
-        QProgressBar::chunk { background: #6a5018; }
-        QTextEdit {
-            background: #020203;
-            color: #907858;
-            border: 1px solid #0a0a10;
-            font-family: 'Constantia', 'Georgia', serif;
-            font-size: 13px;
-            padding: 10px;
-        }
-        QStatusBar {
-            background: #030304;
-            color: #2e2e2e;
-            font-size: 11px;
-            border-top: 1px solid #0a0a10;
-        }
-        QFrame#ControlPanel {
-            background: #06060a;
-            border-left: 1px solid #111118;
-        }
-        """
+        self._load_vault()
 
     def _build_ui(self):
-        root = QWidget(); root.setObjectName("Root")
-        rl   = QHBoxLayout(root); rl.setSpacing(0); rl.setContentsMargins(0,0,0,0)
-        self.setCentralWidget(root)
+        root = QVBoxLayout(self)
+        root.setContentsMargins(16, 16, 16, 16)
+        root.setSpacing(12)
 
-        # SIDEBAR
-        sidebar = QFrame(); sidebar.setObjectName("Sidebar"); sidebar.setFixedWidth(218)
-        sl = QVBoxLayout(sidebar); sl.setContentsMargins(0,14,0,8); sl.setSpacing(0)
+        # Header
+        hdr = gold_label("✦  Compendium Tome  ✦", 16, bold=True)
+        hdr.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        root.addWidget(hdr)
 
-        hdr = QLabel("  ◆  THE ATELIERS")
-        hdr.setStyleSheet("color:#2a2a1c; font-size:9px; letter-spacing:4px; "
-                          "padding:0 0 10px 0; border-bottom:1px solid #0e0e14;")
-        sl.addWidget(hdr)
+        # Scroll area for cards
+        self.scroll = QScrollArea()
+        self.scroll.setWidgetResizable(True)
+        self.scroll.setStyleSheet(f"background: {C_BG}; border: none;")
+        root.addWidget(self.scroll)
 
-        sc  = QScrollArea(); sc.setWidgetResizable(True)
-        sc.setStyleSheet("border:none; background:transparent;")
-        scw = QWidget(); scl = QVBoxLayout(scw)
-        scl.setSpacing(1); scl.setContentsMargins(4,6,4,4)
-        for atelier in ATELIERS:
-            btn = QPushButton(f"  {atelier}")
-            btn.setCursor(Qt.CursorShape.PointingHandCursor)
-            btn.clicked.connect(lambda _c, a=atelier: self._begin_ritual(a))
-            scl.addWidget(btn)
-        scl.addStretch(); sc.setWidget(scw); sl.addWidget(sc, 1)
+        self.card_container = QWidget()
+        self.card_layout    = QVBoxLayout(self.card_container)
+        self.card_layout.setSpacing(10)
+        self.card_layout.addStretch()
+        self.scroll.setWidget(self.card_container)
 
-        sep = QFrame(); sep.setFrameShape(QFrame.Shape.HLine)
-        sep.setStyleSheet("background:#0a0a10; max-height:1px; border:none;")
-        sl.addWidget(sep)
+        # Footer buttons
+        foot = QHBoxLayout()
+        self.btn_analyse = arcane_button("⚙  Run Analysis Engine", C_TEAL)
+        self.btn_close   = arcane_button("✕  Close Tome")
+        self.btn_analyse.clicked.connect(self._run_analysis)
+        self.btn_close.clicked.connect(self.accept)
+        foot.addWidget(self.btn_analyse)
+        foot.addStretch()
+        foot.addWidget(self.btn_close)
+        root.addLayout(foot)
 
-        self.comp_btn   = QPushButton("  ◎  COMPENDIUM TOME")
-        self.params_btn = QPushButton("  ⚙  RITUAL PARAMETERS")
-        self.comp_btn.clicked.connect(lambda: CompendiumTome(self).exec())
-        self.params_btn.clicked.connect(self._toggle_panel)
-        sl.addWidget(self.comp_btn); sl.addWidget(self.params_btn)
+        self.status_lbl = dim_label("")
+        self.status_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        root.addWidget(self.status_lbl)
 
-        # VIEWPORT
-        vl = QVBoxLayout(); vl.setContentsMargins(22,20,22,10); vl.setSpacing(8)
+    def _load_vault(self):
+        # Clear existing cards
+        while self.card_layout.count() > 1:
+            item = self.card_layout.takeAt(0)
+            if item.widget():
+                item.widget().deleteLater()
 
-        self.img_lbl = QLabel("The Tower is Silent.")
-        self.img_lbl.setFixedSize(768, 768)
-        self.img_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.img_lbl.setStyleSheet(
-            "border:1px solid #0e0e16; background:#020203; "
-            "color:#1c1c1c; font-size:16px; font-family:'Constantia',serif;"
+        if not VAULT_DIR.exists():
+            self.card_layout.insertWidget(0, dim_label("The vault is empty."))
+            return
+
+        entries = sorted(VAULT_DIR.iterdir(), reverse=True)
+        if not entries:
+            self.card_layout.insertWidget(0, dim_label("The vault is empty."))
+            return
+
+        for i, entry_dir in enumerate(entries):
+            meta_path  = entry_dir / "meta.json"
+            image_path = entry_dir / "artifact.png"
+            if not meta_path.exists():
+                continue
+            try:
+                meta = json.loads(meta_path.read_text())
+                card = self._make_card(meta, image_path, entry_dir)
+                self.card_layout.insertWidget(i, card)
+            except Exception:
+                pass
+
+    def _make_card(self, meta: dict, image_path: Path, entry_dir: Path) -> QFrame:
+        card = QFrame()
+        card.setObjectName("tome_card")
+        card.setFixedHeight(160)
+        lay  = QHBoxLayout(card)
+        lay.setContentsMargins(10, 10, 10, 10)
+        lay.setSpacing(12)
+
+        # Thumbnail
+        thumb = QLabel()
+        thumb.setFixedSize(120, 120)
+        thumb.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        thumb.setStyleSheet(f"background: {C_BG}; border: 1px solid {C_GOLD_DARK};")
+        if image_path.exists():
+            px = QPixmap(str(image_path)).scaled(
+                120, 120,
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation
+            )
+            thumb.setPixmap(px)
+        else:
+            thumb.setText("no image")
+            thumb.setStyleSheet(f"color: {C_GOLD_DIM}; font-size: 9px;")
+        lay.addWidget(thumb)
+
+        # Text block
+        info = QVBoxLayout()
+        info.setSpacing(3)
+        title_lbl = gold_label(meta.get("title", "Unknown"), 12, bold=True)
+        info.addWidget(title_lbl)
+        atelier_lbl = dim_label(meta.get("atelier", ""))
+        info.addWidget(atelier_lbl)
+        desc_lbl = QLabel(meta.get("description", ""))
+        desc_lbl.setWordWrap(True)
+        desc_lbl.setStyleSheet(f"color: {C_TEXT}; font-size: 10px; background: transparent;")
+        info.addWidget(desc_lbl)
+        info.addStretch()
+        lay.addLayout(info, stretch=1)
+
+        # Star rating
+        star_col = QVBoxLayout()
+        star_col.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignRight)
+        star_col.setSpacing(4)
+        star_lbl = dim_label("Aesthetic Rating")
+        star_col.addWidget(star_lbl)
+
+        star_row = QHBoxLayout()
+        star_row.setSpacing(2)
+        current_rating = meta.get("rating", 0)
+        stars = []
+        for s in range(1, 6):
+            btn = QPushButton("★")
+            btn.setFixedSize(22, 22)
+            btn.setCheckable(True)
+            btn.setChecked(s <= current_rating)
+            filled = s <= current_rating
+            btn.setStyleSheet(self._star_style(filled))
+            btn.clicked.connect(
+                lambda checked, s=s, ed=entry_dir, m=meta, sl=stars:
+                self._rate_artifact(s, ed, m, sl)
+            )
+            stars.append(btn)
+            star_row.addWidget(btn)
+
+        star_col.addLayout(star_row)
+
+        del_btn = arcane_button("⌫ Unseal", C_CRIMSON)
+        del_btn.setFixedHeight(24)
+        del_btn.clicked.connect(lambda: self._delete_entry(entry_dir, card))
+        star_col.addSpacerItem(QSpacerItem(0, 8))
+        star_col.addWidget(del_btn)
+
+        lay.addLayout(star_col)
+        return card
+
+    def _star_style(self, filled: bool) -> str:
+        colour = C_GOLD if filled else C_SUBTLE
+        return (
+            f"QPushButton {{ background: transparent; color: {colour}; "
+            f"border: none; font-size: 16px; }}"
+            f"QPushButton:hover {{ color: {C_GOLD}; }}"
         )
 
-        self.progress = QProgressBar()
-        self.progress.setValue(0); self.progress.setTextVisible(False)
-        self.progress.setFixedHeight(4)
+    def _rate_artifact(self, rating: int, entry_dir: Path, meta: dict, stars: list):
+        meta["rating"] = rating
+        meta_path = entry_dir / "meta.json"
+        meta_path.write_text(json.dumps(meta, indent=2))
+        for i, btn in enumerate(stars):
+            btn.setChecked(i < rating)
+            btn.setStyleSheet(self._star_style(i < rating))
 
-        self.lore_txt = QTextEdit(); self.lore_txt.setReadOnly(True)
-        self.lore_txt.setFixedHeight(178)
+    def _delete_entry(self, entry_dir: Path, card: QFrame):
+        shutil.rmtree(entry_dir, ignore_errors=True)
+        card.setParent(None)
+        card.deleteLater()
 
-        self.seed_lbl = QLabel("")
-        self.seed_lbl.setStyleSheet("color:#1e1e1e; font-size:10px;")
-        self.seed_lbl.setAlignment(Qt.AlignmentFlag.AlignRight)
+    def _run_analysis(self):
+        self.btn_analyse.setEnabled(False)
+        self.status_lbl.setText("⚙ Analysis engine running…")
+        self._analysis_worker = AnalysisWorker(self)
+        self._analysis_worker.finished.connect(self._on_analysis_done)
+        self._analysis_worker.errored.connect(self._on_analysis_error)
+        self._analysis_worker.start()
 
-        ar = QHBoxLayout()
-        self.seal_btn    = QPushButton("SEAL IN VAULT")
-        self.reforge_btn = QPushButton("REFORGE VISUAL")
-        for b in (self.seal_btn, self.reforge_btn):
-            b.setObjectName("Action"); b.setEnabled(False)
-        self.seal_btn.clicked.connect(self._seal)
-        self.reforge_btn.clicked.connect(self._reforge)
-        ar.addWidget(self.seal_btn); ar.addWidget(self.reforge_btn)
+    def _on_analysis_done(self, strategy: str):
+        self.btn_analyse.setEnabled(True)
+        self.status_lbl.setText("✦ Lore strategy updated.")
 
-        vl.addWidget(self.img_lbl, alignment=Qt.AlignmentFlag.AlignHCenter)
-        vl.addWidget(self.progress)
-        vl.addWidget(self.lore_txt)
-        vl.addWidget(self.seed_lbl)
-        vl.addLayout(ar)
+    def _on_analysis_error(self, err: str):
+        self.btn_analyse.setEnabled(True)
+        self.status_lbl.setText(f"✕ Analysis failed: {err[:80]}")
 
-        # CONTROL PANEL
-        self.ctrl = ControlPanel()
 
-        rl.addWidget(sidebar)
-        rl.addLayout(vl, 1)
-        rl.addWidget(self.ctrl)
+# ─────────────────────────────────────────────────────────────────────────────
+# CONTROL PANEL  (slide-out panel)
+# ─────────────────────────────────────────────────────────────────────────────
 
-        self.status_bar = QStatusBar(); self.setStatusBar(self.status_bar)
+PANEL_WIDTH = 280
 
-    # -----------------------------------------------------------------------
-    def _toggle_panel(self):
-        self._panel_open = not self._panel_open
-        target = 270 if self._panel_open else 0
-        self._anim = QPropertyAnimation(self.ctrl, b"maximumWidth")
-        self._anim.setDuration(240); self._anim.setEndValue(target)
-        self._anim.setEasingCurve(QEasingCurve.Type.InOutQuad); self._anim.start()
+class ControlPanel(QFrame):
 
-    def _begin_ritual(self, atelier):
-        if self.worker and self.worker.isRunning():
-            self.status_bar.showMessage("  A ritual is already in progress..."); return
-        self._lock(False)
-        self.progress.setValue(0); self.lore_txt.clear()
-        self.img_lbl.setPixmap(QPixmap()); self.img_lbl.setText("Communing with the Aether...")
-        self.seed_lbl.setText("")
-        self.worker = MythotexWorker(atelier, self.pipe, self.ctrl.settings())
-        self.worker.status_update.connect(self.status_bar.showMessage)
-        self.worker.progress_val.connect(self.progress.setValue)
-        self.worker.finished.connect(self._on_done)
-        self.worker.error_signal.connect(self._on_error)
-        self.worker.start()
+    settings_changed = pyqtSignal()
 
-    def _reforge(self):
-        if not self.latest_data or (self.worker and self.worker.isRunning()): return
-        self._lock(False); self.progress.setValue(0)
-        self.img_lbl.setPixmap(QPixmap()); self.img_lbl.setText("Reforging the Visual...")
-        self.worker = MythotexWorker("", self.pipe, self.ctrl.settings(),
-                                     reforge=True, lore=self.latest_data["lore"])
-        self.worker.status_update.connect(self.status_bar.showMessage)
-        self.worker.progress_val.connect(self.progress.setValue)
-        self.worker.finished.connect(self._on_done)
-        self.worker.error_signal.connect(self._on_error)
-        self.worker.start()
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setFixedWidth(PANEL_WIDTH)
+        self.setStyleSheet(f"""
+            QFrame {{
+                background: {C_PANEL};
+                border-right: 1px solid {C_GOLD_DARK};
+            }}
+            QLabel {{
+                background: transparent;
+            }}
+            QComboBox {{
+                background: {C_BG};
+                color: {C_GOLD};
+                border: 1px solid {C_GOLD_DARK};
+                padding: 3px 8px;
+                font-family: Georgia, serif;
+                font-size: 11px;
+            }}
+            QComboBox QAbstractItemView {{
+                background: {C_PANEL};
+                color: {C_GOLD};
+                selection-background-color: {C_GOLD_DARK};
+            }}
+            QSlider::groove:horizontal {{
+                background: {C_SUBTLE};
+                height: 4px;
+                border-radius: 2px;
+            }}
+            QSlider::handle:horizontal {{
+                background: {C_GOLD};
+                width: 12px;
+                height: 12px;
+                margin: -4px 0;
+                border-radius: 6px;
+            }}
+            QSlider::sub-page:horizontal {{
+                background: {C_GOLD_DIM};
+                border-radius: 2px;
+            }}
+        """)
+        self._build_ui()
+        self._visible = False
 
-    def _on_done(self, data):
-        self.latest_data = data
-        self._lock(True); self.progress.setValue(100)
-        pix = QPixmap(data["path"]).scaled(
-            768, 768, Qt.AspectRatioMode.KeepAspectRatio,
-            Qt.TransformationMode.SmoothTransformation)
-        self.img_lbl.setPixmap(pix)
-        l = data["lore"]
-        self.lore_txt.setHtml(
-            "<center>"
-            f"<h2 style='color:#d4af37;margin-bottom:2px;letter-spacing:1px;'>{l.get('title','')}</h2>"
-            f"<p style='color:#5a4a30;margin-top:0;font-style:italic;'>{l.get('description','')}</p>"
-            "</center>"
-            f"<div style='margin:4px 24px;line-height:1.65;color:#806848;'>{l.get('history','')}</div>"
-            f"<p style='text-align:center;margin-top:8px;'>"
-            f"<span style='color:#252518;'>◈</span>  "
-            f"<span style='color:#3a3828;'>{l.get('aura','')}</span></p>"
+    def _build_ui(self):
+        root = QVBoxLayout(self)
+        root.setContentsMargins(14, 18, 14, 14)
+        root.setSpacing(14)
+
+        hdr = gold_label("⚙  Machina Controli", 13, bold=True)
+        root.addWidget(hdr)
+
+        sep = QFrame()
+        sep.setFrameShape(QFrame.Shape.HLine)
+        sep.setStyleSheet(f"color: {C_GOLD_DARK};")
+        root.addWidget(sep)
+
+        form = QFormLayout()
+        form.setLabelAlignment(Qt.AlignmentFlag.AlignRight)
+        form.setSpacing(10)
+
+        def flbl(text):
+            l = dim_label(text)
+            l.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+            return l
+
+        # Arx Arcana
+        self.atelier_combo = QComboBox()
+        self.atelier_combo.addItems(list(ARX_ARCANA.keys()))
+        form.addRow(flbl("Arx Arcana"), self.atelier_combo)
+
+        # Style
+        self.style_combo = QComboBox()
+        self.style_combo.addItems(STYLE_KEYS)
+        self.style_combo.currentTextChanged.connect(self._on_style_changed)
+        form.addRow(flbl("Stylus"), self.style_combo)
+
+        self.cfg_hint = dim_label(f"CFG {STYLE_PRESETS['Woodcut Ink']['cfg']} recommended")
+        form.addRow(QLabel(""), self.cfg_hint)
+
+        # CFG Scale
+        self.cfg_slider = QSlider(Qt.Orientation.Horizontal)
+        self.cfg_slider.setRange(5, 20)
+        self.cfg_slider.setValue(14)
+        self.cfg_slider.setTickInterval(1)
+        self.cfg_val = dim_label("14")
+        self.cfg_slider.valueChanged.connect(lambda v: self.cfg_val.setText(str(v)))
+        cfg_row = QHBoxLayout()
+        cfg_row.addWidget(self.cfg_slider)
+        cfg_row.addWidget(self.cfg_val)
+        form.addRow(flbl("CFG"), cfg_row)
+
+        # Steps
+        self.steps_slider = QSlider(Qt.Orientation.Horizontal)
+        self.steps_slider.setRange(10, 60)
+        self.steps_slider.setValue(28)
+        self.steps_val = dim_label("28")
+        self.steps_slider.valueChanged.connect(lambda v: self.steps_val.setText(str(v)))
+        steps_row = QHBoxLayout()
+        steps_row.addWidget(self.steps_slider)
+        steps_row.addWidget(self.steps_val)
+        form.addRow(flbl("Steps"), steps_row)
+
+        # Sampler
+        self.sampler_combo = QComboBox()
+        self.sampler_combo.addItems(["euler_a", "euler", "dpm++2m", "dpm++2s_a", "lcm"])
+        form.addRow(flbl("Sampler"), self.sampler_combo)
+
+        # Resolution
+        self.res_combo = QComboBox()
+        self.res_combo.addItems(["512×512", "512×768", "768×512", "768×768"])
+        form.addRow(flbl("Resolution"), self.res_combo)
+
+        # Model
+        self.model_combo = QComboBox()
+        self._populate_models()
+        form.addRow(flbl("Model"), self.model_combo)
+
+        self.model_hint = dim_label("")
+        self.model_note = dim_label("")
+        self.model_combo.currentIndexChanged.connect(self._apply_model_profile)
+        self._apply_model_profile()   # apply defaults on startup
+        form.addRow(QLabel(""), self.model_hint)
+        form.addRow(QLabel(""), self.model_note)
+
+        root.addLayout(form)
+        root.addStretch()
+
+        sep2 = QFrame()
+        sep2.setFrameShape(QFrame.Shape.HLine)
+        sep2.setStyleSheet(f"color: {C_GOLD_DARK};")
+        root.addWidget(sep2)
+
+        self.btn_vault = arcane_button("📖  Open Compendium Tome")
+        root.addWidget(self.btn_vault)
+
+    def _on_style_changed(self, key: str):
+        preset = STYLE_PRESETS.get(key, {})
+        cfg    = preset.get("cfg", 14)
+        self.cfg_hint.setText(f"CFG {cfg} recommended")
+        self.cfg_slider.setValue(cfg)
+
+    def _populate_models(self):
+        self.model_combo.clear()
+        self._model_paths = _scan_models()
+        if self._model_paths:
+            for p in self._model_paths:
+                self.model_combo.addItem(p.name)
+        else:
+            self.model_combo.addItem("(no models found)")
+
+    def _apply_model_profile(self):
+        idx = self.model_combo.currentIndex()
+        if not self._model_paths or idx < 0 or idx >= len(self._model_paths):
+            self.model_hint.setText("")
+            self.model_note.setText("")
+            return
+
+        p       = self._model_paths[idx]
+        profile = _match_model_profile(p.name)
+
+        # Size hint always shown
+        size_mb = p.stat().st_size / 1_048_576
+        self.model_hint.setText(f"{size_mb:.0f} MB")
+
+        if profile:
+            # Apply settings — block signals to avoid cascade with style combo
+            self.cfg_slider.blockSignals(True)
+            self.steps_slider.blockSignals(True)
+
+            self.cfg_slider.setValue(profile["cfg"])
+            self.cfg_val.setText(str(profile["cfg"]))
+            self.steps_slider.setValue(profile["steps"])
+            self.steps_val.setText(str(profile["steps"]))
+
+            self.cfg_slider.blockSignals(False)
+            self.steps_slider.blockSignals(False)
+
+            # Set sampler
+            idx_s = self.sampler_combo.findText(profile["sampler"])
+            if idx_s >= 0:
+                self.sampler_combo.setCurrentIndex(idx_s)
+
+            self.model_note.setText(profile["note"])
+        else:
+            self.model_note.setText("Unknown model — settings unchanged")
+
+    # ── Public accessors ──────────────────────────────────────────────────────
+
+    @property
+    def model_path(self) -> Path:
+        idx = self.model_combo.currentIndex()
+        if self._model_paths and 0 <= idx < len(self._model_paths):
+            return self._model_paths[idx]
+        # Fallback: original default
+        return SD_MODELS_DIR / "v1-5-pruned-emaonly.safetensors"
+
+    @property
+    def atelier(self) -> str:
+        return self.atelier_combo.currentText()
+
+    @property
+    def style_key(self) -> str:
+        return self.style_combo.currentText()
+
+    @property
+    def cfg(self) -> int:
+        return self.cfg_slider.value()
+
+    @property
+    def steps(self) -> int:
+        return self.steps_slider.value()
+
+    @property
+    def sampler(self) -> str:
+        return self.sampler_combo.currentText()
+
+    @property
+    def resolution(self) -> tuple[int, int]:
+        text = self.res_combo.currentText()
+        w, h = text.replace("×", "x").split("x")
+        return int(w), int(h)
+
+    # ── Slide animation ───────────────────────────────────────────────────────
+
+    def slide_in(self):
+        if self._visible:
+            return
+        self._visible = True
+        self._animate(0, PANEL_WIDTH)
+
+    def slide_out(self):
+        if not self._visible:
+            return
+        self._visible = False
+        self._animate(PANEL_WIDTH, 0)
+
+    def toggle(self):
+        if self._visible:
+            self.slide_out()
+        else:
+            self.slide_in()
+
+    def _animate(self, start_w: int, end_w: int):
+        anim = QPropertyAnimation(self, b"maximumWidth", self)
+        anim.setDuration(220)
+        anim.setStartValue(start_w)
+        anim.setEndValue(end_w)
+        anim.setEasingCurve(QEasingCurve.Type.InOutQuad)
+        anim.start(QPropertyAnimation.DeletionPolicy.DeleteWhenStopped)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MAIN APPLICATION
+# ─────────────────────────────────────────────────────────────────────────────
+
+class MythotexApp(QMainWindow):
+
+    def __init__(self):
+        super().__init__()
+        _ensure_dirs()
+        self.setWindowTitle("Mythotex — Arca Cognitarium")
+        self.setMinimumSize(1100, 720)
+        self._worker = None
+        self._current_lore = {}
+        self._current_image = ""
+        self._build_ui()
+
+    def _build_ui(self):
+        central = QWidget()
+        self.setCentralWidget(central)
+        root = QHBoxLayout(central)
+        root.setContentsMargins(0, 0, 0, 0)
+        root.setSpacing(0)
+
+        # ── Control Panel ────────────────────────────────────────────────────
+        self.panel = ControlPanel(central)
+        self.panel.setMaximumWidth(0)  # start collapsed
+        self.panel.btn_vault.clicked.connect(self._open_tome)
+        root.addWidget(self.panel)
+
+        # ── Main Content ─────────────────────────────────────────────────────
+        content = QWidget()
+        content.setStyleSheet(f"background: {C_BG};")
+        content_lay = QVBoxLayout(content)
+        content_lay.setContentsMargins(0, 0, 0, 0)
+        content_lay.setSpacing(0)
+        root.addWidget(content, stretch=1)
+
+        # Top bar
+        content_lay.addWidget(self._build_topbar())
+
+        # Body: image left, lore right
+        body = QHBoxLayout()
+        body.setContentsMargins(16, 16, 16, 16)
+        body.setSpacing(16)
+        content_lay.addLayout(body, stretch=1)
+
+        body.addWidget(self._build_image_pane(), stretch=0)
+        body.addWidget(self._build_lore_pane(), stretch=1)
+
+        # Status bar
+        content_lay.addWidget(self._build_statusbar())
+
+    # ── Top bar ───────────────────────────────────────────────────────────────
+
+    def _build_topbar(self) -> QWidget:
+        bar = QFrame()
+        bar.setFixedHeight(52)
+        bar.setStyleSheet(f"""
+            QFrame {{
+                background: {C_PANEL};
+                border-bottom: 1px solid {C_GOLD_DARK};
+            }}
+        """)
+        lay = QHBoxLayout(bar)
+        lay.setContentsMargins(14, 0, 14, 0)
+
+        self.btn_panel = QPushButton("☰")
+        self.btn_panel.setFixedSize(36, 36)
+        self.btn_panel.setStyleSheet(f"""
+            QPushButton {{
+                background: transparent;
+                color: {C_GOLD};
+                border: 1px solid {C_GOLD_DARK};
+                font-size: 18px;
+            }}
+            QPushButton:hover {{ background: {C_GOLD_DARK}; }}
+        """)
+        self.btn_panel.setToolTip("Toggle control panel")
+        self.btn_panel.clicked.connect(self.panel.toggle)
+        lay.addWidget(self.btn_panel)
+
+        lay.addSpacing(12)
+
+        title = gold_label("✦  M Y T H O T E X  ✦", 15, bold=True)
+        lay.addWidget(title)
+
+        lay.addStretch()
+
+        self.btn_generate = arcane_button("⚗  Manifest Artifact", C_GOLD)
+        self.btn_generate.setFixedHeight(34)
+        self.btn_generate.clicked.connect(self._start_generation)
+        lay.addWidget(self.btn_generate)
+
+        lay.addSpacing(8)
+
+        self.btn_seal = arcane_button("🜲  Seal to Vault", C_TEAL)
+        self.btn_seal.setFixedHeight(34)
+        self.btn_seal.setEnabled(False)
+        self.btn_seal.clicked.connect(self._seal_to_vault)
+        lay.addWidget(self.btn_seal)
+
+        lay.addSpacing(8)
+
+        self.btn_discard = arcane_button("✕  Discard", C_CRIMSON)
+        self.btn_discard.setFixedHeight(34)
+        self.btn_discard.setEnabled(False)
+        self.btn_discard.clicked.connect(self._discard_artifact)
+        lay.addWidget(self.btn_discard)
+
+        return bar
+
+    # ── Image pane ────────────────────────────────────────────────────────────
+
+    def _build_image_pane(self) -> QWidget:
+        pane = QFrame()
+        pane.setFixedWidth(530)
+        pane.setStyleSheet(f"""
+            QFrame {{
+                background: {C_PANEL};
+                border: 1px solid {C_GOLD_DARK};
+            }}
+        """)
+        lay = QVBoxLayout(pane)
+        lay.setContentsMargins(10, 10, 10, 10)
+        lay.setSpacing(8)
+
+        lbl = dim_label("Manifestation")
+        lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        lay.addWidget(lbl)
+
+        self.img_scroll = QScrollArea()
+        self.img_scroll.setWidgetResizable(False)
+        self.img_scroll.setFixedSize(504, 504)
+        self.img_scroll.setStyleSheet(f"background: {C_BG}; border: 1px solid {C_SUBTLE};")
+        self.img_scroll.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.img_label = QLabel()
+        self.img_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.img_label.setFixedSize(504, 504)
+        self.img_label.setStyleSheet(f"background: {C_BG}; color: {C_GOLD_DIM}; font-size: 11px;")
+        self.img_label.setText("Awaiting manifestation…")
+        self.img_scroll.setWidget(self.img_label)
+        lay.addWidget(self.img_scroll, alignment=Qt.AlignmentFlag.AlignCenter)
+
+        # Progress bar — hidden until generation starts
+        self.progress_bar = QProgressBar()
+        self.progress_bar.setRange(0, 100)
+        self.progress_bar.setValue(0)
+        self.progress_bar.setFixedHeight(6)
+        self.progress_bar.setTextVisible(False)
+        self.progress_bar.setStyleSheet(f"""
+            QProgressBar {{
+                background: {C_SUBTLE};
+                border: none;
+                border-radius: 3px;
+            }}
+            QProgressBar::chunk {{
+                background: {C_GOLD};
+                border-radius: 3px;
+            }}
+        """)
+        self.progress_bar.hide()
+        lay.addWidget(self.progress_bar)
+
+        return pane
+
+    # ── Lore pane ─────────────────────────────────────────────────────────────
+
+    def _build_lore_pane(self) -> QWidget:
+        pane = QFrame()
+        pane.setStyleSheet(f"""
+            QFrame {{
+                background: {C_PANEL};
+                border: 1px solid {C_GOLD_DARK};
+            }}
+        """)
+        lay = QVBoxLayout(pane)
+        lay.setContentsMargins(18, 16, 18, 16)
+        lay.setSpacing(12)
+
+        # Title
+        self.lore_title = QLabel("—")
+        self.lore_title.setWordWrap(True)
+        self.lore_title.setStyleSheet(
+            f"color: {C_GOLD}; font-family: Georgia, serif; font-size: 18px; "
+            f"font-weight: bold; background: transparent;"
         )
-        self.seed_lbl.setText(f"seed  {data.get('seed','')}")
-        self.status_bar.showMessage(f"  {l.get('title','')}  —  manifested.")
-        self._maybe_analyse(on_save=False)
+        lay.addWidget(self.lore_title)
 
-    def _on_error(self, msg):
-        self._lock(False)
-        self.img_lbl.setText("The ritual failed.")
-        self.lore_txt.setPlainText(f"The Forge encountered an error:\n\n{msg}")
-        self.status_bar.showMessage(f"  The ritual failed  —  {msg[:90]}")
+        sep = QFrame()
+        sep.setFrameShape(QFrame.Shape.HLine)
+        sep.setStyleSheet(f"color: {C_GOLD_DARK};")
+        lay.addWidget(sep)
 
-    def _seal(self):
-        if not self.latest_data: return
-        title = self.latest_data["lore"].get("title", "unknown_relic")
-        slug  = re.sub(r"[^\w\s-]", "", title).strip().replace(" ", "_")[:60]
-        dest  = os.path.join(VAULT_DIR, slug); os.makedirs(dest, exist_ok=True)
-        ts    = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        src   = self.latest_data["path"]
-        if os.path.exists(src):
-            shutil.move(src, os.path.join(dest, f"relic_{ts}.png"))
-        entry = dict(self.latest_data["lore"])
-        entry["seed"] = self.latest_data.get("seed", -1)
-        with open(os.path.join(dest, f"relic_{ts}.json"), "w") as f:
-            json.dump(entry, f, indent=4)
-        log = load_gen_log()
-        log["total_sealed"] = log.get("total_sealed", 0) + 1
-        save_gen_log(log)
-        self.status_bar.showMessage(f"  Bound to Vault:  {slug}")
-        self.seal_btn.setEnabled(False)
-        self._maybe_analyse(on_save=True)
+        # Fields
+        for attr, label in [
+            ("lore_desc",    "Description"),
+            ("lore_history", "History"),
+            ("lore_aura",    "Aura"),
+        ]:
+            row_lbl = dim_label(label.upper())
+            row_lbl.setStyleSheet(
+                f"color: {C_GOLD_DIM}; font-size: 9px; letter-spacing: 2px; "
+                f"font-family: Georgia, serif; background: transparent;"
+            )
+            lay.addWidget(row_lbl)
 
-    def _maybe_analyse(self, on_save: bool):
-        if self.analysis_worker and self.analysis_worker.isRunning(): return
-        log    = load_gen_log()
-        setts  = self.ctrl.settings()
-        vt     = setts.get("vault_threshold",    VAULT_THRESHOLD)
-        pt     = setts.get("periodic_threshold", PERIODIC_THRESHOLD)
-        sealed = log.get("total_sealed",         0)
-        since  = log.get("since_last_analysis",  0)
-        last   = log.get("last_analysis_sealed", 0)
-        v_trig = on_save  and (sealed - last) >= vt
-        p_trig = not on_save and since >= pt
-        if v_trig or p_trig:
-            reason = "vault threshold" if v_trig else "periodic threshold"
-            self.status_bar.showMessage(f"  ◈ Analysis pass triggered  ({reason})...")
-            self.analysis_worker = AnalysisWorker()
-            self.analysis_worker.status_update.connect(self.status_bar.showMessage)
-            self.analysis_worker.analysis_done.connect(
-                lambda _r, s=sealed: self._on_analysis(_r, s))
-            self.analysis_worker.error_signal.connect(
-                lambda e: self.status_bar.showMessage(f"  Analysis error:  {e[:80]}"))
-            self.analysis_worker.start()
+            field = QTextEdit()
+            field.setReadOnly(True)
+            field.setStyleSheet(f"""
+                QTextEdit {{
+                    background: {C_BG};
+                    color: {C_TEXT};
+                    border: 1px solid {C_SUBTLE};
+                    font-family: Georgia, serif;
+                    font-size: 11px;
+                    padding: 6px;
+                }}
+            """)
+            if attr == "lore_desc":
+                field.setFixedHeight(56)
+            elif attr == "lore_history":
+                field.setFixedHeight(100)
+            else:
+                field.setFixedHeight(56)
+            setattr(self, attr, field)
+            lay.addWidget(field)
 
-    def _on_analysis(self, _result: str, sealed_at: int):
-        log = load_gen_log()
-        log["last_analysis_sealed"] = sealed_at
-        log["since_last_analysis"]  = 0
-        save_gen_log(log)
-        self.status_bar.showMessage("  ◈ Engine strategy updated.")
+        # Visual keywords
+        kw_lbl = dim_label("VISUAL KEYWORDS")
+        kw_lbl.setStyleSheet(
+            f"color: {C_GOLD_DIM}; font-size: 9px; letter-spacing: 2px; "
+            f"font-family: Georgia, serif; background: transparent;"
+        )
+        lay.addWidget(kw_lbl)
 
-    def _lock(self, enabled: bool):
-        self.seal_btn.setEnabled(enabled)
-        self.reforge_btn.setEnabled(enabled)
+        self.lore_keywords = QLabel("—")
+        self.lore_keywords.setWordWrap(True)
+        self.lore_keywords.setStyleSheet(
+            f"color: {C_TEAL}; font-family: Georgia, serif; font-size: 10px; "
+            f"background: {C_BG}; border: 1px solid {C_SUBTLE}; padding: 6px;"
+        )
+        lay.addWidget(self.lore_keywords)
+
+        lay.addStretch()
+        return pane
+
+    # ── Status bar ────────────────────────────────────────────────────────────
+
+    def _build_statusbar(self) -> QWidget:
+        bar = QFrame()
+        bar.setFixedHeight(28)
+        bar.setStyleSheet(f"""
+            QFrame {{
+                background: {C_PANEL};
+                border-top: 1px solid {C_GOLD_DARK};
+            }}
+        """)
+        lay = QHBoxLayout(bar)
+        lay.setContentsMargins(14, 0, 14, 0)
+
+        self.status_lbl = dim_label("The Arca Cognitarium awaits your command.")
+        lay.addWidget(self.status_lbl)
+        lay.addStretch()
+
+        self.atelier_status = dim_label("")
+        lay.addWidget(self.atelier_status)
+
+        return bar
+
+    # ── Generation ────────────────────────────────────────────────────────────
+
+    def _start_generation(self):
+        if self._worker and self._worker.isRunning():
+            return
+
+        atelier    = self.panel.atelier
+        style_key  = self.panel.style_key
+        cfg        = self.panel.cfg
+        steps      = self.panel.steps
+        sampler    = self.panel.sampler
+        w, h       = self.panel.resolution
+        model_path = self.panel.model_path
+
+        self.btn_generate.setEnabled(False)
+        self.btn_seal.setEnabled(False)
+        self.btn_discard.setEnabled(False)
+        self.img_label.setText("⚗  Manifesting…")
+        self.atelier_status.setText(atelier)
+        self._clear_lore_fields()
+        self.progress_bar.setValue(0)
+        self.progress_bar.show()
+
+        self._worker = MythotexWorker(
+            atelier, style_key, cfg, steps, sampler, w, h, model_path, self
+        )
+        self._worker.progress.connect(self._on_progress)
+        self._worker.step_progress.connect(self._on_step_progress)
+        self._worker.finished.connect(self._on_done)
+        self._worker.errored.connect(self._on_error)
+        self._worker.start()
+
+    def _on_progress(self, msg: str):
+        self.status_lbl.setText(msg)
+
+    def _on_step_progress(self, current: int, total: int):
+        if total > 0:
+            pct = int((current / total) * 100)
+            self.progress_bar.setValue(pct)
+            self.status_lbl.setText(f"⚗  Sampling… step {current} / {total}")
+
+    def _on_done(self, lore: dict, image_path: str):
+        self._current_lore  = lore
+        self._current_image = image_path
+
+        # ── Lore fields ──────────────────────────────────────────────────────
+        self.lore_title.setText(lore.get("title", "Unknown Artifact"))
+        self.lore_desc.setPlainText(lore.get("description", ""))
+        self.lore_history.setPlainText(lore.get("history", ""))
+        self.lore_aura.setPlainText(lore.get("aura", ""))
+        kws = lore.get("visual_keywords", [])
+        self.lore_keywords.setText("  ·  ".join(kws))
+
+        # ── Image — fixed display pipeline ───────────────────────────────────
+        DISPLAY_MAX = 504
+
+        pixmap = QPixmap(image_path)
+        if not pixmap.isNull():
+            pixmap = pixmap.scaled(
+                QSize(DISPLAY_MAX, DISPLAY_MAX),
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation,
+            )
+            dpr = self.devicePixelRatioF()
+            pixmap.setDevicePixelRatio(dpr)
+            self.img_label.setPixmap(pixmap)
+            self.img_label.setFixedSize(
+                int(pixmap.width()  / dpr),
+                int(pixmap.height() / dpr),
+            )
+        else:
+            self.img_label.setText("[ Image unavailable ]")
+
+        self.img_scroll.setFixedSize(DISPLAY_MAX + 4, DISPLAY_MAX + 4)
+        self.img_scroll.setWidgetResizable(False)
+
+        # ── Controls ─────────────────────────────────────────────────────────
+        self.btn_generate.setEnabled(True)
+        self.btn_seal.setEnabled(True)
+        self.btn_discard.setEnabled(True)
+        self.progress_bar.hide()
+        self.status_lbl.setText(f"✦  Artifact manifested: {lore.get('title', '?')}")
+
+    def _on_error(self, err: str):
+        self.btn_generate.setEnabled(True)
+        self.btn_seal.setEnabled(False)
+        self.btn_discard.setEnabled(False)
+        self.progress_bar.hide()
+        self.status_lbl.setText(f"✕  Error: {err[:120]}")
+        self.img_label.setText("Generation failed.\nCheck status bar.")
+
+    # ── Vault operations ──────────────────────────────────────────────────────
+
+    def _seal_to_vault(self):
+        if not self._current_lore:
+            return
+
+        ts        = datetime.now().strftime("%Y%m%d_%H%M%S")
+        safe_name = re.sub(r"[^\w\-]", "_", self._current_lore.get("title", "artifact"))
+        entry_dir = VAULT_DIR / f"{ts}_{safe_name}"
+        entry_dir.mkdir(parents=True, exist_ok=True)
+
+        meta = {
+            **self._current_lore,
+            "atelier":    self.panel.atelier,
+            "style":      self.panel.style_key,
+            "sealed_at":  datetime.now().isoformat(),
+            "rating":     None,
+        }
+        (entry_dir / "meta.json").write_text(json.dumps(meta, indent=2))
+
+        if self._current_image and Path(self._current_image).exists():
+            shutil.copy2(self._current_image, entry_dir / "artifact.png")
+
+        self.btn_seal.setEnabled(False)
+        self.btn_discard.setEnabled(False)
+        self.status_lbl.setText(f"🜲  Sealed: {meta['title']}")
+
+    def _discard_artifact(self):
+        self._current_lore  = {}
+        self._current_image = ""
+        self._clear_lore_fields()
+        self.img_label.clear()
+        self.img_label.setText("Awaiting manifestation…")
+        self.btn_seal.setEnabled(False)
+        self.btn_discard.setEnabled(False)
+        self.status_lbl.setText("Artifact discarded.")
+
+    def _clear_lore_fields(self):
+        self.lore_title.setText("—")
+        self.lore_desc.clear()
+        self.lore_history.clear()
+        self.lore_aura.clear()
+        self.lore_keywords.setText("—")
+
+    def _open_tome(self):
+        dlg = CompendiumTome(self)
+        dlg.exec()
 
 
-# ---------------------------------------------------------------------------
+# ─────────────────────────────────────────────────────────────────────────────
 # ENTRY POINT
-# ---------------------------------------------------------------------------
+# ─────────────────────────────────────────────────────────────────────────────
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    app.setStyleSheet(GLOBAL_STYLE)
 
-    print("Initialising the Stable Diffusion pipeline — please wait...")
-    pipe = StableDiffusionPipeline.from_pretrained(
-        "runwayml/stable-diffusion-v1-5",
-        torch_dtype=torch.float32,
-    ).to("cpu")
-    pipe.scheduler = EulerDiscreteScheduler.from_config(pipe.scheduler.config)
-    pipe.enable_attention_slicing()
-    pipe.vae.enable_slicing()
-    print("Pipeline ready. The Tower awakens.")
+    # Prefer serif font if available
+    for fname in ["Constantia", "Georgia"]:
+        fid = QFontDatabase.families()
+        if fname in fid:
+            app.setFont(QFont(fname, 10))
+            break
 
-    window = MythotexApp(pipe)
+    window = MythotexApp()
     window.show()
     sys.exit(app.exec())

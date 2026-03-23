@@ -43,3 +43,4 @@ claudebox/claudebox.config.yaml
 
 # Type checking
 .mypy_cache/
+tools/Mythotex/stable-diffusion.cpp/

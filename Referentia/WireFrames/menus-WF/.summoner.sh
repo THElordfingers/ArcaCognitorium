@@ -18,7 +18,7 @@
 # Class        :ArcaCognit-WF
 # Classname    :Menu.FC.Index
 
-nohup konsole --hold --profile 'ArcaCognitorium.TRANSPARENT' --geometry 599x199+3840+0 --workdir "/home/lordfingers/ArcaCognitorium/Referentia/WireFrames/menus-WF/flow-charts/"  > /dev/null 2>&1 & Menu_pid=$!
+nohup konsole --hold --profile 'ArcaCognitorium.TRANSPARENT' --qwindowgeometry 599x199+3840+0 --workdir "/home/lordfingers/ArcaCognitorium/Referentia/WireFrames/menus-WF/flow-charts/"  > /dev/null 2>&1 & Menu_pid=$!
          
  Menu_sessid=$(echo 'org.kde.konsole-')$Menu_pid
  Menu_id=$(xdotool search --sync --pid $Menu_pid)
@@ -37,7 +37,7 @@ nohup konsole --hold --profile 'ArcaCognitorium.TRANSPARENT' --geometry 599x199+
 # Class        :ArcaCognit-WF
 # Classname    :Menu.WF.Index
 
-nohup konsole --hold --profile 'ArcaCognitorium.TRANSPARENT' --geometry '599x881+3840+199' --workdir "/home/lordfingers/ArcaCognitorium/Referentia/WireFrames/menus-WF/" > /dev/null 2>&1 & Menu_pid=$!
+nohup konsole --hold --profile 'ArcaCognitorium.TRANSPARENT' --qwindowgeometry '599x881+3840+199' --workdir "/home/lordfingers/ArcaCognitorium/Referentia/WireFrames/menus-WF/" > /dev/null 2>&1 & Menu_pid=$!
          
  Menu_sessid=$(echo 'org.kde.konsole-')$Menu_pid
  Menu_id=$(xdotool search --sync --pid $Menu_pid)
@@ -55,7 +55,7 @@ nohup konsole --hold --profile 'ArcaCognitorium.TRANSPARENT' --geometry '599x881
 # Class        :ArcaCognit-WF
 # Classname    :Menu.FC
 
-nohup konsole --hold --profile 'ArcaCognitorium' --geometry 599x881+3840+199 --workdir "/home/lordfingers/ArcaCognitorium/Referentia/WireFrames/menus-WF/flow-charts/" -e micro "/home/lordfingers/ArcaCognitorium/Referentia/WireFrames/menus-WF/flow-charts/01-filum------------menu-FC.txt"  > /dev/null 2>&1 & Menu_pid=$!
+nohup konsole --hold --profile 'ArcaCognitorium' --qwindowgeometry 599x881+3840+199 --workdir "/home/lordfingers/ArcaCognitorium/Referentia/WireFrames/menus-WF/flow-charts/" -e micro "/home/lordfingers/ArcaCognitorium/Referentia/WireFrames/menus-WF/flow-charts/01-filum------------menu-FC.txt"  > /dev/null 2>&1 & Menu_pid=$!
          
  Menu_sessid=$(echo 'org.kde.konsole-')$Menu_pid
  Menu_id=$(xdotool search --sync --pid $Menu_pid)
@@ -72,7 +72,7 @@ nohup konsole --hold --profile 'ArcaCognitorium' --geometry 599x881+3840+199 --w
 # Class        :ArcaCognit-WF
 # Classname    :Menu.WF
 
-nohup konsole --hold --profile 'ArcaCognitorium' --geometry 531x881+4439+199 --workdir "/home/lordfingers/ArcaCognitorium/Referentia/WireFrames/menus-WF/" -e micro "/home/lordfingers/ArcaCognitorium/Referentia/WireFrames/menus-WF/01-filum------------menu-WF.txt"  > /dev/null 2>&1 & Menu_pid=$!
+nohup konsole --hold --profile 'ArcaCognitorium' --qwindowgeometry 531x881+4439+199 --workdir "/home/lordfingers/ArcaCognitorium/Referentia/WireFrames/menus-WF/" -e micro "/home/lordfingers/ArcaCognitorium/Referentia/WireFrames/menus-WF/01-filum------------menu-WF.txt"  > /dev/null 2>&1 & Menu_pid=$!
          
  Menu_sessid=$(echo 'org.kde.konsole-')$Menu_pid
  Menu_id=$(xdotool search --sync --pid $Menu_pid)
@@ -88,7 +88,7 @@ nohup konsole --hold --profile 'ArcaCognitorium' --geometry 531x881+4439+199 --w
 # Class        :ArcaCognit-WF
 # Classname    :Menu.AV
 
-nohup konsole --hold --profile "ArcaCognitorium" --geometry 31x450+4970+0 --workdir "/home/lordfingers/ArcaCognitorium/glyphs" -e micro "/home/lordfingers/ArcaCognitorium/glyphs/fullwidth-latin-capitals-vertical.txt" > /dev/null 2>&1 & Menu_pid=$!
+nohup konsole --hold --profile "ArcaCognitorium" --qwindowgeometry 31x450+4970+0 --workdir "/home/lordfingers/ArcaCognitorium/glyphs" -e micro "/home/lordfingers/ArcaCognitorium/glyphs/fullwidth-latin-capitals-vertical.txt" > /dev/null 2>&1 & Menu_pid=$!
          
  Menu_sessid=$(echo 'org.kde.konsole-')$Menu_pid
  Menu_id=$(xdotool search --sync --pid $Menu_pid)
@@ -104,7 +104,7 @@ nohup konsole --hold --profile "ArcaCognitorium" --geometry 31x450+4970+0 --work
 # Class        :ArcaCognit-WF
 # Classname    :Menu.AM
 
-nohup konsole --hold --profile "ArcaCognitorium" --geometry 759x450+5001+0 --workdir "/home/lordfingers/ArcaCognitorium/glyphs" -e micro "/home/lordfingers/ArcaCognitorium/glyphs/menu-font.txt" > /dev/null 2>&1 & Menu_pid=$!
+nohup konsole --hold --profile "ArcaCognitorium" --qwindowgeometry 759x450+5001+0 --workdir "/home/lordfingers/ArcaCognitorium/glyphs" -e micro "/home/lordfingers/ArcaCognitorium/glyphs/menu-font.txt" > /dev/null 2>&1 & Menu_pid=$!
          
  Menu_sessid=$(echo 'org.kde.konsole-')$Menu_pid
  Menu_id=$(xdotool search --sync --pid $Menu_pid)
@@ -120,7 +120,7 @@ nohup konsole --hold --profile "ArcaCognitorium" --geometry 759x450+5001+0 --wor
 # Class        :ArcaCognit-WF
 # Classname    :Menu.Glyphs
 
-nohup konsole --hold --profile "ArcaCognitorium" --geometry 790x630+4970+450 --workdir "/home/lordfingers/ArcaCognitorium/glyphs" -e micro "/home/lordfingers/ArcaCognitorium/glyphs/glyphs.txt" > /dev/null 2>&1 & Menu_pid=$!
+nohup konsole --hold --profile "ArcaCognitorium" --qwindowgeometry 790x630+4970+450 --workdir "/home/lordfingers/ArcaCognitorium/glyphs" -e micro "/home/lordfingers/ArcaCognitorium/glyphs/glyphs.txt" > /dev/null 2>&1 & Menu_pid=$!
          
  Menu_sessid=$(echo 'org.kde.konsole-')$Menu_pid
  Menu_id=$(xdotool search --sync --pid $Menu_pid)

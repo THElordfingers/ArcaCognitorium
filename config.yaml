@@ -12,8 +12,8 @@
 
 
 app:
-  name: "Luminarious"
-  version: "v1.0-phase2_status_visibility"
+  name: "Arca Cognitorium"
+  version: "v1.1_core-implementations"
   timezone: "local"
 
 api:

@@ -65,7 +65,7 @@ class DoliumApp(App):
 
     def _build_box(self, api_key: str) -> object:
         try:
-            from ClaudeBox import ClaudeBox
+            from claudebox import ClaudeBox
             box = ClaudeBox(api_key=api_key)
             print(f"[dolium] ClaudeBox initialised OK", file=sys.stderr)
             return box
