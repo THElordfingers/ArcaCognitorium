@@ -1,0 +1,20 @@
+LordFingers: command to make a virutal python environment
+
+Claude:  ```bash
+python3 -m venv venv
+```
+
+This creates a virtual environment in a folder called `venv`. 
+
+To activate it:
+- **Linux/Mac**: `source venv/bin/activate`
+- **Windows**: `venv\Scripts\activate`
+
+Once activated, you'll see `(venv)` in your terminal prompt, and any packages 
+you install with `pip` will be isolated to that environment.
+
+To deactivate later, just run:
+```bash
+deactivate
+```
+

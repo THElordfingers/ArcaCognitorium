@@ -1,0 +1,70 @@
+LordFingers: I am working on this script with another. we've hit a wall.
+What I want fixed is, the box thats supposed to wrap aroound the outside, is 
+missing its top and left sides. also the total height of the combined 
+panes/boxes doesnt reach the height of th terminal its in, which is 960x540.
+
+Claude:  I can see the issues! Let me analyze the problems:
+
+1. **Missing outer box sides**: The outer "heavy" border at `(0,0)` is being 
+overdrawn by the inner borders that start at `(1,1)`. The border function draws 
+at exact positions, so borders starting at `(1,1)` overwrite the top and left 
+sides of the outer border.
+
+2. **Height doesn't fill terminal**: The layout uses fixed heights that don't 
+adapt to the terminal size, even though `rows,cols=os.get_terminal_size()` is 
+called.
+
+Let me create a fixed version:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+Let me create the fixed version directly in the working directory:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+## Fixed! Here's what I changed:
+
+**1. Outer border visibility** - Moved the heavy outer border drawing to the 
+**very end** of the `draw_ui()` function. It was being overwritten because 
+inner borders at position `(1,1)` were drawing over the border at `(0,0)`.
+
+**2. Dynamic height calculation** - Changed from fixed `RIGHT_CONTENT_H=18` to:
+   ```python
+   TOTAL_INNER_HEIGHT = rows - 3  # Outer border takes 2 rows + 1 safety margin
+   RIGHT_CONTENT_H = TOTAL_INNER_HEIGHT - TOP_H - MSG_H - PROMPT_H
+   ```
+   This makes the content area expand to fill your terminal height.
+
+**3. Adjusted all coordinates** - Shifted inner borders from `(1,1)` to `(2,2)` 
+and the outer border stays at `(1,1)` to properly nest everything with spacing.
+
+The script will now properly display the complete heavy outer border and 
+automatically adapt to your 960x540 terminal size!
+

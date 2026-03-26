@@ -1,0 +1,657 @@
+LordFingers: 
+
+Claude:  This is a genuinely ambitious project — essentially a DAW-lite focused on 
+composition and rehearsal documentation rather than audio production. Let me 
+share some thoughts on the concept, then get into the stack question.
+
+**What's strong about the concept**
+
+The layered architecture (global → theory → structure → notation) is 
+well-reasoned. Each layer genuinely informs the next, and keeping them linked 
+through a shared backend state is the right instinct. The rehearsal-printout 
+focus is a smart, underserved niche — most tools target recording engineers, 
+not bands sitting in a practice space with paper.
+
+**Things worth thinking through**
+
+The tab notation system you're describing is essentially a custom text-based 
+format rendered visually. The hyphen-as-1/32-division approach is interesting 
+but will get complex fast when you introduce triplets, ties, dotted notes, and 
+techniques that span multiple positions. You'll want to nail down the data 
+model for a single "note event" early — it probably needs: string, fret, 
+duration, position-in-bar, technique flags, and whether it's part of a group 
+(bend, slide, etc.). Getting this wrong early is expensive to fix.
+
+The fretboard-as-input-device is compelling but needs careful UX design. 
+Clicking a fret is ambiguous — same pitch appears in multiple positions. 
+You'll need a way to lock which string you're targeting, or let the user click 
+and have the system suggest positions, then confirm. This is the kind of thing 
+that sounds simple but becomes the most-used interaction in the whole app, so 
+it deserves early prototyping.
+
+The theory sandbox tab is a nice bonus but risks becoming a scope trap. I'd 
+stub it out early and return to it — the core workflow is more valuable to 
+validate first.
+
+Musician profiles + instrument presets is a genuinely good idea, especially for 
+bands that rotate gear. Worth thinking about whether a "session" concept ties 
+these together — this song, this lineup, this set of instruments — so you 
+can load a whole context at once.
+
+The structure layer (song sections as rearrangeable blocks) is where this 
+starts to feel like a DAW. You'll want to think about what happens when you 
+reorder sections and chord progressions are attached to specific sections. Does 
+the notation follow? Does it warn you? This gets into state management 
+territory fast.
+
+**On the stack**
+
+Plain JS + CSS is fine for a proof of concept but will become painful as the 
+state complexity grows. Here's how I'd think about it:
+
+For a project with this many interconnected views that all respond to shared 
+global state, you really want a reactive frontend framework. **React** is the 
+pragmatic choice — large ecosystem, good tooling, and the component model 
+maps well to your "each instrument has its own page" architecture. If you want 
+something with a gentler learning curve and more built-in reactivity, 
+**Svelte** is worth serious consideration — it compiles away the framework 
+overhead and the reactive stores are very natural for this kind of shared 
+global state. I'd actually lean toward Svelte for a solo or small team building 
+something this UI-heavy.
+
+For state management, the global song state (key, BPM, tuning, all the section 
+data, all the notation) should live in a single structured store — think of 
+it like a document model. In Svelte this is a writable store; in React you'd 
+use Zustand or Redux Toolkit. The whole app reads from and writes to this 
+document. This also makes save/load trivial — you're just serializing and 
+deserializing that object.
+
+For the notation rendering specifically, you have a few options. If you stay 
+with text/grid-based tab (which I think is the right call for printability and 
+simplicity), you can render it entirely in HTML/CSS. If you ever want standard 
+notation alongside tab, **VexFlow** is the go-to JS music notation library. I 
+wouldn't add it until you need it.
+
+For printing/PDF export, **CSS print stylesheets** get you surprisingly far. 
+For more control, **jsPDF** or running a headless Chromium print to PDF 
+server-side works well. Since rehearsal printouts are a core feature, this 
+deserves real attention — not an afterthought.
+
+For persistence, starting with **localStorage** or **IndexedDB** for local 
+saves is totally reasonable. If you eventually want cloud sync or 
+collaboration, you'd add a backend — **Supabase** (Postgres + auth out of the 
+box) would be my pick for low friction.
+
+For the fretboard and circle-of-fifths visualizations, **SVG** rendered 
+directly in the framework is the right call — more control than Canvas, 
+easier to make interactive and style.
+
+**Suggested starting point**
+
+Build the global state model first as a plain JS object — what does a 
+complete song look like as data? Get that right before you write a single UI 
+component. Then build the structure layer (song sections), since that's the 
+spine everything else hangs on. The notation layer will take the most time and 
+should come last, once the inputs to it are stable.
+
+What's your current comfort level with React or Svelte? And are you planning to 
+build this solo or with collaborators? That would shape the recommendation 
+further.
+
+LordFingers: I have given thought to how the notation will be structured but I'll discuss 
+that later. I would like to say that while I do want to the suite to be a 
+deeply useful and malleable and configurable powerhoise and neural system, I 
+definitely also want to have a very friendly user flow dialled in so someone 
+can just sit down and write a song without any friction, if they choose have 
+plenty of room to go off the rails with experimentation. Id like to hear about 
+how it fits together and aspects and abilities and functions and features that 
+I may have overlooked
+
+Claude:  That balance you're describing — zero-friction default flow with deep 
+configurability underneath — is actually the hardest design problem in tools 
+like this. Most software picks one or the other. Getting both right is what 
+separates tools people actually use from tools people admire and abandon. So 
+it's worth thinking carefully about how that tension shows up at every layer.
+
+**The "just sit down and write" path**
+
+The ideal new session flow is something like: open the app, name your song, 
+pick a key and a vibe, and immediately have something useful in front of you. 
+That means smart defaults everywhere. A new session could auto-populate a 
+standard rock band lineup, a 4/4 time signature, a common tempo range, and 
+maybe even suggest a chord progression based on the key and mood. The user 
+shouldn't have to configure instruments they probably already want. They should 
+be able to override everything, but touch nothing if they don't want to.
+
+A "quick start" mode versus "advanced setup" toggle at the session creation 
+screen could handle this gracefully — one path for people who want to dive 
+in, one for people who want to configure from scratch.
+
+**The section/arrangement layer deserves more thought**
+
+The block-based song structure you described is good, but there's a lot of 
+useful functionality hiding in there. Sections could have color coding for 
+visual scanning at a glance. You could support section linking — where a 
+verse block in slot 2 and verse block in slot 5 are instances of the same 
+section, so edits propagate. Or you can deliberately break that link and let 
+them diverge. This is how arrangement in real songwriting works: "the second 
+verse is the same as the first, except the last bar." You'd also want a song 
+map view — a horizontal timeline showing the full arrangement at a glance — 
+which doubles as a navigation tool for jumping to a section's notation.
+
+**Chord progression flow is underspecified**
+
+You mentioned a global chord progression but this is a meaty feature. The most 
+useful implementation would be a progression builder per section — you drag 
+or click chords from the theory-informed palette into a bar-by-bar grid, assign 
+durations, and that progression then becomes the backbone the vocal and guitar 
+notation layers reference. It would show up as a chord chart above the vocal 
+line, and optionally as slash notation or guides above the guitar tab. 
+Progressions could be saved and loaded as presets. Common progressions (I-IV-V, 
+I-V-vi-IV, etc.) could be offered as starting points with the actual chords 
+transposed to the current key automatically.
+
+**The fretboard needs a few modes people won't think to ask for**
+
+Beyond scale display and root notes, some genuinely useful display modes: 
+highlighted chord tones for the current progression chord (so as the user is 
+writing a lead, the fretboard shows what notes are "inside" at that moment), a 
+comparison mode showing two scales or modes simultaneously, a capo mode that 
+shifts the visual display, and a "reachable from this position" highlight that 
+shows what notes are accessible without a position shift — useful when you're 
+writing and want to stay in a box.
+
+**Techniques and articulation are deeper than they appear**
+
+For guitar tab specifically, the set of notation symbols is large: hammer-ons, 
+pull-offs, slides (up and down, with arrival note or open-ended), bends (full, 
+half, quarter, bend-and-release, pre-bend), vibrato, tapping, harmonics 
+(natural and pinch), palm muting, string skipping, whammy notation, and rake. 
+Each has a visual representation in tab and some affect note duration and pitch 
+in ways that need to be encoded. You don't need to support all of these on day 
+one, but your data model for a note event needs to be able to accommodate them 
+without a redesign. A technique field that accepts a structured set of flags 
+and parameters is the right call.
+
+**Drums need their own thinking**
+
+You mentioned a grid format, which is right. The standard grid maps rows to 
+drum/cymbal voices and columns to rhythmic subdivisions. But a few things are 
+worth adding: velocity indication (ghost notes versus accents — this is core 
+to how drummers read parts), rudiment suggestions or a rudiment library, the 
+ability to define custom voices for non-standard kits, and polyrhythm support 
+if bars have different time signatures. Drum fills should be notatable as 
+distinct from groove patterns, and the section system should be able to flag 
+"fill here" as a cue even when the exact fill is left to the player.
+
+**Vocals are the most neglected instrument in software like this**
+
+A vocal interface should show lyrics aligned to a chord chart, with the ability 
+to place syllables against the bar grid so timing is clear. Melody can 
+optionally be notated — either in a simplified pitch grid (not full standard 
+notation) or just as a contour suggestion. Vocal harmonies are worth supporting 
+— a second or third voice track that shows the interval relationship to the 
+lead. Range indicators based on a singer profile would be a nice touch — the 
+system could flag if a melody goes above or below the vocalist's defined range.
+
+**Missing features worth considering**
+
+A reference audio link per section — just a URL to a YouTube clip or a file 
+— so you can say "the feel of this bridge is like this." No playback in the 
+app, just a pointer. Incredibly useful in a rehearsal context.
+
+A notes and annotations layer — freeform text attached to any section or bar. 
+"Play this loose," "drummer comes in here," "key change discussion." This is 
+how real musicians communicate and it's almost never in notation software.
+
+A version history or snapshot system. Not full undo-redo (though you want that 
+too), but the ability to name and save a state of the whole document — 
+"version before we tried drop D," "arrangement attempt 2" — and flip between 
+them.
+
+A setlist view that sits above the song level — where you can group songs, 
+see all the keys and tempos at a glance, and note transitions between songs. 
+Slightly outside the core scope but a natural extension for a band context.
+
+Transposition tools at every level. If someone decides to change the global 
+key, the system should offer to transpose all the written notation 
+automatically, with a preview of what changes and the option to exclude certain 
+instruments.
+
+Print templates — different layouts for different use cases. A guitarist 
+wants their tab with chord names above it. A vocalist wants lyrics with chord 
+symbols, big and readable. A drummer wants just the groove grid. These should 
+be definable and savable.
+
+**The feel of the app**
+
+Given you want it to feel friendly and frictionless, a few UX principles worth 
+baking in early: nothing should be more than two clicks from the main flow. 
+Every destructive action should be undoable. The app should never lose work — 
+autosave to a local draft constantly. Tooltips and contextual help should be 
+present but not intrusive — the kind of thing you hover over when confused, 
+not the kind of thing that pops up uninvited. Keyboard shortcuts for everything 
+in the notation layer, because anyone who uses it heavily will want to keep 
+their hands off the mouse.
+
+What aspects of this do you want to go deeper on? The notation data model, the 
+theory layer, the print system, or the overall information architecture would 
+all be worth a focused conversation.
+
+LordFingers: 
+
+Claude:  It looks like you've uploaded a file called `claude.prompt` — let me take a 
+look at what's in it.
+```
+This block is not supported on your current device yet.
+```
+
+Interesting — this is a transcript of a parallel conversation you were having 
+with Gemini about the same project. Good way to triangulate perspectives. A few 
+observations on where Gemini's thinking diverges from mine, and what's worth 
+taking from it.
+
+**What Gemini got right that's worth keeping**
+
+Tonal.js is a genuinely excellent call and I should have led with it. It 
+handles scale generation, chord detection, interval math, transposition — all 
+the music theory plumbing you'd otherwise spend months writing. Use it as your 
+theory engine from day one.
+
+TypeScript is worth the overhead for this project specifically, for the reason 
+Gemini states: your data model is complex and typed. A `Note` is not a string. 
+A `Chord` is not an array. Having the compiler catch mismatches between your 
+music theory layer and your notation layer will save you from a class of bugs 
+that are very hard to debug otherwise.
+
+The tuning-change integrity question ("transpose the notes or keep the fret 
+positions?") is real and important — that needs to be a deliberate design 
+decision with a clear dialog, not something the app silently handles.
+
+**Where I'd push back**
+
+The "AI" framing Gemini leans into in that final summary is largely marketing 
+language for features you already described yourself. Calling a mood setting a 
+"semantic vector" and the theory engine a "neural processor" obscures what 
+these things actually are — a lookup table and a music theory library. That 
+kind of framing can lead you to over-engineer solutions that don't need it, or 
+to feel like you need ML where you don't.
+
+The "Vocal Height Map" as a pitch-contour drawing tool is evocative but 
+practically limited — it's not notatable, not printable in a useful form, and 
+doesn't give a vocalist actionable information. A grid-based pitch input, even 
+simplified, is more useful for rehearsal purposes.
+
+The "Density Mapping" and "Tension Analysis" heat map panel is genuinely 
+interesting but is a late-stage feature, not a core one. Don't let it distract 
+from building the writing workflow first.
+
+**What neither conversation has settled yet**
+
+The data schema. Everything else is downstream of this. Before a single UI 
+component gets built, you need to answer: what does a Song look like as a JSON 
+object, completely? What does a Measure look like? What does a NoteEvent look 
+like? This is worth a dedicated conversation — get it right and the rest 
+follows naturally. Get it wrong and you'll be refactoring it through every 
+other layer.
+
+Do you want to work through the schema now? That feels like the right next move.
+
+LordFingers: Sure. Honestly that is pretty out of my wheel house, if you think you can lock 
+that down into a real tight piece of file, and we can build a pulsing, 
+breathing, dynamic and symbiotic interface from it, have at 'er.
+
+Claude:  Let me read the skills available and then build this out properly.
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+Good. Now let me build this — the schema as a TypeScript type definition 
+file, and a visual interactive reference document that maps the whole 
+architecture.
+```
+This block is not supported on your current device yet.
+```
+
+Good. Now the visual architecture reference — a rich interactive HTML 
+document that maps the whole system.
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+Two files — the visual reference and the actual TypeScript source.
+
+**`schema-reference.html`** — an interactive architecture map. Click the 
+Level 1/2/3/4 headers to expand the field breakdowns, hover fields for notes. 
+Shows the full data flow from a key change all the way through to the notation 
+layer. This is what you pin open while building.
+
+**`song-schema.ts`** — the actual schema. Drop it into your project as the 
+spine everything else imports from. A few things worth noting about the 
+decisions made:
+
+The **32-slot grid system** is pre-calculated. Every `StringNoteEvent` stores 
+both `duration` (the human label) and `gridSlots` (the integer it occupies), so 
+the renderer never has to do that math at draw time.
+
+The **Section/Arrangement split** is deliberate — sections live in a pool, 
+and the arrangement is just an ordered list of references to them. This is what 
+enables linked instances: two chorus slots in the arrangement both point to the 
+same section object.
+
+The **`Song` vs `AppUIState`** split is the key architectural boundary. `Song` 
+is what gets saved to disk. `AppUIState` — cursor position, which tab is 
+open, which ghost staves are visible — lives only in the runtime Zustand 
+store and gets discarded on close. Nothing ephemeral ever touches the document.
+
+The file saves as `.neuralsong` — just JSON with a custom extension. Any song 
+can be opened in a text editor, diffed in git, backed up anywhere.
+
+Next logical step is scaffolding the Zustand store that wraps this schema and 
+exposes the mutation functions — `setGlobalKey()`, `addSection()`, 
+`writeNoteEvent()` etc. Want to go there, or start with a UI prototype first?
+
+LordFingers: By the way - This is called Sonorum
+
+Claude:  Noted. That's a good name — latin root, implies resonance and sound, feels 
+like a proper piece of software rather than a product name cooked up in a 
+boardroom.
+
+I'll use **Sonorum** from here on across all files, comments, UI text, and 
+documentation. The file extension can become `.sonorum` instead of 
+`.neuralsong` as well.
+
+Where do you want to go next — the Zustand store and data layer, or start 
+laying down the first UI interface?
+
+LordFingers: I really despise using emojis anywhere in the code at all ever. it's so fucking 
+lame. we can do better. dont worry about that kind of shit right now, we can 
+focus on creating a solid workig core and make it pretty later.
+
+Claude:  Agreed completely. Emojis in code are lazy placeholders — we'll use proper 
+icon systems (Lucide or similar) when the time comes, or just text labels. 
+Nothing in the codebase from here on.
+
+Core first. Where do you want to start — the Zustand store, or the first 
+working interface?
+
+LordFingers: what do you think? what needs to happen? what makes the foundation?
+
+Claude:  The foundation is the store. Everything else is just a view on top of it.
+
+Here's the order I'd build it:
+
+**1. The Zustand store** wrapping the schema. This is the nervous system — it 
+holds the Song document, exposes mutation functions, and handles the 
+reactivity. Until this exists nothing else can be wired up to anything real. It 
+also needs the autosave logic baked in from day one, not bolted on later.
+
+**2. Tonal.js integration** — a small theory engine module that sits between 
+the store and the schema. When the key or mode changes, this is what recomputes 
+the diatonic chord palette, scale notes, and fretboard highlights. It needs to 
+exist before any UI can display musically meaningful information.
+
+**3. The fretboard calculation module** — given a tuning, a key, a mode, and 
+a display mode (scale/root/chord tones/etc), return which fret positions on 
+which strings are active. This is a pure function with no UI dependency and it 
+gets called constantly. It should be rock solid before a single fret gets 
+rendered.
+
+**4. A minimal shell app** — just the routing structure and the store wired 
+up. No styling, no polish. Four levels accessible, active song loading, the 
+document persisting to localStorage. Proves the wiring works end to end.
+
+Then from that base you build outward — Level 1 form first since it feeds 
+everything else, then Level 2 theory display, then Level 3 structure, then 
+Level 4 notation.
+
+That's the order I'd go. Want to start with the store?
+
+LordFingers: sounds good
+
+Claude:  
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+Now the theory engine that the store calls into:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+That's the nervous system. Here's what you have now:
+
+**`store.ts`** — the complete Zustand store split into two clean slices. 
+`useSongStore` owns the document — every mutation from setting a key to 
+writing an individual note event at a specific grid position. `useUIStore` owns 
+the runtime — cursor position, active level, which ghost staves are visible, 
+selected duration and technique. Autosave subscribes to `updatedAt` changes and 
+debounces to localStorage every 30 seconds. The song index is maintained 
+separately so you can build a song picker without loading every full document.
+
+**`theory-engine.ts`** — pure functions, no store dependency. 
+`computeDiatonicChords` is what the store calls when key or mode changes. 
+`getFretboardMap` is what the fretboard renderer calls — it returns a full 2D 
+array of every note on every string with flags for whether it's in-scale, a 
+root, a chord tone, etc. The filter modes (`scale`, `rootOnly`, `chordTones`, 
+`harmonies`, `singleNoteOctaves`, `reachableFromPosition`) are all handled here 
+before the UI ever touches the data.
+
+**Dependencies to install** when you scaffold the project:
+```
+npm install zustand tonal uuid
+npm install -D typescript @types/uuid
+```
+
+Next up is the fretboard calculation module and then the shell app. The 
+fretboard module is the last pure-logic piece before we start touching UI. Want 
+to knock that out now?
+
+LordFingers: lets go baby
+
+Claude: 
+```
+This block is not supported on your current device yet.
+```
+
+Now the shell app — React entry point, routing between the four levels, store 
+wired up end to end:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+Now the package.json and project scaffold so everything can actually be run:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+That's the full foundation. Here's what you have and how to get it running:
+
+**To boot it up:**
+```
+npm install
+npm run dev
+```
+
+**What's wired and working right now:**
+
+`song-schema.ts` — the complete document model. `store.ts` — every mutation 
+from setting a key to writing a single fret event, both the Song store and the 
+UI store, with autosave. `theory-engine.ts` — diatonic chord computation, 
+fretboard note maps, borrowed chords, circle of fifths, voice leading scores. 
+All pure functions. `fretboard-engine.ts` — the rendering data layer: builds 
+the full cell-by-cell fretboard display data, chord diagram data, drum grid 
+data, vocal grid data, ASCII tab renderer, bar density analysis, and all the 
+position/grid math.
+
+`SonorumApp.tsx` — the shell: header with level navigation, global keyboard 
+shortcuts (Cmd+1–4 to switch levels, Cmd+S to save), auto-loads the most 
+recent song on mount.
+
+`GlobalsPanel` — fully functional. Every field connected to the store, live 
+summary at the bottom showing the diatonic chord names updating as you change 
+key and mode.
+
+`TheoryPanel`, `StructurePanel`, `NotationPanel` — structurally complete and 
+store-connected. The notation panel has full keyboard handling for the cursor, 
+duration shortcuts (1–6), technique shortcuts (h/p/b/~/m), and the drum grid 
+click interaction. The fretboard renders as a data debug view for now — 
+that's the next build step.
+
+**What comes next:** The SVG fretboard renderer and the visual tab grid. That's 
+where it starts looking like software. Want to go there?
+
+LordFingers: I dont understand the copy to all outputs script.
+
+Claude:  Fair point — it's messy. The outputs folder is just how files get handed 
+back to you through this interface. In a real project you wouldn't have that at 
+all.
+
+Here's what the actual project structure should look like on your machine:
+
+```
+sonorum/
+├── index.html
+├── package.json
+├── tsconfig.json
+├── vite.config.ts
+└── src/
+    ├── main.tsx
+    ├── SonorumApp.tsx
+    ├── song-schema.ts
+    ├── store.ts
+    ├── theory-engine.ts
+    ├── fretboard-engine.ts
+    └── panels/
+        ├── GlobalsPanel.tsx
+        ├── TheoryPanel.tsx
+        ├── StructurePanel.tsx
+        └── NotationPanel.tsx
+```
+
+Create that folder somewhere on your machine, drop the files in — 
+`index.html`, `package.json`, `tsconfig.json`, `vite.config.ts` go in the root, 
+everything else goes in `src/`, and the four panel files go in `src/panels/`. 
+Then `npm install` and `npm run dev` and Vite will serve it on localhost.
+
+The `copy to outputs` stuff you saw is just an artifact of how I deliver files 
+through this chat — ignore it completely. It has nothing to do with how 
+Sonorum is structured.
+
+Does that make sense? And do you have a code editor set up — VS Code or 
+something else?
+
+LordFingers: I dont have a code editor: also, 
+
+npm ERR! Missing script: "dev" npm ERR!  npm ERR! To see a list of scripts, 
+run: npm ERR!   npm run npm ERR! A complete log of this run can be found in: 
+npm ERR! 
+    /home/lordfingers/.npm/_logs/2026-02-19T06_31_34_226Z-debug-0.log
+
+Claude:  Two things to sort out.
+
+**The npm error** — that means you ran `npm run dev` in the wrong directory. 
+You need to be inside the sonorum folder first:
+
+```
+cd sonorum
+npm install
+npm run dev
+```
+
+If you ran `npm install` and `npm run dev` from your home directory or 
+somewhere else, it won't find the package.json. Make sure your terminal is 
+inside the folder that contains the package.json file.
+
+**No code editor** — get VS Code. It's free, it's what the whole ecosystem is 
+built around, and for a TypeScript/React project it's essentially mandatory. It 
+gives you type errors inline as you write, autocomplete, file tree, integrated 
+terminal — everything.
+
+Download it at code.visualstudio.com. Once it's installed, open your terminal 
+inside VS Code, navigate to the sonorum folder, and run from there. It also 
+means when we need to make edits you can just open the file directly rather 
+than downloading everything through this chat.
+
+What OS are you on? I can give you the exact steps to get from zero to running.
+

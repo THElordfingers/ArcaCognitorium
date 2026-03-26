@@ -1,0 +1,36 @@
+- ctrl+c crashed app.
+- a HUD that displays:
+   - apparently this was already implemented but is not fuuncioning. I will refine it though.
+   - should be in right pane underneath canonical ratified list of terminology.
+   - Lists should be live updated. and scrollable. Terms can be selected from the list and 
+     opened up in a new window for editing: name, stratum, category, 
+   - between the canon list and the session tag, there shoul be a legend describing the factors
+     that go into a term in bullet form. This can be launched in a new window with a much more 
+     detailed readout, ibcluding all currently ratified stratums and categories.
+   - the current verb candidate, and a boxed label (round cornered box drawing) 
+   - AI status
+     (Thinking... Idle... Canonizing... Ratifying... include some funny idle messages,
+      like briefly change to actions related to his personality.)
+
+
+- need to be able to ask for translations of single verbs without giving me a new vocab term.   
+
+ＬＯＲＩＤＥＸ Card:
+
+╭──────────────────────────────────────────────────────────────────────╮       
+│𝄛𝄛𝄛𝄚𝄘𝄘𝄗𝄗𝄗𝄖𝄖𝄖𝄖𝄖𝄖𝄖𝄖𝄖𝄖𝄖𝄖𝄖𝄗𝄗𝄗𝄘𝄘𝄙𝄙𝄙𝄙𝄙𝄚𝄚𝄚𝄚𝄚𝄚𝄚𝄚𝄚𝄚𝄚𝄙𝄙𝄙𝄘𝄘𝄘𝄗𝄗𝄗𝄖𝄖𝄖𝄖𝄖𝄖𝄖𝄖𝄖𝄖𝄗𝄗𝄘𝄗𝄘𝄚𝄛│       
+│𝄛𝄛𝄛   𝐕𝐞𝐫𝐛𝐮𝐦: Arca Cognitorium                                       │                         
+│𝄛𝄛𝄛   𝐒𝐭𝐫𝐚𝐭𝐮𝐦: Ⅰ                                                     │       
+│𝄛𝄛    𝐂𝐚𝐭𝐞𝐠𝐨𝐫𝐢𝐚: Tower                                               │       
+│𝄛                                                                     │       
+│𝄛   𝐍𝐨𝐭𝐢𝐨:                                                           │       
+│𝄛                                                                     │       
+│𝄛   	The Arca Cognitorium is a magic box enchanted by a powerful    │   
+│𝄛   Wizard to contain an omniscient Oracle, for questionable usages.  │       
+│𝄛                                                                     │       
+│𝄛                                                                     │       
+│𝄛                                                                     │       
+│𝄛                                                                     │       
+│𝄛                                                                     │       
+╰──────────────────────────────────────────────────────────────────────╯ 
+

@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "widgets": {
+    "git_main": {
+      "cls": "GitWidget",
+      "x": 8, "y": 8, "w": 280, "h": 280,
+      "visible": true, "docked": false, "extra": {}
+    },
+    "chat_main": {
+      "cls": "ChatWidget",
+      "x": 296, "y": 8, "w": 560, "h": 460,
+      "visible": true, "docked": false, "extra": {}
+    },
+    "token_main": {
+      "cls": "TokenTracker",
+      "x": 864, "y": 8, "w": 280, "h": 260,
+      "visible": true, "docked": false, "extra": {}
+    },
+    "todo_main": {
+      "cls": "TodoBoard",
+      "x": 8, "y": 296, "w": 280, "h": 300,
+      "visible": true, "docked": false, "extra": {}
+    },
+    "launcher_main": {
+      "cls": "AppLauncher",
+      "x": 1152, "y": 8, "w": 200, "h": 200,
+      "visible": true, "docked": false, "extra": {}
+    },
+    "style_main": {
+      "cls": "StyleReference",
+      "x": 864, "y": 276, "w": 280, "h": 260,
+      "visible": true, "docked": false, "extra": {}
+    },
+    "status_main": {
+      "cls": "StatusLegend",
+      "x": 1152, "y": 216, "w": 200, "h": 180,
+      "visible": true, "docked": false, "extra": {}
+    }
+  },
+  "docked_widgets": []
+}

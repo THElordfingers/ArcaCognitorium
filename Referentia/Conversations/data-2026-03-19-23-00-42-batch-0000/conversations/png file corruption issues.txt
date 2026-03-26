@@ -1,0 +1,28 @@
+LordFingers: why do .png files on my computer keep corrupting?
+
+Claude:  PNG corruption can happen for several reasons:
+
+**Storage issues** - Bad sectors on your hard drive or SSD are a common 
+culprit. Run a disk check utility (CHKDSK on Windows, Disk Utility on Mac) to 
+scan for errors.
+
+**Memory problems** - Faulty RAM can corrupt files as they're being read, 
+written, or processed. Run a memory diagnostic tool like Windows Memory 
+Diagnostic or MemTest86.
+
+**Software bugs** - The program you're using to save or edit PNGs might have 
+issues. Try using different software to see if the problem persists.
+
+**Interrupted writes** - If your system crashes, loses power, or a program 
+closes unexpectedly while saving a PNG, it can leave the file corrupted.
+
+**Malware** - Some viruses or ransomware corrupt files. Run a full antivirus 
+scan.
+
+**Cloud sync conflicts** - If you're using Dropbox, OneDrive, or similar 
+services, sync conflicts can sometimes corrupt files.
+
+When did this start happening? Is it affecting all PNGs or just certain ones? 
+And do you notice any pattern - like it only happens when using specific 
+software or after certain actions?
+

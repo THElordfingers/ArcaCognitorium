@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "widgets": {
+    "git_main": {
+      "cls": "GitWidget",
+      "x": 8,
+      "y": 8,
+      "w": 354,
+      "h": 531,
+      "visible": true,
+      "docked": false,
+      "extra": {}
+    },
+    "chatwidget_51c260": {
+      "cls": "ChatWidget",
+      "x": 365,
+      "y": 7,
+      "w": 511,
+      "h": 481,
+      "visible": true,
+      "docked": false,
+      "extra": {}
+    },
+    "tokentracker_031ee2": {
+      "cls": "TokenTracker",
+      "x": 397,
+      "y": 450,
+      "w": 300,
+      "h": 210,
+      "visible": true,
+      "docked": false,
+      "extra": {}
+    },
+    "todoboard_f3cd87": {
+      "cls": "TodoBoard",
+      "x": 911,
+      "y": 300,
+      "w": 300,
+      "h": 260,
+      "visible": true,
+      "docked": false,
+      "extra": {}
+    },
+    "applauncher_9e1c86": {
+      "cls": "AppLauncher",
+      "x": 1549,
+      "y": 2,
+      "w": 300,
+      "h": 178,
+      "visible": true,
+      "docked": false,
+      "extra": {}
+    },
+    "stylereference_b0ac9b": {
+      "cls": "StyleReference",
+      "x": 69,
+      "y": 405,
+      "w": 300,
+      "h": 260,
+      "visible": true,
+      "docked": false,
+      "extra": {}
+    },
+    "statuslegend_82e6e2": {
+      "cls": "StatusLegend",
+      "x": 887,
+      "y": 15,
+      "w": 300,
+      "h": 260,
+      "visible": true,
+      "docked": false,
+      "extra": {}
+    }
+  },
+  "docked_widgets": []
+}

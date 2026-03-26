@@ -1,0 +1,19 @@
+{
+  "conversation": {
+    "name": "Main Discussion",
+    "start_date": "02-24-2026",
+    "end_date": "",
+    "category": "Lore"
+  },
+  "subjects": [
+    {
+      "subject": "",
+      "entries": [
+        {
+          "speaker": "",
+          "text": ""
+        }
+      ]
+    }
+  ]
+}

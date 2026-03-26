@@ -1,0 +1,1462 @@
+LordFingers: Now can you make me a program with the same structure as FPImagines, but for 
+Icon generation from the API? This one will be called FPIcones
+
+Claude: 
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+It seems FPImagines is on your computer, not in Claude's environment. Let me 
+check the outputs directory and read the FPImagines files from your machine.
+```
+This block is not supported on your current device yet.
+```
+
+The FPImagines files aren't in my environment. Let me check the Freepik icon 
+generation API docs and then read FPImagines from your computer to replicate 
+its structure.
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+The icon generation doc is sparse. Let me read the full file:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+The docs are minimal. Let me fetch the full API reference from the web:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+Now I have a clear picture of the Icon Generation API. Let me read the 
+FPImagines source from your previous outputs to understand the exact structure 
+to replicate:
+```
+This block is not supported on your current device yet.
+```
+
+FPImagines isn't on your filesystem from Claude's perspective. Based on the 
+conversation history I found, I can see the structure clearly — `api/`, 
+`ui/`, `config.py`, workers, etc. I'll build FPIcones with the same 
+architecture. Let me construct it now:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+FPIcones is ready. Same 7-file structure as FPImagines:
+
+```
+FPIcones/
+├── main.py           ← entry point + dark Fusion palette
+├── config.py         ← API URLs, window dimensions, poll settings
+├── api/
+│   ├── client.py     ← submit_icon / poll_until_done / render_icon
+│   └── payload.py    ← build_icon_payload (validates all params)
+├── ui/
+│   ├── main_window.py ← Qt5 GUI: prompt, style/format pickers, 
+quality knobs, preview, save
+│   └── worker.py     ← QThread: submit → poll → render → 
+auto-save → emit signals
+└── README.md
+```
+
+**Controls exposed in the UI:**
+- Prompt text field
+- Style: solid / outline / color / flat / sticker
+- Format: PNG or SVG
+- Inference Steps (10–50)
+- Guidance Scale (0–10)
+- Preview mode checkbox (hits `/preview` endpoint for a faster low-res pass)
+- Output folder (browseable)
+- Generate / Cancel / Save As buttons
+- Live task ID + status bar + auto-saved path display
+
+Run it the same way as FPImagines:
+```bash
+export FREEPIK_API_KEY="your-key"
+python main.py
+```
+
+LordFingers: Error: 400 Client Error: Bad Request for url: 
+https://api.freepik.com/vq/ai/text-to-icon
+
+Claude:  That URL is wrong — `vq` instead of `v1`. But that's not something I'd have 
+written — let me check the actual config:
+```
+This block is not supported on your current device yet.
+```
+
+The container reset between sessions, so the files are only on your machine 
+now. The URL in `config.py` I wrote was correct (`/v1/ai/text-to-icon`), so the 
+`vq` must be a typo somewhere in your local copy.
+
+Check your `config.py` — it should read:
+
+```python
+ICON_ENDPOINT = "/v1/ai/text-to-icon"
+PREV_ENDPOINT = "/v1/ai/text-to-icon/preview"
+```
+
+But a 400 Bad Request with the right URL also means the **payload itself** is 
+the likely culprit. The Freepik icon endpoint **requires `webhook_url`** even 
+for polling-only use — the API spec marks it as required. That's probably 
+what's actually causing the 400.
+
+Fix `api/payload.py` — change `build_icon_payload` to always include a 
+placeholder webhook URL (or pass one in):
+
+```python
+def build_icon_payload(
+    prompt: str,
+    style: str       = "solid",
+    fmt: str         = "png",
+    num_inference_steps: int   = STEPS_DEFAULT,
+    guidance_scale: float      = GUIDANCE_DEFAULT,
+    webhook_url: str | None    = None,
+) -> dict:
+    ...
+    payload: dict = {
+        "prompt": prompt.strip(),
+        "style":  style,
+        "webhook_url": webhook_url or "https://example.com/webhook",  # 
+required by API
+    }
+```
+
+And in `main_window.py`, you could add an optional **Webhook URL** field so 
+users can supply their own. But the `example.com` placeholder is enough to 
+satisfy the required field while you poll manually.
+
+Give that a try and let me know what happens — if it still 400s, share the 
+full error response body and I can pinpoint exactly what's wrong.
+
+LordFingers: the typo was just from me typing it in, i was wrong
+
+Claude:  No worries! So the URL is fine — the 400 is almost certainly the missing 
+`webhook_url` then, since the API marks it as required.
+
+Make that one change in `api/payload.py`:
+
+```python
+payload: dict = {
+    "prompt": prompt.strip(),
+    "style":  style,
+    "webhook_url": webhook_url or "https://example.com/webhook",
+}
+```
+
+That should clear the 400. Give it a shot!
+
+LordFingers: Erro: 400 Client Error: Bad Request for url: 
+https://api.freepik.com/v1/ai/text-to-icon/691194a1-378c-4955-b24b-14b5cb1aa363/
+render/svg
+
+can we put in an errors tab like before while were at it?
+
+Claude:  Let me check the render endpoint more carefully and look at what FPImagines 
+did for the errors tab:
+```
+This block is not supported on your current device yet.
+```
+
+I see two things: the render endpoint's 400 is likely because the task was 
+generated from the **preview** endpoint but we're calling 
+`/text-to-icon/{id}/render/` — the render call only works on full 
+(non-preview) tasks. Also the `generated` array in the COMPLETED response 
+already contains the download URLs directly, so we can skip the render call 
+entirely and just fetch the URL from there.
+
+Let me rewrite `client.py` and `worker.py` to fix both issues, and add the 
+errors tab:
+```
+This block is not supported on your current device yet.
+```
+
+Container reset — I'll rewrite all the files fresh with the fixes baked in:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+Here's what changed and why:
+
+**`api/client.py` — two root-cause fixes:**
+- The `/render/{format}` endpoint is gone entirely. The COMPLETED task's 
+`generated` array already contains the download URL — we just `GET` that 
+directly with `download_icon()`. The render endpoint was causing the 400.
+- Both status key spellings are handled: the preview endpoint returns 
+`task_status` while the main endpoint returns `status` — `_normalise()` 
+unifies them so polling works for both.
+
+**`api/payload.py`:**
+- `webhook_url` is now always included (hardcoded to `example.com`) since the 
+API requires it even when you're polling.
+
+**`ui/main_window.py` — Errors tab:**
+- New **Errors** tab with a scrollable monospaced log. Every error that comes 
+from the worker gets timestamped and appended there.
+- The tab title updates to show the count: `Errors (3)`, so you can see at a 
+glance if something went wrong even while you're on the Generate tab.
+- A **Clear** button resets the log and the count.
+
+LordFingers: I dont see any errors tab. also, :
+
+Error: 400 Client Error: Bad Request for url: 
+https://api.freepik.com/v1/text-to-icon
+
+Claude:  Two separate issues — the URL is missing `/ai/` (should be 
+`/v1/ai/text-to-icon`), and the errors tab isn't showing. Let me look at what's 
+actually on your machine:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+The container reset again — your local copy is what's running. I need you to 
+share the files so I can see what's actually there. Can you paste the contents 
+of your `config.py` and `ui/main_window.py`? 
+
+That said, I can tell you exactly what's wrong from the error alone:
+
+**URL bug:** Your `config.py` has `ICON_ENDPOINT = "/v1/text-to-icon"` — 
+missing `/ai/`. It should be:
+```python
+ICON_ENDPOINT = "/v1/ai/text-to-icon"
+PREV_ENDPOINT = "/v1/ai/text-to-icon/preview"
+```
+
+**Errors tab not showing:** The outputs I delivered earlier are what Claude 
+generated in this session — but since the container resets, your local files 
+are likely the *first* version (before the errors tab was added). The updated 
+`main_window.py` with `QTabWidget` never made it to your machine properly, or 
+got overwritten.
+
+The fastest fix: replace your entire `ui/main_window.py` with the file I just 
+sent (the one with `self.tabs = QTabWidget()` near the top of `__init__`). If 
+you can share what you currently have in that file I can confirm exactly what's 
+missing.
+
+LordFingers: i typed it wrong. it was v1/ai/text-to-icon
+
+Claude:  Got it, so the URL is fine. That means the 400 is still the payload. Can you 
+add a quick debug print to `api/client.py` right before the POST so we can see 
+exactly what's being sent?
+
+In `submit_icon()`, just before the `requests.post(...)` line, add:
+
+```python
+import json
+print("DEBUG payload:", json.dumps(payload, indent=2))
+print("DEBUG url:", url)
+```
+
+Run it again and paste what prints — that'll tell us immediately what the API 
+is rejecting.
+
+LordFingers: it didnt  print anythig different with that line, but this error has been 
+happening at 
+startup /home/lordfingers/.pyenv/versions/3.11.9/lib/python3.11/site-packages/r
+equests/__init__.py:113: RequestsDependencyWarning: urllib3 (2.6.3) or chardet 
+(6.0.0.post1)/charset_normalizer (3.4.4) doesn't match a supported version! 
+ warnings.warn(
+
+Claude:  That warning is harmless — it won't cause a 400. But if the debug print 
+isn't showing, that means the code running on your machine **isn't the updated 
+`client.py`**. The old version is still there.
+
+Can you check what's actually in your `api/client.py` right now?
+
+```bash
+cat ~/FPIcones/api/client.py
+```
+
+Paste the output and I'll tell you exactly what to change. My guess is it still 
+has the `render_icon` call and never got the `download_icon` rewrite — 
+meaning it's still hitting the broken render endpoint, which is what's causing 
+the 400.
+
+LordFingers: """
+FPIcones – api/client.py
+Low-level HTTP wrapper for the Freepik icon-generation endpoints.
+"""
+import os
+import time
+import requests
+from config import (
+    API_KEY_ENV, API_BASE,
+    ICON_ENDPOINT, PREV_ENDPOINT,
+    POLL_INTERVAL, MAX_POLL_WAIT,
+)
+def _headers() -> dict:
+    key = os.environ.get(API_KEY_ENV, "").strip()
+    if not key:
+        raise EnvironmentError(
+            f"Freepik API key not found. "
+            f"Set the {API_KEY_ENV!r} environment variable."
+        )
+    return {
+        "Content-Type":    "application/json",
+        "x-freepik-api-key": key,
+    }
+def submit_icon(payload: dict, preview: bool = False) -> str:
+    """
+    POST to /v1/ai/text-to-icon (or /preview).
+    Returns the task_id string.
+    """
+    endpoint = PREV_ENDPOINT if preview else ICON_ENDPOINT
+    url = API_BASE + endpoint
+    resp = requests.post(url, json=payload, headers=_headers(), timeout=30)
+    resp.raise_for_status()
+    data = resp.json().get("data", resp.json())
+    task_id = data.get("task_id")
+    if not task_id:
+        raise ValueError(f"No task_id in response: {resp.text}")
+    return task_id
+def get_task_status(task_id: str, preview: bool = False) -> dict:
+    """
+    GET the task result.
+    Returns the full data dict: {task_id, status, generated: [...]}
+    """
+    base = PREV_ENDPOINT if preview else ICON_ENDPOINT
+    url = f"{API_BASE}{base}/{task_id}"
+    resp = requests.get(url, headers=_headers(), timeout=30)
+    resp.raise_for_status()
+    return resp.json().get("data", resp.json())
+def poll_until_done(task_id: str, preview: bool = False,
+                    progress_cb=None) -> dict:
+    """
+    Block-poll until status is COMPLETED or FAILED (or timeout).
+    progress_cb(status_str) is called on each poll cycle if provided.
+    Returns the final data dict.
+    """
+    deadline = time.time() + MAX_POLL_WAIT
+    while time.time() < deadline:
+        data = get_task_status(task_id, preview)
+        status = data.get("status", data.get("task_status", ""))
+        if progress_cb:
+            progress_cb(status)
+        if status == "COMPLETED":
+            return data
+        if status == "FAILED":
+            raise RuntimeError(f"Task {task_id} FAILED.")
+        time.sleep(POLL_INTERVAL)
+    raise TimeoutError(f"Task {task_id} did not complete within 
+{MAX_POLL_WAIT}s.")
+def render_icon(task_id: str, fmt: str = "png") -> bytes:
+    """
+    POST /v1/ai/text-to-icon/{task-id}/render/{format}
+    Returns raw bytes of the icon file.
+    """
+    url = f"{API_BASE}{ICON_ENDPOINT}/{task_id}/render/{fmt}"
+    import json
+    print("DEBUG payload:", json.dumps(payload, indent=2))
+    print("DEBUG url:", url)
+    resp = requests.post(url, headers={k: v for k, v in _headers().items()
+                                       if k != "Content-Type"}, timeout=60)
+    resp.raise_for_status()
+    # The API returns the file directly OR a JSON with a URL/base64
+    ct = resp.headers.get("Content-Type", "")
+    if "json" in ct:
+        j = resp.json()
+        # handle possible {"data": {"url": "..."}} shape
+        data = j.get("data", j)
+        url2 = data.get("url") or data.get("generated", [{}])[0].get("url", "")
+        if url2:
+            r2 = requests.get(url2, timeout=60)
+            r2.raise_for_status()
+            return r2.content
+        raise ValueError(f"Cannot extract file from render response: 
+{resp.text}")
+    return resp.content
+
+Claude:  That's the original v1 file — the debug print ended up in `render_icon` 
+instead of `submit_icon`, which is why it never printed. And it's still using 
+the broken render endpoint.
+
+Just replace the entire file with this:
+```
+This block is not supported on your current device yet.
+```
+
+Right, container reset. Just copy-paste this directly into your 
+`~/FPIcones/api/client.py` — it replaces the whole file:
+
+```python
+"""
+FPIcones – api/client.py
+"""
+import os
+import time
+import requests
+from config import (
+    API_KEY_ENV, API_BASE,
+    ICON_ENDPOINT, PREV_ENDPOINT,
+    POLL_INTERVAL, MAX_POLL_WAIT,
+)
+
+
+def _headers() -> dict:
+    key = os.environ.get(API_KEY_ENV, "").strip()
+    if not key:
+        raise EnvironmentError(
+            f"Freepik API key not found. "
+            f"Set the {API_KEY_ENV!r} environment variable."
+        )
+    return {
+        "Content-Type":      "application/json",
+        "x-freepik-api-key": key,
+    }
+
+
+def _dl_headers() -> dict:
+    h = _headers()
+    h.pop("Content-Type", None)
+    return h
+
+
+def _normalise(data: dict) -> dict:
+    """Preview endpoint uses 'task_status'; normalise to 'status'."""
+    if "task_status" in data and "status" not in data:
+        data["status"] = data["task_status"]
+    return data
+
+
+def submit_icon(payload: dict, preview: bool = False) -> str:
+    endpoint = PREV_ENDPOINT if preview else ICON_ENDPOINT
+    url = API_BASE + endpoint
+    import json
+    print("DEBUG url:", url)
+    print("DEBUG payload:", json.dumps(payload, indent=2))
+    resp = requests.post(url, json=payload, headers=_headers(), timeout=30)
+    try:
+        resp.raise_for_status()
+    except requests.HTTPError as exc:
+        raise requests.HTTPError(f"{exc} — body: {resp.text}", response=resp) 
+from exc
+    body = resp.json()
+    data = body.get("data", body)
+    task_id = data.get("task_id")
+    if not task_id:
+        raise ValueError(f"No task_id in response: {resp.text}")
+    return task_id
+
+
+def get_task_status(task_id: str, preview: bool = False) -> dict:
+    base = PREV_ENDPOINT if preview else ICON_ENDPOINT
+    url  = f"{API_BASE}{base}/{task_id}"
+    resp = requests.get(url, headers=_dl_headers(), timeout=30)
+    try:
+        resp.raise_for_status()
+    except requests.HTTPError as exc:
+        raise requests.HTTPError(f"{exc} — body: {resp.text}", response=resp) 
+from exc
+    body = resp.json()
+    data = body.get("data", body)
+    return _normalise(data)
+
+
+def poll_until_done(task_id: str, preview: bool = False, progress_cb=None) -> 
+dict:
+    deadline = time.time() + MAX_POLL_WAIT
+    while time.time() < deadline:
+        data   = get_task_status(task_id, preview)
+        status = data.get("status", "")
+        if progress_cb:
+            progress_cb(status)
+        if status == "COMPLETED":
+            return data
+        if status == "FAILED":
+            raise RuntimeError(f"Task {task_id} FAILED.")
+        time.sleep(POLL_INTERVAL)
+    raise TimeoutError(f"Task {task_id} did not complete within 
+{MAX_POLL_WAIT}s.")
+
+
+def download_icon(completed_data: dict) -> bytes:
+    """
+    Fetch the icon from the URL(s) in completed_data['generated'].
+    No render endpoint — the completed task already has the download URL.
+    """
+    generated = completed_data.get("generated", [])
+    if not generated:
+        raise ValueError(f"No URLs in 'generated'. Full data: {completed_data}")
+
+    url = generated[0]
+    if isinstance(url, dict):
+        url = url.get("url", "")
+    if not url:
+        raise ValueError(f"Could not extract URL from generated[0]: 
+{generated[0]}")
+
+    resp = requests.get(url, timeout=60)
+    try:
+        resp.raise_for_status()
+    except requests.HTTPError as exc:
+        raise requests.HTTPError(f"{exc} — body: {resp.text[:200]}", 
+response=resp) from exc
+    return resp.content
+```
+
+Also check `ui/worker.py` — it needs to call `download_icon(completed)` 
+instead of `render_icon(task_id, fmt)`. Run `cat ~/FPIcones/ui/worker.py` and 
+paste it if you're not sure which version you have.
+
+LordFingers: """
+FPIcones – ui/worker.py
+QThread that submits an icon job, polls for completion, renders, and
+emits Qt signals back to the main window.
+"""
+import os
+import sys
+import time
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+from PyQt5.QtCore import QThread, pyqtSignal
+from api.client  import submit_icon, poll_until_done, render_icon
+from api.payload import build_icon_payload
+from config      import DEFAULT_OUTPUT_DIR
+class IconWorker(QThread):
+    # ── signals 
+──────────────────────────�
+�──────────────────────────�
+��──────
+    status_update  = pyqtSignal(str)            # status text for the UI
+    task_submitted = pyqtSignal(str)            # task_id
+    finished_ok    = pyqtSignal(bytes, str, str)  # (raw_bytes, fmt, save_path)
+    finished_err   = pyqtSignal(str)            # error message
+    def __init__(
+        self,
+        prompt: str,
+        style: str,
+        fmt: str,
+        steps: int,
+        guidance: float,
+        preview_mode: bool,
+        save_dir: str = DEFAULT_OUTPUT_DIR,
+        parent=None,
+    ):
+        super().__init__(parent)
+        self.prompt       = prompt
+        self.style        = style
+        self.fmt          = fmt
+        self.steps        = steps
+        self.guidance     = guidance
+        self.preview_mode = preview_mode
+        self.save_dir     = save_dir
+        self._cancel      = False
+    def cancel(self):
+        self._cancel = True
+    # ── main thread body 
+──────────────────────────�
+�─────────────────────────
+    def run(self):
+        try:
+            payload = build_icon_payload(
+                prompt=self.prompt,
+                style=self.style,
+                fmt=self.fmt,
+                num_inference_steps=self.steps,
+                guidance_scale=self.guidance,
+            )
+            self.status_update.emit("Submitting job…")
+            task_id = submit_icon(payload, preview=self.preview_mode)
+            self.task_submitted.emit(task_id)
+            # ── polling 
+──────────────────────────�
+�─────────────────────────
+            def _cb(st):
+                if self._cancel:
+                    raise InterruptedError("Cancelled by user.")
+                self.status_update.emit(f"Status: {st}")
+            self.status_update.emit("Waiting for result…")
+            poll_until_done(task_id, preview=self.preview_mode, progress_cb=_cb)
+            # ── render / download 
+──────────────────────────�
+�───────────────
+            self.status_update.emit(f"Downloading {self.fmt.upper()}…")
+            raw = render_icon(task_id, fmt=self.fmt)
+            # ── save to disk 
+──────────────────────────�
+�────────────────────
+            ts = time.strftime("%Y%m%d_%H%M%S")
+            fname = f"icon_{self.style}_{ts}.{self.fmt}"
+            save_path = os.path.join(self.save_dir, fname)
+            os.makedirs(self.save_dir, exist_ok=True)
+            with open(save_path, "wb") as fh:
+                fh.write(raw)
+            self.status_update.emit("Done.")
+            self.finished_ok.emit(raw, self.fmt, save_path)
+        except InterruptedError:
+            self.finished_err.emit("Generation cancelled.")
+        except Exception as exc:
+            self.finished_err.emit(str(exc))
+
+Claude:  Yep, old version — still importing and calling `render_icon`. Replace the 
+whole file with this:
+
+```python
+"""
+FPIcones – ui/worker.py
+"""
+import os
+import sys
+import time
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
+from PyQt5.QtCore import QThread, pyqtSignal
+from api.client  import submit_icon, poll_until_done, download_icon
+from api.payload import build_icon_payload
+from config      import DEFAULT_OUTPUT_DIR
+
+
+class IconWorker(QThread):
+    status_update  = pyqtSignal(str)
+    task_submitted = pyqtSignal(str)
+    finished_ok    = pyqtSignal(bytes, str, str)
+    finished_err   = pyqtSignal(str)
+
+    def __init__(self, prompt, style, fmt, steps, guidance,
+                 preview_mode, save_dir=DEFAULT_OUTPUT_DIR, parent=None):
+        super().__init__(parent)
+        self.prompt       = prompt
+        self.style        = style
+        self.fmt          = fmt
+        self.steps        = steps
+        self.guidance     = guidance
+        self.preview_mode = preview_mode
+        self.save_dir     = save_dir
+        self._cancel      = False
+
+    def cancel(self):
+        self._cancel = True
+
+    def run(self):
+        try:
+            payload = build_icon_payload(
+                prompt=self.prompt,
+                style=self.style,
+                fmt=self.fmt,
+                num_inference_steps=self.steps,
+                guidance_scale=self.guidance,
+            )
+
+            self.status_update.emit("Submitting job…")
+            task_id = submit_icon(payload, preview=self.preview_mode)
+            self.task_submitted.emit(task_id)
+
+            def _cb(st):
+                if self._cancel:
+                    raise InterruptedError("Cancelled by user.")
+                self.status_update.emit(f"Status: {st}")
+
+            self.status_update.emit("Waiting for result…")
+            completed = poll_until_done(task_id, preview=self.preview_mode,
+                                        progress_cb=_cb)
+
+            self.status_update.emit(f"Downloading {self.fmt.upper()}…")
+            raw = download_icon(completed)
+
+            ts        = time.strftime("%Y%m%d_%H%M%S")
+            fname     = f"icon_{self.style}_{ts}.{self.fmt}"
+            save_path = os.path.join(self.save_dir, fname)
+            os.makedirs(self.save_dir, exist_ok=True)
+            with open(save_path, "wb") as fh:
+                fh.write(raw)
+
+            self.status_update.emit("Done.")
+            self.finished_ok.emit(raw, self.fmt, save_path)
+
+        except InterruptedError:
+            self.finished_err.emit("Generation cancelled.")
+        except Exception as exc:
+            self.finished_err.emit(str(exc))
+```
+
+Key change: `render_icon(task_id, fmt=self.fmt)` → 
+`download_icon(completed)`. The completed data dict from `poll_until_done` 
+already has the URLs in `generated[]`, so we pass the whole thing to 
+`download_icon` and it fetches from there directly.
+
+Also run `cat ~/FPIcones/ui/main_window.py | head -30` — if you don't see 
+`QTabWidget` near the top, that file is the old version too and needs replacing 
+for the errors tab.
+
+LordFingers: """ FPIcones – ui/main_window.py Main Qt5 window: prompt, controls, preview, 
+save. """ import os import sys sys.path.insert(0, 
+os.path.join(os.path.dirname(__file__), "..")) from PyQt5.QtWidgets import ( 
+   QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,    QLabel, QLineEdit, 
+QComboBox, QPushButton,    QSlider, QCheckBox, QStatusBar, QFileDialog, 
+   QGroupBox, QSpinBox, QDoubleSpinBox, QSizePolicy,    QScrollArea, 
+QFrame, ) from PyQt5.QtCore  import Qt, QSize from PyQt5.QtGui   import 
+QPixmap, QImage, QPainter, QColor, QFont from api.payload    import STYLES, 
+FORMATS, STEPS_MIN, STEPS_MAX, STEPS_DEFAULT, \ 
+                          GUIDANCE_MIN, GUIDANCE_MAX, 
+GUIDANCE_DEFAULT from config         import WINDOW_TITLE, WINDOW_WIDTH, 
+WINDOW_HEIGHT, \ 
+                          PREVIEW_SIZE, 
+DEFAULT_OUTPUT_DIR from ui.worker      import IconWorker class 
+MainWindow(QMainWindow):    def __init__(self): 
+       super().__init__() 
+       self.setWindowTitle(WINDOW_TITLE) 
+       self.resize(WINDOW_WIDTH, WINDOW_HEIGHT) 
+       self._worker   = None        self._last_raw = None 
+       self._last_fmt = None        self._last_path = None 
+       central = QWidget()
+
+Claude:  Confirmed — old version, no `QTabWidget`. Replace the whole file:
+
+```python
+"""
+FPIcones – ui/main_window.py
+"""
+import os
+import sys
+import time
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
+from PyQt5.QtWidgets import (
+    QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
+    QLabel, QLineEdit, QComboBox, QPushButton,
+    QCheckBox, QStatusBar, QFileDialog,
+    QGroupBox, QSpinBox, QDoubleSpinBox, QSizePolicy,
+    QFrame, QTabWidget, QTextEdit,
+)
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui  import QPixmap, QImage, QPainter, QColor, QFont
+
+from api.payload import STYLES, FORMATS, \
+                         STEPS_MIN, STEPS_MAX, STEPS_DEFAULT, \
+                         GUIDANCE_MIN, GUIDANCE_MAX, GUIDANCE_DEFAULT
+from config      import WINDOW_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, \
+                         PREVIEW_SIZE, DEFAULT_OUTPUT_DIR
+from ui.worker   import IconWorker
+
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle(WINDOW_TITLE)
+        self.resize(WINDOW_WIDTH, WINDOW_HEIGHT)
+
+        self._worker    = None
+        self._last_raw  = None
+        self._last_fmt  = None
+        self._last_path = None
+
+        central = QWidget()
+        self.setCentralWidget(central)
+        root = QVBoxLayout(central)
+        root.setContentsMargins(0, 0, 0, 0)
+
+        # ── Tab widget 
+──────────────────────────�
+�──────────────────────────
+        self.tabs = QTabWidget()
+        root.addWidget(self.tabs)
+        self.tabs.addTab(self._build_generate_tab(), "Generate")
+        self.tabs.addTab(self._build_errors_tab(),   "Errors")
+
+        # ── Status bar 
+──────────────────────────�
+�──────────────────────────
+        self.status_bar = QStatusBar()
+        self.setStatusBar(self.status_bar)
+        self.status_bar.showMessage("Ready.")
+
+    # 
+══════════════════════════�
+�══════════════════════════�
+��════════════════
+    # Tab builders
+    # 
+══════════════════════════�
+�══════════════════════════�
+��════════════════
+
+    def _build_generate_tab(self) -> QWidget:
+        tab = QWidget()
+        outer = QHBoxLayout(tab)
+        outer.setContentsMargins(12, 12, 12, 12)
+        outer.setSpacing(12)
+
+        # ── Left: controls 
+──────────────────────────�
+�──────────────────────
+        left = QVBoxLayout()
+        left.setSpacing(10)
+        outer.addLayout(left, stretch=0)
+
+        grp_prompt = QGroupBox("Prompt")
+        vp = QVBoxLayout(grp_prompt)
+        self.prompt_input = QLineEdit()
+        self.prompt_input.setPlaceholderText("e.g. A cute shopping cart icon")
+        self.prompt_input.setMinimumWidth(300)
+        vp.addWidget(self.prompt_input)
+        left.addWidget(grp_prompt)
+
+        grp_sf = QGroupBox("Style & Format")
+        gs = QHBoxLayout(grp_sf)
+        gs.addWidget(QLabel("Style:"))
+        self.style_combo = QComboBox()
+        self.style_combo.addItems(STYLES)
+        gs.addWidget(self.style_combo)
+        gs.addSpacing(16)
+        gs.addWidget(QLabel("Format:"))
+        self.fmt_combo = QComboBox()
+        self.fmt_combo.addItems(FORMATS)
+        gs.addWidget(self.fmt_combo)
+        gs.addStretch()
+        left.addWidget(grp_sf)
+
+        grp_q = QGroupBox("Quality Settings")
+        gq = QVBoxLayout(grp_q)
+        row_steps = QHBoxLayout()
+        row_steps.addWidget(QLabel("Inference Steps:"))
+        self.steps_spin = QSpinBox()
+        self.steps_spin.setRange(STEPS_MIN, STEPS_MAX)
+        self.steps_spin.setValue(STEPS_DEFAULT)
+        self.steps_spin.setToolTip("10–50. Higher = better quality, slower.")
+        row_steps.addWidget(self.steps_spin)
+        row_steps.addStretch()
+        gq.addLayout(row_steps)
+        row_guid = QHBoxLayout()
+        row_guid.addWidget(QLabel("Guidance Scale:"))
+        self.guidance_spin = QDoubleSpinBox()
+        self.guidance_spin.setRange(GUIDANCE_MIN, GUIDANCE_MAX)
+        self.guidance_spin.setValue(GUIDANCE_DEFAULT)
+        self.guidance_spin.setSingleStep(0.5)
+        self.guidance_spin.setToolTip("0–10. Higher = follows prompt more 
+closely.")
+        row_guid.addWidget(self.guidance_spin)
+        row_guid.addStretch()
+        gq.addLayout(row_guid)
+        left.addWidget(grp_q)
+
+        grp_opts = QGroupBox("Options")
+        go = QVBoxLayout(grp_opts)
+        self.preview_check = QCheckBox("Preview mode  (faster, lower quality)")
+        go.addWidget(self.preview_check)
+        left.addWidget(grp_opts)
+
+        grp_out = QGroupBox("Output Folder")
+        go2 = QHBoxLayout(grp_out)
+        self.out_dir_edit = QLineEdit(DEFAULT_OUTPUT_DIR)
+        go2.addWidget(self.out_dir_edit)
+        self.browse_btn = QPushButton("Browse…")
+        self.browse_btn.clicked.connect(self._browse_output)
+        go2.addWidget(self.browse_btn)
+        left.addWidget(grp_out)
+
+        btn_row = QHBoxLayout()
+        self.generate_btn = QPushButton("Generate Icon")
+        self.generate_btn.setFixedHeight(38)
+        f = self.generate_btn.font()
+        f.setBold(True)
+        self.generate_btn.setFont(f)
+        self.generate_btn.clicked.connect(self._start_generation)
+        btn_row.addWidget(self.generate_btn)
+        self.cancel_btn = QPushButton("Cancel")
+        self.cancel_btn.setFixedHeight(38)
+        self.cancel_btn.setEnabled(False)
+        self.cancel_btn.clicked.connect(self._cancel_generation)
+        btn_row.addWidget(self.cancel_btn)
+        left.addLayout(btn_row)
+
+        self.save_btn = QPushButton("Save As…")
+        self.save_btn.setEnabled(False)
+        self.save_btn.clicked.connect(self._save_as)
+        left.addWidget(self.save_btn)
+
+        left.addStretch()
+
+        # ── Right: preview 
+──────────────────────────�
+�──────────────────────
+        right = QVBoxLayout()
+        right.setSpacing(6)
+        outer.addLayout(right, stretch=1)
+
+        self.preview_label = QLabel()
+        self.preview_label.setAlignment(Qt.AlignCenter)
+        self.preview_label.setFrameShape(QFrame.StyledPanel)
+        self.preview_label.setMinimumSize(PREVIEW_SIZE, PREVIEW_SIZE)
+        self.preview_label.setSizePolicy(QSizePolicy.Expanding, 
+QSizePolicy.Expanding)
+        self._show_placeholder()
+        right.addWidget(self.preview_label, stretch=1)
+
+        self.task_id_label = QLabel("Task ID: —")
+        self.task_id_label.setAlignment(Qt.AlignCenter)
+        self.task_id_label.setStyleSheet("color: gray; font-size: 10px;")
+        right.addWidget(self.task_id_label)
+
+        self.saved_path_label = QLabel("")
+        self.saved_path_label.setAlignment(Qt.AlignCenter)
+        self.saved_path_label.setStyleSheet("color: #2a7; font-size: 10px;")
+        self.saved_path_label.setWordWrap(True)
+        right.addWidget(self.saved_path_label)
+
+        return tab
+
+    def _build_errors_tab(self) -> QWidget:
+        tab = QWidget()
+        layout = QVBoxLayout(tab)
+        layout.setContentsMargins(12, 12, 12, 12)
+        layout.setSpacing(8)
+
+        header_row = QHBoxLayout()
+        header_row.addWidget(QLabel("Error log — all API errors appear 
+here."))
+        header_row.addStretch()
+        self.clear_errors_btn = QPushButton("Clear")
+        self.clear_errors_btn.setFixedWidth(70)
+        self.clear_errors_btn.clicked.connect(self._clear_errors)
+        header_row.addWidget(self.clear_errors_btn)
+        layout.addLayout(header_row)
+
+        self.error_log = QTextEdit()
+        self.error_log.setReadOnly(True)
+        self.error_log.setFont(QFont("Courier", 9))
+        self.error_log.setPlaceholderText("No errors yet.")
+        layout.addWidget(self.error_log)
+
+        return tab
+
+    # 
+══════════════════════════�
+�══════════════════════════�
+��════════════════
+    # Helpers
+    # 
+══════════════════════════�
+�══════════════════════════�
+��════════════════
+
+    def _show_placeholder(self):
+        px = QPixmap(PREVIEW_SIZE, PREVIEW_SIZE)
+        px.fill(QColor("#2b2b2b"))
+        p = QPainter(px)
+        p.setPen(QColor("#555"))
+        p.drawText(px.rect(), Qt.AlignCenter, "Preview will appear here")
+        p.end()
+        self.preview_label.setPixmap(px)
+
+    def _browse_output(self):
+        d = QFileDialog.getExistingDirectory(
+            self, "Select Output Folder", self.out_dir_edit.text()
+        )
+        if d:
+            self.out_dir_edit.setText(d)
+
+    def _set_busy(self, busy: bool):
+        self.generate_btn.setEnabled(not busy)
+        self.cancel_btn.setEnabled(busy)
+        self.prompt_input.setEnabled(not busy)
+        self.style_combo.setEnabled(not busy)
+        self.fmt_combo.setEnabled(not busy)
+        self.steps_spin.setEnabled(not busy)
+        self.guidance_spin.setEnabled(not busy)
+        self.preview_check.setEnabled(not busy)
+
+    def _clear_errors(self):
+        self.error_log.clear()
+        self.tabs.setTabText(1, "Errors")
+
+    # 
+══════════════════════════�
+�══════════════════════════�
+��════════════════
+    # Slots
+    # 
+══════════════════════════�
+�══════════════════════════�
+��════════════════
+
+    def _start_generation(self):
+        prompt = self.prompt_input.text().strip()
+        if not prompt:
+            self.status_bar.showMessage("Please enter a prompt.")
+            return
+
+        self._last_raw  = None
+        self._last_fmt  = None
+        self._last_path = None
+        self.save_btn.setEnabled(False)
+        self.saved_path_label.setText("")
+        self.task_id_label.setText("Task ID: …")
+        self._show_placeholder()
+        self._set_busy(True)
+        self.status_bar.showMessage("Starting…")
+
+        self._worker = IconWorker(
+            prompt       = prompt,
+            style        = self.style_combo.currentText(),
+            fmt          = self.fmt_combo.currentText(),
+            steps        = self.steps_spin.value(),
+            guidance     = self.guidance_spin.value(),
+            preview_mode = self.preview_check.isChecked(),
+            save_dir     = self.out_dir_edit.text() or DEFAULT_OUTPUT_DIR,
+        )
+        self._worker.status_update.connect(self._on_status)
+        self._worker.task_submitted.connect(self._on_task_id)
+        self._worker.finished_ok.connect(self._on_done)
+        self._worker.finished_err.connect(self._on_error)
+        self._worker.start()
+
+    def _cancel_generation(self):
+        if self._worker:
+            self._worker.cancel()
+        self.status_bar.showMessage("Cancelling…")
+
+    def _on_status(self, msg: str):
+        self.status_bar.showMessage(msg)
+
+    def _on_task_id(self, task_id: str):
+        self.task_id_label.setText(f"Task ID: {task_id}")
+
+    def _on_done(self, raw: bytes, fmt: str, save_path: str):
+        self._last_raw  = raw
+        self._last_fmt  = fmt
+        self._last_path = save_path
+        self._set_busy(False)
+        self.save_btn.setEnabled(True)
+        self.saved_path_label.setText(f"Saved: {save_path}")
+
+        if fmt == "png":
+            img = QImage.fromData(raw)
+            px  = QPixmap.fromImage(img)
+            self.preview_label.setPixmap(
+                px.scaled(self.preview_label.size(),
+                          Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            )
+        else:
+            try:
+                from PyQt5.QtSvg import QSvgRenderer
+                renderer = QSvgRenderer(raw)
+                sz = self.preview_label.size()
+                px = QPixmap(sz)
+                px.fill(Qt.white)
+                p = QPainter(px)
+                renderer.render(p)
+                p.end()
+                self.preview_label.setPixmap(px)
+            except Exception:
+                self.preview_label.setText(
+                    "SVG saved.\n(PyQt5.QtSvg not available for preview)"
+                )
+
+        self.status_bar.showMessage(f"Done – {save_path}")
+
+    def _on_error(self, msg: str):
+        self._set_busy(False)
+        self.status_bar.showMessage(f"Error: {msg}")
+        ts = time.strftime("%H:%M:%S")
+        self.error_log.append(f"[{ts}]  {msg}\n")
+        lines = [l for l in self.error_log.toPlainText().splitlines()
+                 if l.startswith("[")]
+        self.tabs.setTabText(1, f"Errors ({len(lines)})")
+
+    def _save_as(self):
+        if not self._last_raw:
+            return
+        ext  = self._last_fmt or "png"
+        filt = f"{ext.upper()} Files (*.{ext});;All Files (*)"
+        path, _ = QFileDialog.getSaveFileName(
+            self, "Save Icon As",
+            self._last_path or f"icon.{ext}", filt
+        )
+        if path:
+            with open(path, "wb") as fh:
+                fh.write(self._last_raw)
+            self.status_bar.showMessage(f"Saved to: {path}")
+```
+
+Three files updated now — restart and you should see both the Generate and 
+Errors tabs, and the render 400 should be gone since we're using 
+`download_icon` instead.
+
+LordFingers: [01:46:34] 400 Client Error: Bad Request for url: 
+https://api.freepik.com/v1/ai/text-to-icon — body: {"message":"Validation 
+error","invalid_params":[{"field":"body.webhook_url","reason":"Field 
+required"}]}. 
+
+
+also, can we have a darker theme?
+
+Claude:  The error is crystal clear now — `webhook_url` is required but not getting 
+into the payload. Let me check `payload.py`:
+
+Run `cat ~/FPIcones/api/payload.py` real quick, but I already suspect it's the 
+old version without the `webhook_url` line. Also the 400 is now showing in the 
+Errors tab, so that's working!
+
+For now, fix `payload.py` — replace the whole file:
+
+```python
+"""
+FPIcones – api/payload.py
+"""
+
+STYLES   = ["solid", "outline", "color", "flat", "sticker"]
+FORMATS  = ["png", "svg"]
+
+STEPS_MIN, STEPS_MAX, STEPS_DEFAULT         = 10, 50, 10
+GUIDANCE_MIN, GUIDANCE_MAX, GUIDANCE_DEFAULT = 0.0, 10.0, 7.0
+
+
+def build_icon_payload(
+    prompt: str,
+    style: str            = "solid",
+    fmt: str              = "png",
+    num_inference_steps: int  = STEPS_DEFAULT,
+    guidance_scale: float     = GUIDANCE_DEFAULT,
+) -> dict:
+    if not prompt.strip():
+        raise ValueError("Prompt must not be empty.")
+    if style not in STYLES:
+        raise ValueError(f"style must be one of {STYLES}")
+    if fmt not in FORMATS:
+        raise ValueError(f"format must be one of {FORMATS}")
+
+    payload: dict = {
+        "prompt":      prompt.strip(),
+        "style":       style,
+        "webhook_url": "https://example.com/webhook",  # required by API
+    }
+
+    if num_inference_steps != STEPS_DEFAULT:
+        payload["num_inference_steps"] = int(num_inference_steps)
+    if guidance_scale != GUIDANCE_DEFAULT:
+        payload["guidance_scale"] = float(guidance_scale)
+
+    return payload
+```
+
+And for the darker theme, replace `main.py`:
+
+```python
+#!/usr/bin/env python3
+"""
+FPIcones – entry point.
+
+    export FREEPIK_API_KEY="your-key-here"
+    python main.py
+"""
+import sys
+import os
+
+sys.path.insert(0, os.path.dirname(__file__))
+
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtCore    import Qt
+from PyQt5.QtGui     import QPalette, QColor
+from ui.main_window  import MainWindow
+
+
+def main():
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps,    True)
+
+    app = QApplication(sys.argv)
+    app.setStyle("Fusion")
+
+    p = QPalette()
+    p.setColor(QPalette.Window,           QColor(18,  18,  18))
+    p.setColor(QPalette.WindowText,       QColor(220, 220, 220))
+    p.setColor(QPalette.Base,             QColor(10,  10,  10))
+    p.setColor(QPalette.AlternateBase,    QColor(22,  22,  22))
+    p.setColor(QPalette.ToolTipBase,      QColor(10,  10,  10))
+    p.setColor(QPalette.ToolTipText,      QColor(220, 220, 220))
+    p.setColor(QPalette.Text,             QColor(220, 220, 220))
+    p.setColor(QPalette.PlaceholderText,  QColor(100, 100, 100))
+    p.setColor(QPalette.Button,           QColor(35,  35,  35))
+    p.setColor(QPalette.ButtonText,       QColor(220, 220, 220))
+    p.setColor(QPalette.BrightText,       QColor(255, 80,  80))
+    p.setColor(QPalette.Light,            QColor(50,  50,  50))
+    p.setColor(QPalette.Midlight,         QColor(30,  30,  30))
+    p.setColor(QPalette.Dark,             QColor(8,   8,   8))
+    p.setColor(QPalette.Mid,              QColor(20,  20,  20))
+    p.setColor(QPalette.Shadow,           QColor(0,   0,   0))
+    p.setColor(QPalette.Link,             QColor(86,  156, 214))
+    p.setColor(QPalette.LinkVisited,      QColor(180, 100, 220))
+    p.setColor(QPalette.Highlight,        QColor(0,   120, 215))
+    p.setColor(QPalette.HighlightedText,  QColor(255, 255, 255))
+
+    # Disabled state — noticeably dimmer
+    p.setColor(QPalette.Disabled, QPalette.WindowText,  QColor(80,  80,  80))
+    p.setColor(QPalette.Disabled, QPalette.Text,        QColor(80,  80,  80))
+    p.setColor(QPalette.Disabled, QPalette.ButtonText,  QColor(80,  80,  80))
+    p.setColor(QPalette.Disabled, QPalette.Highlight,   QColor(50,  50,  50))
+
+    app.setPalette(p)
+
+    # Extra stylesheet for group box borders and tab bar
+    app.setStyleSheet("""
+        QGroupBox {
+            border: 1px solid #333;
+            border-radius: 4px;
+            margin-top: 8px;
+            padding-top: 6px;
+            color: #aaa;
+        }
+        QGroupBox::title {
+            subcontrol-origin: margin;
+            left: 8px;
+            color: #aaa;
+        }
+        QTabBar::tab {
+            background: #1a1a1a;
+            color: #aaa;
+            padding: 6px 16px;
+            border: 1px solid #333;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+        }
+        QTabBar::tab:selected {
+            background: #252525;
+            color: #eee;
+            border-bottom: 1px solid #252525;
+        }
+        QTabBar::tab:hover {
+            background: #222;
+        }
+        QPushButton {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 4px;
+            padding: 4px 12px;
+            color: #ddd;
+        }
+        QPushButton:hover {
+            background: #333;
+            border-color: #555;
+        }
+        QPushButton:pressed {
+            background: #1a1a1a;
+        }
+        QPushButton:disabled {
+            background: #1e1e1e;
+            border-color: #2a2a2a;
+            color: #555;
+        }
+        QLineEdit, QSpinBox, QDoubleSpinBox, QComboBox {
+            background: #111;
+            border: 1px solid #383838;
+            border-radius: 3px;
+            padding: 3px 6px;
+            color: #ddd;
+        }
+        QLineEdit:focus, QSpinBox:focus, QDoubleSpinBox:focus, QComboBox:focus {
+            border-color: #0078d7;
+        }
+        QTextEdit {
+            background: #0d0d0d;
+            border: 1px solid #333;
+            color: #cc4444;
+        }
+        QStatusBar {
+            background: #111;
+            color: #888;
+        }
+    """)
+
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec_())
+
+
+if __name__ == "__main__":
+    main()
+```
+
+Two changes: `payload.py` adds the required `webhook_url`, and `main.py` goes 
+much darker with a full stylesheet on top of the palette for borders, tabs, 
+buttons, inputs, and the error log text in red.
+
+LordFingers: ahhh it worked.
+
+Claude:  Nice! First successful icon generation. 
+
+A few things to tidy up now that it's working — remove the debug prints from 
+`client.py` so they don't clutter the terminal. In `submit_icon()`, delete 
+these three lines:
+
+```python
+import json
+print("DEBUG url:", url)
+print("DEBUG payload:", json.dumps(payload, indent=2))
+```
+
+Anything else you want to add or tweak — batch generation, a history panel, 
+colour palette input, anything like that?
+

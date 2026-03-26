@@ -1,0 +1,37 @@
+LordFingers: i need a linux command to connect to wifi
+
+Claude:  I'll help you connect to WiFi on Linux. The command depends on your system, 
+but here are the most common methods:
+
+**Using NetworkManager (most common on desktop Linux):**
+```bash
+nmcli device wifi connect "SSID_NAME" password "YOUR_PASSWORD"
+```
+
+**To see available networks first:**
+```bash
+nmcli device wifi list
+```
+
+**Using `nmtui` (text-based interface):**
+```bash
+nmtui
+```
+This opens a simple menu where you can select your network and enter the 
+password.
+
+**Using `wpa_supplicant` (more manual):**
+```bash
+# First, create a config file
+wpa_passphrase "SSID_NAME" "YOUR_PASSWORD" | sudo tee 
+/etc/wpa_supplicant/wpa_supplicant.conf
+
+# Then connect
+sudo wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf
+sudo dhclient wlan0
+```
+
+Which method works best depends on your distribution. If you're on Ubuntu, 
+Fedora, or most modern distros, the `nmcli` command should work. What 
+distribution are you using?
+

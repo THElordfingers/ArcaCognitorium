@@ -1,0 +1,89 @@
+LordFingers: latin for "window sandbox"
+
+Claude:  A few good options depending on the feel you want:
+
+**Literal / compositional**
+- **Fenestra Harenae** — "window of the sandbox" (harenae = of sand, 
+arena/sandbox)
+- **Fenestra Sabulosa** — "sandy window" (sabulosus = sandy, gritty)
+- **Fenestra Tuta** — "safe/protected window" (tutus = safe, secure)
+
+**More evocative / mystical (LuxArcana-style)**
+- **Fenestra Clausa** — "closed/sealed window" (clausus = shut off, isolated)
+- **Fenestra Septa** — "partitioned window" (septus = enclosed, walled off)
+- **Fenestra Munita** — "fortified window" (munitus = defended, secured)
+
+**Leaning into containment**
+- **Cavea Fenestrae** — "cage of the window" / enclosure
+- **Limen Tutum** — "safe threshold" (limen = threshold/boundary, a 
+door/window concept)
+
+---
+
+For a UI label, **Fenestra Septa** or **Fenestra Munita** have a strong, clean 
+sound. If you want something shorter, just **Septa** ("the sealed/walled-off 
+one") works nicely as a standalone term — it implies containment without 
+spelling it out.
+
+What's the context — a UI panel label, a component name, or something else?
+
+LordFingers: window workshop
+
+Claude:  **Literal**
+- **Officina Fenestrae** — "workshop of the window"
+- **Fenestrae Officina** — same, inverted (more poetic flow)
+
+**Tighter / single-word feel**
+- **Fenestrina** — a diminutive of fenestra, implies a "little/personal 
+window" — has a workshop-tinkering intimacy to it
+- **Fenestrarium** — a coined "-arium" form, "a place of windows" — clean, 
+institutional-sounding
+
+**Leaning abstract**
+- **Officina Luminis** — "workshop of light" (since fenestra literally meant 
+"light-hole" originally)
+- **Atelier Fenestrae** — hybrid Latin/French, but atelier is itself from 
+Latin *articularius*
+
+---
+
+**Strongest candidates for a UI label:**
+
+| Term | Feel |
+|---|---|
+| **Officina Fenestrae** | Formal, classic |
+| **Fenestrarium** | Coined, clean, memorable |
+| **Fenestrina** | Soft, intimate, tinkerer-y |
+
+If this is for a window management or compositor tool, **Fenestrarium** has a 
+lot of personality — feels like a proper named place. What's the project?
+
+LordFingers: "demo" "build" "view "list"
+
+Claude:  Short Latin equivalents for UI labels:
+
+| English | Latin | Notes |
+|---|---|---|
+| **demo** | **Exemplum** | a showing, specimen, example |
+| | **Ostentum** | a display, demonstration |
+| **build** | **Fabricā** | workshop action, to make/craft |
+| | **Struo** | to build/assemble |
+| | **Opus** | the work/output itself |
+| **view** | **Visus** | the act of seeing |
+| | **Spectum** | a viewed thing |
+| | **Prospectus** | a looking-out, overview |
+| **list** | **Index** | a list, pointer, indicator |
+| | **Series** | a row, sequence |
+| | **Tabula** | a table/board/roster |
+
+---
+
+**Tightest picks for nav labels:**
+
+- **Demo** → **Ostentum** (or just **Exemplum**)
+- **Build** → **Fabricā** (very LuxArcana-coded)
+- **View** → **Prospectus** (has real weight to it)
+- **List** → **Index** (already Latin, already perfect)
+
+Are these for a single app's nav, or spread across projects?
+

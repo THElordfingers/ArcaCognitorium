@@ -1,0 +1,37 @@
+
+
+
+LEFT MENU - TEMPLATE BROWSER
+
+Load/New
+
+Templte Categories - Textual/Rich or PyQt6
+				   - General or App specific
+				   - Usage Designation - eg. Menu, Button, Display, Status Bar, Widget, etc,
+
+
+CENTER PANEL - BUILD CANVAS
+
+Two modes:
+	- Individul component
+		Left Widget bar - Building components
+								- Each widget is a separate component
+									- List is populated by what is available through UI package
+								- Each build widget has an inherent workflow.
+									- eg. Border: Height, Width, style, weight.
+									- Once basic constraints met, component is rendered 
+										- renders are live updated
+										- editing can continue
+										- Component can be "locked" to freeze editing 
+								- Initially, only base components are shown.
+									- Once base component is rendered, subsequent available  components appear, nested recursively
+									- each component is rendered on a different "layer"
+								 	- If a component exceeds limitations set by preceding component, it is rendered in bright red.
+								 		- this is where layers shine. instead of disallowing or freezing out, other layers are unaffected and problematic layer can be edited.
+		Right Widget Bar
+		- Components can be labelled,
+		 							
+
+
+
+	- Master Layout

@@ -1,0 +1,1416 @@
+LordFingers: can you make me a bash script? it will take a .json file, filled with blocks 
+that contain text samples. I want it to take each one, make a new text file 
+containing the entire block, unchanged, and save it in the same directory with 
+its filename taken from "TITLE": "title of text", converting spaces in the 
+title to hyphens, resulting in something like <title-of-text.json>. to clarify, 
+every iteration uses the info between:
+
+{
+
+}
+
+Claude:  Here's the script:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+**Usage:**
+```bash
+chmod +x split_json_blocks.sh
+./split_json_blocks.sh path/to/your/file.json
+```
+
+It leans on Python for the JSON parsing (available on any modern system). A few 
+things worth noting:
+
+- **TITLE matching is case-insensitive** — `"TITLE"`, `"title"`, or `"Title"` 
+all work
+- **Handles both structures** — a top-level array `[{...}, {...}]` or an 
+object with a list value `{"blocks": [{...}, {...}]}`
+- **Output filenames** — spaces become hyphens, e.g. `My Cool Text` → 
+`my-cool-text.json`, saved next to the source file
+- **Each output file** is the full block pretty-printed as valid JSON
+
+Let me know if you need the output to be plain text instead of JSON, or if your 
+file has a different structure.
+
+LordFingers: Traceback (most recent call last):  File "<stdin>", line 9, in <module>  File 
+"/usr/lib/python3.13/json/__init__.py", line 293, in load    return 
+loads(fp.read(),        cls=cls, object_hook=object_hook, 
+       parse_float=parse_float, parse_int=parse_int, 
+       parse_constant=parse_constant, 
+object_pairs_hook=object_pairs_hook, **kw)  File 
+"/usr/lib/python3.13/json/__init__.py", line 346, in loads    return 
+_default_decoder.decode(s)           ~~~~~~~~~~~~~~~~~~~~~~~^^^ 
+ File "/usr/lib/python3.13/json/decoder.py", line 348, in decode    raise 
+JSONDecodeError("Extra data", s, end) json.decoder.JSONDecodeError: Extra data: 
+line 10 column 1 (char 649)
+
+Claude:  The file likely contains multiple JSON objects one after another rather than 
+wrapped in an array — not valid JSON but a common format (NDJSON / 
+concatenated objects). Let me fix it to handle that:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+The key change: instead of using `json.load()` which expects a single valid 
+JSON document, it now manually walks the raw text character by character 
+tracking brace depth to extract each `{...}` block independently. This handles 
+any number of concatenated objects regardless of whether they're separated by 
+newlines, commas, or nothing at all.
+
+LordFingers: How about a bash script for this:
+I have a figlet font directory I would like to fill with figlet font files.
+In this directory is a list of chosen fonts to be transferred, like this:
+"Varsity"
+"Wavy"
+"Whimsy"
+I want the script to check for each font in the system figlet font directory, 
+and if it's there,
+copy the to the Project figlet font directory.
+Project Figlet font dir = ~/Colours/Pairz/SampleText/FigletFonts
+System Figlet font dir = /usr/share/figlet
+font list file = figlet-font-master-list.txt
+
+Claude: 
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+```bash
+chmod +x copy_figlet_fonts.sh
+./copy_figlet_fonts.sh
+```
+
+A few things it handles:
+
+- **Quoted entries** — strips the surrounding `"` from each line before 
+looking up the font
+- **Both font formats** — checks for `.flf` first, then `.tlf`, since figlet 
+uses both
+- **Clear output** — reports each copy or miss by name, with a summary count 
+at the end
+- The font list is expected to live inside the project font dir itself, so 
+everything is self-contained
+
+LordFingers: it worked, but it stopped at 22 fonts, when there shpuld be 78
+
+Claude:  Most likely the font list file has Windows-style line endings (`\r\n`), which 
+can cause `read` to silently choke or produce malformed font names after a 
+certain point. One extra `tr` in the pipeline will fix it:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+That single change strips `\r` from every line before processing. The `\r` was 
+likely getting appended to font names, making lookups fail silently after 
+whatever point the line endings started causing trouble.
+
+If you still get misses after that, a quick diagnostic to confirm the font 
+names are clean:
+```bash
+cat -A ~/Colours/Pairz/SampleText/FigletFonts/figlet-font-master-list.txt | 
+head -5
+```
+Lines ending in `^M$` confirm Windows line endings — the fix above will sort 
+it.
+
+LordFingers: nah it did the same thing.
+
+heres the list:
+
+"3d"
+"Big"
+"ANSI-Regular"
+"ANSI-Shadow"
+"Avatar"
+"Basic"
+"Bloody"
+"Broadway-KB"
+"Bulbhead"
+"Calvin-S"
+"Chunky"
+"Contessa"
+"Computer"
+"Cosmike"
+"Crawford2"
+"Crawford"
+"Cricket"
+"Cursive"
+"Cybermedium"
+"Cybersmall"
+"Doom"
+"DOS-Rebel"
+"Dr-Pepper"
+"Efti-Robot"
+"Electronic"
+"Epic"
+"Georgia11"
+"Glenyn"
+"Graceful"
+"Graffiti"
+"Invita"
+"Italic"
+"JS-Block-Letters"
+"JS-Stick-Letters"
+"Modular"
+"Ogre"
+"Pepper"
+"Puffy"
+"Rectangles"
+"Red-Phoenix"
+"Rounded"
+"Santa-Clara"
+"Script"
+"Serifcap"
+"Shadow"
+"Shadow-R"
+"Shadow-S"
+"Short"
+"Slant"
+"SL-Script"
+"Small"
+"Small-Script"
+"Small-Shadow"
+"Small-Slant"
+"Soft"
+"Speed"
+"Spliff"
+"Stacey"
+"Stampate"
+"Stampatello"
+"Standard"
+"Stforek"
+"Stick-Letters"
+"Stop"
+"Straight"
+"Swan"
+"The-Edge"
+"Thin"
+"Thorned"
+"Three-Point"
+"Tombstone"
+"Tubes-Regular"
+"Tubes-Smushed"
+"Twisted"
+"Two-Point"
+"Varsity"
+"Wavy"
+"Whimsy"
+
+Claude:  The issue is likely that the font filenames on your system don't match the 
+casing or hyphens in your list. For example, `"Big"` might be stored as 
+`big.flf`, or `"Broadway-KB"` as `broadway-kb.flf`. Let's do a case-insensitive 
+match to handle this:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+The main change is that it now builds a full lowercase map of every font in 
+`/usr/share/figlet` first, then matches your list entries against that map 
+case-insensitively. So `"Big"` will match `big.flf`, `"ANSI-Shadow"` will match 
+`ansi-shadow.flf`, etc.
+
+Any fonts that still show as `Missing:` after this genuinely aren't in your 
+system figlet directory — you'd need to download those separately from 
+something like the [figlet-fonts GitHub 
+repo](https://github.com/xero/figlet-fonts).
+
+LordFingers: nope. its weird. it always works down the list to DOS-Rebel.flf then thinks its 
+done
+
+Claude:  That's a very specific stopping point — `DOS-Rebel` has a hyphen, but more 
+suspiciously it starts with uppercase `DOS`. The real culprit is probably that 
+the `find` command or the associative array lookup is hitting a 
+locale/collation issue, but the most likely thing is simpler: **the file has a 
+blank line or a bad character right after `DOS-Rebel` that's killing the while 
+loop early.**
+
+Let's just check what's actually in the file at that point:
+
+```bash
+cat -A ~/Colours/Pairz/SampleText/FigletFonts/figlet-font-master-list.txt | 
+head -25
+```
+
+And also:
+
+```bash
+wc -l ~/Colours/Pairz/SampleText/FigletFonts/figlet-font-master-list.txt
+```
+
+That'll show us exactly what character is lurking there. Also worth trying — 
+bypass the file entirely and hardcode the list to confirm the script logic 
+itself is fine:
+
+```bash
+printf '"Dr-Pepper"\n"Efti-Robot"\n"Electronic"\n' | while IFS= read -r line; do
+    font=$(echo "$line" | tr -d '\r' | sed 
+'s/^[[:space:]"]*//;s/[[:space:]"]*$//')
+    echo "Got: [$font]"
+done
+```
+
+If that prints cleanly, the script is fine and the file is the problem. If so, 
+the fix is to recreate it:
+
+```bash
+cd ~/Colours/Pairz/SampleText/FigletFonts
+cp figlet-font-master-list.txt figlet-font-master-list.txt.bak
+cat figlet-font-master-list.txt | tr -d '\r' | strings > fixed-list.txt
+mv fixed-list.txt figlet-font-master-list.txt
+```
+
+`strings` will strip out any embedded null bytes or non-printable garbage that 
+could be silently terminating the read loop. Give that a shot and let me know 
+what `cat -A` shows.
+
+LordFingers: yeh, I just deleted that one from the list, it was stopping it . Its not worth 
+keeping. ByE!
+
+Claude:  Haha, sometimes the simplest fix is the best one. Glad it's working! Bye! 👋
+
+LordFingers: latin for text samper
+
+Claude:  **Lorem ipsum**
+
+The full traditional opener is *"Lorem ipsum dolor sit amet, consectetur 
+adipiscing elit"* — it's derived from Cicero's *De Finibus Bonorum et 
+Malorum* (45 BC), scrambled to be meaningless so the text itself doesn't 
+distract from layout design. Been the standard placeholder since the 1500s.
+
+LordFingers: I made a program that displays sample text bodies. I need a name for it. t 
+would be cool if it was a play on something like Lorem Ipsum
+
+Claude:  Some ideas:
+
+**Direct Lorem Ipsum riffs:**
+- **Lorum Ipsum** — just a slight misspelling, simple and cheeky
+- **Lorem Ipsummer** — nonsense but memorable
+- **Loremix** — lorem + remix
+
+**Latin-flavored made-up words:**
+- **Textus** — just Latin for "text", clean and simple
+- **Verbum** — Latin for "word"
+- **Specimex** — specimen + index
+- **Exemplar** — Latin for "sample/model", already a real word but sounds 
+great
+- **Samplex** — sample + the Latin -ex suffix
+
+**Playful/punny:**
+- **Lipsum Primus** — "first placeholder"
+- **Moré Ipsum** — "more ipsum"
+- **Ipsum Factum** — "the thing itself is done"
+- **Vidi Textum** — riff on *vidi vici*, "I saw the text"
+
+Given that it's a display/sample tool I'd lean toward **Exemplar** or 
+**Specimex** — they sound purposeful and a bit quirky without trying too 
+hard. What's the vibe you're going for, serious or playful?
+
+LordFingers: yeah somewhat playful
+
+Claude:  Then some strong contenders from that list would be **Moré Ipsum** and **Vidi 
+Textum** — but leaning into playful a bit more:
+
+- **Ipsum Factum** — sounds official but means nothing useful, very on-brand 
+for placeholder text
+- **Textum Ipsum** — just Lorem Ipsum with "Lorem" swapped for "Textum", 
+subtle and self-aware
+- **Samplexus** — fake Latin that sounds just convincing enough
+- **Verbosus** — real Latin for "wordy/verbose", perfect for a text sampler
+- **Texticus** — completely made up but sounds like it belongs in a Roman 
+textbook
+- **Ipsumator** — like a machine that generates ipsum, silly but fun
+
+**Verbosus** is probably my favourite for a playful text sampler — it's a 
+real Latin word, it's self-deprecating, and it rolls off the tongue nicely.
+
+LordFingers: I have bee building a project, and have it at a point I like, but now I am 
+going to revise it. i want to git commit at this point
+
+Claude:  ```bash
+git add -A && git commit -m "Stable checkpoint before revision"
+```
+
+Just run that from your project directory. Change the message to whatever 
+describes the current state — something like `"Working base - pre-revision"` 
+or name the feature/version if it has one.
+
+LordFingers: i havent done any git commands for this yet. is that all i have to do?
+
+Claude:  No, you'll need to initialize it first. In your project directory:
+
+```bash
+git init
+git add -A
+git commit -m "Initial commit - stable before revision"
+```
+
+That's all you need for a local commit. If you also want it backed up on 
+GitHub, let me know and I'll walk you through that part too.
+
+LordFingers: so lets say I go to implement a whole bunch of things into v2, and it turns 
+into shit filled mud. how do i revert?
+
+Claude:  Once you've got that commit saved, reverting is just:
+
+```bash
+git checkout .
+```
+
+That throws away all uncommitted changes and snaps everything back to your last 
+commit. 
+
+If you've made multiple commits during the muddy v2 work and want to go all the 
+way back to the original:
+
+```bash
+git log
+```
+That shows your commit history with IDs like `a3f4c9b`. Then:
+
+```bash
+git checkout a3f4c9b .
+```
+
+To jump back to that exact point. The dot at the end is important — it means 
+"apply this to my current files" rather than switching branches.
+
+LordFingers: help me make a bash script
+
+Claude:  Sure, what do you want it to do?
+
+LordFingers: See this?
+🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃▍
+🮈  ███    ███  █████  ██ ███    
+██  ▍
+🮈  ████  
+████ ██   ██ ██ ████   ██  ▍
+🮈  
+██ ████ ██ ███████ ██ ██ █�
+�  ██  ▍
+🮈  
+██  ██  ██ ██   ██ ██ ██  �
+�█ ██  ▍
+🮈  ██      ██ ██   ██ ██ ██  
+ ████  ▍
+🮈           Python Script           ▍
+🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+��▃▃▃▃▃▃▃▃▃🭐
+██████████████████████████�
+�██████████
+█░░░░░░░░░░░░░░░░░░░░░░░░░�
+�░░░░░░░░░█
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+I want a script that:
+when "script.sh title.py" is entered, 
+It reproduces my example, using figlet with font "Shadow-R" to replace the word 
+MAIN with the basename of the
+filename provided as arg1.
+In a new micro text file, it prints the reproduced graphic as a header, with 
+all text centered
+Saves the file as <arg1> filename,
+then opens the file in micro with the cursor 2 rows under the final printed lin
+
+Claude:  Let me look at your graphic carefully to understand the exact border 
+characters before building this.
+
+The structure I see:
+- Top border row
+- Several rows with `🮈` left, content, `▍` right (the figlet text)
+- A subtitle row with the script type
+- Bottom corner/border rows
+- A solid full-width block row
+- A lighter block row
+- A final thin border row
+
+A few quick questions before I write it:
+```
+This block is not supported on your current device yet.
+```
+
+LordFingers: Q: What goes in the subtitle row (currently shows 'Python Script')?
+A: Always 'Python Script'
+
+Q: Should the output file be a .py file, or match whatever extension arg1 has?
+A: Always .py
+
+Claude:  
+```
+This block is not supported on your current device yet.
+```
+
+Now let me carefully analyze the exact border characters in your graphic before 
+writing the script:
+```
+This block is not supported on your current device yet.
+```
+
+Good, I have all the exact characters. Now let me build the script:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+```bash
+chmod +x newpy.sh
+./newpy.sh myscript.py
+```
+
+A few notes:
+
+- The figlet output is centered within the border width dynamically, so longer 
+or shorter names should stay balanced
+- The `.py` extension is stripped before passing to figlet so it only renders 
+the name
+- Micro opens with the cursor placed on the first blank line after the header, 
+ready to type
+- The output file is saved in the current directory as `<name>.py`
+
+If the centering looks off for a particular name it's likely because Shadow-R 
+uses varying character widths — let me know and we can tune the padding.
+
+LordFingers: almost perfect... but every row of the header needs to be two characters longer 
+except for the part with the figlet text
+
+Claude:  So the figlet section stays as-is, but the top border, subtitle row, bottom 
+arc, full block row, light block row, and final thin border all get 2 extra 
+characters? And the `L`/`R` sides on the subtitle row stretch out too?
+
+Just want to confirm — is it 1 extra char on each side (left and right), or 2 
+extra on one side?
+
+LordFingers: 1 each
+
+Claude:  Got it, so the border width is 39 but the figlet rows stay at 37. Let me patch 
+that:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+The figlet rows still use `WIDTH=37` while everything else now uses 
+`BWIDTH=39`, giving you that 1 extra char on each side for the top border, 
+subtitle, arc, block rows, and final thin border.
+
+LordFingers: now just the row that says "Python Script" is 2 chars too long - if the 
+calculation provides a number that isnt divisible by two, meaning the sides 
+cant be padded equally, its ok to add one space in between the words "Python" 
+and "Script" to even the balance
+
+Claude:  
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+The subtitle row now uses `WIDTH` (37) to match the figlet rows, and if the 
+remaining space after placing the text is odd, it nudges to `"Python  Script"` 
+(two spaces) to make it even before calculating the padding.
+
+LordFingers: bam. thanks. nice work
+
+Claude:  Glad it came together! That was a fun one — those unicode block characters 
+are satisfying to work with once you know exactly what you're dealing with. 
+Enjoy the script!
+
+LordFingers: I spoke too soon...
+
+this is what happened when I tried "generator.py":
+
+🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃▍
+🮈                        ██████  
+███████ ███    
+██ ███████ ██████   █████  
+████████  ██████  ██████            
+           ▍
+🮈                       ██       
+██      ████   
+██ ██      ██   ██ ██   ██�
+�   ██    ██    ██ ██   ██    
+                    ▍
+🮈                       ██   ███ █████   
+██ ██  ██ █████   
+██████  ███████    ██    ██    
+██ ██████                       ▍
+🮈                       ██    ██ ██      
+██  ██ ██ ██      
+██   ██ ██   ██    ██    ██    
+██ ██   ██                        ▍
+🮈                       
+ ██████  ███████ ██  
+ ████ ███████ ██   ██ ██   
+██    ██     ██████  ██   ██            
+            ▍
+🮈                                     ▍
+🮈                                     ▍
+🮈            Python Script            ▍
+🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+��▃▃▃▃▃▃▃▃▃▃▃🭐
+██████████████████████████�
+�████████████
+█░░░░░░░░░░░░░░░░░░░░░░░░░�
+�░░░░░░░░░░░█
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+
+Claude:  Yeah, the figlet text for longer names blows way past the border width — the 
+borders are fixed at 37/39 but the figlet output can be any width. The fix is 
+to measure the actual width of the figlet output and use that to set the widths 
+dynamically instead of hardcoding them.
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+Now it measures the longest line in the figlet output first, then sets `WIDTH` 
+and `BWIDTH` from that — so short names like `main` stay compact at 37/39, 
+and long names like `generator` expand the whole frame to fit. Everything stays 
+proportional.
+
+LordFingers: almost... 
+🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃▍
+🮈    ██████  ███████ ███    
+██ ███████ ██████   █████  
+████████  ██████  ██████   ▍
+🮈  ██       ██      ████   
+██ ██      ██   ██ ██   ██�
+�   ██    ██    ██ ██   ██   
+▍
+🮈   ██   ███ █████   ██ ██  
+██ █████   ██████  ███████    
+██    ██    ██ ██████   ▍
+🮈  ██    ██ ██      
+██  ██ ██ ██      
+██   ██ ██   ██    ██    ██    
+██ ██   ██   ▍
+🮈   ██████  ███████ ██  
+ ████ ███████ ██   ██ ██   
+██    ██     ██████  ██   ██   ▍
+🮈                                                                            
+     ▍
+🮈                                                                            
+     ▍
+🮈                                  Python Script                             
+     ▍
+🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+��▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃
+▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+�▃▃🭐
+██████████████████████████�
+�██████████████████████████�
+��██████████████████████████
+███
+█░░░░░░░░░░░░░░░░░░░░░░░░░�
+�░░░░░░░░░░░░░░░░░░░░░░░░░░�
+��░░░░░░░░░░░░░░░░░░░░░░░░░░
+░░█
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃
+
+Claude:  The top border is way too wide — it's measuring the figlet lines *before* 
+stripping trailing spaces, so it's picking up all that invisible padding figlet 
+adds. Need to trim each line before measuring:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+That was the culprit — figlet pads all lines to the same width with trailing 
+spaces, so the measurement was grabbing that full padded width instead of the 
+actual visible content. Should be tight now.
+
+LordFingers: not quite...
+
+🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃▍
+🮈    ██████  ███████ ███    
+██ ███████ ██████   █████  
+████████  ██████  ██████   ▍
+🮈  ██       ██      ████   
+██ ██      ██   ██ ██   ██�
+�   ██    ██    ██ ██   ██   
+▍
+🮈   ██   ███ █████   ██ ██  
+██ █████   ██████  ███████    
+██    ██    ██ ██████   ▍
+🮈  ██    ██ ██      
+██  ██ ██ ██      
+██   ██ ██   ██    ██    ██    
+██ ██   ██   ▍
+🮈   ██████  ███████ ██  
+ ████ ███████ ██   ██ ██   
+██    ██     ██████  ██   ██   ▍
+🮈                                                                            
+     ▍
+🮈                                                                            
+     ▍
+🮈                                  Python Script                             
+     ▍
+🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+��▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃
+▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+�▃▃🭐
+██████████████████████████�
+�██████████████████████████�
+��██████████████████████████
+███
+█░░░░░░░░░░░░░░░░░░░░░░░░░�
+�░░░░░░░░░░░░░░░░░░░░░░░░░░�
+��░░░░░░░░░░░░░░░░░░░░░░░░░░
+░░█
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃
+
+Claude:  The top border is still too wide. The strip isn't working because bash's 
+`${var##*[![:space:]]}` trick doesn't handle the unicode block characters in 
+figlet output — they're not being seen as regular characters. Let me use 
+Python to measure it reliably instead:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+The bash string trimming was failing silently on the unicode block characters 
+figlet uses for its output. Python's `rstrip()` handles them correctly so the 
+measurement should now be accurate.
+
+LordFingers: almost... 
+
+Should look like this:
+
+🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃▍
+🮈   ██████  ███████ ███    
+██ ███████ ██████   █████  
+████████  ██████  ██████    ▍
+🮈   ██      ██      ████   
+██ ██      ██   ██ ██   ██�
+�   ██    ██    ██ ██   ██   
+▍
+🮈   ██  ███ █████   ██ ██  
+██ █████   ██████  ███████    
+██    ██    ██ ██████    ▍
+🮈   ██  ██  ██      
+██  ██ ██ ██      
+██   ██ ██   ██    ██    ██    
+██ ██   ██   ▍
+🮈   ██████  ███████ ██  
+ ████ ███████ ██   ██ ██   
+██    ██     ██████  ██   ██   ▍
+🮈                                                                            
+     ▍
+🮈                                                                            
+     ▍
+🮈                                  Python Script                             
+     ▍
+🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+��▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃
+▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+�▃▃🭐
+██████████████████████████�
+�██████████████████████████�
+��██████████████████████████
+███
+█░░░░░░░░░░░░░░░░░░░░░░░░░�
+�░░░░░░░░░░░░░░░░░░░░░░░░░░�
+��░░░░░░░░░░░░░░░░░░░░░░░░░░
+░░█
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃
+
+
+was this:
+
+🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃▍
+🮈    ██████  ███████ ███    
+██ ███████ ██████   █████  
+████████  ██████  ██████   ▍
+🮈  ██       ██      ████   
+██ ██      ██   ██ ██   ██�
+�   ██    ██    ██ ██   ██   
+▍
+🮈   ██   ███ █████   ██ ██  
+██ █████   ██████  ███████    
+██    ██    ██ ██████   ▍
+🮈  ██    ██ ██      
+██  ██ ██ ██      
+██   ██ ██   ██    ██    ██    
+██ ██   ██   ▍
+🮈   ██████  ███████ ██  
+ ████ ███████ ██   ██ ██   
+██    ██     ██████  ██   ██   ▍
+🮈                                                                            
+     ▍
+🮈                                                                            
+     ▍
+🮈                                  Python Script                             
+     ▍
+🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+��▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃
+▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+�▃▃🭐
+██████████████████████████�
+�██████████████████████████�
+��██████████████████████████
+███
+█░░░░░░░░░░░░░░░░░░░░░░░░░�
+�░░░░░░░░░░░░░░░░░░░░░░░░░░�
+��░░░░░░░░░░░░░░░░░░░░░░░░░░
+░░█
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃
+
+
+i just added and subtracted spaces around the G was fine and the rest fell into 
+place, the I had to center it
+
+Claude:  So the bottom rows and the `Python Script` line are all correct — it's just 
+that the figlet lines themselves aren't being centered properly. The issue is 
+that each figlet line is being padded based on its own individual stripped 
+length, but they should all be padded relative to the same `MAX_FIGLET` width 
+so the whole block centers as a unit.
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+The key insight: figlet outputs lines of varying lengths (some letters wider 
+than others), so centering each line individually causes the whole word to look 
+wobbly. Now every line is padded out to `MAX_FIGLET` on the right before the 
+same left margin is applied, so the whole figlet block moves as one unit.
+
+LordFingers: ah my bad... that almost worked but this is what the output should be:
+
+🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃▍
+🮈   ██████  ███████ ███    
+██ ███████ ██████   █████  
+████████  ██████  ██████    ▍
+🮈  ██       ██      ████   
+██ ██      ██   ██ ██   ██�
+�   ██    ██    ██ ██   ██  
+ ▍
+🮈  ██   ███ █████   ██ ██  
+██ █████   ██████  ███████    
+██    ██    ██ ██████    ▍
+🮈  ██    ██ ██      
+██  ██ ██ ██      
+██   ██ ██   ██    ██    ██    
+██ ██   ██   ▍
+🮈   ██████  ███████ ██  
+ ████ ███████ ██   ██ ██   
+██    ██     ██████  ██   ██   ▍
+🮈                        
+                              
+                           ▍
+🮈                                                                            
+     ▍
+🮈                                  Python Script                             
+     ▍
+🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+��▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃
+▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+�▃▃🭐
+██████████████████████████�
+�██████████████████████████�
+��██████████████████████████
+███
+█░░░░░░░░░░░░░░░░░░░░░░░░░�
+�░░░░░░░░░░░░░░░░░░░░░░░░░░�
+��░░░░░░░░░░░░░░░░░░░░░░░░░░
+░░█
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃
+
+Claude:  Looking at your example closely, the figlet text isn't centered — it's 
+left-aligned with a consistent 3-space left margin (`🮈   █`), and the 
+right side just has enough padding to reach the border. So it's not a centering 
+problem at all, it's a fixed left indent.
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+LordFingers: Ah sorry I was mistaken, this is the correct output... that time almost had it 
+
+🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃▍
+🮈    ██████  ███████ ███    
+██ ███████ ██████   █████  
+████████  ██████  ██████    ▍
+🮈   ██       ██      ████   
+██ ██      ██   ██ ██   ██�
+�   ██    ██    ██ ██   ██  
+ ▍
+🮈   ██   ███ █████   ██ ██  
+██ █████   ██████  ███████    
+██    ██    ██ ██████    ▍
+🮈   ██    ██ ██      
+██  ██ ██ ██      
+██   ██ ██   ██    ██    ██    
+██ ██   ██   ▍
+🮈    ██████  ███████ ██  
+ ████ ███████ ██   ██ ██   
+██    ██     ██████  ██   ██   ▍
+🮈                         
+                              
+                           ▍
+🮈                                                                            
+      ▍
+🮈                                  Python  Script                            
+      ▍
+🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+��▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃
+▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+�▃▃▃🭐
+██████████████████████████�
+�██████████████████████████�
+��██████████████████████████
+████
+█░░░░░░░░░░░░░░░░░░░░░░░░░�
+�░░░░░░░░░░░░░░░░░░░░░░░░░░�
+��░░░░░░░░░░░░░░░░░░░░░░░░░░
+░░░█
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃
+
+Claude:  OK so it IS centered after all — and the previous attempt was close but had 
+the top border 1 char too short. Looking at your example the figlet block has 
+equal padding both sides (`   ` left, `   ` right on the longest line). Let me 
+revert to centered and just fix the width calculation to add 1 more char:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+The figlet block is now centered with 3 spaces of breathing room on each side 
+of the longest line, and `WIDTH` is calculated as `MAX_FIGLET + 6` to account 
+for that. Give it a go with `generator` and `main` both and see if they line up.
+
+LordFingers: nope...
+
+🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃▍
+🮈   ██████  ███████ ███    
+██ ███████ ██████   █████  
+████████  ██████  ██████    ▍
+🮈  ██       ██      ████   
+██ ██      ██   ██ ██   ██�
+�   ██    ██    ██ ██   ██  
+ ▍
+🮈  ██   ███ █████   ██ ██  
+██ █████   ██████  ███████    
+██    ██    ██ ██████    ▍
+🮈  ██    ██ ██      
+██  ██ ██ ██      
+██   ██ ██   ██    ██    ██    
+██ ██   ██   ▍
+🮈   ██████  ███████ ██  
+ ████ ███████ ██   ██ ██   
+██    ██     ██████  ██   ██   ▍
+🮈                        
+                              
+                           ▍
+🮈                                                                            
+     ▍
+🮈                                   Python Script                            
+       ▍
+🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+��▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃
+▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+�▃▃▃▃🭐
+██████████████████████████�
+�██████████████████████████�
+��██████████████████████████
+█████
+█░░░░░░░░░░░░░░░░░░░░░░░░░�
+�░░░░░░░░░░░░░░░░░░░░░░░░░░�
+��░░░░░░░░░░░░░░░░░░░░░░░░░░
+░░░░█
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃
+
+Claude:  The top border is still 2 chars too wide, and the Python Script row is 
+overflowing. Let me just do all the math in Python at once so there's no drift 
+between the calculations:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+All the math is now done in Python so there's no bash integer drift. The logic 
+is: `WIDTH = max_fw + 8` (3 spaces padding each side plus the L and R chars), 
+`BWIDTH = WIDTH + 2`, and the subtitle uses the same `inner = WIDTH - 2` as the 
+figlet rows so they're guaranteed to match.
+
+LordFingers: nope. now were just getting more mistakess go back three versions
+
+Claude:  That would be the version where all the math was still in bash but we were 
+measuring correctly with Python. Let me pull that back:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+That's back to the version where the top border was 2 chars too wide. We need 
+to fix just that one thing — the `BWIDTH` is coming out 2 too many. Can you 
+paste what you're getting now so I can see the exact counts?
+
+LordFingers: 🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃▍
+🮈  ██████  ███████ ███    
+██ ███████ ██████   █████  
+████████  ██████  ██████   ▍
+🮈 ██       ██      ████   
+██ ██      ██   ██ ██   ██�
+�   ██    ██    ██ ██   ██  
+▍
+🮈 ██   ███ █████   ██ ██  
+██ █████   ██████  ███████    
+██    ██    ██ ██████   ▍
+🮈 ██    ██ ██      
+██  ██ ██ ██      
+██   ██ ██   ██    ██    ██    
+██ ██   ██  ▍
+🮈  ██████  ███████ ██  
+ ████ ███████ ██   ██ ██   
+██    ██     ██████  ██   ██  ▍
+🮈                       
+                              
+                          ▍
+🮈                                                                            
+   ▍
+🮈                                  Python Script                             
+     ▍
+🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+��▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃
+▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+�▃▃🭐
+██████████████████████████�
+�██████████████████████████�
+��██████████████████████████
+███
+█░░░░░░░░░░░░░░░░░░░░░░░░░�
+�░░░░░░░░░░░░░░░░░░░░░░░░░░�
+��░░░░░░░░░░░░░░░░░░░░░░░░░░
+░░█
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃
+
+Claude:  OK I can see exactly what's wrong now — three separate issues:
+
+1. Top border is 2 chars too wide vs the figlet rows
+2. Figlet block has only 1 space left padding instead of 3
+3. Python Script row is wider than the figlet rows
+
+Let me count the chars in your output carefully and fix all three at once:
+```
+This block is not supported on your current device yet.
+```
+
+So the figlet rows are 81 chars and everything else is 83 — that's correct 
+and matches your target. The problem is the figlet rows only have 1 space left 
+pad instead of 3, and the subtitle is spilling to 83 instead of 81. Let me fix 
+both:
+```
+This block is not supported on your current device yet.
+```
+
+Now the issue is the figlet block only has 1 space left padding. That means 
+`SIDE` is computing as 1, which means `MAX_FIGLET` is being measured as `INNER 
+- 2` instead of the true content width. The issue is `MAX_FIGLET` includes 
+leading spaces that figlet adds. Let me also strip leading spaces in the 
+measurement:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+The key fix: figlet pads lines with leading spaces to center them within its 
+own output width, so measuring with `rstrip()` was still grabbing that full 
+padded width. Using `.strip()` gives us the true content width, so `SIDE` will 
+now compute as a proper 3-space margin each side.
+
+LordFingers: close, heres what I did to fix i the text space:
+
+🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃▍
+🮈  ██████  ███████ ███    
+██ ███████ ██████   █████  
+████████  ██████  ██████   ▍
+🮈 ██       ██      ████   
+██ ██      ██   ██ ██   ██�
+�   ██    ██    ██ ██   ██  
+▍
+🮈 ██   ███ █████   ██ ██  
+██ █████   ██████  ███████    
+██    ██    ██ ██████   ▍
+🮈 ██    ██ ██      
+██  ██ ██ ██      
+██   ██ ██   ██    ██    ██    
+██ ██   ██  ▍
+🮈  ██████  ███████ ██  
+ ████ ███████ ██   ██ ██   
+██    ██     ██████  ██   ██  ▍
+🮈                       
+                              
+                          ▍
+🮈                                                                            
+   ▍
+🮈                                 Python Script                              
+   ▍
+🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+��▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃
+▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+�▃▃🭐
+██████████████████████████�
+�██████████████████████████�
+��██████████████████████████
+███
+█░░░░░░░░░░░░░░░░░░░░░░░░░�
+�░░░░░░░░░░░░░░░░░░░░░░░░░░�
+��░░░░░░░░░░░░░░░░░░░░░░░░░░
+░░█
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃
+
+
+added on space in front of each line of figlet letter, after border char
+subtracted one char from right side of all other lines, before border char
+added on space in between "python" and "script" to meaintain syummetry
+
+Claude:  OK so the fix is clear — add 1 space to the left of each figlet line, and 
+subtract 1 from the right padding. That means changing `SIDE` to `SIDE + 1` on 
+the left and adjusting rpad accordingly:
+```
+This block is not supported on your current device yet.
+```
+
+Now also subtract 1 from the BWIDTH-based rows to match:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+The subtitle also uses `Python  Script` (double space) to maintain symmetry per 
+your fix — that's already in the code from the earlier edit. Give it a go!
+
+LordFingers: 🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃▍
+🮈  ███████ ████████  █████  
+████████ ███████         
+███████ ███    ██  ██████  ▍
+🮈  
+██         ██    ██   ██  �
+� ██    ██              
+██      ████   ██ ██       ▍
+🮈  ███████    ██    ███████    
+██    ███████         █████   
+██ ██  ██ ██   ███ ▍
+🮈       ██    ██    ██   ██    
+██         ██         ██      
+██  ██ ██ ██    ██ ▍
+🮈  ███████    ██    ██   ██    ██    
+███████ ███████ ███████ ██�
+�  ████  ██████  ▍
+🮈                                    
+                          �
+�                ▍
+🮈                                                                            
+   ▍
+🮈  ██ ███    ██ ███████                  
+                                       ▍
+🮈  ██ ████   ██ ██                     
+                                         ▍
+🮈  ██ ██ ██  ██ █████                    
+                                       ▍
+🮈  ██ ██  ██ ██ ██                     
+                                         ▍
+🮈  ██ ██   ████ ███████              
+                                           ▍
+🮈                                      
+                                         ▍
+🮈                                                                            
+   ▍
+🮈                                 Python Script                              
+   ▍
+🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+��▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃
+▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃�
+�▃🭐
+██████████████████████████�
+�██████████████████████████�
+��██████████████████████████
+██
+█░░░░░░░░░░░░░░░░░░░░░░░░░�
+�░░░░░░░░░░░░░░░░░░░░░░░░░░�
+��░░░░░░░░░░░░░░░░░░░░░░░░░░
+░█
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮃🮃
+
+Claude:  Good news — the alignment is perfect now! The issue is that `states_eng` is 
+two words so figlet is wrapping it onto two rows. The fix is to pass `-f 
+Shadow-R` with the `-w` flag to set a wide enough line width so figlet doesn't 
+wrap:
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+`-w 400` tells figlet to treat the output width as 400 chars, so it'll never 
+wrap no matter how long the filename is. The border will then expand to fit as 
+intended.
+

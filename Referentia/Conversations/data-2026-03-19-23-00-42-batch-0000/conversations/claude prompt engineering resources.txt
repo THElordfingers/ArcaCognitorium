@@ -1,0 +1,39 @@
+LordFingers: What is a good podcast to learn about Claude specific prompt engineering
+
+Claude: 
+```
+This block is not supported on your current device yet.
+```
+
+There isn't a single dedicated Claude prompt engineering podcast, but here are 
+the best options depending on what you're after:
+
+**Closest to what you want:**
+
+- **Lex Fridman Podcast #452** — He interviews Amanda Askell, an Anthropic 
+researcher who worked on Claude's alignment and fine-tuning, described as 
+someone who has probably spoken with Claude more than anyone at Anthropic. She 
+covers practical prompt engineering advice directly from the source.
+
+- **AWS for Software Companies Podcast, Ep050** — Anthropic's Zach Witten 
+goes deep on Claude-specific prompt engineering tips, covering system prompts, 
+XML tags, chain-of-thought, and role setting.
+
+- **The Startup Ideas Podcast** — A December 2025 episode specifically covers 
+10 prompting rules drawn directly from Anthropic's own guidance on how to use 
+Claude effectively, including structured formatting, constraints, and "power 
+phrases."
+
+**If you want to go deeper on the engineering side:**
+
+- **The MAD Podcast with Matt Turck** — Has an episode with Boris Cherny, 
+creator of Claude Code at Anthropic, going into how Claude's agentic approach 
+works and how Claude.md memory files let you build a living knowledge base for 
+prompting.
+
+**Honestly the best non-podcast resource** is Anthropic's own documentation at 
+`docs.claude.com` — their prompt engineering guide is thorough and 
+Claude-specific. For your workflow across LuxArcana, ESTUPIDO, and your other 
+projects, it's worth having that open as a reference since a lot of the XML tag 
+and system prompt patterns apply directly to Python/API usage.
+

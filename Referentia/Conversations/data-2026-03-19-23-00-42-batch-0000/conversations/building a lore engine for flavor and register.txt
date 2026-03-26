@@ -1,0 +1,114 @@
+LordFingers: I don't know if this is an implementable feature, but could we build some sort 
+of lore engine? Something that guides and helps produce anything that has to do 
+with the flavour and re register of the whole thing
+
+Claude: 
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+Good. I have the full picture. Let me think through this carefully before 
+responding.
+
+The question is whether a **Lore Engine** is implementable — and what it 
+would actually *be*.
+
+Here's the honest assessment from The Builder:
+
+---
+
+**Yes. It is implementable. And it is needed.**
+
+Right now, lore is *distributed and manual*. The `lore_prefix` in `app.py` is 
+hardcoded. Entity `purpose` fields in the YAML files are hand-written. The 
+trait-to-instruction map in `entity_compiler.py` produces generic behavioral 
+instructions, not *voice*. There is no single source of truth for the register, 
+the vocabulary, the cosmology, or the aesthetic rules of the Cogniverse. If you 
+want to write new entity copy, a new boot message, a new status bar phrase, a 
+new error — you are doing it from memory and instinct each time. That works 
+when it's just you. It becomes fragile at scale and nearly impossible to share 
+with other Wizards.
+
+A **Lore Engine** would solve this by becoming the authoritative voice layer 
+that everything else draws from.
+
+---
+
+**What it actually is:**
+
+Not a separate running process. Not an LLM call on every message. It is a 
+**structured data layer** — a set of authored documents and a compiler that 
+translates them into usable artifacts — combined with an **in-session 
+assistant** you can invoke to generate new lore-consistent copy.
+
+**Three components:**
+
+**1. The Lore Corpus** (`lore/` directory)
+A collection of structured documents that define the Cogniverse's voice, 
+cosmology, and vocabulary. Things like:
+- `register.yaml` — tone rules, forbidden words (atelier), preferred 
+constructions, ceremonial vs operational registers
+- `cosmology.yaml` — the canonical facts of the tower: what it is, who the 
+Wizard is, what the Council is, what memory layers mean in-world
+- `vocabulary.yaml` — preferred terms (Arx Arcana, Grimoire, Filum, 
+Chronicle, Tome), with forbidden alternatives
+- `entity_voices/` — per-entity flavor notes: characteristic phrases, 
+cadence, things each entity would *never* say
+
+**2. The Lore Compiler** (`lore_compiler.py`)
+At startup, reads the corpus and makes it available to the `EntityCompiler`. 
+Instead of a hardcoded `lore_prefix` in `app.py`, the prefix is *rendered* from 
+the cosmology. Entity instruction strings get a voice layer on top of the 
+trait-behavioral layer. Boot messages, status phrases, error messages — all 
+pulled from lore-consistent templates.
+
+**3. The Lore Forge** (interactive tool)
+An invocable mode — possibly `/lore` command or a dedicated Arx Arcana 
+workshop — where you describe what you need ("write a dismissal message when 
+the Socratic is sent away") and the system generates it using the corpus as a 
+constraint document injected into the prompt. Output is lore-checked against 
+the vocabulary list before being offered. You accept or regenerate. Accepted 
+output can be written directly to the appropriate file.
+
+---
+
+**What this gives you practically:**
+
+- Entity personalities stop being just trait sliders — they get *voice*. The 
+Contrarian sounds like the Contrarian, not just "a high-challenge entity."
+- When you add a new entity, new command, new page — you run it through the 
+Forge and it comes out sounding native.
+- Other Wizards installing the system get the same register. The Cogniverse has 
+a consistent soul across instances.
+- The `lore_prefix` that currently lives naked in `app.py` becomes a living 
+document.
+
+---
+
+**What it is NOT:**
+
+It does not replace your authorship. The corpus is written by you. The Forge 
+assists but you accept. It is a **constraint system and an assistant**, not a 
+generator running loose.
+
+---
+
+**Build order recommendation:**
+
+This does not block v1 core feature work. It runs *parallel*. The immediate 
+deliverable is the `lore/` corpus structure and the `register.yaml` — that 
+document alone immediately gives every future piece of copy a written standard 
+to be checked against. The compiler integration comes after v1 is proving 
+itself in real use, when you know what phrases are actually appearing in the 
+interface.
+
+The Forge is a v1.2 feature. The corpus and vocabulary list can start now, 
+today, as a document.
+
+Want me to draft the corpus structure and a seed `register.yaml`?
+

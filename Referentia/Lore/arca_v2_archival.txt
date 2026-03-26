@@ -1,0 +1,57 @@
+ARCA COGNITORIUM — ARCHIVAL LORE DOCUMENT
+Generated: 2026-03-22 04:43:57.058704
+================================================================================
+
+=== [SESSION: BUILD DISCUSSION I] ===
+
+LordFingers:
+I had an idea for version 2. Council review system and emergent spell commands.
+
+[LORE: CONVOCATION SYSTEM]
+Claude:
+A periodic council review triggered by meaningful thresholds or celestial
+cycles. Entities analyze the Wizard's behavior and produce reflective insights.
+
+[LORE: VERBUM ARCANUM]
+Claude:
+Emergent spell words appear mysteriously. Effects are hidden until first use,
+then permanently recorded in a spellbook.
+
+[LORE: CODEX OBSCURA / LIBER UMBRAE]
+Spellbook system storing discovered words and their effects.
+
+[LORE: AURA SYSTEM]
+Claude:
+System evolves based on user behavior patterns rather than configuration.
+Unlocks are emergent and personality-driven.
+
+[LORE: INVENTORY]
+LordFingers:
+Introduce items like scrolls, wands, potions, and enchanted objects with both
+functional and aesthetic impact.
+
+[LORE: WORKSHOPS]
+Dedicated crafting spaces such as Forge of Future Antiquities, Alchemical
+Laboratory, and Bureau of Scrollworks.
+
+[LORE: RESIDUUM]
+Fragments left behind from destroyed items that accumulate and enable advanced
+crafting.
+
+[LORE: UNFINISHED WORKSHOP]
+A space where abandoned creations may evolve unpredictably over time.
+
+
+=== [SESSION: DEBUG SYSTEM] ===
+
+LordFingers:
+I want a comprehensive debug monitor.
+
+[LORE: THE OCULUS]
+Claude:
+A diagnostic interface displaying system state, logs, and entity activity in
+real time.
+
+
+================================================================================
+END OF ARCHIVAL DOCUMENT

@@ -1,0 +1,17 @@
+fenestrium/
+├── app.py              ← App entry point, layout, keybindings
+├── widgets/
+│   ├── classis.py      ← Widget browser pane
+│   ├── arbor.py        ← Composition tree pane
+│   ├── specularium.py  ← Preview pane (all 3 modes)
+│   └── codex.py        ← Code output pane
+├── core/
+│   ├── registry.py     ← Widget definitions, validated at load
+│   ├── tree.py         ← Node dataclass, pure tree operations
+│   ├── codegen.py      ← Code generation, all widget types
+│   └── session.py      ← Autosave / restore
+├── preview/
+│   ├── subprocess_preview.py   ← ANSI capture mode
+│   ├── inline_preview.py       ← Live mount mode
+│   └── svg_preview.py          ← SVG export mode
+└── fenestrium.tcss     ← All styles

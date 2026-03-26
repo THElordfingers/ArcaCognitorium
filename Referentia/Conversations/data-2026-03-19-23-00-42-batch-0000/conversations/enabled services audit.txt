@@ -1,0 +1,735 @@
+LordFingers: enabled services audit:
+
+UNIT FILE                           STATE   PRESET 
+accounts-daemon.service             enabled enabled anacron.service 
+                    enabled enabled apparmor.service 
+                   enabled enabled avahi-daemon.service 
+               enabled enabled blk-availability.service 
+           enabled enabled bluetooth.service 
+                  enabled enabled console-setup.service 
+              enabled enabled containerd.service 
+                 enabled enabled cron.service 
+                       enabled enabled 
+cups-browsed.service                enabled enabled cups.service 
+                       enabled enabled docker.service 
+                     enabled enabled e2scrub_reap.service 
+               enabled enabled earlyoom.service 
+                   enabled enabled exim4.service 
+                      enabled enabled fancontrol.service 
+                 enabled enabled glances.service 
+                    enabled enabled grub-common.service 
+                enabled enabled hardinfo2.service 
+                  enabled enabled keyboard-setup.service 
+             enabled enabled libvirt-guests.service 
+             enabled enabled libvirtd.service 
+                   enabled enabled lm-sensors.service 
+                 enabled enabled low-memory-monitor.service 
+         enabled enabled lvm2-monitor.service 
+               enabled enabled ModemManager.service 
+               enabled enabled netavark-dhcp-proxy.service 
+        enabled enabled netavark-firewalld-reload.service   enabled 
+enabled networking.service                  enabled enabled 
+NetworkManager-dispatcher.service   enabled enabled 
+NetworkManager-wait-online.service  enabled enabled NetworkManager.service 
+             enabled enabled open-iscsi.service 
+                 enabled enabled openvpn.service 
+                    enabled enabled 
+power-profiles-daemon.service       enabled enabled ratbagd.service 
+                    enabled enabled smartmontools.service 
+              enabled enabled switcheroo-control.service 
+         enabled enabled sysfsutils.service 
+                 enabled enabled systemd-pstore.service 
+             enabled enabled udevmon.service 
+                    enabled enabled udisks2.service 
+                    enabled enabled ufw.service 
+                        enabled enabled 
+virtlockd.service                   enabled enabled 
+virtlogd.service                    enabled enabled 
+winbind.service                     enabled enabled 
+wpa_supplicant.service              enabled enabled x11vnc.service 
+                     enabled enabled xrdp-sesman.service 
+                enabled enabled xrdp.service 
+                       enabled enabled 52 unit files 
+listed. UNIT FILE 
+                                   STATE 
+  PRESET appmenu-gtk-module.service 
+                  enabled enabled 
+drkonqi-coredump-cleanup.service             enabled enabled 
+drkonqi-coredump-pickup.service              enabled enabled 
+filter-chain.service                         enabled 
+enabled gcr-ssh-agent.service 
+                       enabled enabled 
+gnome-keyring-daemon.service                 enabled enabled 
+localsearch-3.service                        enabled 
+enabled mpris-proxy.service 
+                         enabled enabled obex.service 
+                                enabled enabled 
+org.freedesktop.IBus.session.GNOME.service   enabled enabled 
+pipewire-pulse.service                       enabled 
+enabled pipewire.service 
+                            enabled enabled 
+plasma-kcminit.service                       enabled 
+enabled plasma-ksmserver.service 
+                    enabled enabled 
+plasma-plasmashell.service                   enabled enabled 
+user-session-migration.service               enabled enabled 
+wireplumber.service                          enabled 
+enabled xdg-desktop-portal-rewrite-launchers.service enabled enabled 
+ydotool.service 
+                             enabled enabled
+
+Claude:  I can see your systemd service audit showing both system-level and user-level 
+enabled services. Here's a quick analysis:
+
+## Notable Services Running
+
+**System Services (52 total):**
+- **Container/Virtualization**: Docker, containerd, libvirtd, virtlogd, 
+virtlockd
+- **Remote Access**: xrdp, x11vnc, OpenVPN
+- **Monitoring**: glances, hardinfo2, earlyoom (low memory protection), 
+smartmontools
+- **Network**: NetworkManager, Avahi (mDNS), ModemManager
+- **Desktop**: Bluetooth, CUPS (printing), power-profiles-daemon
+- **Security**: AppArmor, UFW firewall
+- **File Sharing/SMB**: Winbind (Samba component)
+- **Mail**: Exim4
+
+**User Services (19 total):**
+- **Desktop Environment**: Full KDE Plasma stack (plasmashell, ksmserver, 
+kcminit)
+- **Audio**: PipeWire with PulseAudio compatibility
+- **Accessibility/Automation**: ydotool, udevmon
+- **File Indexing**: localsearch-3
+- **Portals**: xdg-desktop-portal
+
+## Potential Considerations
+
+1. **Remote Access**: Both xrdp and x11vnc are enabled - ensure these are 
+intentionally exposed and properly secured
+2. **Containers**: Both Docker and libvirt running - expected if you use VMs 
+and containers
+3. **earlyoom**: Good addition for preventing system freezes under memory 
+pressure
+4. **Exim4**: Mail server running - verify if needed
+
+Is there something specific about these services you'd like me to analyze or 
+help configure?
+
+LordFingers: anyhing redundant, unecessary or obsolete?
+
+Claude:  Looking at your services, here are some potential redundancies and things to 
+consider:
+
+## Likely Redundant/Unnecessary
+
+**Remote Access Duplication:**
+- **x11vnc + xrdp** - Both provide remote desktop access. Unless you 
+specifically need both protocols, pick one:
+  - xrdp = RDP protocol (Windows-friendly)
+  - x11vnc = VNC protocol (simpler, less secure by default)
+
+**Mail Server:**
+- **exim4** - Do you actually send mail from this system? Most desktop systems 
+don't need a full MTA running. Consider disabling unless you have scripts/cron 
+jobs that email you.
+
+**Possible Redundancies:**
+
+**Desktop Environment Conflicts:**
+- You have **GNOME services** (gnome-keyring, IBus.session.GNOME, obex) 
+alongside **KDE Plasma**
+- If you're only using KDE Plasma, the GNOME keyring and session services are 
+redundant
+- `org.freedesktop.IBus.session.GNOME.service` particularly suggests GNOME 
+remnants
+
+**Network Management:**
+- **avahi-daemon** (mDNS/Bonjour) - Only needed if you use network service 
+discovery (printers, file shares on local network)
+
+**Bluetooth:**
+- **bluetooth.service + obex.service** - obex is for Bluetooth file transfers. 
+If you don't use Bluetooth or only use it for audio/peripherals, obex is 
+unnecessary
+
+**Printing:**
+- **cups + cups-browsed** - If you don't have printers, both can be disabled
+- cups-browsed specifically is for network printer discovery
+
+## Potentially Obsolete/Niche
+
+- **winbind** - Samba component for Windows domain integration. Unless you're 
+on a Windows domain, this is unnecessary
+- **open-iscsi** - iSCSI storage initiator. Rarely needed on desktop systems
+- **ModemManager** - Only needed if you use mobile broadband/cellular modems
+- **anacron** - Useful if system isn't always on. If your system runs 24/7, 
+regular cron is sufficient
+
+Would you like help disabling any of these?
+
+LordFingers: exim4
+GNOME services
+obex.service
+winbind
+open-iscsi
+ModemManager
+
+Claude:  I'll help you disable those services. Here's how to do it:
+```
+This block is not supported on your current device yet.
+```
+
+Now run the script:
+```
+This block is not supported on your current device yet.
+```
+
+I see - this system doesn't have `sudo` configured in this environment, and 
+some of those services may not actually be running on your system (the 
+"not-found" messages suggest they weren't active).
+
+Here are the commands you should run **on your actual system** to disable these 
+services:
+
+```bash
+# System services (run as root or with sudo)
+systemctl disable --now exim4.service
+systemctl disable --now obex.service
+systemctl disable --now winbind.service
+systemctl disable --now open-iscsi.service
+systemctl disable --now ModemManager.service
+
+# User services (run as your regular user, no sudo)
+systemctl --user disable --now gnome-keyring-daemon.service
+systemctl --user disable --now org.freedesktop.IBus.session.GNOME.service
+```
+
+**Notes:**
+- `--now` stops the service immediately and disables it from starting at boot
+- If any service doesn't exist, you'll get an error but can ignore it
+- The GNOME services might already be masked/disabled if you're only using KDE
+
+After running these, you can verify with:
+```bash
+systemctl list-unit-files --state=enabled | grep -E 
+'exim4|obex|winbind|iscsi|ModemManager'
+systemctl --user list-unit-files --state=enabled | grep -E 'gnome|IBus'
+```
+
+Would you like help with any other service cleanup?
+
+LordFingers: Disabling 'gnome-keyring-daemon.service', but its triggering units are still 
+active: gnome-keyring-daemon.socket The following unit files have been enabled 
+in global scope. This means they will still be started automatically after a 
+successful disablement in user scope: gnome-keyring-daemon.service Stopping 
+'gnome-keyring-daemon.service', but its triggering units are still active: 
+gnome-keyring-daemon.socket The following unit files have been enabled in 
+global scope. This means they will still be started automatically after a 
+successful disablement in user scope: org.freedesktop.IBus.session.GNOME.service
+
+Claude:  The services are enabled at the **system level** (global scope), so disabling 
+them in user scope isn't enough. You need to disable them system-wide and also 
+handle the socket units that auto-trigger them.
+
+Run these commands:
+
+```bash
+# Disable GNOME keyring at system level
+sudo systemctl disable gnome-keyring-daemon.service
+sudo systemctl disable gnome-keyring-daemon.socket
+sudo systemctl --global disable gnome-keyring-daemon.service
+sudo systemctl --global disable gnome-keyring-daemon.socket
+
+# Also disable for your user
+systemctl --user disable gnome-keyring-daemon.service
+systemctl --user disable gnome-keyring-daemon.socket
+systemctl --user stop gnome-keyring-daemon.socket
+systemctl --user stop gnome-keyring-daemon.service
+
+# Disable IBus GNOME session at system level
+sudo systemctl disable org.freedesktop.IBus.session.GNOME.service
+sudo systemctl --global disable org.freedesktop.IBus.session.GNOME.service
+systemctl --user disable org.freedesktop.IBus.session.GNOME.service
+systemctl --user stop org.freedesktop.IBus.session.GNOME.service
+```
+
+**Key points:**
+- **Socket units** trigger services on-demand. The `.socket` needs to be 
+disabled too
+- `--global` affects all users system-wide
+- You may need to mask them if they keep re-enabling:
+
+```bash
+# If they keep coming back, mask them (stronger than disable)
+sudo systemctl mask gnome-keyring-daemon.service
+sudo systemctl mask gnome-keyring-daemon.socket
+systemctl --user mask gnome-keyring-daemon.service
+systemctl --user mask gnome-keyring-daemon.socket
+```
+
+After doing this, verify:
+```bash
+systemctl --user list-unit-files | grep gnome-keyring
+systemctl --user list-unit-files | grep IBus
+```
+
+You should see them as `masked` or `disabled`. A logout/login may be needed for 
+the changes to fully take effect.
+
+LordFingers: Boot Performanfce Analysis:
+
+The time when unit became active or started is printed after the "@" character. 
+The time the unit took to start is printed after the "+" character. 
+graphical.target @9.374s └─power-profiles-daemon.service @9.312s +61ms 
+ └─multi-user.target @9.310s    └─plymouth-quit-wait.service 
+@7.189s +2.120s      └─systemd-user-sessions.service @7.180s +5ms 
+       └─remote-fs.target @7.126s 
+         └─remote-fs-pre.target @7.126s 6.360s locate.service 
+4.578s NetworkManager-wait-online.service 2.120s plymouth-quit-wait.service 
+742ms systemd-udev-settle.service 639ms NetworkManager.service 593ms 
+docker.service 564ms fwupd-refresh.service 430ms apt-daily-upgrade.service 
+412ms dev-nvme0n1p2.device 389ms apt-daily.service 326ms man-db.service 294ms 
+ufw.service 190ms systemd-hwdb-update.service 186ms exim4.service 182ms 
+dpkg-db-backup.service 174ms hardinfo2.service 151ms user@1000.service 149ms 
+lm-sensors.service 135ms udisks2.service 125ms loadcpufreq.service 124ms 
+winbind.service 123ms logrotate.service 117ms containerd.service 114ms 
+lvm2-monitor.service 112ms ldconfig.service  98ms accounts-daemon.service 
+ 97ms apparmor.service  94ms networking.service  90ms systemd-logind.service 
+ 89ms boot-efi.mount
+
+Claude:  Your boot time is **9.374 seconds** which is already quite good, but here's 
+what's slowing it down:
+
+## Major Boot Time Offenders
+
+**Critical Slowdowns:**
+1. **locate.service** - 6.360s (67% of boot time!)
+   - Updates file database, doesn't need to run at boot
+   
+2. **NetworkManager-wait-online.service** - 4.578s
+   - Waits for network to be "online" - usually unnecessary at boot
+
+3. **plymouth-quit-wait.service** - 2.120s
+   - Boot splash screen waiting service
+
+4. **systemd-udev-settle.service** - 742ms
+   - Waits for all udev events to complete - often unnecessary
+
+**Services You Already Disabled (still running!):**
+- **exim4.service** - 186ms
+- **winbind.service** - 124ms
+
+These are still starting because they need to be masked or the system needs a 
+reboot.
+
+## Recommended Actions
+
+```bash
+# Disable locate from running at boot (run it manually when needed)
+sudo systemctl disable locate.service
+
+# Disable network-wait-online (rarely needed)
+sudo systemctl disable NetworkManager-wait-online.service
+
+# Disable udev-settle (safe to disable on most systems)
+sudo systemctl mask systemd-udev-settle.service
+
+# Disable plymouth boot splash if you don't need pretty boot screens
+sudo systemctl disable plymouth-quit-wait.service
+sudo systemctl disable plymouth-quit.service
+
+# Verify exim4 and winbind are truly disabled/masked
+sudo systemctl mask exim4.service
+sudo systemctl mask winbind.service
+
+# These can be delayed to not block boot
+sudo systemctl disable fwupd-refresh.service  # Firmware updates
+sudo systemctl disable apt-daily.service      # APT cache updates
+sudo systemctl disable apt-daily-upgrade.service  # APT upgrades
+```
+
+**These three changes alone would save ~13 seconds:**
+- locate: -6.36s
+- NetworkManager-wait-online: -4.58s  
+- plymouth-quit-wait: -2.12s
+
+After making changes, reboot and run:
+```bash
+systemd-analyze
+systemd-analyze blame
+```
+
+Would you like me to create a script to make these optimizations?
+
+LordFingers: its fine
+
+Claude:  Sounds good! Your boot time is already pretty solid at under 10 seconds. If 
+you decide to tackle those services later, you know where the time is going.
+
+Anything else you'd like to audit or optimize on your system?
+
+LordFingers: Timers audit:
+
+Claude:  I don't see the timers output in your message. Could you paste the results of:
+
+```bash
+systemctl list-timers --all
+```
+
+This will show all systemd timers (both active and inactive) so we can check 
+for anything redundant or unnecessarily frequent.
+
+LordFingers: NEXT                            LEFT LAST 
+                          PASSED UNIT 
+                        ACTIVATES Sat 2026-02-14 
+16:30:06 PST    29min Sat 2026-02-14 15:32:35 PST 28min ago anacron.timer 
+               anacron.service Sat 2026-02-14 17:06:46 PST  1h 
+5min Sat 2026-02-14 16:00:35 PST   23s ago fwupd-refresh.timer 
+         fwupd-refresh.service Sat 2026-02-14 18:30:00 PST 2h 29min 
+Sat 2026-02-14 15:01:35 PST 59min ago apt-daily.timer 
+             apt-daily.service Sat 2026-02-14 22:12:14 PST 
+      6h Fri 2026-02-13 22:12:14 PST   17h ago 
+systemd-tmpfiles-clean.timer systemd-tmpfiles-clean.service Sun 2026-02-15 
+00:00:00 PST       7h Sat 2026-02-14 00:00:33 PST   16h ago 
+dpkg-db-backup.timer         dpkg-db-backup.service Sun 2026-02-15 
+00:00:00 PST       7h Sat 2026-02-14 00:00:33 PST   16h ago 
+exim4-base.timer             exim4-base.service Sun 2026-02-15 
+00:00:00 PST       7h Sat 2026-02-14 00:00:33 PST   16h ago 
+locate.timer                 locate.service Sun 2026-02-15 
+00:25:54 PST       8h Sat 2026-02-14 00:18:18 PST   15h ago 
+logrotate.timer              logrotate.service Sun 2026-02-15 
+03:10:40 PST      11h Sun 2026-02-08 03:10:48 PST         - 
+e2scrub_all.timer            e2scrub_all.service Sun 2026-02-15 
+05:48:18 PST      13h Sat 2026-02-14 00:18:20 PST   15h ago man-db.timer 
+                man-db.service Sun 2026-02-15 06:28:58 PST 
+     14h Sat 2026-02-14 06:43:35 PST    9h ago apt-daily-upgrade.timer 
+     apt-daily-upgrade.service Mon 2026-02-16 01:12:33 PST 1 day 9h Mon 
+2026-02-09 01:03:13 PST         - fstrim.timer 
+                fstrim.service 12 timers listed. NEXT LEFT LAST 
+PASSED UNIT                           ACTIVATES - 
+      - -         - drkonqi-coredump-cleanup.timer 
+drkonqi-coredump-cleanup.service -       - -         - 
+drkonqi-sentry-postman.timer   drkonqi-sentry-postman.service 2 timers listed.
+
+Claude:  Here's an audit of your timers:
+
+## System Timers (12 total)
+
+**High Frequency / Potentially Excessive:**
+
+1. **anacron.timer** - Every ~30 minutes
+   - Runs missed cron jobs (redundant if system always on)
+   - Consider: Disable if your system runs 24/7
+
+2. **fwupd-refresh.timer** - Every hour
+   - Checks for firmware updates
+   - Consider: Change to daily or disable (you can update manually)
+
+3. **apt-daily.timer** - Every ~14 hours
+   - Updates package cache
+   - Reasonable, but could be daily
+
+**Related to Services You Disabled:**
+
+4. **exim4-base.timer** - Daily
+   - Still running even though you disabled exim4
+   - **Should disable this too**
+
+5. **locate.timer** - Daily
+   - You disabled locate.service but timer still active
+   - **Should disable this too**
+
+**Standard Maintenance (Keep):**
+- **dpkg-db-backup.timer** - Daily (good)
+- **logrotate.timer** - Daily (essential)
+- **man-db.timer** - Daily (updates manual page cache)
+- **apt-daily-upgrade.timer** - Daily (security updates)
+- **systemd-tmpfiles-clean.timer** - Daily (cleans /tmp)
+- **e2scrub_all.timer** - Weekly (filesystem checks)
+- **fstrim.timer** - Weekly (SSD optimization - essential)
+
+**User Timers:**
+- **drkonqi** timers - KDE crash handler (inactive, fine)
+
+## Recommended Actions
+
+```bash
+# Disable timers for services you already disabled
+sudo systemctl disable exim4-base.timer
+sudo systemctl disable locate.timer
+
+# Optional: Reduce fwupd-refresh frequency or disable
+sudo systemctl disable fwupd-refresh.timer
+# (Check firmware manually with: fwupdmgr refresh && fwupdmgr get-updates)
+
+# Optional: If system runs 24/7, disable anacron
+sudo systemctl disable anacron.timer
+```
+
+Your timers are mostly reasonable. The main issues are leftover timers from 
+services you've already disabled (exim4, locate).
+
+Want me to create a cleanup script?
+
+LordFingers: cron jobs audit:
+
+/etc/cron.d: total 28K drwxr-xr-x   2 root root 4.0K Feb  4 22:08 . 
+drwxr-xr-x 179 root root  12K Feb 14 15:46 .. -rw-r--r--   1 root root  290 
+May 19  2025 anacron -rw-r--r--   1 root root  188 Jul 30  2025 
+e2scrub_all -rw-r--r--   1 root root  102 Mar  1  2023 .placeholder 
+/etc/cron.daily: total 56K drwxr-xr-x   2 root root 4.0K Feb 14 15:39 . 
+drwxr-xr-x 179 root root  12K Feb 14 15:46 .. -rwxr-xr-x   1 root root  311 
+Jan 10  2023 0anacron -rwxr-xr-x   1 root root 1.5K May 25  2023 apt-compat 
+-rwxr-xr-x   1 root root  314 Feb 15  2025 aptitude lrwxrwxrwx   1 root 
+root   39 Feb 13 15:01 brave-browser -> 
+/opt/brave.com/brave/cron/brave-browser -rwxr-xr-x   1 root root  123 Mar 26 
+ 2023 dpkg -rwxr-xr-x   1 root root 4.7K Jun 17  2024 exim4-base -rwxr-xr-x 
+  1 root root 2.4K Jun  7  2024 locate -rwxr-xr-x   1 root root  377 Dec 
+14  2022 logrotate -rwxr-xr-x   1 root root 1.4K Mar 12  2023 man-db 
+-rw-r--r--   1 root root  102 Mar  1  2023 .placeholder /etc/cron.hourly: 
+total 20K drwxr-xr-x   2 root root 4.0K Aug 15  2025 . drwxr-xr-x 179 root 
+root  12K Feb 14 15:46 .. -rw-r--r--   1 root root  102 Mar  1  2023 
+.placeholder /etc/cron.monthly: total 24K drwxr-xr-x   2 root root 4.0K Aug 
+15  2025 . drwxr-xr-x 179 root root  12K Feb 14 15:46 .. -rwxr-xr-x   1 
+root root  313 Jan 10  2023 0anacron -rw-r--r--   1 root root  102 Mar  1 
+ 2023 .placeholder /etc/cron.weekly: total 28K drwxr-xr-x   2 root root 4.0K 
+Feb 13 22:48 . drwxr-xr-x 179 root root  12K Feb 14 15:46 .. -rwxr-xr-x   1 
+root root  312 Jan 10  2023 0anacron -rwxr-xr-x   1 root root 1.1K Mar 12 
+ 2023 man-db -rw-r--r--   1 root root  102 Mar  1  2023 .placeholder 
+/etc/cron.yearly: total 24K drwxr-xr-x   2 root root 4.0K Aug 15  2025 . 
+drwxr-xr-x 179 root root  12K Feb 14 15:46 .. -rwxr-xr-x   1 root root  312 
+Apr 23  2025 0anacron -rw-r--r--   1 root root  102 Mar  1  2023 
+.placeholder # Edit this file to introduce tasks to be run by cron. #  # Each 
+task to run has to be defined through a single line # indicating with different 
+fields when the task will be run # and what command to run for the task #  # 
+To define the time you can provide concrete values for # minute (m), hour (h), 
+day of month (dom), month (mon), # and day of week (dow) or use '*' in these 
+fields (for 'any'). #  # Notice that tasks will be started based on the cron's 
+system # daemon's notion of time and timezones. #  # Output of the crontab 
+jobs (including errors) is sent through # email to the user the crontab file 
+belongs to (unless redirected). #  # For example, you can run a backup of all 
+your user accounts # at 5 a.m every week with: # 0 5 * * 1 tar -zcf 
+/var/backups/home.tgz /home/ #  # For more information see the manual pages of 
+crontab(5) and cron(8) #  # m h  dom mon dow   command 0 8 * * * 
+/home/lordfingers/Pulsus/Temporis-Ordinati/superflua-detrahere.cron.sh
+
+Claude:  Here's your cron audit:
+
+## Cron Jobs Found
+
+**Daily Jobs (`/etc/cron.daily`):**
+- `0anacron` - Anacron trigger
+- `apt-compat` - APT maintenance
+- `aptitude` - Package manager cleanup
+- `brave-browser` - Browser update check
+- `dpkg` - Package database cleanup
+- **`exim4-base`** - Mail server maintenance ⚠️
+- **`locate`** - File database update ⚠️
+- `logrotate` - Log rotation (essential)
+- `man-db` - Manual page index
+
+**Weekly Jobs (`/etc/cron.weekly`):**
+- `0anacron` - Anacron trigger
+- `man-db` - Manual page maintenance
+
+**Monthly/Yearly:**
+- Just anacron triggers
+
+**User Crontab:**
+- `0 8 * * *` - Your custom script runs daily at 8 AM: 
+`/home/lordfingers/Pulsus/Temporis-Ordinati/superflua-detrahere.cron.sh`
+
+## Issues & Cleanup Needed
+
+**Services You Disabled Still Have Cron Jobs:**
+
+```bash
+# Remove exim4 cron job
+sudo rm /etc/cron.daily/exim4-base
+
+# Remove locate cron job  
+sudo rm /etc/cron.daily/locate
+
+# If you disabled anacron timer, remove anacron triggers too
+sudo rm /etc/cron.{daily,weekly,monthly,yearly}/0anacron
+sudo rm /etc/cron.d/anacron
+```
+
+**Optional Cleanup:**
+```bash
+# If you don't use aptitude (only apt), remove it
+sudo rm /etc/cron.daily/aptitude
+```
+
+## Summary
+
+Your cron setup is mostly standard Debian maintenance. The main issues are:
+1. **exim4-base** cron job still present (you disabled exim4)
+2. **locate** cron job still present (you disabled locate) 
+3. **anacron** overhead if your system runs 24/7
+
+Everything else is normal system maintenance that should stay.
+
+Want me to create a cleanup script for the orphaned cron jobs?
+
+LordFingers: current boot errors: Feb 13 21:57:16 CastrumDigitos systemd-udevd[580]: 
+/usr/lib/udev/rules.d/90-alsa-restore.rules:3 Invalid key/value pair, ignoring. 
+Feb 13 21:57:16 CastrumDigitos kernel: Bluetooth: hci0: No support for _PRR 
+ACPI method Feb 13 21:57:17 CastrumDigitos addgroup[1215]: The group 
+`hardinfo2' already exists. Feb 13 21:57:18 CastrumDigitos systemd[1]: Failed 
+to start udevmon.service - Monitor input devices for launching tasks. ░░ 
+Subject: A start job for unit udevmon.service has failed ░░ Defined-By: 
+systemd ░░ Support: https://www.debian.org/support ░░  ░░ A start 
+job for unit udevmon.service has finished with a failure. ░░  ░░ The 
+job identifier is 1686 and the job result is failed. Feb 13 21:57:30 
+CastrumDigitos gdm-password][2949]: gkr-pam: unable to locate daemon control 
+file Feb 14 00:00:34 CastrumDigitos systemd[30411]: Failed to start 
+ydotool.service - Starts ydotoold service. ░░ Subject: A start job for unit 
+UNIT has failed ░░ Defined-By: systemd ░░ Support: 
+https://www.debian.org/support ░░  ░░ A start job for unit UNIT has 
+finished with a failure. ░░  ░░ The job identifier is 176 and the job 
+result is failed. Feb 14 01:47:06 CastrumDigitos pipewire[2990]: spa.alsa: 
+a52:1p: snd_pcm_start: Broken pipe Feb 14 08:00:01 CastrumDigitos sudo[73512]: 
+pam_unix(sudo:auth): conversation failed Feb 14 08:00:01 CastrumDigitos 
+sudo[73512]: pam_unix(sudo:auth): auth could not identify password for 
+[lordfingers] Feb 14 15:37:07 CastrumDigitos systemd-udevd[580]: 
+/usr/lib/udev/rules.d/90-alsa-restore.rules:3 Invalid key/value pair, ignoring. 
+Feb 14 15:41:51 CastrumDigitos systemd-udevd[580]: 
+/usr/lib/udev/rules.d/90-alsa-restore.rules:3 Invalid key/value pair, ignoring. 
+Feb 14 15:44:23 CastrumDigitos systemd-udevd[580]: 
+/usr/lib/udev/rules.d/90-alsa-restore.rules:3 Invalid key/value pair, ignoring. 
+Feb 14 15:46:18 CastrumDigitos systemd-udevd[580]: 
+/usr/lib/udev/rules.d/90-alsa-restore.rules:3 Invalid key/value pair, ignoring.
+
+Claude:  Here's an analysis of your boot errors:
+
+## Critical Issues
+
+**1. udevmon.service - FAILED TO START**
+```
+Failed to start udevmon.service - Monitor input devices for launching tasks
+```
+- This is enabled but failing at boot
+- Likely a configuration error in `/etc/udevmon.yaml`
+- **Action needed:** Check config or disable if not critical
+
+**2. ydotool.service - FAILED TO START**
+```
+Failed to start ydotool.service - Starts ydotoold service
+```
+- User service failing (automation tool)
+- **Action needed:** Fix config or disable
+
+## Medium Priority Issues
+
+**3. GNOME Keyring Daemon Missing**
+```
+gkr-pam: unable to locate daemon control file
+```
+- GDM is looking for GNOME keyring (which you disabled)
+- **Action needed:** Reconfigure GDM or switch to SDDM (KDE's display manager)
+
+**4. Broken ALSA udev Rule**
+```
+/usr/lib/udev/rules.d/90-alsa-restore.rules:3 Invalid key/value pair
+```
+- Recurring error, likely malformed rule
+- **Action needed:** Fix or regenerate the rule file
+
+## Minor Issues
+
+**5. Bluetooth ACPI Warning**
+```
+hci0: No support for _PRR ACPI method
+```
+- Informational, not critical (firmware/BIOS limitation)
+- Can be ignored
+
+**6. Hardinfo2 Group Already Exists**
+```
+The group 'hardinfo2' already exists
+```
+- Harmless, service trying to create existing group
+- Can be ignored
+
+**7. PipeWire Audio Error**
+```
+spa.alsa: a52:1p: snd_pcm_start: Broken pipe
+```
+- Audio device issue, usually transient
+- Monitor if it causes audio problems
+
+**8. Sudo PAM Auth Failure**
+```
+pam_unix(sudo:auth): conversation failed
+```
+- Your cron job at 8 AM tried to use sudo without password
+- **Action needed:** Fix your script or use sudo with NOPASSWD for that command
+
+## Recommended Fixes
+
+```bash
+# 1. Check udevmon config
+sudo systemctl status udevmon.service
+cat /etc/udevmon.yaml
+# If not needed:
+sudo systemctl disable udevmon.service
+
+# 2. Check ydotool
+systemctl --user status ydotool.service
+# If not needed:
+systemctl --user disable ydotool.service
+
+# 3. Fix ALSA rule (regenerate)
+sudo alsa-restore-ctl save
+
+# 4. Check GDM PAM config (or switch to SDDM)
+# If using KDE, consider switching:
+sudo apt install sddm
+sudo systemctl disable gdm
+sudo systemctl enable sddm
+
+# 5. Fix your cron script
+# Edit: /home/lordfingers/Pulsus/Temporis-Ordinati/superflua-detrahere.cron.sh
+# Either remove sudo commands or add to sudoers with NOPASSWD
+```
+
+Which issues would you like to tackle first? The udevmon and ydotool failures 
+are the most significant since they're enabled services that aren't working.
+
+LordFingers: udevmon has already been taken care of and i just did ydotool
+
+Claude:  Great! So those two are handled. 
+
+The remaining actionable items are:
+
+**High Priority:**
+1. **GNOME Keyring / GDM conflict** - GDM looking for GNOME keyring you disabled
+   - Are you using GDM or SDDM as your display manager?
+   - If you're running KDE Plasma, switching to SDDM would be cleaner
+
+2. **ALSA udev rule error** - Recurring syntax error
+   ```bash
+   # Fix it with:
+   sudo alsa force-reload
+   # Or regenerate:
+   sudo alsactl store
+   ```
+
+3. **Your cron script sudo issue** - 8 AM daily job failing
+   - Your script 
+`/home/lordfingers/Pulsus/Temporis-Ordinati/superflua-detrahere.cron.sh` is 
+trying to use sudo without a password
+   - Either fix the script or add a sudoers exception
+
+The Bluetooth and hardinfo2 messages are just noise and can be ignored.
+
+Want to tackle any of these?
+
+LordFingers: nexto do this: ignore any udevmon or ydotool
+
+LordFingers: Here is my NetworkManager logs:
+
+LordFingers: what do you think
+

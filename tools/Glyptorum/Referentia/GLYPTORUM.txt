@@ -1,0 +1,54 @@
+can you make me a script very similar to that. 
+This one will allow me to make glyph arrangements.
+
+Please see the attached wireframe.
+
+
+I want to be able to load my own glyph sets into it. This can be done by loading a file, or creating an empty set in the UI and pasting glyphs into it.
+
+
+Menu Side:
+
+Ⅰ There will be a Glyph Set List, 
+
+Ⅱ Buttons to: Load a glyph set (from file)
+			Create a glyph set in app
+			Save the glyph set
+
+Ⅲ There will be Panes that will hold the glyph sets, each with tabs
+
+Ⅳ Buttons to: Add a tab into the active pane
+			remove the active tab
+			add a pane
+			remove the active pane
+
+
+Canvas Side
+
+Ⅴ Buttons to: Open a new canvas
+			Save the canvas to a .txt file
+			Add a line widget
+
+Ⅵ  Then will be the stack of line widgets. Each has a print line button, and a series of glyph widgets, each with a count adjuster. there will be small + and - buttons to add or remove these box widgets.
+to add a glyph to the widgets in the line, you select a one, and then select a glyph from the panes in the menu. to clear it you press space or backspace. 
+			
+
+
+Ⅶ  The Canvas underneath is where the glyphs are displayed once you click "print line"
+You should be able to "highglight" a row and that is where the line will be printed. 
+There should also be a "print all lines" button, i didnt include one in the wireframe.			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Ⅰ   Ⅱ    Ⅲ    Ⅳ    Ⅴ    Ⅵ    Ⅶ    Ⅷ    Ⅸ    Ⅹ    Ⅺ    Ⅻ

@@ -12,35 +12,65 @@ venv*/
 *.bak_*
 
 # Storage — runtime contents excluded, structure preserved
-storage/conversations/*
-storage/logs/*
-storage/vectors/*
-storage/council/*
-storage/entities/*
-storage/grimoire/*
+/home/lordfingers/ArcaCognitorium/storage/conversations/*
+/home/lordfingers/ArcaCognitorium/storage/logs/*
+/home/lordfingers/ArcaCognitorium/storage/vectors/*
+/home/lordfingers/ArcaCognitorium/storage/council/*
+/home/lordfingers/ArcaCognitorium/storage/entities/*
+/home/lordfingers/ArcaCognitorium/storage/grimoire/*
 
 # Sensitive
-.arca/
-claudebox/claudebox.config.yaml
+/home/lordfingers/.arca/
+/home/lordfingers/ArcaCognitorium/claudebox/claudebox.config.yaml
+/home/lordfingers/ArcaCognitorium/Referentia/Conversations/
+
 
 # Ephemeral storage 
- storage/
+/home/lordfingers/ArcaCognitorium/storage/
 
 # OS
 .DS_Store
 Thumbs.db
 
+# Images
+*.png
+
 # Compiled
 *.pkl
 
-# Tool runtime data
-tools/Dolium/storage/
-tools/Mythotex/Vault/
-tools/Mythotex/generation_log.json
-tools/Mythotex/temp_manifest.png
-claudebox/claudebox.config.yaml
-
+# Tool/Exocognii runtime data
+/home/lordfingers/ArcaCognitorium/tools/Dolium/storage/
+/home/lordfingers/ArcaCognitorium/tools/Mythotex/Vault/
+/home/lordfingers/ArcaCognitorium/tools/Mythotex/generation_log.json
+/home/lordfingers/ArcaCognitorium/tools/Mythotex/temp_manifest.png
+/home/lordfingers/ArcaCognitorium/claudebox/claudebox.config.yaml
+/home/lordfingers/ArcaCognitorium/Exocognii/Entitex/vault/
+/home/lordfingers/ArcaCognitorium/Exocognii/Entitex/*.png
 
 # Type checking
 .mypy_cache/
+/home/lordfingers/ArcaCognitorium/tools/Mythotex/stable-diffusion.cpp/
+
+# Obsidian Notes
+/home/lordfingers/ArcaCognitorium/Referentia/'Arca Cognitorium'/
+
+
+
+# Temp portraits and generated images
+Exocognii/Entitex/temp_portrait_*.png
+tools/Mythotex/temp_*.png
+tools/Mythotex/oracle_log.json
+tools/Mythotex/generation_log.json
+
+# Large model files
+tools/Mythotex/models/*.safetensors
+tools/Mythotex/models/*.ckpt
+
+# Runtime/generated vaults and logs
+Exocognii/Entitex/vault/
+tools/Mythotex/Vault/
 tools/Mythotex/stable-diffusion.cpp/
+Exocognii/Entitex/entitex_log.json
+
+# Session state
+tools/Glyptorum/Session/

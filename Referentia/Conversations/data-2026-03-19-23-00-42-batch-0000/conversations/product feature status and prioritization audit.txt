@@ -1,0 +1,208 @@
+LordFingers: I have been pulled in many directions with this product and am losing track of 
+where to currently set my main focus. Can you go through everything in the 
+project files looking for what is discussed, what is half implemented, etc and 
+build a wiz doc that states features with current status, what need to be 
+discussed, etc and prioritize them relating to the full picture
+
+Claude: 
+```
+This block is not supported on your current device yet.
+```
+
+Now let me read through all the project files systematically.
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+Now let me build the document.
+
+LordFingers: Cool can't wait
+
+Claude:  Let me read the remaining files I need before writing, then build it.
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+Good. I have enough now. Let me check the remaining stubs quickly then build 
+the document.
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+Good. Now I have a complete picture. Let me build the document.
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+The register is built. Here is what it contains and what The Builder found:
+
+**Ten sections, colour-coded by status (SOLID / PARTIAL / STUB / ABSENT / 
+DEFERRED).**
+
+The picture that emerged from a full read of every file:
+
+**The three critical blockers** — the ones that explain why entities feel 
+characterless and the Council feels hollow — are all ABSENT:
+
+1. **Entity YAML files don't exist.** `roles/` and `traits/` directories are 
+empty or missing. The EntityCompiler is fully implemented and waiting. Without 
+the YAML, nothing compiles. Luminarious has no instructions, the Council has no 
+members.
+
+2. **Sampling profiles YAML doesn't exist.** Every entity falls back to the 
+same hardcoded anchor profile. Same temperature, same top_p — which is why 
+there is no noticeable difference in character even if you got entities talking.
+
+3. **The Grimoire is empty.** Entities receive no Wizard context. They drift 
+because they know nothing about who they're speaking with.
+
+**Everything else that is flagged PARTIAL** comes down to the same question — 
+does `app.py` actually call the injection/trigger at send time? The logic for 
+Grimoire injection, Tome injection, Distillation triggering, and Chronicle 
+auto-extract all exists and is correctly implemented. The wiring just needs to 
+be walked and confirmed.
+
+**The priority register at the end** orders the 12 actionable items. Items 
+1–4 are the only ones that will make the Tower feel alive. The rest can 
+follow.
+

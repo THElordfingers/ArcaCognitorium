@@ -1,0 +1,50 @@
+LordFingers: I want to make an animated sigil to put in the background. I am going to build 
+it with Unicode glyphs. I figure I could animate frames. Or even key frames. I 
+picture something that appears like a solid geometric core, with lines and 
+rings around it that are slowly spinning, or parts could we spend outward 
+disintegrating into pieces and back again. I tried to make a generator with you 
+with sample pictures but the results were very unusable I think maybe if we 
+took it in baby steps it could happen tho
+
+Claude: 
+```
+This block is not supported on your current device yet.
+```
+
+Good. Now I have a sense of the glyph vocabulary. Let me think about this 
+carefully — the previous generator went too broad too fast. The Builder's 
+approach: **nail one primitive first, then compose.**
+
+The key insight: Textual can render a `Static` widget that updates on a timer. 
+So animation = a list of string frames, cycling at an interval. Let's build a 
+**standalone proof-of-concept** — a single Python script, no Textual 
+dependency, that just prints frames to the terminal so we can see exactly what 
+we're working with before we wire it into the app.
+
+The sigil concept: **solid geometric core** (a fixed center symbol), surrounded 
+by **concentric character-rings** that rotate at different speeds. Ring 1 spins 
+slow. Ring 2 spins opposite. Outer particles drift and return. No generative 
+complexity yet — hand-crafted character sets per ring, rotation via index 
+offset that advances each frame.
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+
+```
+This block is not supported on your current device yet.
+```
+
+LordFingers: No you're getting too far on assumptions. I will have to show you a sample 
+picture.
+
+Claude:  You're right. I'm getting ahead of myself.
+
+Show me the sample picture — I'll look at what you're actually envisioning 
+before writing a single line.
+

@@ -1,0 +1,26 @@
+{
+  "Default": {
+    "epoch": 2,
+    "material": "",
+    "patina": 0,
+    "scale": 1,
+    "luminosity": 2,
+    "danger": 1,
+    "chaos": 20,
+    "frame": "None",
+    "remove_bg": false,
+    "cursed": false
+  },
+  "Industrial Relic": {
+    "epoch": 3,
+    "material": "Tarnished Bronze",
+    "patina": 4,
+    "scale": 1,
+    "luminosity": 4,
+    "danger": 1,
+    "chaos": 15,
+    "frame": "Alchemical Plate",
+    "remove_bg": true,
+    "cursed": false
+  }
+}

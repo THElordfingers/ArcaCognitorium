@@ -1,0 +1,171 @@
+LordFingers: a different word for workshops or ateliers
+also, latin/mystical for "who" "what" "when "where" "why"
+
+Claude:  **Alternatives for workshops/ateliers:**
+studiolo, scriptorium, bottega, forge, sanctum, lyceum, ergasterion (Greek), 
+officina (Latin)
+
+---
+
+**Latin/Mystical for the Five W's:**
+
+| | Latin | Mystical flavour |
+|---|---|---|
+| **Who** | Quis | Quis / Quisant |
+| **What** | Quid | Quid / Quidditas ("the whatness") |
+| **When** | Quando | Quando / Tempus |
+| **Where** | Ubi | Ubi / Locus |
+| **Why** | Cur / Quare | Cur / Causa Prima |
+
+**Quidditas** is especially nice — it's a real scholastic term (Aquinas used 
+it) meaning the essential nature of a thing. You could build a whole naming 
+system around that family: *Quis, Quid, Quando, Ubi, Cur.*
+
+Any of these for a specific project, or just browsing?
+
+LordFingers: better words for workshops
+
+Claude:  Going broader — what's the **feeling/context** you're after?
+
+**Craft & making:**
+bottega, forge, atelier, manufactory, ergasterion, officina
+
+**Knowledge & study:**
+scriptorium, lyceum, studiolo, schola, gymnasium, academy
+
+**Mystical / secretive:**
+sanctum, conclave, adytum (inner sanctum of a temple), arcanum, mysterium
+
+**Grand / institutional:**
+collegium, institute, conservatory, amphitheatrum
+
+**Humble / organic:**
+hearth, lodge, cell, garret, grotto
+
+---
+
+My favourites for *gravitas with craft*: **bottega**, **officina**, and 
+**adytum** — each implies serious work happening behind a threshold.
+
+What's the context? A project name, a space, something else?
+
+LordFingers: plural for arcanums
+
+Claude:  **Arcana**
+
+(It's already Latin, so the plural follows Latin rules: *arcanum → arcana*)
+
+Conveniently, *arcana* is already the more commonly used form — as in the 
+tarot's *Major Arcana / Minor Arcana*. It has a naturalness that *arcanums* 
+lacks entirely.
+
+LordFingers: latin for introducion
+
+Claude:  **Introductio** — but there are richer options depending on the feel:
+
+| Latin | Meaning/Feel |
+|---|---|
+| **Introductio** | direct translation, formal |
+| **Exordium** | opening of a speech, rhetorical weight |
+| **Prooemium** | preface, scholarly/Greek-Latin |
+| **Praefatio** | foreword, preface |
+| **Praeludium** | prelude, musical/ceremonial |
+| **Initium** | beginning, threshold-crossing |
+| **Limen** | threshold itself — the moment of entry |
+
+**Limen** is especially evocative — it's the root of *liminal*, implying 
+you're standing at the boundary before crossing in.
+
+What's it for?
+
+LordFingers: latin for "mechanics" or "workings of"  or "usage" and also, "summon", 
+"dismiss", "edit/append" "inspect" "load" "new" "delete" "rename" "add to 
+folio" "remove from folio"
+
+Claude:  Sounds like LuxArcana UI labels. Here's a full spread:
+
+---
+
+**"Mechanics / Workings of / Usage"**
+
+| Concept | Latin |
+|---|---|
+| Mechanics / Workings | **Machina**, **Mechanica**, **Opera** (the workings), 
+**Ratio** (the logic/method) |
+| Usage / How to use | **Usus**, **Modus**, **Ars** (the art/method) |
+| Operations / Functions | **Officia**, **Munera** |
+
+**Opera** or **Ratio** feel the most alive — *Opera Arcana* = "the workings 
+of the arcana."
+
+---
+
+**UI Action Labels:**
+
+| Action | Latin |
+|---|---|
+| Summon | **Evoca** / **Invoca** |
+| Dismiss | **Dimitte** / **Recede** |
+| Edit / Append | **Emenda** (correct/edit) / **Adde** (append/add) |
+| Inspect | **Inspice** / **Scrutare** |
+| Load | **Onera** / **Advoca** |
+| New | **Novum** / **Crea** |
+| Delete | **Dele** / **Abolе** |
+| Rename | **Renomina** / **Dicta** |
+| Add to Folio | **Insere in Folio** |
+| Remove from Folio | **Erue ex Folio** |
+
+---
+
+**Folio** is already perfect Latin (a leaf/page), so keeping it is a good call. 
+For consistency, **Evoca / Dimitte** pair beautifully as opposites.
+
+LordFingers: "list" "view" "origin" "thread/conversations"
+
+Claude:  | Action/Concept | Latin |
+|---|---|
+| List | **Index** / **Catalogus** / **Recensio** |
+| View | **Visio** / **Spectа** / **Prospectus** |
+| Origin | **Origo** / **Fons** (source/spring) / **Genesis** |
+| Thread / Conversations | **Filum** (thread, literal) / **Colloquia** 
+(conversations) / **Series** / **Nexus** |
+
+---
+
+**Standouts:**
+
+- **Index** — already Latin, already perfect
+- **Fons** — beautiful for origin, implies a living source rather than just a 
+starting point
+- **Filum** — "thread" literally, and the root of *filament*; very evocative 
+for a conversation chain
+- **Colloquia** — plural of *colloquium*, dignified and exact
+
+**Filum** and **Colloquia** could work together — *Fila* (plural, threads) 
+for the list view, *Colloquium* for an individual conversation.
+
+LordFingers: "Council" "Lore" "story" "backstory"
+
+Claude:  | Concept | Latin |
+|---|---|
+| Council | **Concilium** / **Senatus** / **Consilium** (counsel/deliberation) |
+| Lore | **Lore** / **Doctrina** / **Sapientia** / **Eruditio** |
+| Story | **Fabula** (tale/narrative) / **Historia** / **Narratio** |
+| Backstory | **Origo** / **Ante Fabula** / **Historia Prima** / **Radix** 
+(root) |
+
+---
+
+**Standouts:**
+
+- **Consilium** — for council, but with the added sense of *deliberation and 
+wisdom*, not just a group
+- **Doctrina** — lore as a body of teaching; weighty and arcane
+- **Fabula** — story with a mythic/told-aloud quality, the root of *fable*
+- **Radix** — for backstory, meaning *root*; implies the hidden foundation 
+beneath the surface narrative
+
+**Radix** is especially strong for backstory in a mystical/RPG context — it 
+suggests something buried and foundational rather than just "what happened 
+before."
+

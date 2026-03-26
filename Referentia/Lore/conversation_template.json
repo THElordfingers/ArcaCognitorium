@@ -1,0 +1,19 @@
+{
+  "conversation": {
+    "name": "",
+    "start_date": "",
+    "end_date": "",
+    "category": ""
+  },
+  "subjects": [
+    {
+      "subject": "",
+      "entries": [
+        {
+          "speaker": "",
+          "text": ""
+        }
+      ]
+    }
+  ]
+}
