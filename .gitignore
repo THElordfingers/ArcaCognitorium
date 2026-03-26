@@ -74,3 +74,6 @@ Exocognii/Entitex/entitex_log.json
 
 # Session state
 tools/Glyptorum/Session/
+
+# Large conversation exports
+Referentia/Conversations/

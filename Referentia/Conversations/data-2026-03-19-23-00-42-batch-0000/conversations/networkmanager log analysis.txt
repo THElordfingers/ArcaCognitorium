@@ -1,2 +1,0 @@
-LordFingers: this is my NetworkManager log
-
