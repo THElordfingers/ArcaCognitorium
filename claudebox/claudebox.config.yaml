@@ -1,0 +1,587 @@
+# =============================================================================
+#  ██████╗██╗      █████╗ ██╗   ██╗██████╗ ███████╗██████╗  ██████╗ ██╗  ██╗
+# ██╔════╝██║     ██╔══██╗██║   ██║██╔══██╗██╔════╝██╔══██╗██╔═══██╗╚██╗██╔╝
+# ██║     ██║     ███████║██║   ██║██║  ██║█████╗  ██████╔╝██║   ██║ ╚███╔╝
+# ██║     ██║     ██╔══██║██║   ██║██║  ██║██╔══╝  ██╔══██╗██║   ██║ ██╔██╗
+# ╚██████╗███████╗██║  ██║╚██████╔╝██████╔╝███████╗██████╔╝╚██████╔╝██╔╝ ██╗
+#  ╚═════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝
+#
+#  CONTROL PANEL — claudebox.config.yaml
+#  ============================================================================
+#  Every configurable option in ClaudeBox is exposed here.
+#  Nothing is hidden. Nothing is hardcoded inside the box.
+#
+#  OVERRIDE PRIORITY (highest to lowest):
+#    1. Per-request arguments passed directly to send()
+#    2. Per-session config set on a Session object
+#    3. This config file
+#    4. ClaudeBox internal defaults (last resort fallback only)
+#
+#  RELOAD: Call box.reload_config() at runtime to hot-reload this file
+#          without restarting your application.
+# =============================================================================
+
+
+# =============================================================================
+# API — Authentication & Client Initialization
+# =============================================================================
+api:
+
+  # Your Anthropic API key.
+  # Options:
+  #   - Set to null to read from the CLAUDE_API_KEY environment variable (recommended)
+  #   - Set to a string value to use directly (not recommended for production)
+  #   - Set source: "keyring" to read from system keyring (see keyring section below)
+  api_key: null
+
+  # Where to read the API key from when api_key is null.
+  # Options: "env" | "keyring"
+  api_key_source: "env"
+
+  # Environment variable name to read the API key from.
+  # Only used when api_key_source is "env".
+  api_key_env_var: "CLAUDE_API_KEY"
+
+  # Auth token (alternative to API key — for certain enterprise configurations).
+  # Leave null to use api_key.
+  auth_token: null
+
+  # Base URL for the Anthropic API.
+  # Override this to point at a proxy, a local mock, or a different endpoint.
+  # null = use the SDK default (https://api.anthropic.com)
+  base_url: null
+
+  # Anthropic API version header sent with every request.
+  # Changing this may break compatibility. Only change if you know what you're doing.
+  anthropic_version: "2023-06-01"
+
+  # Additional HTTP headers to send with every request.
+  # Useful for proxies, custom tracing, or internal routing.
+  # Example:
+  #   default_headers:
+  #     X-My-Header: "my-value"
+  default_headers: {}
+
+  # Additional query parameters to append to every request URL.
+  # Example:
+  #   default_query:
+  #     my_param: "my_value"
+  default_query: {}
+
+  # Whether to raise an error if the API returns unknown/unexpected fields.
+  # true  = strict — raises on unknown fields (safer for catching API changes)
+  # false = lenient — ignores unknown fields (more forward-compatible)
+  strict_response_validation: false
+
+
+# =============================================================================
+# KEYRING — System Keyring Integration
+# =============================================================================
+keyring:
+
+  # Service name used to look up the key in the system keyring.
+  # Used when api.api_key_source is "keyring".
+  service_name: "claudebox"
+
+  # Username/account key used to look up the value.
+  username: "claude_api_key"
+
+
+# =============================================================================
+# CONNECTION — HTTP & Network
+# =============================================================================
+connection:
+
+  # Total request timeout in seconds (applies to the full request lifecycle).
+  # Set to null for no timeout (not recommended for production).
+  timeout_total: 600.0
+
+  # Connection establishment timeout in seconds.
+  timeout_connect: 10.0
+
+  # Time to wait for data to be received (read timeout) in seconds.
+  timeout_read: 300.0
+
+  # Time to wait for data to be sent (write timeout) in seconds.
+  timeout_write: 30.0
+
+  # Maximum number of automatic retries on retriable errors.
+  # Retriable errors: connection errors, 408, 409, 429, 5xx.
+  # Set to 0 to disable automatic retries.
+  max_retries: 2
+
+  # HTTP proxy URL.
+  # Example: "http://proxy.example.com:8080"
+  # null = no proxy
+  proxy: null
+
+  # Whether to follow HTTP redirects.
+  follow_redirects: true
+
+  # Maximum number of connections to keep in the connection pool.
+  max_connections: 100
+
+  # Maximum number of keepalive connections.
+  max_keepalive_connections: 20
+
+  # Keepalive expiry in seconds.
+  keepalive_expiry: 5.0
+
+  # Local network interface address to bind to.
+  # null = let the OS choose.
+  local_address: null
+
+
+# =============================================================================
+# MODEL — Default Model & Generation Parameters
+# =============================================================================
+# These are the defaults used for every request.
+# All can be overridden per-session or per-request.
+model:
+
+  # Model to use for all requests.
+  # Current options (as of early 2026):
+  #   claude-opus-4-6       — most capable
+  #   claude-sonnet-4-6     — balanced
+  #   claude-haiku-4-5-20251001 — fastest, most cost-effective
+  model: "claude-sonnet-4-6"
+
+  # Maximum number of tokens in the response.
+  # The API will stop generating at this limit.
+  # Check model-specific limits in the Anthropic docs.
+  max_tokens: 1024
+
+  # Sampling temperature. Controls randomness.
+  # Range: 0.0 (deterministic) to 1.0 (maximum randomness).
+  # null = use API default (1.0)
+  # Note: mutually exclusive with top_p — set one or the other, not both.
+  temperature: null
+
+  # Top-p (nucleus) sampling. Alternative to temperature.
+  # Range: 0.0 to 1.0. Only the tokens comprising the top p probability mass
+  # are considered.
+  # null = use API default
+  # Note: mutually exclusive with temperature.
+  top_p: null
+
+  # Top-k sampling. Limits the token selection to the k most likely tokens.
+  # Range: positive integer.
+  # null = use API default (disabled)
+  top_k: null
+
+  # Custom stop sequences. Generation stops when any of these strings is produced.
+  # Example: ["\n\nHuman:", "###"]
+  stop_sequences: []
+
+  # Service tier for the request.
+  # Options: null | "auto" | "standard_only"
+  # null = use API default
+  service_tier: null
+
+
+# =============================================================================
+# SYSTEM — System Prompt
+# =============================================================================
+system:
+
+  # Default system prompt sent with every request (unless overridden per-session
+  # or per-request).
+  # null = no system prompt
+  prompt: null
+
+  # Whether to apply prompt caching to the system prompt.
+  # Useful for long system prompts that don't change between requests.
+  # Requires the system prompt to be long enough to qualify for caching.
+  cache_control: false
+
+  # Cache control type when cache_control is true.
+  # Currently only "ephemeral" is supported by the API.
+  cache_control_type: "ephemeral"
+
+
+# =============================================================================
+# THINKING — Extended Thinking (Beta)
+# =============================================================================
+thinking:
+
+  # Whether to enable extended thinking.
+  # Allows Claude to reason before responding. Produces ThinkingBlocks in output.
+  enabled: false
+
+  # Token budget for thinking. Claude will use up to this many tokens
+  # for internal reasoning before producing its response.
+  # Minimum: 1024. Must be less than max_tokens.
+  # null = use API default when thinking is enabled
+  budget_tokens: 5000
+
+  # Whether to stream thinking tokens separately via the on_thinking_token event.
+  stream_thinking: true
+
+
+# =============================================================================
+# CONVERSATION — Session & History Management
+# =============================================================================
+conversation:
+
+  # Whether to support multiple named sessions simultaneously.
+  # true  = box.send("hello", session_id="my_session")
+  # false = single default session, session_id is ignored
+  multi_session: true
+
+  # ID to use for the default session when multi_session is false,
+  # or when no session_id is provided.
+  default_session_id: "default"
+
+  # Maximum number of messages to keep in a session's history.
+  # When the limit is reached, behavior is controlled by truncation_strategy.
+  # null = unlimited
+  max_history_messages: null
+
+  # What to do when max_history_messages is reached.
+  # Options:
+  #   "drop_oldest" — remove the oldest user+assistant pair
+  #   "error"       — raise HistoryTruncationError
+  #   "summarize"   — not yet implemented, reserved for future use
+  truncation_strategy: "drop_oldest"
+
+  # Whether to automatically clear a session's history after each exchange.
+  # Useful for one-shot query patterns.
+  auto_clear_after_turn: false
+
+  # Assistant turn prefill — text to prepend to Claude's response.
+  # Forces Claude to begin its response with this string.
+  # null = no prefill
+  prefill: null
+
+  # Whether to include the prefill text in the returned response text.
+  include_prefill_in_response: true
+
+
+# =============================================================================
+# STREAMING — Streaming Behavior
+# =============================================================================
+streaming:
+
+  # Whether to use streaming by default for all requests.
+  # Can be overridden per-request.
+  enabled: true
+
+  # Whether to use the SDK's streaming helpers (context manager + text_stream).
+  # true  = use client.messages.stream() helper — provides assembled text,
+  #         final message, and event callbacks
+  # false = use raw stream=True — returns raw event iterator, lower memory
+  use_stream_helpers: true
+
+  # Whether to also emit raw SSE stream events via the on_stream_event event.
+  # Useful if you want to process raw events in addition to processed tokens.
+  yield_raw_events: false
+
+  # Threading model for streaming output delivery.
+  # Options:
+  #   "direct"    — emit events directly in the calling thread (sync/async)
+  #   "threaded"  — run stream in a background thread, emit events thread-safely
+  #                 (recommended for GUI apps like Tkinter, PyQt)
+  thread_mode: "direct"
+
+
+# =============================================================================
+# TOOLS — Tool Use & Function Calling
+# =============================================================================
+tools:
+
+  # Default tool choice behavior.
+  # Options:
+  #   "auto" — Claude decides whether to use a tool
+  #   "any"  — Claude must use at least one tool
+  #   "none" — Claude may not use tools even if they are registered
+  #   "<tool_name>" — Claude must use this specific tool
+  tool_choice: "auto"
+
+  # Whether to automatically execute tools when Claude calls them,
+  # and loop back with results until Claude produces a final text response.
+  # false = fire on_tool_call event and stop — outer machine handles execution
+  # true  = execute registered tools automatically and loop
+  auto_run_tools: true
+
+  # Maximum number of tool call iterations in a single auto-run loop.
+  # Prevents infinite loops if a tool keeps triggering more tool calls.
+  max_tool_iterations: 10
+
+  # Per-tool execution timeout in seconds (when auto_run_tools is true).
+  # null = no per-tool timeout
+  default_tool_timeout: 30.0
+
+  # Whether to validate tool inputs against their schema before execution.
+  validate_tool_inputs: true
+
+  # Whether to include tool use blocks in the response's content list.
+  # true  = ToolUseBlock objects appear in ClaudeResponse.content
+  # false = only text blocks are returned (tool blocks are filtered out)
+  include_tool_blocks_in_response: true
+
+  # Whether to include tool result blocks in conversation history.
+  include_tool_results_in_history: true
+
+
+# =============================================================================
+# VISION — Image Input
+# =============================================================================
+vision:
+
+  # Default media type assumed when encoding images from raw bytes
+  # and no media type is specified.
+  default_media_type: "image/jpeg"
+
+  # Maximum image size in bytes before ClaudeBox raises ImageTooLargeError.
+  # null = no size limit enforced by ClaudeBox (API limits still apply)
+  # API limit: ~5MB per image
+  max_image_size_bytes: 5242880  # 5MB
+
+  # Whether to automatically resize images that exceed max_image_size_bytes.
+  # Requires Pillow to be installed.
+  # false = raise ImageTooLargeError instead
+  auto_resize: false
+
+  # Target size in bytes when auto_resize is true.
+  auto_resize_target_bytes: 4000000  # ~4MB
+
+  # Whether to automatically convert images to base64 when a file path is provided.
+  auto_encode_from_path: true
+
+
+# =============================================================================
+# FILES — Files API (Beta)
+# =============================================================================
+files:
+
+  # Whether the Files API beta feature is enabled.
+  # Must be true to use any file upload/reference functionality.
+  enabled: false
+
+  # Beta header string required by the Files API.
+  beta_header: "files-api-2025-04-14"
+
+  # Default media type for uploaded files when not specified.
+  default_upload_media_type: "application/octet-stream"
+
+  # Whether to cache file IDs locally to avoid re-uploading the same file.
+  cache_uploads: false
+
+  # Maximum file size in bytes allowed for upload.
+  # null = no ClaudeBox-level limit (API limits still apply)
+  max_upload_size_bytes: null
+
+
+# =============================================================================
+# BATCHES — Message Batches API
+# =============================================================================
+batches:
+
+  # How often to poll for batch status in seconds.
+  poll_interval_seconds: 60
+
+  # Whether to automatically poll until the batch is complete
+  # when calling box.run_batch().
+  # false = submit and return immediately with the batch ID
+  auto_poll: true
+
+  # Maximum total wait time in seconds when auto_poll is true.
+  # null = poll indefinitely until complete
+  max_poll_wait_seconds: null
+
+  # Whether to stream batch results as they become available
+  # or collect all results and return at once.
+  stream_results: true
+
+  # Whether to raise an error if any individual batch request fails,
+  # or collect all results (including errors) and return them.
+  raise_on_partial_failure: false
+
+
+# =============================================================================
+# EVENTS — Event Bus
+# =============================================================================
+events:
+
+  # Whether the event bus is enabled.
+  # false = no events are fired, on_* methods are no-ops
+  enabled: true
+
+  # Whether to run event handlers in a separate thread.
+  # true  = handlers are dispatched in a thread pool (non-blocking)
+  # false = handlers are called synchronously in the emitting thread
+  async_handlers: false
+
+  # Maximum number of threads in the handler thread pool (when async_handlers is true).
+  handler_thread_pool_size: 4
+
+  # Whether to suppress exceptions raised inside event handlers.
+  # true  = handler errors are logged but do not propagate
+  # false = handler errors raise EventHandlerError
+  suppress_handler_errors: true
+
+  # Whether to allow subscribing to event names not in the known event list.
+  # false = raise UnknownEventError on unknown event names
+  allow_unknown_events: false
+
+
+# =============================================================================
+# CACHE CONTROL — Prompt Caching
+# =============================================================================
+cache:
+
+  # Whether to enable prompt caching on eligible content blocks.
+  # Prompt caching reduces costs and latency for repeated content.
+  enabled: false
+
+  # Whether to automatically apply cache_control to the system prompt.
+  auto_cache_system_prompt: false
+
+  # Whether to automatically apply cache_control to the last N messages
+  # in conversation history that haven't changed.
+  auto_cache_history: false
+
+  # Number of historical messages to mark for caching (from the end of history).
+  auto_cache_history_n: 2
+
+
+# =============================================================================
+# BETA — Beta Feature Flags
+# =============================================================================
+# Enable individual Anthropic beta features by setting them to true.
+# Each corresponds to a beta header string sent with requests.
+# Enabling a feature here sets it as the default; can be overridden per-request.
+beta:
+
+  # Interleaved thinking (required for extended thinking in some configurations)
+  interleaved_thinking: false
+  interleaved_thinking_header: "interleaved-thinking-2025-05-14"
+
+  # Code execution tool
+  code_execution: false
+  code_execution_header: "code-execution-2025-05-22"
+
+  # Files API
+  files_api: false
+  files_api_header: "files-api-2025-04-14"
+
+  # MCP (Model Context Protocol) connector
+  mcp_connector: false
+  mcp_connector_header: "mcp-client-2025-04-04"
+
+  # Extended output (increased max_tokens limits for certain models)
+  extended_output: false
+  extended_output_header: "output-128k-2025-02-19"
+
+  # Computer use
+  computer_use: false
+  computer_use_header: "computer-use-2025-01-24"
+
+  # Token counting (beta endpoint)
+  token_counting: false
+  token_counting_header: "token-counting-2024-11-01"
+
+  # Prompt caching
+  prompt_caching: false
+  prompt_caching_header: "prompt-caching-2024-07-31"
+
+  # Message batches
+  message_batches: false
+  message_batches_header: "message-batches-2024-09-24"
+
+  # Fine-tuning (if/when available)
+  fine_tuning: false
+  fine_tuning_header: "fine-tuning-2024-11-15"
+
+  # Any additional arbitrary beta headers to include with every request.
+  # Example: ["my-beta-feature-2025-01-01"]
+  extra_beta_headers: []
+
+
+# =============================================================================
+# METADATA — Request Metadata
+# =============================================================================
+metadata:
+
+  # Opaque user ID sent with every request for Anthropic's abuse detection.
+  # Should be a stable identifier for the end user (hashed/anonymized recommended).
+  # null = not sent
+  user_id: null
+
+  # Any additional metadata fields to attach to requests.
+  extra: {}
+
+
+# =============================================================================
+# LOGGING — ClaudeBox & SDK Logging
+# =============================================================================
+logging:
+
+  # Log level for ClaudeBox's own logger.
+  # Options: "debug" | "info" | "warning" | "error" | "critical" | "off"
+  level: "warning"
+
+  # Anthropic SDK log level (set via ANTHROPIC_LOG env var internally).
+  # Options: "debug" | "info" | "warn" | "off"
+  sdk_log_level: "off"
+
+  # Logger name used by ClaudeBox.
+  logger_name: "claudebox"
+
+  # Whether to log outgoing request parameters (may include sensitive data).
+  log_requests: false
+
+  # Whether to log incoming API responses (may be large).
+  log_responses: false
+
+  # Whether to log token usage after each request.
+  log_token_usage: true
+
+  # Whether to log tool calls and results.
+  log_tool_calls: true
+
+  # Whether to log event emissions.
+  log_events: false
+
+  # Whether to log to a file in addition to the console.
+  log_to_file: false
+
+  # Path to the log file. Only used when log_to_file is true.
+  log_file_path: "claudebox.log"
+
+  # Log file rotation — maximum size in bytes before rotating.
+  # 0 = no rotation
+  log_file_max_bytes: 10485760  # 10MB
+
+  # Number of backup log files to keep when rotating.
+  log_file_backup_count: 3
+
+  # Log format string (Python logging format).
+  log_format: "%(asctime)s [%(name)s] %(levelname)s: %(message)s"
+
+  # Whether to include the request ID in log messages when available.
+  log_request_id: true
+
+
+# =============================================================================
+# PLATFORM — Cloud Platform Integrations
+# =============================================================================
+platform:
+
+  # Which platform to use.
+  # Options: "anthropic" | "bedrock" | "vertex"
+  provider: "anthropic"
+
+  # --- AWS Bedrock ---
+  bedrock:
+    aws_region: null
+    aws_access_key: null
+    aws_secret_key: null
+    aws_session_token: null
+    aws_profile: null
+
+  # --- Google Vertex AI ---
+  vertex:
+    project_id: null
+    region: "us-east5"
+    credentials: null        # Path to service account JSON, or null for ADC

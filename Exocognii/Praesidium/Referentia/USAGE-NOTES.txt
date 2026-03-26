@@ -1,0 +1,14 @@
+╭──────────────────────────────╮
+│𖢻                            𖢻│
+│     Ｐｒａｅｓｉｄｉｕｍ     │
+│   Ｏｂｓｅｒｖａｔｉｏｎｓ   │
+│𖢻                            𖢻│     
+╰──────────────────────────────╯
+MARCH 25
+
+
+
+- no State persistence
+- cant close widget once open
+- lock in widgets? save default? can i?
+

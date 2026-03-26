@@ -18,6 +18,8 @@
 	🟅 Should start moving all Apps in 'Tools' to Exocognii.
 	🟅
 
+
+
 ╭─────────────────────────────────────────────────╮
 │  🟀   ＡＣＴＩＯ ＵＬＴＩＭＡ/ＰＲＯＸＩＭＡ  🟀  │
 │                                                 │
@@ -32,6 +34,7 @@
 │ 🟅  Done                                         │
 │                                                 │
 │ 1.1  Run PRAESIDIUM IdeaForge seed prompt       │
+│                                                 │
 │ 🟅 Done                                          │
 │                                                 │
 │ 1.2  Build PRAESIDIUM — Phase 1                 │
@@ -40,15 +43,36 @@
 │                                                 │
 │ 1.3  Build PRAESIDIUM — Phase 2                 │
 │		   Remaining Default Widgets              │
-│ 🟅                                               │
-│ 🟅                                               │
-│ 🟅                                               │
+│ 🟅 Done                                          │
 │                                                 │
+│ 1.4  Build PRAESIDIUM — Phase 3                 │
+│   	   Dockable Widget System                 │
+│  🟅                                              │
+│                                                 │
+│ 1.5  Build PRAESIDIUM — Phase 4                 │
+│		   INGENIUM + Remaining Dockables         │
+│                                                 │
+│  🟅                                              │
+│                                                 │
+│                                                 │
+│                                                 │
+│                                                 │
+│                                                 │
+│ 🟅                                               │
+│ 🟅                                               │
+│ 🟅                                               │
+│ 🟅                                               │
+│ 🟅                                               │
+│ 🟅                                               │
+│ 🟅                                               │
+│ 🟅                                               │
+│ 🟅                                               │
 │                                                 │
 │                                                 │
 │                                                 │
 ╰─────────────────────────────────────────────────╯
-	🟅
+
+	 
 
 🟆 ＥＸＶＡＣＵＡ ＬＯＲＩＣＵＭ
 

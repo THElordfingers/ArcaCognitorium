@@ -3,40 +3,41 @@
   "widgets": {
     "git_main": {
       "cls": "GitWidget",
-      "x": 8,
-      "y": 8,
+      "x": 1,
+      "y": 475,
       "w": 489,
-      "h": 531,
+      "h": 659,
       "visible": true,
       "docked": false,
       "extra": {}
     },
     "chatwidget_51c260": {
       "cls": "ChatWidget",
-      "x": 365,
-      "y": 7,
-      "w": 348,
-      "h": 481,
+      "x": 1027,
+      "y": 0,
+      "w": 518,
+      "h": 711,
       "visible": true,
       "docked": false,
-      "extra": {}
+      "extra": {},
+      "locked": true
     },
     "tokentracker_031ee2": {
       "cls": "TokenTracker",
-      "x": 365,
-      "y": 490,
-      "w": 349,
-      "h": 213,
+      "x": 727,
+      "y": 478,
+      "w": 298,
+      "h": 231,
       "visible": true,
       "docked": false,
       "extra": {}
     },
     "todoboard_f3cd87": {
       "cls": "TodoBoard",
-      "x": 1221,
-      "y": 30,
-      "w": 300,
-      "h": 260,
+      "x": 751,
+      "y": 0,
+      "w": 276,
+      "h": 478,
       "visible": true,
       "docked": false,
       "extra": {}
@@ -44,9 +45,9 @@
     "applauncher_9e1c86": {
       "cls": "AppLauncher",
       "x": 1549,
-      "y": 2,
+      "y": 146,
       "w": 300,
-      "h": 282,
+      "h": 222,
       "visible": true,
       "docked": false,
       "extra": {}
@@ -57,16 +58,16 @@
       "y": 405,
       "w": 300,
       "h": 260,
-      "visible": true,
+      "visible": false,
       "docked": false,
       "extra": {}
     },
     "statuslegend_82e6e2": {
       "cls": "StatusLegend",
-      "x": 887,
-      "y": 15,
-      "w": 300,
-      "h": 260,
+      "x": 452,
+      "y": 0,
+      "w": 217,
+      "h": 147,
       "visible": true,
       "docked": false,
       "extra": {}

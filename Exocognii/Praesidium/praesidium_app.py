@@ -12,6 +12,14 @@
 ██████████████████████████████████████
 █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█
 
+
+🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃▍
+🮈                                                                                  ▍
+🮈   P R A E S I D I U M                                                            ▍
+🮈   Vigilia Perpetua                                                               ▍
+🮈                                                                                  ▍
+🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃🭐
+"""
 # ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
 # ⯨                                                                         ⯩
 # ⯨   𝐀𝐍𝐍𝐔𝐒 🟌 ＭＭＸＸＶＩ                        praesidium_app.py   ⯩
@@ -20,7 +28,7 @@
 # PRAESIDIUM · praesidium_app.py
 # QMainWindow — entry point; owns monitor assignment.
 # version: 1.0.0
-"""
+
 from pathlib import Path
 
 from PyQt6.QtWidgets import (
@@ -124,10 +132,13 @@ class PraesidiumApp(QMainWindow):
         layout.addStretch()
 
         # Action buttons
-        self._btn_add = arcane_button("⊞  ADD WIDGET")
-        btn_config    = arcane_button("⚙  CONFIG")
+        self._btn_add     = arcane_button("⊞  ADD WIDGET")
+        btn_save_default  = arcane_button("⊙  SAVE DEFAULT")
+        btn_config        = arcane_button("⚙  CONFIG")
         self._btn_add.clicked.connect(self._show_widget_picker)
+        btn_save_default.clicked.connect(self._save_default_layout)
         layout.addWidget(self._btn_add)
+        layout.addWidget(btn_save_default)
         layout.addWidget(btn_config)
 
         return bar
@@ -211,16 +222,8 @@ class PraesidiumApp(QMainWindow):
         elif cls == "StatusLegend":
             self._status_legend = w
 
-        # Persist to layout
-        self._layout_mgr.on_widget_moved(widget_id, w.x(), w.y())
-        self._layout_mgr.on_widget_resized(widget_id, w.width(), w.height())
-        # Record cls in layout so it survives restart
-        self._layout_mgr._layout[widget_id] = {
-            "cls": cls_name, "x": w.x(), "y": w.y(),
-            "w": w.width(), "h": w.height(),
-            "visible": True, "docked": False, "extra": {},
-        }
-        self._layout_mgr.save()
+        # Register with layout manager — handles persistence + signal wiring
+        self._layout_mgr.register_widget(w, cls_name)
 
     def _build_statusbar(self) -> QFrame:
         bar = QFrame()
@@ -287,6 +290,10 @@ class PraesidiumApp(QMainWindow):
                 w.git_status_updated.connect(self._on_git_status)
             if hasattr(w, "status_changed"):
                 w.status_changed.connect(self._on_widget_status)
+            if hasattr(w, "visibility_changed"):
+                w.visibility_changed.connect(self._layout_mgr.on_widget_visibility_changed)
+            if hasattr(w, "lock_changed"):
+                w.lock_changed.connect(self._layout_mgr.on_widget_lock_changed)
 
         if self._chat_widget and self._token_tracker:
             self._chat_widget.token_used.connect(self._token_tracker.record_usage)
@@ -364,6 +371,16 @@ class PraesidiumApp(QMainWindow):
     # ------------------------------------------------------------------
     # Monitor assignment
     # ------------------------------------------------------------------
+
+    def _save_default_layout(self) -> None:
+        self._layout_mgr.save_as_default()
+        # Brief visual confirmation in status bar
+        lbl = self._status_labels.get("git")
+        if lbl:
+            orig = lbl.text(), lbl.styleSheet()
+            lbl.setText("✦ Default layout saved")
+            from PyQt6.QtCore import QTimer as _QT
+            _QT.singleShot(2000, lambda: (lbl.setText(orig[0]), lbl.setStyleSheet(orig[1])))
 
     def _assign_monitor(self) -> None:
         """

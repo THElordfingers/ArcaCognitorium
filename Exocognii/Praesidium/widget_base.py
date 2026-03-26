@@ -1,24 +1,24 @@
 """
-🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃▍
-🮈                  ██     ██ ██ ██████   ██████  ███████ ████████      ██████   █████  ███████ ███████ ▍
-🮈                  ██     ██ ██ ██   ██ ██       ██         ██         ██   ██ ██   ██ ██      ██      ▍
-🮈                  ██  █  ██ ██ ██   ██ ██   ███ █████      ██         ██████  ███████ ███████ █████   ▍
-🮈                  ██ ███ ██ ██ ██   ██ ██    ██ ██         ██         ██   ██ ██   ██      ██ ██      ▍
-🮈                   ███ ███  ██ ██████   ██████  ███████    ██ ███████ ██████  ██   ██ ███████ ███████ ▍
-🮈                                                                                                      ▍
-🮈                                                                                                      ▍
-🮈           Python Script           ▍
-🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃🭐
-██████████████████████████████████████
+🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃▍
+🮈           ██     ██ ██ ██████   ██████  ███████ ████████      ██████   █████  ███████ ███████          ▍
+🮈           ██     ██ ██ ██   ██ ██       ██         ██         ██   ██ ██   ██ ██      ██               ▍
+🮈           ██  █  ██ ██ ██   ██ ██   ███ █████      ██         ██████  ███████ ███████ █████            ▍
+🮈           ██ ███ ██ ██ ██   ██ ██    ██ ██         ██         ██   ██ ██   ██      ██ ██               ▍
+🮈            ███ ███  ██ ██████   ██████  ███████    ██ ███████ ██████  ██   ██ ███████ ███████          ▍
+🮈                                                                                                        ▍
+🮈                                                                                                        ▍
+🮈                                              Python Script                                             ▍
+🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃🭐
+██████████████████████████████████████████████████████████████████████████████████████████████████████████
 █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█
-
-🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃▍
-🮈      PRAESIDIUM · widget_base.py                                                 ▍
-🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃🭐
+█🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃▍
+█      PRAESIDIUM · widget_base.py        ▍
+█▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃🭐
+"""
 # PRAESIDIUM · widget_base.py
 # ArcaneWidget — draggable, resizable, titled widget container.
-# version: 1.1.0
-"""
+# version: 1.2.0
+# Changes: lock toggle, close emits signal, visibility_changed signal
 
 from PyQt6.QtWidgets import (
     QFrame, QLabel, QHBoxLayout, QVBoxLayout,
@@ -64,14 +64,17 @@ def _hit_edges(pos: QPoint, rect: QRect, margin: int) -> int:
 
 
 class ArcaneWidget(QFrame):
-    position_changed = pyqtSignal(str, int, int)
-    size_changed     = pyqtSignal(str, int, int)
-    status_changed   = pyqtSignal(str, str, str)
+    position_changed   = pyqtSignal(str, int, int)
+    size_changed       = pyqtSignal(str, int, int)
+    status_changed     = pyqtSignal(str, str, str)
+    visibility_changed = pyqtSignal(str, bool)   # widget_id, visible
+    lock_changed       = pyqtSignal(str, bool)   # widget_id, locked
 
     def __init__(self, widget_id: str, title: str, parent: QWidget | None = None):
         super().__init__(parent)
-        self.widget_id = widget_id
-        self._title    = title
+        self.widget_id  = widget_id
+        self._title     = title
+        self._locked    = False
 
         self._drag_pos:          QPoint | None = None
         self._resize_edges:      int           = 0
@@ -101,6 +104,10 @@ class ArcaneWidget(QFrame):
         self._body_layout.setSpacing(6)
         outer.addWidget(self._body, 1)
 
+    # ------------------------------------------------------------------
+    # Header
+    # ------------------------------------------------------------------
+
     def _build_header(self) -> QFrame:
         bar = QFrame()
         bar.setObjectName("header_bar")
@@ -114,7 +121,7 @@ class ArcaneWidget(QFrame):
         )
         layout = QHBoxLayout(bar)
         layout.setContentsMargins(8, 0, 4, 0)
-        layout.setSpacing(6)
+        layout.setSpacing(4)
 
         self._title_label = QLabel(self._title.upper())
         self._title_label.setStyleSheet(
@@ -130,6 +137,18 @@ class ArcaneWidget(QFrame):
         )
         layout.addWidget(self._status_dot)
 
+        # Lock button
+        self._btn_lock = QPushButton("🔓")
+        self._btn_lock.setFixedSize(20, 20)
+        self._btn_lock.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self._btn_lock.setStyleSheet(
+            f"QPushButton {{ background: transparent; color: {C_GOLD_DIM}; border: none; font-size: 10px; }}"
+            f"QPushButton:hover {{ color: {C_GOLD}; }}"
+        )
+        self._btn_lock.clicked.connect(self._on_toggle_lock)
+        layout.addWidget(self._btn_lock)
+
+        # Minimise / close
         for symbol, slot in (("─", self._on_minimise), ("✕", self._on_close)):
             btn = QPushButton(symbol)
             btn.setFixedSize(20, 20)
@@ -142,6 +161,10 @@ class ArcaneWidget(QFrame):
             layout.addWidget(btn)
 
         return bar
+
+    # ------------------------------------------------------------------
+    # Status
+    # ------------------------------------------------------------------
 
     def set_status(self, status: str, message: str = "") -> None:
         colour_map = {
@@ -156,12 +179,39 @@ class ArcaneWidget(QFrame):
         )
         self.status_changed.emit(self.widget_id, status, message)
 
+    # ------------------------------------------------------------------
+    # Lock
+    # ------------------------------------------------------------------
+
+    def set_locked(self, locked: bool) -> None:
+        self._locked = locked
+        self._btn_lock.setText("🔒" if locked else "🔓")
+        self._btn_lock.setStyleSheet(
+            f"QPushButton {{ background: transparent; "
+            f"color: {'#d4af37' if locked else C_GOLD_DIM}; "
+            f"border: none; font-size: 10px; }}"
+            f"QPushButton:hover {{ color: {C_GOLD}; }}"
+        )
+        self.lock_changed.emit(self.widget_id, locked)
+
+    def _on_toggle_lock(self) -> None:
+        self.set_locked(not self._locked)
+
+    # ------------------------------------------------------------------
+    # Mouse — drag + resize (blocked when locked)
+    # ------------------------------------------------------------------
+
     def mousePressEvent(self, event: QMouseEvent) -> None:
         if event.button() != Qt.MouseButton.LeftButton:
             super().mousePressEvent(event)
             return
+        if self._locked:
+            super().mousePressEvent(event)
+            return
+
         pos   = event.position().toPoint()
         edges = _hit_edges(pos, self.rect(), EDGE_GRIP)
+
         if edges:
             self._resize_edges       = edges
             self._resize_origin      = event.globalPosition().toPoint()
@@ -174,6 +224,10 @@ class ArcaneWidget(QFrame):
             super().mousePressEvent(event)
 
     def mouseMoveEvent(self, event: QMouseEvent) -> None:
+        if self._locked:
+            super().mouseMoveEvent(event)
+            return
+
         pos = event.position().toPoint()
 
         if self._resize_origin is not None:
@@ -211,12 +265,21 @@ class ArcaneWidget(QFrame):
         self._resize_origin     = None
         self._resize_edges      = 0
         self._resize_start_geom = None
-        self.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
+        if not self._locked:
+            self.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
         super().mouseReleaseEvent(event)
+
+    # ------------------------------------------------------------------
+    # Resize signal
+    # ------------------------------------------------------------------
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         super().resizeEvent(event)
         self.size_changed.emit(self.widget_id, self.width(), self.height())
+
+    # ------------------------------------------------------------------
+    # Header buttons
+    # ------------------------------------------------------------------
 
     def _on_minimise(self) -> None:
         if self._body.isVisible():
@@ -229,3 +292,4 @@ class ArcaneWidget(QFrame):
 
     def _on_close(self) -> None:
         self.hide()
+        self.visibility_changed.emit(self.widget_id, False)

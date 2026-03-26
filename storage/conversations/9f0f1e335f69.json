@@ -1,0 +1,36 @@
+{
+  "schema_version": 2,
+  "id": "9f0f1e335f69",
+  "title": "Aesthetically pleasing",
+  "created_at": "2026-03-11 21:07:05",
+  "updated_at": "2026-03-11 21:07:52",
+  "active_thread_id": "main",
+  "threads": [
+    {
+      "id": "main",
+      "name": "main",
+      "created_at": "2026-03-11 21:07:05",
+      "updated_at": "2026-03-11 21:07:52",
+      "summary": "",
+      "messages": [
+        {
+          "role": "assistant",
+          "content": "Conversation started. Send your first message when ready.",
+          "ts": "2026-03-11 21:07:05"
+        },
+        {
+          "role": "user",
+          "content": "I am trying to figure out how to make my interface efficient, yet aesthetically pleasing. Please jst give me a answer that is only a few sentences",
+          "ts": "2026-03-11 21:07:49"
+        },
+        {
+          "role": "assistant",
+          "content": "Beauty and efficiency are not opposites — the most elegant interfaces are those where every visual element earns its place by also serving a function.",
+          "ts": "2026-03-11 21:07:52",
+          "model": "claude-sonnet-4-6",
+          "routing_reason": "Score 0.18 (threshold 0.55). Dominant signal: topic_novelty (1.00)."
+        }
+      ]
+    }
+  ]
+}

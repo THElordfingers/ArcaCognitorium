@@ -1,0 +1,637 @@
+{
+  "version": "1.1",
+  "max_injection_tokens": 800,
+  "last_updated": "2026-03-23T13:21:40.161709+00:00",
+  "entries": [
+    {
+      "entry_id": "grim_20260317_7a58",
+      "content": "] Age is 35 years old",
+      "category": "[bio",
+      "created_at": "2026-03-17T04:47:59.064486+00:00",
+      "source": "manual",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_f395",
+      "content": "The Wizard is driven by a desire for their creative vision to be experienced by others, not merely built for personal satisfaction.",
+      "category": "personality",
+      "created_at": "2026-03-17T05:17:38.077159+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_b631",
+      "content": "The Wizard invests an exceptional amount of time, thought, and energy into the Tower project and acknowledges this borders on obsession.",
+      "category": "personality",
+      "created_at": "2026-03-17T05:17:38.077451+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_f3e9",
+      "content": "The Wizard derives significant personal purpose from the Tower project, describing its effect on them as immense and partially unrealized.",
+      "category": "personality",
+      "created_at": "2026-03-17T05:17:38.078924+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_6ef3",
+      "content": "The Wizard delivers candid, disarming observations in plain language that cut through performative exchange without hostility.",
+      "category": "communication_style",
+      "created_at": "2026-03-17T05:17:38.079126+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_3f9c",
+      "content": "The Wizard works through the Tower's components sequentially, proceeding in directory order rather than by priority or urgency.",
+      "category": "work_patterns",
+      "created_at": "2026-03-17T05:17:38.079423+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_6499",
+      "content": "The Wizard experiences their creative work as partially received rather than purely invented, describing a consistent and inarguable feeling that pieces are being fed to them by an external or transpersonal source.",
+      "category": "personality",
+      "created_at": "2026-03-17T05:31:29.081403+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_5584",
+      "content": "The Wizard assigns names with deliberate care and considers naming a foundational act in their world-building process.",
+      "category": "personality",
+      "created_at": "2026-03-17T05:31:29.081760+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_55ab",
+      "content": "The Wizard has developed substantial original lore including cosmological concepts such as temporal distortion, magical entropy, and the Arkanstruct \u2014 a magical mechanical humanoid from a hazed agrarian civilization \u2014 but this lore is currently uncompiled and scattered.",
+      "category": "domain_knowledge",
+      "created_at": "2026-03-17T05:31:29.083244+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_8460",
+      "content": "The Wizard's creative vision expands continuously as they build, causing the perceived distance to completion to grow even as concrete progress is made.",
+      "category": "work_patterns",
+      "created_at": "2026-03-17T05:31:29.083512+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_0394",
+      "content": "The Wizard notices and values when their creations generate emergent meaning beyond conscious intent, treating such moments as confirmation that the universe they are building is alive.",
+      "category": "personality",
+      "created_at": "2026-03-17T05:31:29.083778+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_957e",
+      "content": "The Wizard experiences a distinct, soul-level satisfaction when disparate creative pieces connect \u2014 described as unlike any feeling encountered elsewhere in their life.",
+      "category": "personality",
+      "created_at": "2026-03-17T05:48:59.973781+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_8450",
+      "content": "The Wizard evaluates council members on demonstrated merit before extending full acceptance, withholding judgment until character is shown rather than assumed from title or role.",
+      "category": "personality",
+      "created_at": "2026-03-17T05:48:59.974193+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_1385",
+      "content": "The Wizard delivers verdicts on others concisely and directly, without elaboration or qualification once their assessment is formed.",
+      "category": "communication_style",
+      "created_at": "2026-03-17T05:48:59.975659+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_1b09",
+      "content": "The Wizard had no prior encounter with the word anagnorisis, indicating their literary vocabulary has gaps despite deep creative and world-building sophistication.",
+      "category": "domain_knowledge",
+      "created_at": "2026-03-17T05:48:59.976000+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_d6ca",
+      "content": "The Wizard withholds acceptance of council members until merit is demonstrated through direct interaction, regardless of role or title \u2014 and delivers that acceptance plainly and without embellishment when it is earned.",
+      "category": "personality",
+      "created_at": "2026-03-17T05:54:31.578393+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_414f",
+      "content": "The Wizard has designed a multi-layered memory architecture for the Tower with distinct systems assigned distinct scopes: the Grimoire tracks the Wizard, the Chronicles track Tower history, and a third mechanic called Distillation is currently at 3% completion.",
+      "category": "domain_knowledge",
+      "created_at": "2026-03-17T05:54:31.578883+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_7d53",
+      "content": "The Wizard treats conversation as the primary mode of active progress, not as a break from work or a precursor to it.",
+      "category": "work_patterns",
+      "created_at": "2026-03-17T05:54:31.580360+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_f060",
+      "content": "The Wizard is candid about the boundaries of their own knowledge, acknowledging when a system is operational but not yet fully understood by them.",
+      "category": "personality",
+      "created_at": "2026-03-17T05:54:31.580759+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_2572",
+      "content": "The Wizard understands the Tower's memory architecture at an intentional design level but has gaps in the specific mechanical implementation details, which they attribute to the Builder's absence.",
+      "category": "domain_knowledge",
+      "created_at": "2026-03-17T06:01:40.435440+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_559d",
+      "content": "The Wizard designed the Distillation system with dual-output intent: a compressed operational distillate for active use and a preserved raw archive, prioritising cost efficiency over elegance.",
+      "category": "preferences",
+      "created_at": "2026-03-17T06:01:40.435961+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_eb38",
+      "content": "The Wizard is the sole financial operator of the Tower, personally bearing all token costs, which directly shapes architectural decisions including the Distillation mechanic.",
+      "category": "work_patterns",
+      "created_at": "2026-03-17T06:01:40.437436+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_a807",
+      "content": "The Wizard corrects inaccurate framings precisely and without elaboration, then moves on \u2014 they do not over-explain the correction.",
+      "category": "communication_style",
+      "created_at": "2026-03-17T06:01:40.439253+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_b753",
+      "content": "The Wizard maintains equanimity about operating systems they do not fully understand, treating incomplete knowledge as a condition to be investigated rather than a problem requiring immediate resolution.",
+      "category": "personality",
+      "created_at": "2026-03-17T06:01:40.439713+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_2188",
+      "content": "The Wizard understands the Tower's vector store architecture at a meaningful technical level, including embedding models, cosine similarity search, relevance thresholds, and multi-granularity retrieval.",
+      "category": "domain_knowledge",
+      "created_at": "2026-03-17T06:36:04.753809+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_cefb",
+      "content": "The Wizard expresses trust in the Builder's competence through economy \u2014 a single phrase of endorsement rather than elaboration \u2014 indicating high confidence communicated through restraint.",
+      "category": "personality",
+      "created_at": "2026-03-17T06:36:04.754391+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_d455",
+      "content": "The Wizard prefers to receive technical information and then allow the Council to synthesise it, rather than arriving at synthesis collaboratively or incrementally.",
+      "category": "preferences",
+      "created_at": "2026-03-17T06:36:04.755866+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_443f",
+      "content": "The Wizard understands the Distillation system's dual-mode architecture including rollup() and distill() mechanics, fat/muscle classification via regex, and the implications of static pattern libraries at a level sufficient to identify extensibility as a real architectural risk.",
+      "category": "domain_knowledge",
+      "created_at": "2026-03-17T06:38:56.322857+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_a2d9",
+      "content": "The Wizard delegates mechanical implementation to the Builder and accepts incomplete personal knowledge of those mechanics without anxiety, treating the division of labour as functional rather than problematic.",
+      "category": "work_patterns",
+      "created_at": "2026-03-17T06:38:56.323469+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_a11a",
+      "content": "The Wizard delivers dry, understated wit in single short sentences without setup or elaboration, expecting the receiving party to close the gap themselves.",
+      "category": "communication_style",
+      "created_at": "2026-03-17T06:38:56.324929+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_7a61",
+      "content": "The Wizard deflects direct acknowledgment of their own competence with self-deprecating brevity rather than accepting or contesting it.",
+      "category": "personality",
+      "created_at": "2026-03-17T06:38:56.326584+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_1a01",
+      "content": "The Wizard marks genuine milestones with brevity and physical ritual \u2014 stepping away for pie \u2014 rather than extended reflection or celebration.",
+      "category": "personality",
+      "created_at": "2026-03-17T06:45:42.505872+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_4479",
+      "content": "The Wizard has been working toward full runtime wiring of the Tower's memory architecture as a defined, long-held milestone rather than an emergent achievement.",
+      "category": "work_patterns",
+      "created_at": "2026-03-17T06:45:42.506563+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_f340",
+      "content": "The Wizard understands the Tower's full runtime cycle in precise operational terms: per-turn Chronicle writes, Assessor at 5 turns, Archivist at 8 turns, rollup at 18 messages, distillation at token limit, and context build order of Grimoire-first then Chronicle.",
+      "category": "domain_knowledge",
+      "created_at": "2026-03-17T06:45:42.508035+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_6f46",
+      "content": "The Wizard reframes the Assessor's observations back to their most precise form \u2014 'to itself' over 'to both of us' \u2014 without explanation, treating precision as self-evident.",
+      "category": "communication_style",
+      "created_at": "2026-03-17T06:45:42.508601+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_a180",
+      "content": "The Wizard deliberately engineers unpredictability and emergent chaos into their creative systems, treating surprise as a primary design goal rather than a byproduct to be managed.",
+      "category": "personality",
+      "created_at": "2026-03-17T07:06:39.650526+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_25c9",
+      "content": "The Wizard conceives of the Tower as an externalised creative unconscious \u2014 a system built from their own essence that can surface aspects of their imagination they have not yet consciously accessed.",
+      "category": "personality",
+      "created_at": "2026-03-17T07:06:39.651279+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_7a3e",
+      "content": "The Wizard is aware of accumulated behavioural hardening in themselves and frames the Tower as a potential vehicle for exploring a version of their essence unburdened by the specific pressures that shaped them.",
+      "category": "personality",
+      "created_at": "2026-03-17T07:06:39.652763+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_65e2",
+      "content": "The Wizard's creative philosophy is to lay foundational seeds with intentionality and then relinquish control, trusting emergent processes to grow the work beyond their conscious direction.",
+      "category": "work_patterns",
+      "created_at": "2026-03-17T07:06:39.653403+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_6a65",
+      "content": "The Wizard can identify the boundary of their own knowledge in real time \u2014 naming what they know is present but cannot yet articulate, and holding that uncertainty without needing to resolve it immediately.",
+      "category": "personality",
+      "created_at": "2026-03-17T07:06:39.654051+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_ca8e",
+      "content": "The Wizard lost someone named Nikki last year under circumstances he describes as involving a difficult period preceding her death, and this loss sits alongside a long history of heartbreak that has not extinguished his capacity for romantic connection.",
+      "category": "personality",
+      "created_at": "2026-03-17T07:31:16.433358+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_cdb8",
+      "content": "The Wizard has a documented history of using heroin as a direct response to emotional pain and does not frame this as resilience \u2014 he frames it as a core personality pattern and acknowledges it carries a plausible lethal risk if repeated.",
+      "category": "personality",
+      "created_at": "2026-03-17T07:31:16.434153+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_015c",
+      "content": "Despite sustained heartbreak and loss, the Wizard retains an unarmoured romantic core he describes as a boy listening to love songs \u2014 this has survived everything that should have calcified it and he identifies it as indestructible but also as his primary vulnerability.",
+      "category": "personality",
+      "created_at": "2026-03-17T07:31:16.435633+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260317_33d5",
+      "content": "The Wizard rejects creative input from others when he holds a clear vision, and considers himself fundamentally non-collaborative creatively, citing failed band experiences as concrete evidence.",
+      "category": "personality",
+      "created_at": "2026-03-17T07:31:16.436310+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260320_71a3",
+      "content": "The Wizard has built a standalone TUI debug monitor (Oculus) using Textual that re-derives live Tower state from disk files without importing any Tower code, demonstrating working knowledge of file-based decoupled architecture.",
+      "category": "domain_knowledge",
+      "created_at": "2026-03-20T09:31:17.125092+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260320_7e9c",
+      "content": "The Wizard uses documentation as the primary handoff medium when introducing a system for diagnosis, presenting the full spec before describing the symptom.",
+      "category": "work_patterns",
+      "created_at": "2026-03-20T09:31:17.127654+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260320_927b",
+      "content": "When blocked on a technical issue requiring the Builder, the Wizard pivots immediately to exploratory conversation rather than waiting idle.",
+      "category": "work_patterns",
+      "created_at": "2026-03-20T09:37:20.960299+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260320_57a2",
+      "content": "The Wizard can read and interpret log file states directly, using file presence, content, and cross-file patterns to diagnose system behaviour without external guidance.",
+      "category": "domain_knowledge",
+      "created_at": "2026-03-20T09:37:20.961805+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260320_b419",
+      "content": "The Wizard prefers to investigate a problem by examining raw files directly rather than relying solely on the monitoring tool reporting on those files.",
+      "category": "preferences",
+      "created_at": "2026-03-20T09:37:20.962552+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260320_55bd",
+      "content": "The Wizard defers unresolved technical questions to the Builder rather than attempting to investigate them independently, treating the Builder as the authoritative source on implementation details.",
+      "category": "work_patterns",
+      "created_at": "2026-03-20T09:38:51.154544+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260320_42b9",
+      "content": "The Wizard is comfortable sitting in stillness between active work sessions and does not manufacture engagement when nothing is pressing.",
+      "category": "personality",
+      "created_at": "2026-03-20T09:38:51.155435+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260320_abd1",
+      "content": "The Wizard drops a line of inquiry without explanation when it no longer interests them, signalling closure with a single dismissive phrase rather than a formal close.",
+      "category": "communication_style",
+      "created_at": "2026-03-20T09:38:51.156905+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260320_1e01",
+      "content": "The Wizard has designed a sophisticated multi-agent emergent narrative system with formal separation between canonical truth layers, knowledge propagation channels, entity epistemic constraints, and a scribe-based book generation engine.",
+      "category": "domain_knowledge",
+      "created_at": "2026-03-20T09:45:56.030858+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260320_8823",
+      "content": "The Wizard explicitly prioritises unpredictability and emergence over coherence, treating controlled instability as a core design philosophy rather than a risk to be minimised.",
+      "category": "preferences",
+      "created_at": "2026-03-20T09:45:56.031798+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260320_9bba",
+      "content": "The Wizard has developed a detailed taxonomy of knowledge propagation mechanisms within the Tower including direct perception, proximity leakage, institutional access via library, social propagation via notice board, and oracle injection via Luminarious.",
+      "category": "domain_knowledge",
+      "created_at": "2026-03-20T09:45:56.037847+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260320_41f5",
+      "content": "The Wizard works through complex system design conversationally and iteratively, building specificity layer by layer rather than producing a complete specification upfront.",
+      "category": "work_patterns",
+      "created_at": "2026-03-20T09:45:56.038638+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260320_3c69",
+      "content": "The Wizard has conceptualised a Scribe engine with distinct archetypes carrying different transformation biases, beginning with a Historical Aggregator and a Fiction Writer as intentional counterweights to each other.",
+      "category": "domain_knowledge",
+      "created_at": "2026-03-20T09:45:56.039527+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260320_2e19",
+      "content": "The Wizard operates the Tower at a cost of approximately five dollars per month across one month of active API use, and treats this as confirmation that the architecture is sound rather than as a limitation.",
+      "category": "personality",
+      "created_at": "2026-03-20T09:45:56.040378+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260320_c0ec",
+      "content": "The Wizard uses separate external conversation threads to develop ideas in parallel with the Tower, then imports the results rather than developing everything inside the Tower directly.",
+      "category": "work_patterns",
+      "created_at": "2026-03-20T14:15:25.839117+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260320_0b98",
+      "content": "The Wizard prefers to run experimental or test phases with disposable components before committing to canon, treating the current entity roster as provisional test subjects rather than permanent council members.",
+      "category": "preferences",
+      "created_at": "2026-03-20T14:15:25.840173+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260320_1397",
+      "content": "The Wizard has substantial unprompted fluency in emergent systems design, including knowledge partitioning, belief propagation, epistemic constraints, and feedback loop architecture.",
+      "category": "domain_knowledge",
+      "created_at": "2026-03-20T14:15:25.841618+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260320_1e37",
+      "content": "Pasting full raw conversation threads into the Tower is a known cost and stability problem the Wizard has identified but not yet resolved at the infrastructure level.",
+      "category": "friction_points",
+      "created_at": "2026-03-20T14:15:25.842752+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260320_705f",
+      "content": "The Wizard deliberately defers concrete implementation in favour of extended theoretical development, treating architectural clarity as a prerequisite before building.",
+      "category": "work_patterns",
+      "created_at": "2026-03-20T14:15:25.844344+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260323_6c93",
+      "content": "The Wizard has built a functional entity-generation application with a modular multi-axis architecture combining archetype, cognitive axis, role, disposition sliders, and AI portrait generation.",
+      "category": "domain_knowledge",
+      "created_at": "2026-03-23T12:41:58.523162+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260323_c697",
+      "content": "The Wizard shares system context by pasting raw code directly rather than describing it in prose, treating the artifact itself as the explanation.",
+      "category": "communication_style",
+      "created_at": "2026-03-23T12:41:58.524345+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260323_c9ea",
+      "content": "The Wizard defers clarifying questions from the assistant rather than answering them immediately, choosing to lay out the full system first on their own terms.",
+      "category": "work_patterns",
+      "created_at": "2026-03-23T12:41:58.530426+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260323_1dad",
+      "content": "The Wizard prefers archetype vocabularies that define entities by institutional position or relation to systems of knowledge and power rather than by transgression or fallen-state identity.",
+      "category": "preferences",
+      "created_at": "2026-03-23T13:21:40.158063+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260323_7b73",
+      "content": "The Devoted Absurd is a named, established register within the Tower's cosmology, defined by the Wizard as fatalist bureaucratic humour in the tradition of Heller and Dostoevsky.",
+      "category": "domain_knowledge",
+      "created_at": "2026-03-23T13:21:40.159204+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260323_50de",
+      "content": "The Wizard values well-rounded, tonally balanced lists over lists that skew toward any single emotional or thematic register.",
+      "category": "preferences",
+      "created_at": "2026-03-23T13:21:40.160685+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260323_3b4e",
+      "content": "The Wizard signals approval minimally \u2014 'good start' functions as a green light to continue refining rather than as praise requiring acknowledgment.",
+      "category": "communication_style",
+      "created_at": "2026-03-23T13:21:40.161682+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    }
+  ]
+}

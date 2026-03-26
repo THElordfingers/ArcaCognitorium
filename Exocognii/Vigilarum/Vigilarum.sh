@@ -5,6 +5,6 @@
 #####
 ######## Vigilarum.sh
 
-cd ~/ArcaCognitorium/tools/Vigilarum
+cd ~/ArcaCognitorium/Exocognii/Vigilarum
 source venv-Vigilarum/bin/activate 
 python3 control.py
