@@ -181,15 +181,78 @@ class GitWidget(ArcaneWidget):
         # Action buttons row B
         row_b = QHBoxLayout()
         row_b.setSpacing(4)
-        self._btn_status  = arcane_button("☰ STATUS")
-        self._btn_diff    = arcane_button("⎇ DIFF")
-        self._btn_log     = arcane_button("⎇ LOG")
-        self._btn_refresh = arcane_button("↺")
-        for btn in (self._btn_status, self._btn_diff, self._btn_log, self._btn_refresh):
+        self._btn_status   = arcane_button("☰ STATUS")
+        self._btn_diff     = arcane_button("⎇ DIFF")
+        self._btn_log      = arcane_button("⎇ LOG")
+        self._btn_workflow = arcane_button("? FLOW")
+        self._btn_refresh  = arcane_button("↺")
+        for btn in (self._btn_status, self._btn_diff, self._btn_log,
+                    self._btn_workflow, self._btn_refresh):
             btn.setFixedHeight(24)
             row_b.addWidget(btn)
         row_b.addStretch()
         L.addLayout(row_b)
+
+        # Workflow reference panel (hidden by default)
+        self._workflow_frame = QFrame()
+        self._workflow_frame.setVisible(False)
+        self._workflow_frame.setStyleSheet(
+            f"QFrame {{ background: {C_BG}; border: 1px solid {C_GOLD_DARK}; padding: 2px; }}"
+        )
+        wf_layout = QVBoxLayout(self._workflow_frame)
+        wf_layout.setContentsMargins(8, 6, 8, 6)
+        wf_layout.setSpacing(4)
+
+        wf_title = QLabel("✦  GIT WORKFLOW  ✦")
+        wf_title.setStyleSheet(
+            f"color: {C_GOLD}; font-family: Georgia, serif; font-size: 10px; "
+            "font-weight: bold; letter-spacing: 2px;"
+        )
+        wf_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        wf_layout.addWidget(wf_title)
+
+        wf_steps = [
+            ("1  WORK",    "Edit files in your project",          C_TEXT),
+            ("↓",          "",                                     C_GOLD_DARK),
+            ("2  STATUS",  "☰ STATUS — see what changed",         C_GOLD_DIM),
+            ("↓",          "",                                     C_GOLD_DARK),
+            ("3  STAGE",   "Pick files to include in the commit", C_GOLD_DIM),
+            ("↓",          "",                                     C_GOLD_DARK),
+            ("4  COMMIT",  "✦ COMMIT — save snapshot locally",    C_TEAL),
+            ("↓",          "",                                     C_GOLD_DARK),
+            ("5  PUSH",    "⬆ PUSH — send to GitHub",             C_GOLD),
+        ]
+
+        for step, desc, colour in wf_steps:
+            row = QHBoxLayout()
+            row.setSpacing(8)
+            step_lbl = QLabel(step)
+            step_lbl.setFixedWidth(72)
+            step_lbl.setStyleSheet(
+                f"color: {colour}; font-family: 'Courier New', monospace; "
+                "font-size: 10px; font-weight: bold;"
+            )
+            row.addWidget(step_lbl)
+            if desc:
+                desc_lbl = QLabel(desc)
+                desc_lbl.setStyleSheet(
+                    f"color: {C_TEXT}; font-family: Georgia, serif; font-size: 10px;"
+                )
+                row.addWidget(desc_lbl)
+            row.addStretch()
+            wf_layout.addLayout(row)
+
+        wf_note = QLabel(
+            "COMMIT saves locally.  PUSH sends online."
+            "Always commit before pushing."
+        )
+        wf_note.setStyleSheet(
+            f"color: {C_GOLD_DIM}; font-family: Georgia, serif; font-size: 9px; "
+            "font-style: italic;"
+        )
+        wf_note.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        wf_layout.addWidget(wf_note)
+        L.addWidget(self._workflow_frame)
 
         # File picker (hidden by default)
         self._picker_frame = QFrame()
@@ -205,7 +268,15 @@ class GitWidget(ArcaneWidget):
         picker_lbl = micro_label("select files to stage")
         picker_header.addWidget(picker_lbl)
         picker_header.addStretch()
-        self._btn_stage_selected = arcane_button("✦ STAGE SELECTED", accent=C_TEAL)
+        btn_all = arcane_button("✦ ALL")
+        btn_all.setFixedHeight(22)
+        btn_all.clicked.connect(lambda: self._set_all_checks(True))
+        picker_header.addWidget(btn_all)
+        btn_none = arcane_button("✕ NONE")
+        btn_none.setFixedHeight(22)
+        btn_none.clicked.connect(lambda: self._set_all_checks(False))
+        picker_header.addWidget(btn_none)
+        self._btn_stage_selected = arcane_button("⬆ STAGE", accent=C_TEAL)
         self._btn_stage_selected.setFixedHeight(22)
         self._btn_stage_selected.clicked.connect(self._stage_selected)
         picker_header.addWidget(self._btn_stage_selected)
@@ -251,6 +322,7 @@ class GitWidget(ArcaneWidget):
         self._btn_status.clicked.connect(self._show_file_picker)
         self._btn_diff.clicked.connect(self._toggle_diff)
         self._btn_log.clicked.connect(self._show_log)
+        self._btn_workflow.clicked.connect(self._toggle_workflow)
         self._btn_refresh.clicked.connect(self.refresh)
 
     def _sep(self) -> QFrame:
@@ -493,6 +565,17 @@ class GitWidget(ArcaneWidget):
 
         self._picker_inner_layout.addStretch()
         self._picker_frame.setVisible(True)
+
+    def _set_all_checks(self, state: bool) -> None:
+        if not hasattr(self, "_file_checks"):
+            return
+        for cb, _, _ in self._file_checks:
+            cb.setChecked(state)
+
+    def _toggle_workflow(self) -> None:
+        visible = self._workflow_frame.isVisible()
+        self._workflow_frame.setVisible(not visible)
+        self._btn_workflow.setText("? FLOW ▲" if not visible else "? FLOW")
 
     def _stage_selected(self) -> None:
         """Stage only the checked files."""

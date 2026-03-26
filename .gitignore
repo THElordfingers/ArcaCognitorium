@@ -12,7 +12,7 @@ venv*/
 *.bak_*
 
 # Storage — runtime contents excluded, structure preserved
-/home/lordfingers/ArcaCognitorium/storage/conversations/*
+/home/lordfingers/ArcaCognitorium/storage/conversations/
 /home/lordfingers/ArcaCognitorium/storage/logs/*
 /home/lordfingers/ArcaCognitorium/storage/vectors/*
 /home/lordfingers/ArcaCognitorium/storage/council/*
