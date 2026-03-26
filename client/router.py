@@ -15,6 +15,14 @@
 
 from __future__ import annotations
 
+# token_logger — cross-app usage ledger
+import sys as _sys
+_sys.path.insert(0, str(__import__('pathlib').Path.home() / '.arca'))
+try:
+    from token_logger import log_usage as _log_usage
+except ImportError:
+    def _log_usage(*a, **kw): pass
+
 import json
 import re
 import threading
@@ -463,6 +471,16 @@ class ModelRouter:
                 try:
                     usage = self._box.get_token_usage(session_id)
                     meta["usage"] = usage
+                    try:
+                        _log_usage(
+                            app="tower",
+                            model=getattr(usage, "model", "unknown"),
+                            input_tokens=getattr(usage, "input_tokens", 0),
+                            output_tokens=getattr(usage, "output_tokens", 0),
+                            session_id=session_id,
+                        )
+                    except Exception:
+                        pass
                 except Exception:
                     pass
             finally:

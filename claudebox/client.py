@@ -184,7 +184,7 @@ class ClaudeBox(EventMixin):
         resolved_key = self._config.get_api_key()
         if not resolved_key:
             raise AuthenticationError(
-                "No API key found. Set ANTHROPIC_API_KEY env var, "
+                "No API key found. Set CLAUDE_API_KEY env var, "
                 "or configure api.api_key in claudebox.config.yaml."
             )
 

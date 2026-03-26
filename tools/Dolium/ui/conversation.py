@@ -14,6 +14,14 @@ from __future__ import annotations
 
 import asyncio
 import threading
+
+# token_logger — cross-app usage ledger
+import sys as _sys
+_sys.path.insert(0, str(__import__('pathlib').Path.home() / '.arca'))
+try:
+    from token_logger import log_usage as _log_usage
+except ImportError:
+    def _log_usage(*a, **kw): pass
 from typing import Optional
 
 from textual.app import ComposeResult
@@ -247,6 +255,17 @@ class ChainConversation(Vertical):
         def on_complete(response) -> None:
             text = response.text if hasattr(response, 'text') else str(response)
             result.append(text or "")
+            try:
+                u = response.usage
+                _log_usage(
+                    app="dolium",
+                    model=getattr(response, "model", "unknown"),
+                    input_tokens=getattr(u, "input_tokens", 0),
+                    output_tokens=getattr(u, "output_tokens", 0),
+                    session_id=session_id,
+                )
+            except Exception:
+                pass
             done.set()
 
         def on_error(e: Exception) -> None:

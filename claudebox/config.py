@@ -179,14 +179,14 @@ class Config:
         source = self.api.get("api_key_source", "env")
 
         if source == "env":
-            env_var = self.api.get("api_key_env_var", "ANTHROPIC_API_KEY")
+            env_var = self.api.get("api_key_env_var", "CLAUDE_API_KEY")
             return os.environ.get(env_var)
 
         if source == "keyring":
             try:
                 import keyring as _keyring
                 service = self.keyring.get("service_name", "claudebox")
-                username = self.keyring.get("username", "anthropic_api_key")
+                username = self.keyring.get("username", "claude_api_key")
                 return _keyring.get_password(service, username)
             except ImportError:
                 raise ConfigValidationError(
@@ -400,7 +400,7 @@ _DEFAULTS: dict[str, Any] = {
     "api": {
         "api_key": None,
         "api_key_source": "env",
-        "api_key_env_var": "ANTHROPIC_API_KEY",
+        "api_key_env_var": "CLAUDE_API_KEY",
         "auth_token": None,
         "base_url": None,
         "anthropic_version": "2023-06-01",
@@ -410,7 +410,7 @@ _DEFAULTS: dict[str, Any] = {
     },
     "keyring": {
         "service_name": "claudebox",
-        "username": "anthropic_api_key",
+        "username": "claude_api_key",
     },
     "connection": {
         "timeout_total": 600.0,
