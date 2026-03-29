@@ -1,0 +1,64 @@
+# ────────────────────────────────────────────────────────────
+# FILE: storage/entities/speculator/celestial.yaml
+# ────────────────────────────────────────────────────────────
+ 
+entity_id: speculator
+ 
+# Sagittarius (vision, risk), Pisces (dream, possibility)
+affinity_signs: [8, 11]
+friction_signs: [5, 2]
+ 
+# Jupiter (expansion, luck), Rahu (sudden change, future)
+affinity_planets: [Jupiter, Rahu, Venus]
+friction_planets: [Saturn, Mercury]
+ 
+# Expansive, visionary nakshatras
+affinity_nakshatras: [Purva Ashadha, Purva Bhadra, Mrigashira, Revati]
+ 
+affinity_tithis: [Pratipada, Shashthi, Purnima]
+ 
+circadian_weight: 0.38
+celestial_weight: 0.42
+solar_weight: 0.10
+tidal_weight: 0.10
+ 
+dasha_affinities:
+  Jupiter: 0.28
+  Rahu: 0.22
+  Venus: 0.12
+  Saturn: -0.20
+  Mercury: -0.12
+ 
+vulnerability_conditions:
+  - eclipse_season
+  - mercury_rx
+  - neap_tide
+ 
+affinity_conditions:
+  - full_moon
+  - spring_tide
+  - supermoon
+  - peak_tidal
+ 
+resistance_conditions:
+  - serene
+  - solar_quiet
+  - auspicious
+ 
+special_alignments:
+  - condition: "solar_ingress:Sagittarius"
+    label: "The Speculator reaches maximum velocity"
+    weight_bonus: 0.32
+  - condition: "solar_ingress:Pisces"
+    label: "The dreaming season — the Speculator roams"
+    weight_bonus: 0.22
+  - condition: "dasha:Jupiter"
+    label: "Jupiter mahadasha — the great expansion"
+    weight_bonus: 0.25
+  - condition: "dasha:Rahu"
+    label: "Rahu mahadasha — the Speculator is at maximum risk"
+    weight_bonus: 0.20
+  - condition: "supermoon"
+    label: "Supermoon — the Speculator's intuition spikes"
+    weight_bonus: 0.15
+ 

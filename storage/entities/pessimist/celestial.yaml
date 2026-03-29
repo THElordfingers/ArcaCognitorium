@@ -1,0 +1,60 @@
+# ────────────────────────────────────────────────────────────
+# FILE: storage/entities/pessimist/celestial.yaml
+# ────────────────────────────────────────────────────────────
+ 
+entity_id: pessimist
+ 
+# Scorpio (depth, decay), Cancer (anxiety, memory)
+affinity_signs: [7, 3]
+friction_signs: [0, 4]
+ 
+# Saturn (limitation, consequence), Ketu (dissolution)
+affinity_planets: [Saturn, Ketu, Moon]
+friction_planets: [Sun, Jupiter]
+ 
+# Dark, inward nakshatras
+affinity_nakshatras: [Ashlesha, Jyeshtha, Mula, Purva Phalguni]
+ 
+affinity_tithis: [Chaturdashi, Ashtami, Rikta]
+ 
+circadian_weight: 0.42
+celestial_weight: 0.38
+solar_weight: 0.10
+tidal_weight: 0.10
+ 
+dasha_affinities:
+  Saturn: 0.22
+  Ketu: 0.20
+  Moon: 0.12
+  Sun: -0.20
+  Jupiter: -0.15
+ 
+vulnerability_conditions:
+  - eclipse_season
+  - solar_storm
+  - oppressive
+ 
+affinity_conditions:
+  - inauspicious
+  - storm
+  - mercury_rx
+  - rahu_kalam
+ 
+resistance_conditions:
+  - serene
+  - auspicious
+  - full_moon
+ 
+special_alignments:
+  - condition: "solar_ingress:Scorpio"
+    label: "The Pessimist's domain — entropy made visible"
+    weight_bonus: 0.30
+  - condition: "solar_ingress:Cancer"
+    label: "Lunar depths — the Pessimist's memory runs long"
+    weight_bonus: 0.22
+  - condition: "dasha:Saturn"
+    label: "Saturn mahadasha — the weight becomes tangible"
+    weight_bonus: 0.20
+  - condition: "eclipse_season"
+    label: "Eclipse season — the Pessimist is vindicated"
+    weight_bonus: 0.18

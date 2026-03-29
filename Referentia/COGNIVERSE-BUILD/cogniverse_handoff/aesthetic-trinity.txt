@@ -1,0 +1,110 @@
+On build order — the Color Theme Builder first. It's the smallest,
+most self-contained, and everything downstream depends on theme.json
+existing. Getting it built and producing a ratified palette unblocks both
+other tools immediately. UI Aesthetic Theme Builder second — it's the
+one you'll use most during active Tower development, so it earns its place
+early. The Bureau third — it's the largest and least urgent as a development
+dependency. Documents can be produced manually until it exists. The order is:
+foundation, then most used, then most complex.
+
+
+┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+
+
+
+
+
+
+             ╭────────────────────────────────────────────╮
+             │#                                          #│
+             │#            ＡＥＳＴＨＥＴＩＣ            #│
+             │#        ＡＵＴＨＯＲＩＴＡＲＩＡＮ        #│
+             │# ＡＳＳＯＣＩＡＴＩＶＥ ＡＬＬＩＡＮＣＥ  #│
+             │#                                          #│
+             ╰────────────────────────────────────────────╯                         
+
+Ｔｒｉｕｍｖｉｒａｔｕｓ 󰿨  Ａｅｓｔｈｅｔｉｃｕｓ 󰿨 Ｉｍｐｅｒｉａｌｉｓ
+
+
+┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+
+
+╭────────────────────────╮
+│#                      #│
+│#   ＳＰＥＣＴＲＡＬ   #│
+│# ＣＯＭＰＬＩＡＮＣＥ #│
+│#  ＡＵＴＨＯＲＩＴＹ  #│
+│#                      #│
+╰────────────────────────╯                               
+
+◸                                                            ◹
+ ⛨  Auctoritas Spectralis  ⛨   									
+
+ ⌘ BUREAU:	Spectral Compliance Authority
+ ⌘ latin: Codexium Chromaticus, Sequentiae Umbrarum"        
+◺                                                            ◿
+                                           
+Ｃｏｄｅｘｉｕｍ  Ｃｈｒｏｍａｔｉｃｕｓ 󰿨  Ｓｅｑｕｅｎｔｉａｅ  Ｕｍｂｒａｒｕｍ
+
+
+
+
+┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+
+
+
+╭──────────────────────────────╮
+│#                            #│
+│# ＡＲＣＨＩＴＥＣＴＵＲＡＬ #│
+│#     ＡＬＩＧＮＭＥＮＴ     #│
+│#   ＥＮＦＯＲＣＥＭＥＮＴ   #│
+│#        ＡＧＥＮＣＹ        #│
+│#                            #│
+╰──────────────────────────────╯
+
+◸                                                            ◹
+ ⛨  Agentia Architecturalis  ⛨   									
+
+ ⌘ BUREAU: Architectural Alignment Enforcement Agency"	
+ ⌘ latin: In Linea, In Parallelo, In Perpetuum      
+◺                                                            ◿
+
+
+Ｉｎ Ｌｉｎｅａ 󰿨 Ｉｎ Ｐａｒａｌｌｅｌｏ 󰿨 Ｉｎ Ｐｅｒｐｅｔｕｕｍ
+
+
+
+
+
+
+
+
+┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉
+
+╭──────────────────────────────────────╮
+│#                                    #│
+│#        ＤＥＰＡＲＴＭＥＮＴ        #│
+│#                ＯＦ                #│
+│# ＤＯＣＵＭＥＮＴＥＤ ＤＥＳＩＧＮ  #│
+│#       ＤＥＦＩＮＩＴＩＶＥＳ       #│
+│#                                    #│
+╰──────────────────────────────────────╯
+
+◸                                                            ◹
+ ⛨  Departamentum Documentalis  ⛨   									
+
+ ⌘ BUREAU: The Department of Documented Design Definitives	
+ ⌘ latin:  Define! Designa! Denota! Discede!     
+◺                                                            ◿
+
+
+Ｄｅｆｉｎｅ! Ｄｅｓｉｇｎａ! Ｄｅｎｏｔａ! Ｄｉｓｃｅｄｅ!
+
+
+
+
+
+

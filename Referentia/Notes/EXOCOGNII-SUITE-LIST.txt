@@ -1,0 +1,39 @@
+╭──────────────────────────╮
+│#                        #│
+│#   ＥＸＯＣＯＧＮＩＩ   #│
+│# ＤＥＶＥＬＯＰＭＥＮＴ #│
+│#       ＳＵＩＴＥ       #│
+│#                        #│
+╰──────────────────────────╯
+
+
+🟅 Memorium Exocognii	🟂 Praesidium 			⭑ Control Panel
+		   										⭑ Status Monitors
+		   										⭑ System Chat
+
+						🟂 Exvacua Loricum		⭑ Lore Engine
+												⭑ Collects, Ratifies, Synthesizes
+												⭑ Unified Lore source
+						
+
+						🟂 Perpetuum Aedificare	⭑ System Memory
+												⭑ Collects data from streams across entire infrastructure
+
+		   								
+
+🟅 The Dolium 			🟂 Idea to Build Doc Pipeline
+
+🟅 Arx Aedificarix		🟂 Build Doc to Implementable Module
+
+🟅 ClaudeBox				🟂 Prebuilt API Wiring for Chat API
+
+🟅
+
+🟅
+
+🟅
+
+🟅
+
+🟅
+

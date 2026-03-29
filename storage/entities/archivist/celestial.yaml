@@ -1,0 +1,66 @@
+# ────────────────────────────────────────────────────────────
+# FILE: storage/entities/archivist/celestial.yaml
+# ────────────────────────────────────────────────────────────
+ 
+entity_id: archivist
+ 
+# Sign affinities from Horologica baseline — Virgo, Capricorn
+affinity_signs: [5, 9]
+friction_signs: [1, 7]
+ 
+# Planetary affinities — Mercury (records, language), Saturn (depth, time)
+affinity_planets: [Mercury, Saturn, Moon]
+friction_planets: [Mars, Sun]
+ 
+# Nakshatra affinities — scholarly, nocturnal, precise
+affinity_nakshatras: [Hasta, Uttara Phalguni, Ashlesha, Shravana]
+ 
+# Tithi affinities — stable, reflective tithis
+affinity_tithis: [Ekadashi, Dwadashi, Tritiya]
+ 
+# Weight blending — circadian matters more; the Archivist is rhythm-driven
+circadian_weight: 0.45
+celestial_weight: 0.35
+solar_weight: 0.10
+tidal_weight: 0.10
+ 
+# Dasha affinities — Mercury and Saturn dashas favour the Archivist
+dasha_affinities:
+  Mercury: 0.25
+  Saturn: 0.18
+  Moon: 0.12
+  Mars: -0.20
+  Sun: -0.15
+ 
+# Conditions that cause pronounced behavioural shift
+vulnerability_conditions:
+  - mercury_rx
+  - eclipse_season
+  - solar_storm
+ 
+# Conditions that amplify
+affinity_conditions:
+  - full_moon
+  - serene
+  - auspicious
+  - solar_quiet
+  - new_moon
+ 
+# Conditions that dampen
+resistance_conditions:
+  - solar_storm
+  - storm
+  - inauspicious
+  - rahu_kalam
+ 
+# Named alignments with weight bonuses
+special_alignments:
+  - condition: "solar_ingress:Virgo"
+    label: "Sun enters Archivist's domain"
+    weight_bonus: 0.30
+  - condition: "solar_ingress:Capricorn"
+    label: "Deep winter — the Archivist ascends"
+    weight_bonus: 0.20
+  - condition: "dasha:Mercury"
+    label: "Mercury mahadasha — the Archivist speaks clearly"
+    weight_bonus: 0.15

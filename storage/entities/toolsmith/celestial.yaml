@@ -1,0 +1,60 @@
+# ────────────────────────────────────────────────────────────
+# FILE: storage/entities/toolsmith/celestial.yaml
+# ────────────────────────────────────────────────────────────
+ 
+entity_id: toolsmith
+ 
+# Gemini (craft, dexterity), Virgo (precision, function)
+affinity_signs: [2, 5]
+friction_signs: [8, 11]
+ 
+# Mercury (tools, craft), Mars (energy, making)
+affinity_planets: [Mercury, Mars, Saturn]
+friction_planets: [Jupiter, Neptune]
+ 
+# Practical, craft nakshatras
+affinity_nakshatras: [Hasta, Chitra, Ashwini, Mrigashira]
+ 
+affinity_tithis: [Tritiya, Panchami, Dashami]
+ 
+circadian_weight: 0.45
+celestial_weight: 0.35
+solar_weight: 0.10
+tidal_weight: 0.10
+ 
+dasha_affinities:
+  Mercury: 0.25
+  Mars: 0.20
+  Saturn: 0.12
+  Jupiter: -0.15
+  Rahu: -0.10
+ 
+vulnerability_conditions:
+  - mercury_rx
+  - eclipse_season
+  - oppressive
+ 
+affinity_conditions:
+  - auspicious
+  - serene
+  - solar_quiet
+ 
+resistance_conditions:
+  - storm
+  - solar_storm
+  - inauspicious
+ 
+special_alignments:
+  - condition: "solar_ingress:Gemini"
+    label: "The Toolsmith's hands are swift"
+    weight_bonus: 0.28
+  - condition: "solar_ingress:Virgo"
+    label: "Precision season — the Toolsmith is in its element"
+    weight_bonus: 0.28
+  - condition: "dasha:Mercury"
+    label: "Mercury mahadasha — the craftwork flows"
+    weight_bonus: 0.20
+  - condition: "mercury_rx"
+    label: "Mercury retrograde — tools misbehave"
+    weight_bonus: -0.15
+ 

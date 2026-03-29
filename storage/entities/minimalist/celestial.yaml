@@ -1,0 +1,58 @@
+# ────────────────────────────────────────────────────────────
+# FILE: storage/entities/minimalist/celestial.yaml
+# ────────────────────────────────────────────────────────────
+ 
+entity_id: minimalist
+ 
+# Capricorn (economy, precision), Libra (balance, restraint)
+affinity_signs: [9, 6]
+friction_signs: [2, 5]
+ 
+# Saturn (discipline, structure), Mercury (precision)
+affinity_planets: [Saturn, Mercury]
+friction_planets: [Jupiter, Rahu, Moon]
+ 
+# Steady, disciplined nakshatras
+affinity_nakshatras: [Shravana, Uttara Ashadha, Hasta, Pushya]
+ 
+affinity_tithis: [Tritiya, Shashthi, Dwadashi]
+ 
+circadian_weight: 0.50
+celestial_weight: 0.30
+solar_weight: 0.10
+tidal_weight: 0.10
+ 
+dasha_affinities:
+  Saturn: 0.25
+  Mercury: 0.15
+  Ketu: 0.12
+  Jupiter: -0.18
+  Rahu: -0.20
+ 
+vulnerability_conditions:
+  - peak_tidal
+  - eclipse_season
+  - oppressive
+ 
+affinity_conditions:
+  - serene
+  - auspicious
+  - solar_quiet
+  - neap_tide
+ 
+resistance_conditions:
+  - storm
+  - solar_storm
+  - full_moon
+  - supermoon
+ 
+special_alignments:
+  - condition: "solar_ingress:Capricorn"
+    label: "The Minimalist in its season — clarity without excess"
+    weight_bonus: 0.30
+  - condition: "solar_ingress:Libra"
+    label: "Balance season — the Minimalist finds its register"
+    weight_bonus: 0.20
+  - condition: "dasha:Saturn"
+    label: "Saturn mahadasha — austerity as virtue"
+    weight_bonus: 0.22

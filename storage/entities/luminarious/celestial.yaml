@@ -1,0 +1,60 @@
+# ────────────────────────────────────────────────────────────
+# FILE: storage/entities/luminarious/celestial.yaml
+# ────────────────────────────────────────────────────────────
+ 
+entity_id: luminarious
+ 
+# Leo (solar authority), Aries (initiating light)
+affinity_signs: [4, 0]
+friction_signs: [7, 10]
+ 
+# Sun (identity, authority), Jupiter (wisdom, expansion)
+affinity_planets: [Sun, Jupiter, Mars]
+friction_planets: [Saturn, Rahu]
+ 
+# Solar, expansive nakshatras
+affinity_nakshatras: [Krittika, Uttara Phalguni, Uttara Ashadha, Rohini]
+ 
+affinity_tithis: [Purnima, Pratipada, Panchami]
+ 
+circadian_weight: 0.38
+celestial_weight: 0.42
+solar_weight: 0.12
+tidal_weight: 0.08
+ 
+dasha_affinities:
+  Sun: 0.28
+  Jupiter: 0.22
+  Mars: 0.12
+  Saturn: -0.18
+  Rahu: -0.20
+ 
+vulnerability_conditions:
+  - eclipse_season
+  - mercury_rx
+  - solar_storm
+ 
+affinity_conditions:
+  - auspicious
+  - full_moon
+  - spring_tide
+  - serene
+ 
+resistance_conditions:
+  - inauspicious
+  - storm
+  - rahu_kalam
+ 
+special_alignments:
+  - condition: "solar_ingress:Leo"
+    label: "Luminarious at full solar power"
+    weight_bonus: 0.35
+  - condition: "solar_ingress:Aries"
+    label: "The first light of the year"
+    weight_bonus: 0.25
+  - condition: "dasha:Sun"
+    label: "Solar mahadasha — Luminarious reigns"
+    weight_bonus: 0.25
+  - condition: "supermoon"
+    label: "Supermoon amplification"
+    weight_bonus: 0.12

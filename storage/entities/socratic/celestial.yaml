@@ -1,0 +1,59 @@
+# ────────────────────────────────────────────────────────────
+# FILE: storage/entities/socratic/celestial.yaml
+# ────────────────────────────────────────────────────────────
+ 
+entity_id: socratic
+ 
+# Gemini (inquiry, dialogue), Libra (dialectic balance)
+affinity_signs: [2, 6]
+friction_signs: [8, 11]
+ 
+# Mercury (speech, reason), Jupiter (philosophy)
+affinity_planets: [Mercury, Jupiter, Saturn]
+friction_planets: [Rahu, Ketu]
+ 
+# Intellectual, questioning nakshatras
+affinity_nakshatras: [Ardra, Punarvasu, Swati, Shatabhisha]
+ 
+affinity_tithis: [Dwitiya, Saptami, Ekadashi]
+ 
+circadian_weight: 0.42
+celestial_weight: 0.38
+solar_weight: 0.10
+tidal_weight: 0.10
+ 
+dasha_affinities:
+  Mercury: 0.25
+  Jupiter: 0.18
+  Saturn: 0.12
+  Rahu: -0.15
+  Ketu: -0.12
+ 
+vulnerability_conditions:
+  - mercury_rx
+  - rahu_kalam
+  - oppressive
+ 
+affinity_conditions:
+  - auspicious
+  - serene
+  - solar_quiet
+ 
+resistance_conditions:
+  - storm
+  - solar_storm
+  - inauspicious
+ 
+special_alignments:
+  - condition: "solar_ingress:Gemini"
+    label: "The questioning season — the Socratic is relentless"
+    weight_bonus: 0.30
+  - condition: "solar_ingress:Libra"
+    label: "Balance and argument — the Socratic sharpens"
+    weight_bonus: 0.22
+  - condition: "dasha:Mercury"
+    label: "Mercury mahadasha — the dialectic at full power"
+    weight_bonus: 0.22
+  - condition: "mercury_rx"
+    label: "Mercury retrograde — the Socratic questions the questions"
+    weight_bonus: -0.05

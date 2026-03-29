@@ -1,0 +1,14 @@
+{
+  "entity_id": "mortis_custodem",
+  "display_name": "MORTIS CUSTODEM",
+  "staged_at": "2026-03-27T03:07:22.569705",
+  "files": {
+    "role": "entities/roles/mortis_custodem.yaml",
+    "traits": "entities/traits/mortis_custodem_traits.yaml",
+    "lore": "entities/lore/mortis_custodem_lore.yaml",
+    "profiles_fragment": "entities/profiles/profiles.yaml  \u2190 merge required",
+    "canon_fragment": "entities/canon/entity_canon.yaml  \u2190 merge required",
+    "portrait": "entities/portraits/mortis_custodem.png"
+  },
+  "install_status": "staged"
+}

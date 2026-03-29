@@ -146,5 +146,5 @@ def micro_label(text: str) -> QLabel:
         f"color: {C_GOLD_DIM}; font-family: Georgia, serif; "
         "font-size: 9px; letter-spacing: 2px;"
     )
-
+    return lbl
 

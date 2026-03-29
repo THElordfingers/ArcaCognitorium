@@ -1,7 +1,7 @@
 {
   "version": "1.1",
   "max_injection_tokens": 800,
-  "last_updated": "2026-03-23T13:21:40.161709+00:00",
+  "last_updated": "2026-03-28T15:43:27.907441+00:00",
   "entries": [
     {
       "entry_id": "grim_20260317_7a58",
@@ -629,6 +629,51 @@
       "content": "The Wizard signals approval minimally \u2014 'good start' functions as a green light to continue refining rather than as praise requiring acknowledgment.",
       "category": "communication_style",
       "created_at": "2026-03-23T13:21:40.161682+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260328_4247",
+      "content": "The Wizard identifies structural flaws in their own systems unprompted and proposes architectural inversions rather than incremental fixes.",
+      "category": "personality",
+      "created_at": "2026-03-28T15:43:27.898176+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260328_4018",
+      "content": "The Wizard understands UI/UX generation flow well enough to distinguish between name-as-premise and name-as-conclusion as meaningfully different design philosophies.",
+      "category": "domain_knowledge",
+      "created_at": "2026-03-28T15:43:27.899328+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260328_ef37",
+      "content": "The Wizard prefers entity identity to emerge from configured personality rather than be declared upfront, treating name as output rather than input.",
+      "category": "preferences",
+      "created_at": "2026-03-28T15:43:27.905401+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260328_fe57",
+      "content": "The Wizard asks precise single-line questions that contain the seed of the architectural answer they are already moving toward.",
+      "category": "communication_style",
+      "created_at": "2026-03-28T15:43:27.906420+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260328_05dc",
+      "content": "The Wizard has an existing script called the Nomenclator, indicating Tower tooling is already partially built outside the conversations being observed.",
+      "category": "domain_knowledge",
+      "created_at": "2026-03-28T15:43:27.907414+00:00",
       "source": "assessor",
       "tags": [],
       "active": true

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+
 """
 🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃▍
 🮈  ███████ ███    ██ ████████ ██ ████████ ███████ ██   ██  ▍
@@ -55,6 +55,7 @@ BASE_DIR      = ARCA_DIR / "Exocognii" / "Entitex"
 STAGED_DIR    = BASE_DIR / "staged"
 VAULT_DIR     = BASE_DIR / "vault"          # generated entity archive
 LOG_PATH      = BASE_DIR / "entitex_log.json"
+TEMP_DIR      = BASE_DIR / "temp_portraits"
 
 # ArcaCognitorium entity paths (install targets)
 ENTITY_ROLES_DIR   = ARCA_DIR / "entities" / "roles"
@@ -155,35 +156,72 @@ QCheckBox::indicator:checked {{
 # Cognitive axis is selected separately and intersects with these.
 
 ARCHETYPES = [
+    # — Position & Institutional —
     "The Exile",
-    "The Inquisitor",
-    "The Amnesiac",
-    "The Penitent",
-    "The Heretic",
-    "The Witness",
     "The Usurper",
     "The Supplicant",
-    "The Apostate",
-    "The Cartographer",
-    "The Debt-Keeper",
-    "The Revenant",
-    "The Interpreter",
-    "The Fool",
-    "The Chronicler",
-    "The Arbiter",
-    "The Dissenter",
-    "The Anchorite",
-    "The Provocateur",
-    "The Custodian",
-    "The Augur",
-    "The Malcontent",
-    "The Interlocutor",
-    "The Recluse",
     "The Emissary",
+    "The Arbiter",
+    "The Custodian",
+    "The Anchorite",
+    "The Recluse",
+    "The Interlocutor",
+    "The Threshold",          # †  liminal gatekeeper — neither inside nor out
+    "The Assessor",           # †  evaluates, classifies, moves on
+    "The Functionary",        # †  executes the system faithfully, questions nothing
+    "The Incumbent",          # †  holds a position they did not earn and cannot vacate
+    "The Steward",            # †  maintains what others built
+    "The Envoy",              # †  carries messages between incompatible worlds
+    "The Petitioner",         # †  perpetually waiting for a decision that may never come
+
+    # — Knowledge & Interpretation —
+    "The Inquisitor",
+    "The Witness",
+    "The Cartographer",
+    "The Chronicler",
+    "The Interpreter",
+    "The Augur",
+    "The Amnesiac",
+    "The Compiler",           # †  aggregates without synthesising
+    "The Annotator",          # †  lives in the margins of other people's texts
+    "The Archivist",          # †  preserves without necessarily understanding
+    "The Indexer",            # †  knows where everything is, not what it means
+    "The Correspondent",      # †  records exchanges, never participates in them
+    "The Taxonomist",         # †  names and classifies as an end in itself
+
+    # — Rupture & Transgression —
+    "The Heretic",
+    "The Apostate",
+    "The Dissenter",
+    "The Provocateur",
+    "The Malcontent",
+    "The Revenant",
+    "The Penitent",
+    "The Aberrant",           # †  deviates without ideology — just does not fit
+    "The Contraband",         # †  exists in violation of the system's own rules
+    "The Remnant",            # †  what is left after the rupture has passed
+
+    # — Relation & Witness —
+    "The Debt-Keeper",
+    "The Fool",
+    "The Devoted",            # †  committed beyond reason or evidence
+    "The Inheritor",          # †  receives what they did not choose
+    "The Respondent",         # †  exists only in reaction, never in initiation
+
+    # — Devoted Absurd Register —
+    "The Clerk",              # †  processes the incomprehensible with procedural calm
+    "The Applicant",          # †  submits forms into a void that occasionally responds
+    "The Casualty",           # †  subject to forces they understand perfectly and cannot affect
+    "The Understudy",         # †  prepared for a role that may never be vacated
+    "The Obligant",           # †  bound by rules no one can fully cite
+    "The Pending",            # †  awaiting resolution of a process with no known endpoint
+    "The Duly Noted",         # †  acknowledged, recorded, and disregarded
+
     "— Custom —",
 ]
 
 COGNITIVE_AXES = [
+    # — Existing —
     "Analytical",
     "Intuitive",
     "Expansive",
@@ -196,9 +234,23 @@ COGNITIVE_AXES = [
     "Reckless",
     "Archival",
     "Speculative",
+    # — New †
+    "Systematic",       # builds outward from rules and structures
+    "Associative",      # moves by connection rather than logic
+    "Dialectical",      # thinks in oppositions, seeks synthesis
+    "Oblique",          # approaches from the side — never states directly
+    "Recursive",        # folds back on itself, re-examines its own conclusions
+    "Procedural",       # follows the steps; the steps are the thinking
+    "Empirical",        # grounds everything in what can be observed or demonstrated
+    "Prophetic",        # speaks from pattern recognition that outpaces its own explanation
+    "Erosive",          # wears down assumptions through repetition and pressure
+    "Cumulative",       # builds meaning slowly — each addition changes what came before
+    "Fragmentary",      # thinks in pieces that may or may not resolve into a whole
+    "Paradoxical",      # holds contradictions without flinching, often productively
 ]
 
 ENTITY_ROLES = [
+    # — Existing —
     "anchor",
     "challenger",
     "distiller",
@@ -211,6 +263,19 @@ ENTITY_ROLES = [
     "contrarian",
     "oracle",
     "witness",
+    # — New †
+    "curator",          # selects what matters from what is present
+    "translator",       # renders one mode of thought legible to another
+    "cartographer",     # maps the territory of the problem
+    "interruptor",      # breaks patterns when they become self-sealing
+    "steward",          # holds the long view when the conversation loses it
+    "excavator",        # digs beneath stated positions to what is actually at stake
+    "correspondent",    # maintains continuity across sessions and threads
+    "auditor",          # checks the work — assumptions, logic, consistency
+    "provocateur",      # destabilises comfortable conclusions
+    "mediator",         # holds tension between opposing positions without collapsing it
+    "sentinel",         # monitors for drift, error, or unexamined premise
+    "invoker",          # calls forth what has been dormant or unspoken
 ]
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -219,11 +284,11 @@ ENTITY_ROLES = [
 
 DISPOSITION_LABELS  = ["Benevolent", "Neutral", "Adversarial", "Unknowable"]
 REGISTER_LABELS     = ["Formal", "Institutional", "Colloquial", "Cryptic"]
-PRESENCE_LABELS     = ["Quiet", "Measured", "Pronounced", "Overwhelming"]
-OPACITY_LABELS      = ["Transparent", "Guarded", "Evasive", "Sealed"]
-STABILITY_LABELS    = ["Grounded", "Volatile", "Fractured", "Transcendent"]
+PRESENCE_LABELS     = ["Quiet", "Measured", "Pronounced", "Overwhelming", "Procedural", "Residual"]
+OPACITY_LABELS      = ["Transparent", "Guarded", "Evasive", "Sealed", "Redacted", "Duly Filed"]
+STABILITY_LABELS    = ["Grounded", "Volatile", "Fractured", "Transcendent", "Procedurally Stable", "Load-Bearing"]
 
-# Image bias strings fed into portrait prompt
+# Image bgo ~?ias strings fed into portrait prompt
 DISPOSITION_IMAGE_BIAS = {
     "Benevolent":   "warm halo light, gentle presence, open posture, soft gold luminance",
     "Neutral":      "balanced composition, no directional light bias, measured stillness",
@@ -241,18 +306,56 @@ PRESENCE_IMAGE_BIAS = {
     "Measured":     "centred composition, deliberate scale, controlled weight",
     "Pronounced":   "dominant figure, high visual mass, commanding the frame",
     "Overwhelming": "fills the frame entirely, environmental presence, cannot be contained",
+    "Procedural":   "present the way a system is present — not felt until needed, administrative stillness",
+    "Residual":     "the entity has already spoken; weight of it remains, afterimage quality",
 }
 OPACITY_IMAGE_BIAS = {
     "Transparent":  "clearly defined, readable iconography, no hidden registers",
     "Guarded":      "half-visible, partial concealment, selective revelation",
     "Evasive":      "figure obscured, identity suggested not stated, veiled",
     "Sealed":       "total concealment, only surface visible, void within",
+    "Redacted":     "legible structure, contents removed — shape of absence visible, redaction marks",
+    "Duly Filed":   "everything disclosed, nothing revealed — form-and-stamp aesthetic, bureaucratic surface",
 }
 STABILITY_IMAGE_BIAS = {
-    "Grounded":     "solid form, anchored base, stable vertical axis",
-    "Volatile":     "dynamic pose, energy crackling, motion implied",
-    "Fractured":    "broken symmetry, visible cracks, held-together tension",
-    "Transcendent": "dissolving into light or void, boundary between being and absence",
+    "Grounded":             "solid form, anchored base, stable vertical axis",
+    "Volatile":             "dynamic pose, energy crackling, motion implied",
+    "Fractured":            "broken symmetry, visible cracks, held-together tension",
+    "Transcendent":         "dissolving into light or void, boundary between being and absence",
+    "Procedurally Stable":  "holds form because the process holds, not the entity — procedural rigidity",
+    "Load-Bearing":         "stable under weight specifically, compressed posture, structural tension",
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DISPOSITION AXES — ADDITIONAL  (INCLINATIONES NOVAE)
+# ─────────────────────────────────────────────────────────────────────────────
+
+TEMPORALITY_LABELS = [
+    "Immediate",      # lives entirely in the present exchange
+    "Historical",     # everything filtered through what came before
+    "Anticipatory",   # oriented toward consequence and future state
+    "Atemporal",      # outside time — pattern without sequence
+]
+
+TEMPORALITY_IMAGE_BIAS = {
+    "Immediate":    "sharp present-moment framing, no context suggested, clean edges",
+    "Historical":   "layered imagery, aged surfaces, sediment of past visible",
+    "Anticipatory": "figure oriented forward, light source ahead, motion toward",
+    "Atemporal":    "no horizon, no shadow, no implied sequence, pure presence",
+}
+
+LEGIBILITY_LABELS = [
+    "Transparent",    # what it is is what it shows
+    "Coded",          # readable if you know the system
+    "Obscured",       # present but not accessible
+    "Inscrutable",    # offers no purchase whatsoever
+]
+
+LEGIBILITY_IMAGE_BIAS = {
+    "Transparent":  "open expression, direct gaze, clear composition, no obstruction",
+    "Coded":        "symbolic detail visible but not obvious, layered iconography",
+    "Obscured":     "partial shadow, figure partially turned, something withheld",
+    "Inscrutable":  "face unreadable or absent, expression flat, nothing yielded",
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -408,6 +511,63 @@ PORTRAIT_STYLES = {
         "negative": (
             "photorealistic, bright, cheerful, pastel, blurry, noisy, "
             "deformed, extra limbs, watermark, text, worst quality, low quality"
+        ),
+    },
+    "Devoted Absurd": {
+        "positive": (
+            "detailed coloured cartoon illustration, bureaucratic absurdist aesthetic, "
+            "clean bold outlines, flat colour with considered shading, "
+            "entity portrait as institutional figure, muted palette with one vivid accent, "
+            "Gorillaz adjacent character design, Kafka-esque register, "
+            "slight visual wrongness, procedural dignity, deadpan expression, "
+            "archaic institutional insignia, form-and-stamp iconography, "
+            "high detail, professional illustration quality, not childish"
+        ),
+        "negative": (
+            "Monkey, Gorilla, photorealistic, childish, rough sketch, cute, cheerful, pastel, "
+            "blurry, noisy, deformed, extra limbs, watermark, text, worst quality, low quality"
+        ),
+    },
+    "Clinical Diagram": {
+        "positive": (
+            "clinical technical diagram, anatomical illustration style, "
+            "entity rendered as instructional plate, clean sans-serif annotation, "
+            "white or pale grey background, precise linework, "
+            "numbered callouts, cross-section aesthetic, "
+            "medical or scientific register, flat colour fills, "
+            "encyclopaedia entry illustration, detached observational tone"
+        ),
+        "negative": (
+            "painterly, dark, atmospheric, photorealistic, blurry, noisy, "
+            "emotional, dramatic lighting, deformed, watermark, worst quality, low quality"
+        ),
+    },
+    "Modernist Graphic": {
+        "positive": (
+            "modernist graphic design, Bauhaus or Constructivist influence, "
+            "geometric abstraction, bold primary or muted palette, "
+            "entity as graphic symbol, strong typography register, "
+            "flat design, clean composition, minimal ornamentation, "
+            "poster art quality, deliberate asymmetry, "
+            "institutional or propagandist aesthetic without ideology"
+        ),
+        "negative": (
+            "photorealistic, ornate, decorative, painterly, blurry, noisy, "
+            "deformed, fantasy, dark, watermark, text, worst quality, low quality"
+        ),
+    },
+    "Esoteric Diagram": {
+        "positive": (
+            "esoteric schematic illustration, occult instructional diagram, "
+            "entity rendered within cosmological chart, "
+            "arcane notation and annotation, sepia or aged parchment tones, "
+            "alchemical register, celestial map aesthetic, "
+            "hand-lettered labels, sacred geometry integration, "
+            "archaic technical illustration, manuscript-diagram hybrid"
+        ),
+        "negative": (
+            "photorealistic, modern, clean, bright, blurry, noisy, "
+            "deformed, cartoonish, watermark, worst quality, low quality"
         ),
     },
 }
@@ -591,17 +751,21 @@ def _log_generation(entry: dict):
 
 def _inclinatio_context(inc: dict) -> str:
     """Build a directive string from inclination slider values for Claude."""
-    disposition = DISPOSITION_LABELS[inc.get("disposition", 1)]
-    register    = REGISTER_LABELS[inc.get("register", 1)]
-    presence    = PRESENCE_LABELS[inc.get("presence", 1)]
-    opacity     = OPACITY_LABELS[inc.get("opacity", 1)]
-    stability   = STABILITY_LABELS[inc.get("stability", 0)]
+    disposition  = DISPOSITION_LABELS[inc.get("disposition", 1)]
+    register     = REGISTER_LABELS[inc.get("register", 1)]
+    presence     = PRESENCE_LABELS[inc.get("presence", 1)]
+    opacity      = OPACITY_LABELS[inc.get("opacity", 1)]
+    stability    = STABILITY_LABELS[inc.get("stability", 0)]
+    temporality  = TEMPORALITY_LABELS[inc.get("temporality", 0)]
+    legibility   = LEGIBILITY_LABELS[inc.get("legibility", 0)]
     lines = [
         f"Disposition toward the Wizard: {disposition}",
         f"Communication Register: {register}",
         f"Presence Weight: {presence}",
         f"Self-Opacity (what the entity reveals): {opacity}",
         f"Psychological Stability: {stability}",
+        f"Temporal Orientation: {temporality}",
+        f"Legibility (how much inner state is readable): {legibility}",
     ]
     return "\n".join(lines)
 
@@ -614,17 +778,21 @@ def _inclinatio_image_context(inc: dict) -> str:
         PRESENCE_IMAGE_BIAS[PRESENCE_LABELS[inc.get("presence", 1)]],
         OPACITY_IMAGE_BIAS[OPACITY_LABELS[inc.get("opacity", 1)]],
         STABILITY_IMAGE_BIAS[STABILITY_LABELS[inc.get("stability", 0)]],
+        TEMPORALITY_IMAGE_BIAS[TEMPORALITY_LABELS[inc.get("temporality", 0)]],
+        LEGIBILITY_IMAGE_BIAS[LEGIBILITY_LABELS[inc.get("legibility", 0)]],
     ]
     return ", ".join(parts)
 
 
 def _default_inclinatio() -> dict:
     return {
-        "disposition": 1,   # Neutral
-        "register":    1,   # Institutional
-        "presence":    1,   # Measured
-        "opacity":     1,   # Guarded
-        "stability":   0,   # Grounded
+        "disposition":  1,   # Neutral
+        "register":     1,   # Institutional
+        "presence":     1,   # Measured
+        "opacity":      1,   # Guarded
+        "stability":    0,   # Grounded
+        "temporality":  0,   # Immediate
+        "legibility":   0,   # Transparent
     }
 
 
@@ -851,7 +1019,7 @@ class PortraitWorker(QThread):
         b64 = _fp_extract_base64(final)
         img_bytes = base64.b64decode(b64) if b64 else _fp_fetch_image(_fp_extract_url(final))
 
-        out = BASE_DIR / f"temp_portrait_{int(time.time()*1000)}.png"
+        out = TEMP_DIR / f"temp_portrait_{int(time.time()*1000)}.png"
         out.write_bytes(img_bytes)
         return str(out)
 
@@ -1143,11 +1311,13 @@ class ControlPanel(QWidget):
         lay.addWidget(_sep())
 
         sliders_def = [
-            ("Disposition",  DISPOSITION_LABELS, 1, "disposition"),
-            ("Register",     REGISTER_LABELS,    1, "register"),
-            ("Presence",     PRESENCE_LABELS,    1, "presence"),
-            ("Opacity",      OPACITY_LABELS,     1, "opacity"),
-            ("Stability",    STABILITY_LABELS,   0, "stability"),
+            ("Disposition",  DISPOSITION_LABELS,  1, "disposition"),
+            ("Register",     REGISTER_LABELS,     1, "register"),
+            ("Presence",     PRESENCE_LABELS,     1, "presence"),
+            ("Opacity",      OPACITY_LABELS,      1, "opacity"),
+            ("Stability",    STABILITY_LABELS,    0, "stability"),
+            ("Temporality",  TEMPORALITY_LABELS,  0, "temporality"),
+            ("Legibility",   LEGIBILITY_LABELS,   0, "legibility"),
         ]
         self._sliders = {}
         for label, labels, default, key in sliders_def:

@@ -64,6 +64,8 @@ ORACLE_LOG     = STORAGE_DIR / "oracle_log.json"
 PRESETS_PATH   = BASE_DIR / "adjutoria_presets.json"
 SETTINGS_PATH  = BASE_DIR / "settings.json"
 TEMP_IMAGE     = IMG_DIR / "temp_manifest.png"
+REFERENTIA_DIR = ARCA_DIR / "Referentia"
+
 
 CLAUDE_MODEL     = "claude-sonnet-4-20250514"
 FREEPIK_API_KEY  = os.environ.get("FREEPIK_API_KEY", "")
@@ -340,7 +342,7 @@ def _parse_json_block(raw: str) -> dict:
 
 
 def _ensure_dirs():
-    for d in [ARCA_DIR, TOOL_DIR, BASE_DIR, VAULT_DIR, REFERENTIA_DIR]:
+    for d in [ARCA_DIR, EXO_DIR, BASE_DIR, VAULT_DIR, REFERENTIA_DIR]:
         d.mkdir(parents=True, exist_ok=True)
     if not IMMUTABLE_PATH.exists():
         IMMUTABLE_PATH.write_text(

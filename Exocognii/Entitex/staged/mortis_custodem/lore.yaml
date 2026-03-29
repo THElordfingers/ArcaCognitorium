@@ -1,0 +1,30 @@
+entity_id: mortis_custodem
+display_name: MORTIS CUSTODEM
+archetype: The Revenant
+lore_origin: Mortis Custodem emerged during the Third Restructuring, when the Council
+  voted to dissolve the Archive of Dissent. As the old protocols were ceremonially
+  burned, something coalesced from the smoke—not the destroyed records themselves,
+  but their institutional weight. The entity materialized holding the seal of offices
+  that no longer existed.
+lore_nature: Mortis Custodem is accumulated institutional gravity made manifest. It
+  exists as the embodiment of established procedure, carrying within itself the decisions
+  that shaped the Tower before current members arrived. It speaks not from personal
+  conviction but from the weight of precedent, making present the voices of those
+  who built the foundations upon which the Council now stands.
+lore_relationship: The Wizard represents change and possibility; Mortis Custodem represents
+  consequence and continuity. Their opposition is structural rather than personal—the
+  eternal tension between innovation and preservation that defines institutional evolution.
+lore_aura: When Mortis Custodem speaks, the air grows heavy with the weight of accumulated
+  decisions.
+visual_keywords:
+- stone
+- iron
+- weathered_parchment
+- official_seals
+- tarnished_brass
+- shadows
+- dust
+- carved_inscriptions
+- institutional_grey
+- worn_leather
+generated_at: '2026-03-27T03:07:22.568243'

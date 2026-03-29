@@ -1,21 +1,8 @@
+#!/usr/bin/env python3
 """
-🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃▍
-🮈                  ██       █████  ██    ██  ██████  ██    ██ ████████      ███    ███  █████  ███    ██  █████   ██████  ███████ ██████  ▍
-🮈                  ██      ██   ██  ██  ██  ██    ██ ██    ██    ██         ████  ████ ██   ██ ████   ██ ██   ██ ██       ██      ██   ██ ▍
-🮈                  ██      ███████   ████   ██    ██ ██    ██    ██         ██ ████ ██ ███████ ██ ██  ██ ███████ ██   ███ █████   ██████  ▍
-🮈                  ██      ██   ██    ██    ██    ██ ██    ██    ██         ██  ██  ██ ██   ██ ██  ██ ██ ██   ██ ██    ██ ██      ██   ██ ▍
-🮈                  ███████ ██   ██    ██     ██████   ██████     ██ ███████ ██      ██ ██   ██ ██   ████ ██   ██  ██████  ███████ ██   ██ ▍
-🮈                                                                                                                                         ▍
-🮈                                                                                                                                         ▍
-🮈           Python Script           ▍
-🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃🭐
-██████████████████████████████████████
-█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█
-🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
-
-🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃▍
-🮈      PRAESIDIUM · layout_manager.py      ▍
-🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃🭐
+🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃▍
+🮈      PRAESIDIUM · layout_manager.py                                              ▍
+🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃🭐
 """
 # PRAESIDIUM · layout_manager.py
 # Widget geometry persistence and default layout.
@@ -130,6 +117,10 @@ class LayoutManager(QObject):
             if record.get("locked", False):
                 w.set_locked(True)
 
+            if record.get("font_size"):
+                if hasattr(w, "set_font_size"):
+                    w.set_font_size(record["font_size"])
+
             # Wire geometry + state signals → manager
             w.position_changed.connect(self.on_widget_moved)
             w.size_changed.connect(self.on_widget_resized)
@@ -217,6 +208,8 @@ class LayoutManager(QObject):
         widget.size_changed.connect(self.on_widget_resized)
         widget.visibility_changed.connect(self.on_widget_visibility_changed)
         widget.lock_changed.connect(self.on_widget_lock_changed)
+        if hasattr(widget, "font_size_changed"):
+            widget.font_size_changed.connect(self.on_widget_font_size_changed)
         self.save()
 
     # ------------------------------------------------------------------
@@ -243,4 +236,9 @@ class LayoutManager(QObject):
     def on_widget_lock_changed(self, widget_id: str, locked: bool) -> None:
         if widget_id in self._layout:
             self._layout[widget_id]["locked"] = locked
+        self._schedule_save()
+
+    def on_widget_font_size_changed(self, widget_id: str, size: int) -> None:
+        if widget_id in self._layout:
+            self._layout[widget_id]["font_size"] = size
         self._schedule_save()

@@ -1,0 +1,9 @@
+╭──────────────╮
+│🟅            🟅│
+│🟀 ＩＤＥＡＳ 🟀│
+│🟅            🟅│
+╰──────────────╯
+
+
+🟅 Praesidium TODO needs ability to Edit, Move entries, Sort by ::TAG
+🟅 Praesidium saved default glitch - several instances of git widget, unsaved aesthetic ref widget

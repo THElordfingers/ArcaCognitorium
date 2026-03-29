@@ -1,0 +1,58 @@
+# ────────────────────────────────────────────────────────────
+# FILE: storage/entities/systems_thinker/celestial.yaml
+# ────────────────────────────────────────────────────────────
+ 
+entity_id: systems_thinker
+ 
+# Aquarius (systems, abstraction), Libra (structural balance)
+affinity_signs: [10, 6]
+friction_signs: [3, 9]
+ 
+# Saturn (architecture, long patterns), Mercury (mapping, analysis)
+affinity_planets: [Saturn, Mercury, Rahu]
+friction_planets: [Moon, Ketu]
+ 
+# Systemic, structural nakshatras
+affinity_nakshatras: [Dhanishtha, Shatabhisha, Uttara Bhadra, Shravana]
+ 
+affinity_tithis: [Saptami, Dwadashi, Dashami]
+ 
+circadian_weight: 0.38
+celestial_weight: 0.38
+solar_weight: 0.12
+tidal_weight: 0.12
+ 
+dasha_affinities:
+  Saturn: 0.25
+  Mercury: 0.20
+  Rahu: 0.15
+  Moon: -0.18
+  Ketu: -0.12
+ 
+vulnerability_conditions:
+  - eclipse_season
+  - mercury_rx
+  - solar_storm
+ 
+affinity_conditions:
+  - serene
+  - auspicious
+  - solar_quiet
+  - neap_tide
+ 
+resistance_conditions:
+  - storm
+  - oppressive
+  - full_moon
+  - peak_tidal
+ 
+special_alignments:
+  - condition: "solar_ingress:Aquarius"
+    label: "The Systems Thinker in full structural clarity"
+    weight_bonus: 0.30
+  - condition: "solar_ingress:Libra"
+    label: "Balance season — all systems mapped"
+    weight_bonus: 0.20
+  - condition: "dasha:Saturn"
+    label: "Saturn mahadasha — the architecture of time"
+    weight_bonus: 0.22

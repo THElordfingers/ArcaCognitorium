@@ -1,269 +1,274 @@
-# The Dolium
-### The Dolium is a four-chamber ideation pipeline built in Python
-### and PyQt6 under the Modus Arcanus design system. Ideas are
-### created in the Fomentary and progress through the Cultivation
-### House, the Vestibule, and the Codex Paratum — each with gate
-### conditions, a distinct AI entity persona, and an ambient whisper
-### system that observes the Wizard's writing in real time. The
-### application connects to the Arca Cognitorium ecosystem via
-### ClaudeBox and the live AC context file.
+# The Dolium v2
+### A four-chamber ideation pipeline with ambient entity presence.
+### PyQt6 desktop application · Arca Cognitorium · Exocognii Suite.
 
 ---
 
-## Keyboard & Shortcut Reference
+## Keyboard Shortcuts
 
-╭────────────────┬───────────────────────────────────────────────────╮
-│ Key / Shortcut │ Action                                            │
-├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
-│ ctrl+n         │ Create a new idea                                 │
-│ ctrl+a         │ Advance active idea to next chamber (if gate met) │
-│ ctrl+r         │ Return active idea to a prior chamber             │
-│ ctrl+x         │ Cull active idea (requires epitaph)               │
-│ ctrl+g         │ Open the Cull Register                            │
-│ ctrl+e         │ Export active idea (chamber IV only)              │
-│ ctrl+m         │ Open the manual overlay                           │
-│ ctrl+k         │ Open keyboard command palette                     │
-│ ctrl+q         │ Quit                                              │
-╰────────────────┴───────────────────────────────────────────────────╯
+╭──────────────────┬────────────────────────────────────╮
+│  Key / Shortcut  │  Action                            │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│  Ctrl+N          │  New Idea                          │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│  Ctrl+A          │  Advance current idea              │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│  Ctrl+E          │  Export current idea               │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│  Enter           │  Send conversation message         │
+╰──────────────────┴────────────────────────────────────╯
 
 ---
 
 ## Features
 
-╭──────────────────────────────────┬─────────────────────────────────╮
-│ Feature                          │ Status                          │
-├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
-│ Four-chamber pipeline            │ Working                         │
-│ Gate enforcement                 │ Working                         │
-│ Workspace fields (gated)         │ Working                         │
-│ Auto-save                        │ Working                         │
-│ Ambient whisper system           │ Working                         │
-│ Streaming token rendering        │ Working                         │
-│ Pipeline navigator               │ Working                         │
-│ Idea search                      │ Working                         │
-│ ClaudeBox session management     │ Working                         │
-│ Full idea injection per message  │ Working                         │
-│ Entity self-knowledge (manpages) │ Working                         │
-│ Live AC context injection        │ Working                         │
-│ /attach — file injection         │ Working                         │
-│ /save — append to field          │ Working                         │
-│ /man — manual overlay            │ Working                         │
-│ Cull system with epitaph         │ Working                         │
-│ Cull Register with resurrection  │ Working                         │
-│ Multi-format export              │ Partial — .wiz requires Node.js │
-│ update_context.py                │ Working                         │
-╰──────────────────────────────────┴─────────────────────────────────╯
+╭─────────────────────────────┬──────────────────────────────────────────────┬────────────────────────────────────┬───────────╮
+│  Feature                    │  Description                                 │  How to Trigger                    │  Status   │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┤
+│  Four-chamber pipeline      │  Ideas flow through Fomentary, Cultivation, │  Create an idea, fill fields,      │  Working  │
+│                             │  Vestibule, and Codex via gated advancement  │  advance when gate clears          │           │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┤
+│  Ambient whisper system     │  Entity observes field changes and generates │  Write in any field — fires        │  Working  │
+│                             │  unprompted observations after 1500ms pause  │  automatically after 1500ms        │           │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┤
+│  Direct conversation        │  Talk to the chamber entity directly.        │  Type in the conversation input    │  Working  │
+│                             │  Shares session history with whispers        │  at the bottom of the right panel  │           │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┤
+│  Gate bar                   │  Live progress display for current chamber   │  Visible at bottom of workspace    │  Working  │
+│                             │  exit conditions. Updates on every keystroke │  whenever an idea is loaded        │           │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┤
+│  Advance dialog             │  Shows gate result before chamber change.    │  Ctrl+A or Advance › button        │  Working  │
+│                             │  Green if clear, red checklist if not        │                                    │           │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┤
+│  Return to earlier chamber  │  Send an idea back to a previous chamber     │  Idea menu → Return to Chamber     │  Working  │
+│                             │  without losing any content                  │  or Return ‹ button                │           │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┤
+│  Cull                       │  Remove an idea from the active pipeline.    │  Idea menu → Cull Idea             │  Working  │
+│                             │  Requires a reason. Reversible               │  or Cull button                    │           │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┤
+│  Cull register              │  Browse all culled ideas. Resurrect any      │  View menu → Cull Register         │  Working  │
+│                             │  of them back into the active pipeline        │                                    │           │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┤
+│  Declaration                │  Formally complete an idea from the Codex.   │  Ctrl+A in Chamber IV, or          │  Working  │
+│                             │  Triggers export. Requires declaration and    │  Advance › button                  │           │
+│                             │  summary fields to be filled                 │                                    │           │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┤
+│  Export                     │  Generate .md .txt .json .docx .wiz from     │  Ctrl+E or Idea menu → Export      │  Working  │
+│                             │  any idea at any stage                       │                                    │           │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┤
+│  Pipeline search            │  Filter ideas in the left panel by title     │  Type in the search field at       │  Working  │
+│                             │                                              │  the top of the pipeline panel     │           │
+│  Conversation history       │  Whispers and conversation replay on load.   │  Select any idea — history loads   │  Working  │
+│                             │  Persists across restarts                    │  automatically                     │           │
+╰─────────────────────────────┴──────────────────────────────────────────────┴────────────────────────────────────┴───────────╯
+
 ---
 
 ## Usage Flowchart
 
 ```mermaid
 flowchart TD
-    Launch[python main.py] --> Nav[Pipeline panel loads]
-    Nav --> Exists{Ideas exist?}
-    Exists -- Yes --> Load[Click idea to load workspace]
-    Exists -- No --> New[ctrl+n — New Idea dialog]
-    New --> Title[Enter title — idea created in Fomentary]
-    Title --> Load
+    A[Launch The Dolium] --> B[Create new idea · Ctrl+N]
+    B --> C[Name the idea]
+    C --> D[Chamber I · The Fomentary]
 
-    Load --> Write[Write in workspace fields]
-    Write --> Whisper[After 1.5s — entity whispers in right panel]
-    Write --> Chat[Send message to entity directly]
-    Chat --> Save[/save field — append response to field]
-    Write --> Gate{Gate conditions met?}
-    Gate -- No --> Write
-    Gate -- Yes --> Adv[ctrl+a — Advance dialog checklist]
-    Adv --> IV{Chamber IV?}
-    IV -- No --> Load
-    IV -- Yes --> Declare[Write Declaration field]
-    Declare --> Export[ctrl+e — Export dialog]
-    Export --> Package[Files written to storage/exports/]
+    D --> E[Fill Title, Body, Motivation]
+    E --> F{Gate clear?}
+    F -- No --> G[Continue writing\nGate bar shows what remains]
+    G --> F
+    F -- Yes --> H[Advance · Ctrl+A]
 
-    Load --> Cull[ctrl+x — Cull dialog]
-    Cull --> Epitaph[Enter epitaph]
-    Epitaph --> Reg[Filed in Cull Register]
-    Reg --> Res{Resurrect later?}
-    Res -- Yes --> Fomentary[Returns to Fomentary]
+    H --> I[Chamber II · The Cultivation House]
+    I --> J[Fill Elaboration, Obstacles, First Step]
+    J --> K{Gate clear?}
+    K -- No --> J
+    K -- Yes --> L[Advance · Ctrl+A]
 
-    Load --> Return[ctrl+r — Return to prior chamber]
-    Load --> Manual[ctrl+m — Manual overlay]
+    L --> M[Chamber III · The Vestibule]
+    M --> N[Fill Refined Form, Open Problems, Next Actions]
+    N --> O{Gate clear?}
+    O -- No --> N
+    O -- Yes --> P[Advance · Ctrl+A]
+
+    P --> Q[Chamber IV · The Codex]
+    Q --> R[Fill Declaration, Summary, Tags]
+    R --> S{Declaration gate clear?}
+    S -- No --> R
+    S -- Yes --> T[Declare · Ctrl+A]
+    T --> U[Export dialog]
+
+    E --> V[Entity whispers after 1500ms pause]
+    J --> V
+    N --> V
+    R --> V
+    V --> W[Right panel · WHISPERS section]
+
+    E --> X[Direct conversation · type in input]
+    X --> Y[Right panel · CONVERSATION section]
+
+    D --> Z{Idea not working?}
+    Z --> AA[Cull with reason]
+    AA --> AB[Cull Register · View menu]
+    AB --> AC[Resurrect if needed]
 ```
 
 ---
 
 ## Vision & Purpose
 
-The Dolium exists because ideas arrive before they are ready, and without
-structure they either dissolve or collide with build priorities they were never
-prepared for. It imposes a four-stage pipeline — not as bureaucracy but as
-ceremony — and places an AI entity in each chamber whose character matches the
-work that chamber demands. The entity does not wait to be asked; it watches the
-Wizard write and whispers observations in real time. The Dolium is not a note-
-taker. It is a greenhouse.
+The Dolium exists because ideas need more than a place to live — they
+need a process that forces them to become what they actually are. Most
+ideas that go nowhere do not fail for lack of potential. They fail
+because they were never made to say what they were, name what stood in
+their way, or commit to a first act. The Dolium is the instrument that
+applies that pressure. The four chambers are not bureaucracy. They are
+the minimum work required to know whether an idea is real.
+
+The entity makes the space inhabitable. Without it the Dolium would be
+a form. With it the work feels accompanied — there is something present
+that notices when the idea changes, when something is left unsaid, when
+the body of the thing and the motivation have started to contradict
+each other. That presence is not a coach. It does not encourage. It
+observes. Whether the observation is useful is between the Wizard and
+the work.
 
 ---
 
 ## File & Folder Map
 
 ```
-dolium/
-├── main.py                — entry point
-├── app.py                 — DoliumApp; global style; ClaudeBox init
-├── models.py              — Idea, ChamberLog, CullRecord dataclasses
-├── store.py               — IdeaStore; JSON persistence; in-memory cache
-├── chambers.py            — GateEngine; pure gate functions; GateResult
-├── prompts.py             — chamber + whisper system prompts;
-│                            build_user_message(); set_context()
-├── manpages.py            — five manpage texts; system prompt injection
-├── export.py              — ExportEngine; .wiz .docx .md .txt .json
-├── style.py               — Modus Arcanus palette; GLOBAL_STYLE;
-│                            arcane_button(); gold_label(); dim_label()
-├── workers.py             — AmbientWorker, ConversationWorker (QThread)
-├── ClaudeBox/             — local ClaudeBox package
-├── ui/
-│   ├── __init__.py
-│   ├── main_window.py     — DoliumWindow; QSplitter; panel composition
-│   ├── pipeline_panel.py  — left panel; chamber tree; search
-│   ├── workspace_panel.py — centre panel; fields; gate bar; debounce
-│   ├── chamber_panel.py   — right panel; whisper stream; conversation
-│   ├── dialogs.py         — all QDialog subclasses
-│   └── widgets.py         — ArcaneField, WhisperBubble, ConvBubble,
-│                            GateBar
-└── storage/
-    ├── ideas.json         — active idea store
-    ├── culled.json        — Cull Register
-    └── exports/           — generated Paratum Package files
+Exocognii/Dolium/
+├── main.py                 — entry point
+├── app.py                  — application bootstrap, storage resolution
+├── models.py               — Idea, ChamberLog, CullRecord, ConversationTurn
+├── store.py                — IdeaStore, JSON persistence, corruption recovery
+├── chambers.py             — GateEngine, pure gate functions, GateResult
+├── prompts.py              — system prompts per chamber, whisper prompt,
+│                             build_user_message(), build_whisper_context()
+├── manpages.py             — five chamber manpage texts for entity context
+├── export.py               — ExportEngine, .md .txt .json .docx .wiz
+├── style.py                — Modus Arcanus palette, GLOBAL_STYLE, factories
+├── workers.py              — AmbientWorker, ConversationWorker (QThread)
+├── wiz_export.js           — Node.js .wiz generator via docx npm package
+├── requirements.txt        — PyQt6, python-docx, anthropic
+├── test_models.py          — 16 model serialization tests
+├── test_store.py           — 28 store CRUD and lifecycle tests
+├── test_gates.py           — 30 gate logic tests across all chambers
+├── Dolium-Expositio.md     — this application's Expositio document
+├── Dolium-dux.tome.md      — this document
+├── BUILD_CHRONICLE.md      — build log and session notes
+└── ui/
+    ├── __init__.py
+    ├── main_window.py      — DoliumWindow, QSplitter, signal wiring, menus
+    ├── pipeline_panel.py   — left panel, chamber tree, idea list, search
+    ├── workspace_panel.py  — centre panel, living fields, debounce, gate bar
+    ├── chamber_panel.py    — right panel, whisper stream, conversation
+    ├── dialogs.py          — all eight modal dialogs
+    └── widgets.py          — ArcaneField, GateBar
+```
+
+Storage at runtime:
+
+```
+~/Dolium/storage/           — default, override with DOLIUM_STORAGE env var
+    ideas.json              — all ideas including culled
+    culled.json             — cull records
+    exports/                — export output files
 ```
 
 ---
 
 ## Features & Functions
 
-### Four-Chamber Pipeline
+### The Pipeline Panel
 
-The core structure. Ideas are created in chamber I and can only move forward by
-meeting defined gate conditions. Each chamber has a distinct character, a set of
-fields, and an AI entity whose persona matches the chamber's purpose.
-Advancement is confirmed via a dialog showing a checklist of conditions as green
-or red indicators. Ideas may be returned to any prior chamber at any time with a
-note explaining the return.
+The left panel. Fixed at 260px. Shows all active ideas grouped by
+chamber as a collapsible tree. A search field filters by title in
+real time. Selecting an idea loads it into the workspace and chamber
+panels simultaneously. The `+ New Idea` button opens the new idea
+dialog. The currently selected idea is highlighted in gold.
 
-### Workspace Fields
+### The Workspace Panel
 
-The centre panel renders all fields for the active idea. Fields are gated — they
-only appear when the idea reaches the relevant chamber. Chamber I shows Title,
-Tags, Body, Motivation. Chamber II adds Scope Inside, Scope Outside, System Map.
-Chamber III adds Dependencies, Build Sequence, Open Questions, Aesthetic Notes.
-Chamber IV adds Declaration. All fields save automatically on every keystroke.
+The centre panel. The primary writing surface. When an idea is loaded,
+the fields appropriate to its current chamber appear as labelled
+QTextEdit surfaces. Each field shows a live character counter. Required
+fields are marked with ◆. The gate bar at the bottom updates on every
+keystroke — it shows how many conditions remain unmet and enables the
+Advance button when all are cleared. The debounce timer resets on
+every keystroke and fires a whisper request after 1500ms of inactivity
+on any field with 60 or more characters, provided no conversation
+response is currently streaming.
 
-### Ambient Whisper System
+### The Chamber Panel
 
-The most significant difference from v1. Every QTextEdit field in the workspace
-is watched by a QTimer set to 1500ms. When the Wizard stops typing, an
-AmbientWorker QThread fires — it calls ClaudeBox.send_threaded with a
-specialised Whisper system prompt and the current field content. Tokens stream
-back via on_token signals and appear word by word in the Whisper Stream section
-of the right panel. The Wizard did not ask for it. The entity arrived because it
-is present.
+The right panel. Two sections divided by a splitter. The upper section
+is the whisper stream — ambient entity observations appear here in
+italic dim gold, separated by a centred dot between entries. The lower
+section is the conversation — the Wizard types in the input at the
+bottom and the entity responds above it in the chamber's voice.
+Whispers and conversation share the same ClaudeBox session so the
+entity's full context is unified. The conversation persists across
+restarts and replays on idea load.
 
-### Streaming Token Rendering
+### The Gate System
 
-Both whispers and conversation responses stream word by word. AmbientWorker and
-ConversationWorker are QThread subclasses that call ClaudeBox.send_threaded.
-ClaudeBox must be configured with streaming.thread_mode: threaded in
-claudebox.config.yaml — this fires on_token callbacks thread-safely from a
-background thread. Each callback emits a token_received Qt signal, which the
-chamber panel receives on the main thread and appends to the appropriate
-QTextEdit.
+Each chamber has a gate that must be cleared before the idea can
+advance. Gates are pure functions — they take an Idea and return a
+GateResult with a passed flag and a list of unmet conditions. The gate
+bar renders this result live. The advance dialog shows the same
+information in a modal before confirming the move. Gate thresholds by
+chamber: Fomentary requires 100 chars body, 60 chars motivation.
+Cultivation House requires 150 chars elaboration, 60 chars obstacles,
+40 chars first step. Vestibule requires 120 chars refined form, 60
+chars each for open problems and next actions. Codex declaration
+requires 80 chars declaration, 60 chars summary.
 
-### Gate Bar
+### The Cull System
 
-The bottom of the workspace shows real-time gate status: a colour-coded
-indicator (green = clear, amber = partial, red = blocked), an Advance button
-enabled only when all conditions are met, a Return button, and a Cull button.
-The gate bar re-evaluates on every field change without requiring a save action.
+Any idea at any stage can be culled. The cull dialog requires a reason.
+Culled ideas are marked in storage but never deleted — they move to the
+cull register, accessible from the View menu. Any culled idea can be
+resurrected back into the active pipeline from the cull register. The
+idea returns to whichever chamber it was in when culled.
 
-### Cull System
+### Export
 
-Any idea may be culled at any chamber. The Cull dialog requires a non-empty
-epitaph — a brief, honest statement of why the idea did not proceed. The idea is
-removed from the active pipeline and written to culled.json with its title,
-epitaph, chamber at cull, and full body snapshot. The Cull Register (ctrl+g)
-lists all culled ideas with their epitaphs and provides a Resurrect button per
-row.
-
-### Export System
-
-Available only for chamber IV ideas. The Export dialog presents five format
-checkboxes, all selected by default: .wiz (Wizard-styled LibreOffice document,
-requires Node.js), .docx (clean Word document), .md (Markdown), .txt
-(plaintext), .json (raw data). Files are written to storage/exports/ with a slug
-derived from the idea title.
-
-### Slash Commands
-
-/attach <filename> searches the configured AC repo and prepends the file as a
-fenced code block to the next message. /save <field> appends the last entity
-response to the named workspace field. /man opens the manpage overlay. /files
-lists available files in the AC repo. /help prints the command reference in the
-conversation pane.
-
-### Manpage Overlay
-
-A tabbed modal accessible via ctrl+m or /man. Five pages: app overview and one
-per chamber. Each page covers what the chamber is, what to do there, the
-entity's character, gate conditions, and relevant /save fields. The same text is
-injected into every entity system prompt, giving the entity complete self-
-knowledge of the program it inhabits.
-
-### Live AC Context
-
-Entities are aware of the Arca Cognitorium architecture if DOLIUM_CONTEXT_FILE
-is set. update_context.py in the AC repo root reads the codebase, calls the
-Haiku model, and writes a 600-900 word architectural summary. The Dolium loads
-this file at startup and replaces the static fallback context in every chamber
-system prompt.
+Export can be triggered at any stage — an idea does not need to be
+declared to be exported. The ExportEngine generates all available
+formats simultaneously and reports which succeeded in a dialog. `.docx`
+requires python-docx. `.wiz` requires Node.js and the docx npm package.
+Both degrade gracefully if unavailable — the other formats still
+generate. Exports land in the storage exports directory.
 
 ---
 
 ## Logic
 
-### Architecture
+The application initialises by resolving the storage directory from the
+`DOLIUM_STORAGE` environment variable or defaulting to `~/Dolium/storage/`.
+IdeaStore loads ideas.json into memory. If the file is malformed it is
+backed up and the store starts empty. ClaudeBox is initialised from
+`CLAUDE_API_KEY` via the repo path resolved from `~/.arca/config.json`.
+If either is absent the app runs without entity capability.
 
-Three QWidget panels compose DoliumWindow via a horizontal QSplitter:
-PipelinePanel (left), WorkspacePanel (centre), ChamberPanel (right). All state
-flows through app.py, which owns the ClaudeBox instance and IdeaStore. Panels
-communicate via Qt signals: PipelinePanel emits idea_selected(str);
-WorkspacePanel emits field_changed(field, text) and whisper_requested(field,
-text, idea); ChamberPanel emits message_sent(str). app.py connects these signals
-and routes state.
+The three-panel QSplitter layout is assembled in DoliumWindow. Signals
+connect the panels: PipelinePanel.idea_selected loads the idea into
+both WorkspacePanel and ChamberPanel simultaneously. WorkspacePanel
+field changes update the Idea in memory, persist via IdeaStore, and
+reset the debounce timer. When the timer fires, WorkspacePanel emits
+whisper_requested which ChamberPanel handles by creating an
+AmbientWorker. ConversationWorker is created on Send and blocks
+AmbientWorker via the `_conv_active` flag until complete. Streaming
+tokens from both workers are appended character by character to their
+respective QTextEdit surfaces using QTextCursor operations on the main
+thread via Qt signals.
 
-### API Wiring
-
-ClaudeBox is initialised in app.py with CLAUDE_API_KEY. claudebox.config.yaml
-must have streaming.thread_mode set to threaded — this is non-negotiable for
-PyQt6. One ClaudeBox session is created per idea on first message via
-create_session(session_id=idea.id, system_prompt=chamber_prompt). AmbientWorker
-and ConversationWorker share this session so the entity's conversation history
-includes both whispers and direct exchanges.
-
-### Debounce and Whisper Lifecycle
-
-WorkspacePanel holds a single QTimer (setSingleShot=True, interval=1500ms)
-created in __init__ on the main thread. Every QTextEdit.textChanged signal calls
-_on_field_changed(), which saves the idea and restarts the timer. After 1500ms
-of silence, _on_debounce_fire checks whether a ConversationWorker is active
-(self._conv_active flag). If not, it creates an AmbientWorker, connects its
-token_received signal to ChamberPanel.on_whisper_token, and starts it. The
-debounce timer does not restart while a conversation is in progress.
-
-### Field Persistence
-
-Every field change is written to disk immediately.
-WorkspacePanel._on_field_changed() sets the Idea attribute in memory and calls
-IdeaStore.update(idea), which writes the full ideas.json. The declared_at
-timestamp is set automatically on the first non-empty save of the Declaration
-field. There is no explicit save action.
+All gate logic lives in GateEngine as pure static methods. No UI
+dependency, no state. The gate bar and advance dialog both consume
+GateResult directly. IdeaStore.advance() does not check the gate —
+that is the caller's responsibility. The UI always checks before
+calling advance.
 
 ---
 
@@ -271,25 +276,22 @@ field. There is no explicit save action.
 
 ```
 Input
-  ├── Keyboard — user interaction via Qt events
-  ├── storage/ideas.json — JSON — all active ideas, loaded at startup
-  ├── storage/culled.json — JSON — Cull Register, loaded at startup
-  ├── DOLIUM_CONTEXT_FILE — Markdown — live AC context, loaded at startup
-  └── /attach <file> — any text file from DOLIUM_REPO_PATH
+  ├── Keyboard — field text, search queries, conversation messages
+  ├── CLAUDE_API_KEY env var — authentication for ClaudeBox
+  ├── DOLIUM_STORAGE env var — optional storage path override
+  └── ~/.arca/config.json — arca_repo_path for ClaudeBox resolution
 
 Output
-  ├── storage/ideas.json — JSON — written on every idea mutation
-  ├── storage/culled.json — JSON — written on cull and resurrection
-  ├── storage/exports/<slug>.wiz — styled Word doc (requires Node.js)
-  ├── storage/exports/<slug>.docx — clean Word document
-  ├── storage/exports/<slug>.md — Markdown
-  ├── storage/exports/<slug>.txt — plaintext
-  └── storage/exports/<slug>.json — raw idea data
-
-Configuration
-  ├── CLAUDE_API_KEY — env var — Anthropic API key, required
-  ├── DOLIUM_CONTEXT_FILE — env var — path to CONTEXT.md, optional
-  ├── DOLIUM_REPO_PATH — env var — path to AC repo, optional
-  ├── DOLIUM_STORAGE_DIR — env var — override storage/ path, optional
-  └── ClaudeBox/claudebox.config.yaml — streaming.thread_mode: threaded
+  ├── storage/ideas.json — all ideas, all chambers, all history
+  ├── storage/culled.json — cull records
+  └── storage/exports/
+      ├── {slug}.md — markdown export
+      ├── {slug}.txt — plain text export
+      ├── {slug}.json — full idea serialization
+      ├── {slug}.docx — Word document (requires python-docx)
+      └── {slug}.wiz — styled Word document (requires Node.js + docx npm)
 ```
+
+---
+
+*The Dolium v2 · Dux Tome · Arca Cognitorium · MMXXVI*

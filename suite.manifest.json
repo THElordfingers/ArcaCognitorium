@@ -1,0 +1,48 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "Triumviratus Aestheticus Imperialis — Suite Manifest",
+    "updated": ""
+  },
+
+  "tower": {
+    "root": ".",
+    "claudebox": "claudebox/",
+    "entities": "entities/",
+    "storage": "storage/",
+    "ui": "ui/",
+    "client": "client/"
+  },
+
+  "tools": {
+    "oculus": "tools/Oculus/",
+    "vigilarum": "tools/Vigilarum/",
+    "mythotex": "tools/Mythotex/"
+  },
+
+  "exocognii": {
+    "root": "Exocognii/",
+    "praesidium": "Exocognii/Praesidium/",
+    "dolium": "Exocognii/Dolium/",
+    "entitex": "Exocognii/Entitex/",
+    "aedificarix": "Exocognii/Aedificarix/",
+    "codexium": "Exocognii/Codexium/",
+    "aaagency": "Exocognii/AAEAgency/",
+    "department": "Exocognii/Department/",
+    "lexiferium": "Exocognii/Lexiferium/",
+    "glyptorum": "Exocognii/Glyptorum/"
+  },
+
+  "shared": {
+    "root": "Shared/",
+    "theme": "Shared/theme.json",
+    "bureau_archive": "Shared/Bureau/",
+    "bureau_registry": "Shared/Bureau/registry.json",
+    "lore_corpus": "Shared/Lore/",
+    "token_ledger": "Shared/token_ledger.json",
+    "suite_log": "Shared/suite.log"
+  },
+
+  "active_theme": "default",
+  "document_tags": {}
+}

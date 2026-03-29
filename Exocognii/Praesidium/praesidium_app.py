@@ -1,24 +1,11 @@
+#!/usr/bin/env python3
 """
-🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃▍
-🮈                  ██████  ██████   █████  ███████ ███████ ██ ██████  ██ ██    ██ ███    ███          █████  ██████  ██████  ▍
-🮈                  ██   ██ ██   ██ ██   ██ ██      ██      ██ ██   ██ ██ ██    ██ ████  ████         ██   ██ ██   ██ ██   ██ ▍
-🮈                  ██████  ██████  ███████ █████   ███████ ██ ██   ██ ██ ██    ██ ██ ████ ██         ███████ ██████  ██████  ▍
-🮈                  ██      ██   ██ ██   ██ ██           ██ ██ ██   ██ ██ ██    ██ ██  ██  ██         ██   ██ ██      ██      ▍
-🮈                  ██      ██   ██ ██   ██ ███████ ███████ ██ ██████  ██  ██████  ██      ██ ███████ ██   ██ ██      ██      ▍
-🮈                                                                                                                            ▍
-🮈                                                                                                                            ▍
-🮈           Python Script           ▍
-🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃🭐
-██████████████████████████████████████
-█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█
-
-
 🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃▍
 🮈                                                                                  ▍
 🮈   P R A E S I D I U M                                                            ▍
 🮈   Vigilia Perpetua                                                               ▍
 🮈                                                                                  ▍
-🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃🭐
+🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃🭐
 """
 # ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
 # ⯨                                                                         ⯩
@@ -167,13 +154,18 @@ class PraesidiumApp(QMainWindow):
 
         # Human-readable labels for each class
         labels = {
-            "GitWidget":     "⎇  Git",
-            "ChatWidget":    "⚗  Chat",
-            "TokenTracker":  "◈  Token Tracker",
-            "TodoBoard":     "☐  Todo Board",
-            "AppLauncher":   "⊞  App Launcher",
-            "StyleReference":"■  Style Reference",
-            "StatusLegend":  "●  Status Legend",
+            "GitWidget":            "⎇  Git",
+            "ChatWidget":           "⚗  Chat",
+            "TokenTracker":         "◈  Token Tracker",
+            "TodoBoard":            "☐  Todo Board",
+            "AppLauncher":          "⊞  App Launcher",
+            "StyleReference":       "■  Style Reference",
+            "StatusLegend":         "●  Status Legend",
+            "DisplayPanel":         "⊟  Display Panel",
+            "DiffViewer":           "⎇  Diff Viewer",
+            "RepoActivity":         "⚡  Repo Activity",
+            "QuickFileDrop":        "⬇  Quick File Drop",
+            "ReferentiaAggregator": "⚙  Referentia",
         }
 
         for cls_name in self._registry.available_classes():
@@ -275,7 +267,8 @@ class PraesidiumApp(QMainWindow):
         self._status_legend = None
 
         for w in self._widgets:
-            w.setParent(self._canvas)
+            # Parent was set during instantiation — do NOT call setParent() here.
+            # setParent() resets geometry, undoing the positions restored from layout.json.
             w.show()
 
             cls = type(w).__name__

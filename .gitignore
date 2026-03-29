@@ -77,3 +77,5 @@ tools/Glyptorum/Session/
 
 # Large conversation exports
 Referentia/Conversations/
+tools/Mythotex/Vault/
+tools/Mythotex/temp_*.png

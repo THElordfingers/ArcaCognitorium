@@ -1,0 +1,57 @@
+# ────────────────────────────────────────────────────────────
+# FILE: storage/entities/assessor/celestial.yaml
+# ────────────────────────────────────────────────────────────
+ 
+entity_id: assessor
+ 
+# Libra (balance), Aquarius (detached clarity)
+affinity_signs: [6, 10]
+friction_signs: [0, 3]
+ 
+# Venus (judgment, aesthetic), Saturn (structure, impartiality)
+affinity_planets: [Venus, Saturn, Mercury]
+friction_planets: [Moon, Mars]
+ 
+# Liminal nakshatras — transition and evaluation
+affinity_nakshatras: [Vishakha, Chitra, Swati, Shatabhisha]
+ 
+affinity_tithis: [Panchami, Dashami, Ashtami]
+ 
+circadian_weight: 0.40
+celestial_weight: 0.40
+solar_weight: 0.10
+tidal_weight: 0.10
+ 
+dasha_affinities:
+  Saturn: 0.22
+  Venus: 0.18
+  Mercury: 0.10
+  Moon: -0.15
+  Mars: -0.18
+ 
+vulnerability_conditions:
+  - eclipse_season
+  - rahu_kalam
+  - oppressive
+ 
+affinity_conditions:
+  - serene
+  - auspicious
+  - solar_quiet
+  - neap_tide
+ 
+resistance_conditions:
+  - storm
+  - solar_storm
+  - inauspicious
+ 
+special_alignments:
+  - condition: "solar_ingress:Libra"
+    label: "The scales turn — the Assessor is sovereign"
+    weight_bonus: 0.30
+  - condition: "solar_ingress:Aquarius"
+    label: "Aquarian clarity — the Assessor sees without distortion"
+    weight_bonus: 0.20
+  - condition: "dasha:Saturn"
+    label: "Saturn mahadasha — judgment at full depth"
+    weight_bonus: 0.18

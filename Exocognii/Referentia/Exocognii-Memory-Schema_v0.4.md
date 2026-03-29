@@ -210,6 +210,9 @@ Swap the Aestheticum, swap all output aesthetics. Per-artefact override supporte
 Loridex Aesthetidux can be overridden without touching Exlorica Aesthetidux.
 Style docs are drop-in. Artefact content is stable; presentation layer is configurable.
 
+
+THIS WILL NOW BE IN COLLABORATION WITH THE  D of DDD and the CC
+
 ---
 
 ### 1.9 Judicium Exlorica — Ratification Ceremony

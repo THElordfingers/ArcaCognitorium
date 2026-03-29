@@ -594,3 +594,40 @@
 [ASSESSOR_DIAG] Assessor initialised. Interval: 5 turns.
 [ASSESSOR_DIAG] Assessor initialised. Interval: 5 turns.
 [ASSESSOR_DIAG] Assessor initialised. Interval: 5 turns.
+[ASSESSOR_DIAG] Assessor initialised. Interval: 5 turns.
+[ASSESSOR_DIAG] Tick 1 — interval=5 — messages=16
+[ASSESSOR_DIAG] Tick 2 — interval=5 — messages=18
+[ASSESSOR_DIAG] Tick 3 — interval=5 — messages=20
+[ASSESSOR_DIAG] Tick 4 — interval=5 — messages=22
+[ASSESSOR_DIAG] Tick 5 — interval=5 — messages=24
+[ASSESSOR_DIAG] Firing assessment cycle at tick 5...
+[ASSESSOR_DIAG] Compiling assessor entity...
+[ASSESSOR_DIAG] Assessor compiled: THE ASSESSOR
+[ASSESSOR_DIAG] Building messages...
+[ASSESSOR_DIAG] Chronicle: 3 fragments injected.
+[ASSESSOR_DIAG] Messages built: 25 items
+[ASSESSOR_DIAG] Making routing decision...
+[ASSESSOR_DIAG] Model selected: claude-sonnet-4-6
+[ASSESSOR_DIAG] Calling API...
+[ASSESSOR_DIAG] API response received. Length: 1104 chars.
+[ASSESSOR_DIAG] Raw response preview: {
+  "observations": [
+    {
+      "category": "personality",
+      "content": "The Wizard identifies structural flaws in their own systems unprompted and proposes architectural inversions rather than incremental fixes."
+    },
+    {
+      "category": "domain_knowledge",
+      "content": "The Wizard 
+[ASSESSOR_DIAG] Parsing response...
+[ASSESSOR_DIAG] Parse: 5 raw, 5 valid.
+[ASSESSOR_DIAG] Parsed 5 observations.
+[ASSESSOR_DIAG] Writing to grimoire...
+[ASSESSOR_DIAG] Wrote to grimoire [personality]: The Wizard identifies structural flaws in their own systems 
+[ASSESSOR_DIAG] Wrote to grimoire [domain_knowledge]: The Wizard understands UI/UX generation flow well enough to 
+[ASSESSOR_DIAG] Wrote to grimoire [preferences]: The Wizard prefers entity identity to emerge from configured
+[ASSESSOR_DIAG] Wrote to grimoire [communication_style]: The Wizard asks precise single-line questions that contain t
+[ASSESSOR_DIAG] Wrote to grimoire [domain_knowledge]: The Wizard has an existing script called the Nomenclator, in
+[ASSESSOR_DIAG] Written: 5  Skipped: 0
+[ASSESSOR_DIAG] Cycle complete. written=5 skipped=0 total=5
+[ASSESSOR_DIAG] Tick 6 — interval=5 — messages=11

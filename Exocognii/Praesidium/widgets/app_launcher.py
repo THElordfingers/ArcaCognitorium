@@ -30,7 +30,7 @@ from theme import C_GOLD, C_GOLD_DIM, C_GOLD_DARK, arcane_button, micro_label
 # Default apps if not configured
 DEFAULT_APPS = [
     {"label": "✦ ARCA COGNITORIUM ✦",    "cmd": "bash ArcaCognitorium.sh",       "cwd": "~/ArcaCognitorium/"},
-    {"label": "✦ DOLIUM ✦",   "cmd": "bash ~/ArcaCognitorium/tools/Dolium/main.py",       "cwd": "~/ArcaCognitorium/tools/Dolium/"},
+    {"label": "✦ DOLIUM ✦",   "cmd": "python3 ~/ArcaCognitorium/tools/Dolium/main.py",       "cwd": "~/ArcaCognitorium/tools/Dolium/"},
     {"label": "✦ VIGILARUM ✦","cmd": "bash ~/ArcaCognitorium/Exocognii/Vigilarum/Vigilarum.sh", "cwd": "~/ArcaCognitorium/Exocognii/Vigilarum/"},
     {"label": "✦ MYTHOTEX ✦", "cmd": "bash ~/ArcaCognitorium/Exocognii/Mythotex/Mythotex-FP.sh",  "cwd": "~/ArcaCognitorium/Exocognii/Mythotex/"},
     {"label": "✦ ENTITEX ✦", "cmd": "bash ~/ArcaCognitorium/Exocognii/Entitex/Entitex.sh",  "cwd": "~/ArcaCognitorium/Exocognii/Entitex/"},

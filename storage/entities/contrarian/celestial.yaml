@@ -1,0 +1,59 @@
+ ────────────────────────────────────────────────────────────
+# FILE: storage/entities/contrarian/celestial.yaml
+# ────────────────────────────────────────────────────────────
+ 
+entity_id: contrarian
+ 
+# Taurus (stubborn ground), Sagittarius (irreverent truth)
+affinity_signs: [1, 8]
+friction_signs: [4, 11]
+ 
+# Mars (friction, challenge), Rahu (disruption)
+affinity_planets: [Mars, Rahu, Saturn]
+friction_planets: [Jupiter, Venus]
+ 
+# Disruptive, edgy nakshatras
+affinity_nakshatras: [Ardra, Jyeshtha, Mula, Bharani]
+ 
+affinity_tithis: [Chaturthi, Chaturdashi, Navami]
+ 
+circadian_weight: 0.40
+celestial_weight: 0.40
+solar_weight: 0.10
+tidal_weight: 0.10
+ 
+dasha_affinities:
+  Rahu: 0.25
+  Mars: 0.20
+  Saturn: 0.10
+  Jupiter: -0.18
+  Venus: -0.12
+ 
+vulnerability_conditions:
+  - full_moon
+  - eclipse_season
+  - peak_tidal
+ 
+affinity_conditions:
+  - inauspicious
+  - mercury_rx
+  - solar_storm
+  - storm
+ 
+resistance_conditions:
+  - auspicious
+  - serene
+ 
+special_alignments:
+  - condition: "solar_ingress:Sagittarius"
+    label: "The Contrarian finds its philosophical fire"
+    weight_bonus: 0.28
+  - condition: "solar_ingress:Taurus"
+    label: "Immovable season — the Contrarian digs in"
+    weight_bonus: 0.22
+  - condition: "dasha:Rahu"
+    label: "Rahu mahadasha — the great disruptor"
+    weight_bonus: 0.20
+  - condition: "mercury_rx"
+    label: "Mercury retrograde — the Contrarian delights in the chaos"
+    weight_bonus: 0.15

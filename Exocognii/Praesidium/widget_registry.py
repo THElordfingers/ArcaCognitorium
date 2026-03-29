@@ -1,17 +1,9 @@
+#!/usr/bin/env python3
 """
-🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃▍
-🮈                  ██     ██ ██ ██████   ██████  ███████ ████████      ██████  ███████  ██████  ██ ███████ ████████ ██████  ██    ██ ▍
-🮈                  ██     ██ ██ ██   ██ ██       ██         ██         ██   ██ ██      ██       ██ ██         ██    ██   ██  ██  ██  ▍
-🮈                  ██  █  ██ ██ ██   ██ ██   ███ █████      ██         ██████  █████   ██   ███ ██ ███████    ██    ██████    ████   ▍
-🮈                  ██ ███ ██ ██ ██   ██ ██    ██ ██         ██         ██   ██ ██      ██    ██ ██      ██    ██    ██   ██    ██    ▍
-🮈                   ███ ███  ██ ██████   ██████  ███████    ██ ███████ ██   ██ ███████  ██████  ██ ███████    ██    ██   ██    ██    ▍
-🮈                                                                                                                                    ▍
-🮈                                                                                                                                    ▍
-🮈           Python Script           ▍
-🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃🭐
-██████████████████████████████████████
-█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█
-🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃
+🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃▍
+🮈      PRAESIDIUM · widget_registry.py                                             ▍
+🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃🭐
+"""
 # ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
 # ⯨                                                                         ⯩
 # ⯨   𝐀𝐍𝐍𝐔𝐒 🟌 ＭＭＸＸＶＩ                      widget_registry.py   ⯩
@@ -20,10 +12,6 @@
 # PRAESIDIUM · widget_registry.py
 # Widget manifest and instantiation factory.
 # version: 1.0.0
-"""
-
-
-
 
 from __future__ import annotations
 
@@ -47,13 +35,20 @@ if TYPE_CHECKING:
 # Registry of known widget class names → import paths.
 # New widgets register themselves here.
 WIDGET_MANIFEST: dict[str, str] = {
-    "GitWidget":     "widgets.git_widget",
-    "ChatWidget":    "widgets.chat_widget",
-    "TokenTracker":  "widgets.token_tracker",
-    "TodoBoard":     "widgets.todo_board",
-    "AppLauncher":   "widgets.app_launcher",
-    "StyleReference":"widgets.style_reference",
-    "StatusLegend":  "widgets.status_legend",
+    "GitWidget":              "widgets.git_widget",
+    "ChatWidget":             "widgets.chat_widget",
+    "TokenTracker":           "widgets.token_tracker",
+    "TodoBoard":              "widgets.todo_board",
+    "AppLauncher":            "widgets.app_launcher",
+    "StyleReference":         "widgets.style_reference",
+    "StatusLegend":           "widgets.status_legend",
+    "DisplayPanel":           "widgets.display_panel",
+    "DiffViewer":             "widgets.diff_viewer",
+    "RepoActivity":           "widgets.repo_activity",
+    "QuickFileDrop":          "widgets.quick_file_drop",
+    "ReferentiaAggregator":   "widgets.referentia_aggregator",
+    "ArtWidget":              "widgets.art_widget",
+    "GlyphBrowser":           "widgets.glyph_browser",
 }
 
 
@@ -120,6 +115,14 @@ class WidgetRegistry:
             apps = self._cfg.get("launcher_apps") or None
             return cls(widget_id=widget_id, apps=apps, parent=parent)
 
+        if name in ("DiffViewer", "RepoActivity"):
+            repo_path = Path(extra.get("repo_path") or str(self._cfg.arca_repo_path))
+            return cls(widget_id=widget_id, repo_path=repo_path, parent=parent)
+
+        if name == "ReferentiaAggregator":
+            return cls(widget_id=widget_id, configuus=self._cfg, parent=parent)
+
+        # ArtWidget, GlyphBrowser, DisplayPanel, QuickFileDrop,
         # StyleReference, StatusLegend — no extra args
         return cls(widget_id=widget_id, parent=parent)
 

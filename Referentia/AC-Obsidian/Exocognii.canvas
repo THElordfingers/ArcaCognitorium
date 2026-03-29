@@ -1,0 +1,21 @@
+{
+	"nodes":[
+		{"id":"4c155bfb0bd46c4e","type":"file","file":"ClaudeBox/ClaudeBox API.md","x":-129,"y":-349,"width":400,"height":400},
+		{"id":"e99bdbdbe5c45ca8","type":"text","text":"Shared API Wrapper ~/.arca/config.json\n","x":-163,"y":51,"width":469,"height":60},
+		{"id":"3cc0c4d186a2b808","type":"file","file":"Entitex/Entitex.md","x":480,"y":483,"width":400,"height":277},
+		{"id":"ded5ecf710388038","type":"file","file":"Mythotex/Mythotex.md","x":1182,"y":483,"width":400,"height":277},
+		{"id":"b95e9f2dd2e46655","type":"file","file":"Praesidium/Praesidium.md","x":-738,"y":483,"width":400,"height":277},
+		{"id":"46bd5cb96612fff9","type":"file","file":"Dolium/Dolium.md","x":-1440,"y":483,"width":400,"height":277},
+		{"id":"d79055bafd33bb8c","type":"text","text":"","x":-2600,"y":-349,"width":209,"height":60},
+		{"id":"1205ef188a575f02","x":-738,"y":1137,"width":400,"height":103,"type":"file","file":"Vigilarum/Vigilarum.md"},
+		{"id":"7f4e7a8b948e1525","x":-1440,"y":1137,"width":400,"height":103,"type":"file","file":"Lexiferium/Lexiferium.md"},
+		{"id":"89052b85eb90819f","x":480,"y":1137,"width":400,"height":103,"type":"file","file":"Incitamentum/Incitamentum.md"},
+		{"id":"83bd77f23c605022","x":880,"y":1600,"width":400,"height":320,"type":"file","file":"Perpetuum Aedificare/Perpetuum Aedificare.md"},
+		{"id":"09eebe0fe50a9dbe","x":-1138,"y":1600,"width":400,"height":320,"type":"file","file":"Exvacua Loricum/Exvacua Loricum.md"},
+		{"id":"9a5875fc0bc0b510","x":-338,"y":2234,"width":818,"height":400,"type":"file","file":"Praesidium/Praesidium - Read Layer.md"},
+		{"id":"5e3c392719dd33b8","x":-80,"y":3000,"width":400,"height":240,"type":"file","file":"Codexium/Codexium.md"},
+		{"id":"f8d006b5acd2f18c","x":-1138,"y":3000,"width":400,"height":240,"type":"file","file":"Configuus/Configuus.md"},
+		{"id":"2c981bfad8e07f14","x":880,"y":3000,"width":400,"height":240,"type":"file","file":"Token Ledger/Token Ledger.md"}
+	],
+	"edges":[]
+}

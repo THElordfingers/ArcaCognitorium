@@ -1,41 +1,35 @@
+#!/usr/bin/env python3
 """
-🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃▍
-🮈           ██     ██ ██ ██████   ██████  ███████ ████████      ██████   █████  ███████ ███████          ▍
-🮈           ██     ██ ██ ██   ██ ██       ██         ██         ██   ██ ██   ██ ██      ██               ▍
-🮈           ██  █  ██ ██ ██   ██ ██   ███ █████      ██         ██████  ███████ ███████ █████            ▍
-🮈           ██ ███ ██ ██ ██   ██ ██    ██ ██         ██         ██   ██ ██   ██      ██ ██               ▍
-🮈            ███ ███  ██ ██████   ██████  ███████    ██ ███████ ██████  ██   ██ ███████ ███████          ▍
-🮈                                                                                                        ▍
-🮈                                                                                                        ▍
-🮈                                              Python Script                                             ▍
-🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃🭐
-██████████████████████████████████████████████████████████████████████████████████████████████████████████
-█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█
-█🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃▍
-█      PRAESIDIUM · widget_base.py        ▍
-█▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃🭐
+🮈🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃🮃▍
+🮈      PRAESIDIUM · widget_base.py                                                 ▍
+🭅▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃🭐
 """
 # PRAESIDIUM · widget_base.py
 # ArcaneWidget — draggable, resizable, titled widget container.
-# version: 1.2.0
-# Changes: lock toggle, close emits signal, visibility_changed signal
+# version: 1.3.0
+# Changes: per-widget font size control, animated blind collapse,
+#          font_size_changed signal, get/set_font_size API
 
 from PyQt6.QtWidgets import (
     QFrame, QLabel, QHBoxLayout, QVBoxLayout,
-    QPushButton, QWidget,
+    QPushButton, QWidget, QApplication,
 )
-from PyQt6.QtCore import Qt, QPoint, QRect, pyqtSignal
-from PyQt6.QtGui import QMouseEvent, QResizeEvent, QCursor
+from PyQt6.QtCore import Qt, QPoint, QRect, pyqtSignal, QPropertyAnimation, QEasingCurve
+from PyQt6.QtGui import QMouseEvent, QResizeEvent, QCursor, QFont
 
 from theme import (
     C_GOLD, C_GOLD_DIM, C_GOLD_DARK, C_PANEL, C_BG,
     C_STATUS_OK, C_STATUS_WARN, C_STATUS_ERROR, C_STATUS_IDLE,
 )
 
-HEADER_H  = 28
-MIN_W     = 180
-MIN_H     = 100
-EDGE_GRIP = 6
+HEADER_H   = 28
+MIN_W      = 180
+MIN_H      = 100
+EDGE_GRIP  = 6
+FONT_MIN   = 8
+FONT_MAX   = 18
+FONT_DEF   = 11
+ANIM_MS    = 180   # blind animation duration
 
 _LEFT   = 1
 _RIGHT  = 2
@@ -67,14 +61,18 @@ class ArcaneWidget(QFrame):
     position_changed   = pyqtSignal(str, int, int)
     size_changed       = pyqtSignal(str, int, int)
     status_changed     = pyqtSignal(str, str, str)
-    visibility_changed = pyqtSignal(str, bool)   # widget_id, visible
-    lock_changed       = pyqtSignal(str, bool)   # widget_id, locked
+    visibility_changed = pyqtSignal(str, bool)
+    lock_changed       = pyqtSignal(str, bool)
+    font_size_changed  = pyqtSignal(str, int)   # widget_id, size
 
     def __init__(self, widget_id: str, title: str, parent: QWidget | None = None):
         super().__init__(parent)
-        self.widget_id  = widget_id
-        self._title     = title
-        self._locked    = False
+        self.widget_id   = widget_id
+        self._title      = title
+        self._locked     = False
+        self._font_size  = FONT_DEF
+        self._minimised  = False
+        self._anim: QPropertyAnimation | None = None
 
         self._drag_pos:          QPoint | None = None
         self._resize_edges:      int           = 0
@@ -121,7 +119,7 @@ class ArcaneWidget(QFrame):
         )
         layout = QHBoxLayout(bar)
         layout.setContentsMargins(8, 0, 4, 0)
-        layout.setSpacing(4)
+        layout.setSpacing(2)
 
         self._title_label = QLabel(self._title.upper())
         self._title_label.setStyleSheet(
@@ -137,7 +135,20 @@ class ArcaneWidget(QFrame):
         )
         layout.addWidget(self._status_dot)
 
-        # Lock button
+        # Font size controls
+        for symbol, delta in (("𝖠⁻", -1), ("𝖠⁺", +1)):
+            btn = QPushButton(symbol)
+            btn.setFixedSize(20, 20)
+            btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+            btn.setStyleSheet(
+                f"QPushButton {{ background: transparent; color: {C_GOLD_DIM}; border: none; font-size: 9px; }}"
+                f"QPushButton:hover {{ color: {C_GOLD}; }}"
+            )
+            d = delta
+            btn.clicked.connect(lambda _, d=d: self._adjust_font(d))
+            layout.addWidget(btn)
+
+        # Lock
         self._btn_lock = QPushButton("🔓")
         self._btn_lock.setFixedSize(20, 20)
         self._btn_lock.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
@@ -180,6 +191,35 @@ class ArcaneWidget(QFrame):
         self.status_changed.emit(self.widget_id, status, message)
 
     # ------------------------------------------------------------------
+    # Font size
+    # ------------------------------------------------------------------
+
+    def get_font_size(self) -> int:
+        return self._font_size
+
+    def set_font_size(self, size: int) -> None:
+        size = max(FONT_MIN, min(FONT_MAX, size))
+        if size == self._font_size:
+            return
+        self._font_size = size
+        self._apply_font_size(size)
+        self.font_size_changed.emit(self.widget_id, size)
+
+    def _adjust_font(self, delta: int) -> None:
+        self.set_font_size(self._font_size + delta)
+
+    def _apply_font_size(self, size: int) -> None:
+        """
+        Walk all QLabel and QTextEdit children in the body and update font size.
+        Subclasses can override for finer control.
+        """
+        from PyQt6.QtWidgets import QLabel, QTextEdit, QLineEdit
+        for child in self._body.findChildren((QLabel, QTextEdit, QLineEdit)):
+            font = child.font()
+            font.setPointSize(size)
+            child.setFont(font)
+
+    # ------------------------------------------------------------------
     # Lock
     # ------------------------------------------------------------------
 
@@ -198,7 +238,7 @@ class ArcaneWidget(QFrame):
         self.set_locked(not self._locked)
 
     # ------------------------------------------------------------------
-    # Mouse — drag + resize (blocked when locked)
+    # Mouse — drag + resize
     # ------------------------------------------------------------------
 
     def mousePressEvent(self, event: QMouseEvent) -> None:
@@ -278,17 +318,48 @@ class ArcaneWidget(QFrame):
         self.size_changed.emit(self.widget_id, self.width(), self.height())
 
     # ------------------------------------------------------------------
-    # Header buttons
+    # Header buttons — minimise with animation, close
     # ------------------------------------------------------------------
 
     def _on_minimise(self) -> None:
-        if self._body.isVisible():
-            self._body.hide()
-            self.setFixedHeight(HEADER_H + 2)
+        if self._minimised:
+            self._expand()
         else:
-            self._body.show()
-            self.setMinimumHeight(MIN_H)
-            self.setMaximumHeight(16777215)
+            self._collapse()
+
+    def _collapse(self) -> None:
+        self._minimised = True
+        target_h = HEADER_H + 2
+
+        if self._anim:
+            self._anim.stop()
+
+        self._anim = QPropertyAnimation(self, b"maximumHeight")
+        self._anim.setDuration(ANIM_MS)
+        self._anim.setEasingCurve(QEasingCurve.Type.InOutQuad)
+        self._anim.setStartValue(self.height())
+        self._anim.setEndValue(target_h)
+        self._anim.finished.connect(lambda: (
+            self._body.hide(),
+            self.setFixedHeight(target_h),
+        ))
+        self._anim.start()
+
+    def _expand(self) -> None:
+        self._minimised = False
+        self._body.show()
+        self.setMinimumHeight(MIN_H)
+        self.setMaximumHeight(16777215)
+
+        if self._anim:
+            self._anim.stop()
+
+        self._anim = QPropertyAnimation(self, b"maximumHeight")
+        self._anim.setDuration(ANIM_MS)
+        self._anim.setEasingCurve(QEasingCurve.Type.InOutQuad)
+        self._anim.setStartValue(HEADER_H + 2)
+        self._anim.setEndValue(max(MIN_H, self.height()))
+        self._anim.start()
 
     def _on_close(self) -> None:
         self.hide()
