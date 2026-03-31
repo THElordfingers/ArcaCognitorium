@@ -631,3 +631,6 @@
 [ASSESSOR_DIAG] Written: 5  Skipped: 0
 [ASSESSOR_DIAG] Cycle complete. written=5 skipped=0 total=5
 [ASSESSOR_DIAG] Tick 6 — interval=5 — messages=11
+[ASSESSOR_DIAG] Assessor initialised. Interval: 5 turns.
+[ASSESSOR_DIAG] Tick 1 — interval=5 — messages=3
+[ASSESSOR_DIAG] Tick 2 — interval=5 — messages=5

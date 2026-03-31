@@ -6,29 +6,39 @@
 ```
 ::INIT
 
-TIER: [number + label from operation order — e.g. "Tier 2 — Dolium v2"]
-TARGET: [single component or task — e.g. "Build Dolium v2"]
-STATE: ::[THEORY / BUILD / AUDIT / LORE]
+TIER: TIER 5 — AESTHETIC TRINITY
+TARGET: Solidify Conceptually, Build, Integrate.
+STATE: ::REVIEW ::BUILD
 
 FILES IN SCOPE:
-- [paste raw GitHub URLs, or "none"]
+- ~/ArcaCognitorium/Referentia/COGNIVERSE-BUILD/cogniverse_handoff/aesthetic-trinity.txt
+- Pairz will be added to the repo temporarily for this stage. ~/ArcaCognitorium/Pairz/
+- A new extensions was added that should allow for the Builder to access the filesystem, and the repo
 - *Fetch live init_urls.txt first, then pick relevant files*
 
+
 CONTEXT:
-[1–3 sentences. What this component is, where it sits in the project,
-what the last session left off at if relevant.]
+The Aesthetic Trinity is a series of bureaus of the most exacting of the definition of the word.
+They are the penultimate authority on their respective matters: One for a unified source of Color Themes,
+One for an inarguable and durdgin source of document templates and form masters, and the last is a place
+where the very heart of interaction is decided, the building and testing of UI interfaces. Together
+they control the shape and form of every visible aspect in the Towers jurisdiction.
+
 
 TASK:
-[What you need this session. Be specific. If starting fresh from a doc,
-say so and name the doc.]
+Three Bureaus. Three visions. One ultimate goal. Many, many wires. so fucking many wires.
+We start by getting the three individual offices through IdeaForge. The Color theme office
+is to be carefully designed off the back of the Pairz application. Not a thematic rendition, but
+taking its best concepts to better the bureaus own vision. While not everything they need to be connected
+with is finished, built and online, the concepts are there, and these builds can at least have stubs
+to refine and join later.
 
 CONSTRAINTS:
-[What must not be touched, assumed, or changed. Adjacent systems.
-Files that are off-limits. Decisions already made that are not up for debate.]
+Pairz is not to be redesigned, Nor is the Color bureau to be a direct imitation. It has it's own ends to meet,
+and Pairz can provide some framework and ideas. 
 
 KNOWN STATE:
-[Anything the Builder needs to know about current implementation status.
-What exists, what's broken, what was decided last time.]
+Not fucking much except dreams at this point,
 ```
 
 ---
@@ -43,7 +53,7 @@ operation order. One line each.
 want to inspect live files before deciding anything.
 
 **FILES IN SCOPE** — always include even if "none." For build sessions, fetch
-`init_urls.txt` from the repo and paste the URLs for the specific component.
+`init_urls.txt` from the repo and paste the URLs for the specific component.Codexium Chromaticus — Sequentiae Umbrarum
 The Builder cannot fetch GitHub directly — you paste, it reads.
 
 **CONTEXT** — not a full brief. One paragraph maximum. The project instructions

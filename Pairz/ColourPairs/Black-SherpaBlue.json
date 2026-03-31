@@ -1,0 +1,53 @@
+{
+  "saved_at": "2026-03-17T23:07:07",
+  "algorithm_used": "L* Distance",
+  "threshold": 21,
+  "fg_mode": "manual",
+  "tertiary_mode": "manual",
+  "background": {
+    "name": "Black",
+    "hex": "#000000",
+    "rgb": {
+      "R": 0,
+      "G": 0,
+      "B": 0
+    },
+    "lab": {
+      "L*": 0.0,
+      "a*": 0.0,
+      "b*": 0.0
+    },
+    "oklch": {
+      "L": 0.0503,
+      "C": 0.02,
+      "h": 88.36
+    }
+  },
+  "foreground": {
+    "name": "Sherpa Blue",
+    "hex": "#00574e",
+    "rgb": {
+      "R": 0,
+      "G": 87,
+      "B": 78
+    },
+    "lab": {
+      "L*": 32.627,
+      "a*": -24.997,
+      "b*": -1.219
+    },
+    "oklch": {
+      "L": 0.3329,
+      "C": 0.3044,
+      "h": 163.52
+    }
+  },
+  "tertiary": null,
+  "contrast_metrics": {
+    "WCAG 2.1": 6.32,
+    "APCA": 45.2,
+    "Michelson": 1.0,
+    "Weber": 2660.81,
+    "L* Distance": 32.63
+  }
+}

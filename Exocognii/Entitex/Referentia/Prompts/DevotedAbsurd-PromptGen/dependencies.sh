@@ -8,3 +8,4 @@
 
 pip install PyQt6
 pip install anthropic
+pip install pyYaml

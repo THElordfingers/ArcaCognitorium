@@ -1,0 +1,9 @@
+{
+  "TITLE": "Map Legend for a Place That Won\u2019t Hold Still",
+  "WIDTH": 700,
+  "HEIGHT": 700,
+  "PADDING": 28,
+  "FONT_FAMILY": "Helvetica",
+  "TITLE_COLOR": "#000000",
+  "TEXT": "MAP LEGEND\n\n\u2014 \u2014 \u2014 \u2014 \u2014  Unreliable Path (moves when observed)\n\u00b7\u00b7\u00b7\u00b7\u00b7\u00b7\u00b7\u00b7\u00b7\u00b7\u00b7  Shortcut (requires honesty)\n///////       Construction (yourself)\n\u25b2              Small Triumph\n\u25a0              Closed Shop / Open Secret\n\u2248\u2248\u2248            Water / Memory\n\u2605              Bench with good light\n\u2297              Spot where you realized something too late\n\nCartographer\u2019s note:\nScale varies with mood.\nNorth is the direction you stop lying.\nIf you are lost, ask for directions\nusing your real voice."
+}

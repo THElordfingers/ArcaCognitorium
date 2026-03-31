@@ -1,0 +1,9 @@
+{
+  "TITLE": "A Diagram of an Argument",
+  "WIDTH": 700,
+  "HEIGHT": 700,
+  "PADDING": 28,
+  "FONT_FAMILY": "Helvetica",
+  "TITLE_COLOR": "#000000",
+  "TEXT": "DIAGRAM \u2014 ARGUMENT (simplified)\n\n[Trigger]\n   |\n   v\n[Old Wound] -----> [Defensiveness]\n   |                  |\n   v                  v\n[Misheard Sentence]  [Volume]\n   |                  |\n   +------> [Distance] <------+\n                     |\n                     v\n                [Regret]\n                     |\n                     v\n              [Repair Attempt]\n\nLegend:\n- Repair Attempt may include: tea, silence, \"I was wrong\", a door held open.\n- Distance is not always bad; sometimes it is a tourniquet.\n\nRevision note:\nAdd \"curiosity\" node between Misheard Sentence and Volume.\nIt reduces casualties."
+}

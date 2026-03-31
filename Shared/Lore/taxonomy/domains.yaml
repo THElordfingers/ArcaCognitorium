@@ -1,0 +1,52 @@
+# ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+# ⯨   𝐀𝐍𝐍𝐔𝐒 🟌 ＭＭＸＸＶＩ                             domains.yaml    ⯩
+# ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+#
+# LORE CORPUS — Taxonomy Register (Arx Loricuum mirror)
+# Seeded domains declared here. Tags are emergent — added by
+# Exvacua Loricum as lore accumulates. Wizard-governed.
+# ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+
+version: 1
+last_synced: null
+
+domains:
+  - name: cosmology
+    description: "The nature, structure, and mechanics of the Cogniverse itself."
+    status: seeded
+    tags: []
+
+  - name: entities
+    description: "Council members, Transients, and other named beings of the Tower."
+    status: seeded
+    tags: []
+
+  - name: history
+    description: "Events, epochs, and chronicles of the Cogniverse timeline."
+    status: seeded
+    tags: []
+
+  - name: places
+    description: "Named locations within the Tower, the Cogniverse, and beyond."
+    status: seeded
+    tags: []
+
+  - name: mechanics
+    description: "Named systems, rituals, protocols, and operational structures."
+    status: seeded
+    tags: []
+
+  - name: artefacts
+    description: "Objects, items, texts, and instruments of significance."
+    status: seeded
+    tags: []
+
+  - name: legendarium
+    description: "Myth, rumour, misremembering, and institutional mythology."
+    status: seeded
+    tags: []
+
+  - name: wizard
+    description: "Lore pertaining to LordFingers — the Absent Architect, the Creator Wizard."
+    status: seeded
+    tags: []

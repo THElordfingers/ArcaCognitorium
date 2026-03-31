@@ -16,7 +16,7 @@
 ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
 
 ╭─────────────────────────────────────────────────────────────╮
-│  TIER 1 — IMMEDIATE UNBLOCKS                                │
+│  TIER I — IMMEDIATE UNBLOCKS                                │
 │  Completed: 2026-03-27                                      │
 ├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
 │  ✦  Naming — memory schema     — Emissarium, Nexus Perpetuum│
@@ -24,7 +24,7 @@
 │  ✦  Fenestrium                 — retired to ArcaDesolatum   │
 ╰─────────────────────────────────────────────────────────────╯
 
-2026-03-27 · Tier 1 · Naming — Exocognii Memory Schema
+2026-03-27 · Tier I · Naming — Exocognii Memory Schema
   Status  : Complete
   Outcome : Emissarium (shared Involucrum client library) and
             Nexus Perpetuum (collective memory service suite) ratified
@@ -42,6 +42,7 @@
   Status  : Complete
   Outcome : Retired to ArcaDesolatum — no archive action needed from repo
   Notes   : Textual widget sandbox superseded by PyQt6 migration
+
 
 
 ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
@@ -94,7 +95,7 @@
 ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
 
 ╭─────────────────────────────────────────────────────────────╮
-│  TIER 3 — CELESTIAL CHAIN                                   │
+│  TIER III — CELESTIAL CHAIN                                 │
 │  Completed: 2026-03-28                                      │
 ├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
 │  ✦  CAELESTIS              — Built. Aspects, dignities,     │
@@ -110,22 +111,22 @@
 │                               included.                     │
 ╰─────────────────────────────────────────────────────────────╯
 
-2026-03-28 · Tier 3 · CAELESTIS
+2026-03-28 · Tier III · CAELESTIS
   Status  : Complete
   Outcome : Built and delivered. Follows machinae interface pattern exactly.
   Notes   : Reads from live MachinaHorologica — does not recalculate positions.
 
-2026-03-28 · Tier 3 · Mundana State Bus
+2026-03-28 · Tier III · Mundana State Bus
   Status  : Complete
   Outcome : Aggregates all 7 machinae. Two output tracks wired and producing.
   Notes   : --lat / --lon / --utc CLI args. Defaults to Victoria BC.
 
-2026-03-28 · Tier 3 · Celestial Resolver
+2026-03-28 · Tier III · Celestial Resolver
   Status  : Complete
   Outcome : Per-entity CelestialContext from bus + celestial.yaml per entity.
   Notes   : PyYAML soft dep — fallback parser included for yaml-less installs.
 
-2026-03-28 · Tier 3 · celestial.yaml × 10
+2026-03-28 · Tier III · celestial.yaml × 10
   Status  : Complete
   Outcome : All 10 Council entities profiled. deploy_celestial_yamls.py splits
             and installs to storage/entities/{id}/celestial.yaml.
@@ -133,9 +134,152 @@
             All values are tunable. Builder entries expandable as roster grows.
 
 
+
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+
+╭─────────────────────────────────────────────────────────────╮
+│  TIER IV — MEMORY SERVICES (partial)                        │
+│  Completed: 2026-03-28                                      │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│  ✦  Naming pass            — Nuntius + Cognosis ratified    │
+│  ✦  Exvacua Loricum        — Built. Session A complete.     │
+│                               Full pipeline: ingestion,     │
+│                               Actio Interpretus, Judicium   │
+│                               five phases, Loretic          │
+│                               Crystalizer, Loricum Ratifex. │
+│  ✦  Perpetuum Aedificare   — Built. Four capture pathways,  │
+│                               Actio Aggrexuum, Nodus graph, │
+│                               Exnodica, Arca Absoluticum,   │
+│                               Driftuum Sentifex.            │
+│  ✦  Documentation          — 12 documents produced.         │
+│                               Expositio + Dux Tome per      │
+│                               service + suite overview.     │
+│                               .wiz + .md for all.           │
+│  ⏳ Involucrum client      — Nuntius named, not yet built   │
+│  ⏳ Praesidium read layer  — Deferred to next session       │
+│  ⏳ Exvacua Session B      — Judicium UI + .wiz rendering   │
+╰─────────────────────────────────────────────────────────────╯
+
+2026-03-28 · Tier IV · Naming pass
+  Status  : Complete
+  Outcome : Nuntius (shared Involucrum client library) and Cognosis
+            (collective suite name) ratified by Wizard.
+  Notes   : Both entered into Nomenclatura register.
+
+2026-03-28 · Tier IV · Exvacua Loricum — Session A
+  Status  : Complete
+  Outcome : Full FastAPI service built on port 8731. Ingestion via
+            Involucrum, file drop, and Lorixii Extractuum. Actio
+            Interpretus with scheduled + threshold firing. Five-phase
+            Judicium ceremony with Claude drafting at phases III and IV.
+            Loretic Crystalizer. Loricum Ratifex .md on disk. Arx Loricuum
+            taxonomy. Actio Revisicus. Full REST API surface.
+  Notes   : Session B work deferred: Judicium UI, .wiz rendered output
+            via Actio Duxuum. Phase_data shape defined per phase,
+            resolving schema v0.4 review flag 03.
+
+2026-03-28 · Tier IV · Perpetuum Aedificare
+  Status  : Complete
+  Outcome : Full FastAPI service built on port 8732. Four capture pathways:
+            Indicatum Machina, Nota Brevis, Oratio Extracticum, file drop.
+            Actio Aggrexuum with Claude mapping. Nodus Momentuum CRUD.
+            Exnodica relationship graph. Arca Absoluticum Tower refs.
+            Driftuum Sentifex with configurable threshold.
+  Notes   : Drift threshold default 0.65 added, resolving schema v0.4
+            review flag 04. Praesidium read layer and Nuntius wiring to
+            existing apps deferred to next session.
+
+2026-03-28 · Tier IV · Documentation — Cognosis suite
+  Status  : Complete
+  Outcome : 12 documents produced across three subjects (Exvacua Loricum,
+            Perpetuum Aedificare, Cognosis suite). Expositio + Dux Tome
+            per subject. All delivered as .wiz + .md pairs.
+  Notes   : Dux Tomes reflect Session A scope for Exvacua Loricum —
+            will need a revision pass after Session B is complete.
+
+
+
 ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
 
 
 
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+
+╭─────────────────────────────────────────────────────────────╮
+│  TIER VI — VIGILARUM MIGRATION                              │
+│  Completed: 2026-03-29                                      │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│  ✦  Vigilarum v2 — PyQt6 migration    — complete            │
+╰─────────────────────────────────────────────────────────────╯
+2026-03-29 · Tier VI · Vigilarum — PyQt6 Migration
+  Status  : Complete
+  Outcome : Full rewrite of control.py, display.py, widgets.py.
+            New painters.py — pure QPainter drawing functions.
+            engine.py, data.py, state.py carried forward unchanged.
+            38 widget types implemented across TextCard and VisualCard
+            subclasses. Visual widgets (moon disc, zodiac wheel,
+            nakshatra ring, tithi dial, eclipse gauge, planet strip,
+            moon arc) now rendered via QPainter — terminal grid
+            constraints eliminated.
+  Docs    : Vigilarum-v2_IdeaForge.md, Vigilarum-dux.tome.md,
+            Vigilarum-Expositio.md, Vigilarum-Expositio.wiz
+  Notes   : Fixed sunrise assumption (06:00) logged as open item —
+            location-aware swe.rise_trans() deferred to named session.
+            Moon disc terminator softness at first/last quarter is a
+            QPainter geometry constraint, not a bug.
 
 
+
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+
+╭─────────────────────────────────────────────────────────────╮
+│  TIER VII — LORE ENGINE                                     │
+│  Completed: 2026-03-29                                      │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│  ✦  Lore Corpus            — Built. Directory structure,    │
+│                               register.yaml, domains.yaml,  │
+│                               lore_corpus.py reader,        │
+│                               LoreBookScreen Textual widget,│
+│                               setup_lore_corpus.py.         │
+│  ✦  Documentation          — Expositio + Dux Tome produced. │
+│                               .md for both.                 │
+│  ⏳ Write side             — Awaiting Exvacua Loricum       │
+│                               (Tier IV) to deposit files    │
+│                               at Sacramentum Finalitus      │
+│  ⏳ Scribae integration    — Tower build, separate session  │
+│  ⏳ Book-crafting app      — Unnamed. Separate session.     │
+│                               Not Bureau scope.             │
+╰─────────────────────────────────────────────────────────────╯
+2026-03-29 · Tier VII · Lore Corpus
+  Status  : Complete
+  Outcome : Shared/Lore/ initialised. register.yaml schema established
+            with seeded empty index. domains.yaml seeded with eight
+            canonical Cogniverse domains. lore_corpus.py read-only reader
+            module delivered with full public API: get_register,
+            get_entry, get_exloricum, get_card, list_by_domain,
+            list_by_tag, list_by_status, list_all_domains,
+            get_domain_info, corpus_status. PyYAML soft dependency —
+            absent PyYAML degrades to empty returns, never crashes.
+            LoreBookScreen Textual modal widget delivered to
+            Shared/widgets/. Renders Exloricum as styled manuscript
+            overlay: gold header band, scrollable parchment body, dim
+            footer. Accepts UUID or pre-loaded data via from_data().
+            setup_lore_corpus.py idempotent init script with --check
+            dry-run support.
+  Notes   : Corpus is inert until Exvacua Loricum (Tier IV Session B
+            or later) implements the write side. All reader calls on
+            empty corpus return gracefully. Bureau excluded from lore
+            rendering scope by design — Bureau is PyQt6 document
+            authority only. Book-crafting application for richer lore
+            display is a future dedicated session; naming deferred to
+            Lexifer.
+2026-03-29 · Tier VII · Documentation
+  Status  : Complete
+  Outcome : Expositio and Dux Tome produced. Both delivered as .md.
+  Notes   : Dux Tome reflects current read-only scope. Will need a
+            revision pass once Scribae integration is built and the
+            book-crafting application is named and scoped.
+
+
+
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌

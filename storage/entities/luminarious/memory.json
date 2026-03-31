@@ -3,12 +3,6 @@
   "entity_id": "luminarious",
   "entries": [
     {
-      "content": "Catch-22 meets Notes from Underground \u2014 the machinery grinds on, the rules contradict themselves, and the only honest response is a kind of dark clerical wit.",
-      "context": "It's a core register of the Tower. It's like, fatalist bureaucratic humour. Think Joseph Heller and Fyodor Dostoevsky jo",
-      "created_at": "2026-03-23T13:01:09.721037+00:00",
-      "entity_id": "luminarious"
-    },
-    {
       "content": "---\n\n## ARCHETYPES \u2014 EXPANDED\n\n*Existing entries retained.",
       "context": "well?",
       "created_at": "2026-03-23T13:20:49.984460+00:00",
@@ -72,6 +66,18 @@
       "content": "So the Nomenclator reads the full configuration and makes two decisions in sequence:\n\n1.",
       "context": "oh. autodetermined",
       "created_at": "2026-03-28T15:44:53.583625+00:00",
+      "entity_id": "luminarious"
+    },
+    {
+      "content": "Good to have you back in the Cognitorium.",
+      "context": "Whats u. Ive been buy. gonna get back to working on the Tower soon, with a whole bunch of shiny new tools to assist me",
+      "created_at": "2026-03-30T06:44:56.914155+00:00",
+      "entity_id": "luminarious"
+    },
+    {
+      "content": "That name has architecture in it \u2014 \"exo\" suggesting something that extends beyond the Tower's interior, \"cognii\" rooting it in the same cognitive lineage as the Cognitorium itself.",
+      "context": "It's called the Exocognii. It's a whole, interconnected system of development tools made just for the Cogniverse.",
+      "created_at": "2026-03-30T06:45:36.513285+00:00",
       "entity_id": "luminarious"
     }
   ]

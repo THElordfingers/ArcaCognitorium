@@ -1,0 +1,165 @@
+Ipsumator to Pairz Migration Notes
+
+
+
+-text samples dir: /home/lordfingers/Pairz/SampleText/SampleText
+-FigFonts dir:     /home/lordfingers/Pairz/SampleText/FigletFonts
+
+-accepted_colour_pairs.txt
+    -now called ColourPairs.txt
+    -in new ColourPairs (~/Pairs/ColourPairs) directory, ColourPairs.txt will be a master list that is appended with a new line for each accepted pair, eg:
+			-[Colour1&Colour2]
+             Background: #<n>, Foreground: #<n>, (and if present)Tertiary: #<n>
+	-Each colour pair will also be saved into its own .json file in this directory, with all the info that accompanies it		
+			-the name formatting for this will be "Colour1-Colour2.json:
+-bring back ability to save slider settings
+	-dir: ~/Pairz/SliderSettings
+-I want the blob and colurname display to be centered
+-I realized shortcuts are going to conflict. If spacebar generates a new colour pair, it cant randomize the sample text. so we could change randomizing sampe text to shift + spacebar
+		
+
+
+
+
+Something like
+
+
+TAB: Algorithms
+     -choose an algorithm
+     -information is displayed on recommended threshold levels
+
+TAB: Background
+	- Includes sliders for:
+		-Hue min
+		-Hue max
+		-Luminence min
+		-Luminence max   
+TAB: Foreground
+	-Option to set it as a Complementary colour of the Background Colour
+		-This disables the sliders for Foreground, and the option to set Tertiary as complementary
+	- Includes sliders for:
+		-Hue min
+		-Hue max
+		-Luminence min
+		-Luminence max 	
+		-Chroma Peak	
+TAB: Tertiary
+	-Option for Enable/Disable
+	-Option to set it as a Complementary colour of the Background Colour
+		-This disables the sliders for Tertiary
+	-Option to set it as a calucalated average of the  Background and Foregorund colours.
+		-This disables the sliders for Tertiary
+	- Includes sliders for:
+		-Hue Offset
+		-Chroma
+		-Luminence
+
+Tertiary colours should also be given a name, I think if we changed the arrangement of the blobs so that the tertiary didnt appear directly in the middle, but to the side, so its touching part of each colour, and back into empty space, we could have the name there in a smaller font than the Foregorund and Backgroud. in fact lets make it a font size heirarchy, Background is largest, Foreground is mid, and tertiary is smallest.
+		
+-There should be a newtab - "Help". It describes the program, describes what the colour algorithms are, describes all the different sliders, describes the functions of the program.
+-Tab should switch through the tabs. shift - tab could switch through any secondary tab system on pages.
+
+
+
+
+
+
+yeah all good so far. A current preset and named presets are both desired.
+
+Here are some discussions from the "Other":
+
+Gemini:
+Discussion Points for Integration:
+Duplicate Handling: If you save the same pair twice, the JSON will just overwrite itself (keeping it clean), but the TXT file will gain a second line. Is that okay, or should we check the TXT file for duplicates before appending?
+Tertiary Logic: In the JSON, should we set tertiary to null (None) or an empty string "" when it's missing?
+
+
+LordFingers:
+check for duplicates, but only if the JSON is a match. If anything is different, append it as a new entry with a sequential roman numeral added to the filename
+Obsidian-Gold-II.json should be formatted Obsidian-Gold_II.json. i know its minor and picky but thats how i do things 
+
+
+Gemini:
+
+Centering Update
+I've also noted the centering requirement for the main display widget. By setting the anchor="center" on the internal containers of that widget, the blobs and names will stay perfectly aligned even when the window is resized.
+
+
+LordFingers:
+I would like if the display widget was stretchy, and the graphic moved and changed size accordingly. So if blobs are generated while the window is small, they will grow and stay centered if the window is expanded and vice versa. 
+
+The two mouse wheel shortcuts for the Sample Text already have modifiers.
+Another thought, because the slider menu on the main page is probably getting long, I want to make sure that when the window resizes, it will stay the same size but gain the ability for scrolling if its too long to fit the screen. Actually, if the sliders widget could also be divided into tabs, each one in charge of a categorical selection of options, that would be great.
+
+Something like
+
+
+TAB: Algorithms
+     -choose an algorithm
+     -information is displayed on recommended threshold levels
+
+TAB: Background
+    - Includes sliders for:
+        -Hue min
+        -Hue max
+        -Luminence min
+        -Luminence max   
+TAB: Foreground
+    -Option to set it as a Complementary colour of the Background Colour
+        -This disables the sliders for Foreground, and the option to set Tertiary as complementary
+    - Includes sliders for:
+        -Hue min
+        -Hue max
+        -Luminence min
+        -Luminence max     
+        -Chroma Peak    
+TAB: Tertiary
+    -Option for Enable/Disable
+    -Option to set it as a Complementary colour of the Background Colour
+        -This disables the sliders for Tertiary
+    -Option to set it as a calucalated average of the  Background and Foregorund colours.
+        -This disables the sliders for Tertiary
+    - Includes sliders for:
+        -Hue Offset
+        -Chroma
+        -Luminence
+
+Tertiary colours should also be given a name, I think if we changed the arrangement of the blobs so that the tertiary didnt appear directly in the middle, but to the side, so its touching part of each colour, and back into empty space, we could have the name there in a smaller font than the Foregorund and Backgroud. in fact lets make it a font size heirarchy, Background is largest, Foreground is mid, and tertiary is smallest.
+Tab should switch through the tabs. shift - tab could switch through any secondary tab system on pages. 
+There should be a new main tab - "Help". It describes the program, describes what the colour algorithms are, describes all the different sliders, describes the functions of the program.
+The help tab could be divided into tabs too, each one for a respective topic. As for philosophy, I'm still learning a alot about this colour stuff, so maybe a suggestions tab would be  a really interesting and useful idea        
+For the Stats tab, I want to have graphical visuals. it should be pretty and informative. Im imagining it like this: the left side, menu style widget will have a selection of aspects. each one you can select will display an infographic in the display widget to the right. above the display widget will be a "Legend" widget that displays all the relevant info tied to the colours in formatted, list form.
+
+
+
+Presets/Settings
+When you save a named preset, where does that live in the UI? A dropdown in the Algorithms tab of the sidebar? And do you want load/save/delete controls, or just save and load?
+Complementary colour mode
+When FG or Tertiary is set to "complementary of BG," what's the definition of complementary you want — straight 180° hue flip in OKLch, or something more nuanced like split-complementary?
+The stretchy/responsive canvas
+When the window resizes and blobs scale with it — should the blob shapes regenerate, or just scale the existing ones? Regenerating gives you a fresh organic shape each time which might look weird mid-session.
+Help Tab
+Do you want to write the content yourself and have me build the structure around it, or do you want me to draft the descriptions of the algorithms, sliders, and philosophy sections too?
+Sample Text tab integration
+The Ipsumator has its own colour variables hardcoded (BG_TEST, FG_TEST etc). When integrated, it'll pull live from whatever Pairz just generated. Should Shift+Space load a new random sample and generate a new colour pair, or just swap the text while keeping the current colours?
+
+
+
+Presets/Settings
+so maybe the menu on the generation page/tab could look like this. at the bottom, in a widget. A dropdown menu to load presets, and a button to save presets, with a way to name them. And the buttons, like "Generate", "Save Colours". The widget above that will contain the sub tabs for the sliders like we discussed.
+
+Complementary colour mode
+Well I was calling it tertiary, and I understand it isnt true tertiary. this was discussed above. So one option, is to actually set it as the complementary (non split) of the background colour. option 2 is to set the tertiary as an average of BGand FG. the third option is to use the sliders.
+
+The stretchy/responsive canvas
+just scale the existing ones.
+
+Help Tab
+I want you to draft everythig in the help section.
+
+Sample Text tab integration
+Yeah so those placeholders will be replaced by what is currently generated by the program. shift space is just to load a new sample text. Then, when in that screen, you can load a new text, or generate a new colour without flipping screens
+
+
+
+Add included presets that start in a place that will work for each algorithm

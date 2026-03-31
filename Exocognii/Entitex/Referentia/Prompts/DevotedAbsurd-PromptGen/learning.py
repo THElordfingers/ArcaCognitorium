@@ -1,5 +1,7 @@
 """
 Learning engine for Devoted Absurd.
+v1.1 — Fixed update_user_score delta bug
+
 Stores every session's prompts, scores, Claude reasoning, weaknesses,
 and combo performance. Gradually shifts generation weights toward
 high-scoring combinations, while preserving exploration randomness.
@@ -79,6 +81,34 @@ def _update_weights(data: dict, char: dict, score: float):
         data["combo_scores"][item]["count"] += 1
 
 
+def _reverse_weights(data: dict, char: dict, score: float):
+    """
+    Reverse a previous weight update. Used when user_score replaces
+    a previous final_score — we undo the old learning before applying new.
+    """
+    delta = (score - 5.5) * LEARNING_RATE
+    fields = [
+        char.get("role"), char.get("personality"), char.get("garment"),
+        char.get("prop"), char.get("detail"), char.get("mood"),
+        char.get("posture"), char.get("body_type"), char.get("age"),
+        char.get("archetype_key"),
+    ]
+    for item in fields:
+        if not item:
+            continue
+        current = data["weights"].get(item, 1.0)
+        # Reverse the delta
+        new_val = max(MIN_WEIGHT, min(MAX_WEIGHT, current - delta))
+        data["weights"][item] = round(new_val, 4)
+
+        # Reverse combo_scores
+        if item in data["combo_scores"]:
+            data["combo_scores"][item]["total"] -= score
+            data["combo_scores"][item]["count"] -= 1
+            if data["combo_scores"][item]["count"] <= 0:
+                del data["combo_scores"][item]
+
+
 def record_entry(
     char: dict,
     prompt: str,
@@ -141,16 +171,37 @@ def record_entry(
 
 
 def update_user_score(entry_id: str, user_score: float):
-    """Apply or update user rating for an existing entry."""
+    """
+    Apply or update user rating for an existing entry.
+    Properly reverses the old weight update and applies a new one
+    based on the absolute user_score, not a delta-of-deltas.
+    """
     data = _load()
     for entry in data["entries"]:
         if entry["id"] == entry_id:
             old_final = entry["final_score"]
+            char = entry["char_snapshot"]
+
+            # Reverse the learning from the old final score
+            _reverse_weights(data, char, old_final)
+
+            # Apply new learning from the user score
             entry["user_score"] = user_score
             entry["final_score"] = user_score
             entry["disagreement"] = abs(user_score - entry["claude_score"]) >= 2.0
-            # Re-learn: reverse old delta, apply new
-            _update_weights(data, entry["char_snapshot"], user_score - old_final)
+
+            _update_weights(data, char, user_score)
+
+            # Update meta
+            m = data["meta"]
+            if old_final == entry["claude_score"]:
+                # This is the first user rating for this entry
+                m["total_rated"] = m.get("total_rated", 0) + 1
+
+            all_user = [e["user_score"] for e in data["entries"] if e["user_score"] is not None]
+            m["avg_user_score"] = round(sum(all_user) / len(all_user), 2) if all_user else None
+            m["disagreements"] = sum(1 for e in data["entries"] if e.get("disagreement"))
+
             break
     _save(data)
 

@@ -1,0 +1,27 @@
+# ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+# ⯨   𝐀𝐍𝐍𝐔𝐒 🟌 ＭＭＸＸＶＩ                             register.yaml   ⯩
+# ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+#
+# LORE CORPUS — Master Register
+# Written by: Exvacua Loricum (post-ratification only)
+# Read by:    lore_corpus.py — do not parse this file directly
+# ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+
+version: 1
+last_updated: null
+entry_count: 0
+entries: []
+
+# Entry shape (reference — Exvacua Loricum writes these):
+#
+# - id: "uuid-string"
+#   title: "Entry Title"
+#   domain: "domain_name"
+#   tags:
+#     - "tag_one"
+#     - "tag_two"
+#   status: "ratified"
+#   ratified_at: "ISO-8601-timestamp"
+#   card: "corpus/{uuid}.card.json"
+#   exloricum: "corpus/{uuid}.md"
+#   word_count: 0
