@@ -89,11 +89,11 @@ class Configuus:
 
     @property
     def exvacua_loricum_api(self) -> str:
-        return self._data.get("exvacua_loricum_api", "http://localhost:8301")
-
+        return self._data.get("exvacua_loricum_api", "http://localhost:8731")
+        
     @property
     def perpetuum_aedificare_api(self) -> str:
-        return self._data.get("perpetuum_aedificare_api", "http://localhost:8302")
+        return self._data.get("perpetuum_aedificare_api", "http://localhost:8732")
 
     def claudebox_path(self) -> Path:
         """Returns arca_repo_path / claudebox — canonical ClaudeBox location."""

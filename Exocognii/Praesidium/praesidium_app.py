@@ -14,7 +14,12 @@
 # ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
 # PRAESIDIUM · praesidium_app.py
 # QMainWindow — entry point; owns monitor assignment.
-# version: 1.0.0
+# version: 1.1.0
+# Changes:
+#   - _load_widgets() no longer re-connects visibility_changed / lock_changed
+#     to layout_manager — those are wired canonically inside LayoutManager._wire_widget()
+#   - Only app-level signals (git_status_updated, status_changed, token_used)
+#     are wired here; layout signals are layout_manager's responsibility
 
 from pathlib import Path
 
@@ -33,10 +38,10 @@ from configuus import Configuus
 from widget_registry import WidgetRegistry
 from layout_manager import LayoutManager
 
-TOPBAR_H   = 42
+TOPBAR_H    = 42
 STATUSBAR_H = 28
-CANVAS_W   = 1849
-CANVAS_H   = 779
+CANVAS_W    = 1849
+CANVAS_H    = 779
 
 
 class PraesidiumApp(QMainWindow):
@@ -60,8 +65,11 @@ class PraesidiumApp(QMainWindow):
         self._init_managers()
         self._assign_monitor()
         # Defer widget load until after the event loop starts so the canvas
-        # has resolved its geometry before we call move() / resize()
-        QTimer.singleShot(0, self._load_widgets)
+        # has resolved its geometry before move() / resize() are called.
+        # 150ms: gives X11 time to assign a native window handle to the canvas
+        # before widgets are parented and shown. singleShot(0) fires before the
+        # window has a real handle on X11, causing children to go top-level.
+        QTimer.singleShot(150, self._load_widgets)
 
     # ------------------------------------------------------------------
     # UI construction
@@ -76,17 +84,14 @@ class PraesidiumApp(QMainWindow):
         vbox.setContentsMargins(0, 0, 0, 0)
         vbox.setSpacing(0)
 
-        # Top bar
         self._topbar = self._build_topbar()
         vbox.addWidget(self._topbar)
 
-        # Canvas — absolute positioning, free-floating widgets
         self._canvas = QWidget()
         self._canvas.setObjectName("canvas")
         self._canvas.setStyleSheet(f"QWidget#canvas {{ background: {C_BG}; }}")
         vbox.addWidget(self._canvas, 1)
 
-        # Status bar
         self._statusbar_frame = self._build_statusbar()
         vbox.addWidget(self._statusbar_frame)
 
@@ -101,7 +106,6 @@ class PraesidiumApp(QMainWindow):
         layout.setContentsMargins(14, 0, 10, 0)
         layout.setSpacing(10)
 
-        # Title
         title = QLabel("PRAESIDIUM")
         title.setStyleSheet(
             f"color: {C_GOLD}; font-family: Georgia, serif; "
@@ -109,7 +113,6 @@ class PraesidiumApp(QMainWindow):
         )
         layout.addWidget(title)
 
-        # Subtitle
         sub = QLabel("✦  Vigilia Perpetua  ✦")
         sub.setStyleSheet(
             f"color: {C_GOLD_DIM}; font-family: Georgia, serif; "
@@ -118,10 +121,9 @@ class PraesidiumApp(QMainWindow):
         layout.addWidget(sub)
         layout.addStretch()
 
-        # Action buttons
-        self._btn_add     = arcane_button("⊞  ADD WIDGET")
-        btn_save_default  = arcane_button("⊙  SAVE DEFAULT")
-        btn_config        = arcane_button("⚙  CONFIG")
+        self._btn_add    = arcane_button("⊞  ADD WIDGET")
+        btn_save_default = arcane_button("⊙  SAVE DEFAULT")
+        btn_config       = arcane_button("⚙  CONFIG")
         self._btn_add.clicked.connect(self._show_widget_picker)
         btn_save_default.clicked.connect(self._save_default_layout)
         layout.addWidget(self._btn_add)
@@ -131,7 +133,6 @@ class PraesidiumApp(QMainWindow):
         return bar
 
     def _show_widget_picker(self) -> None:
-        """Drop-down list of available widget classes. Click to spawn."""
         menu = QMenu(self)
         menu.setStyleSheet(f"""
             QMenu {{
@@ -152,7 +153,6 @@ class PraesidiumApp(QMainWindow):
             }}
         """)
 
-        # Human-readable labels for each class
         labels = {
             "GitWidget":            "⎇  Git",
             "ChatWidget":           "⚗  Chat",
@@ -179,7 +179,6 @@ class PraesidiumApp(QMainWindow):
             self._spawn_widget(chosen.data())
 
     def _spawn_widget(self, cls_name: str) -> None:
-        """Instantiate a new widget, place it at a free offset, wire signals."""
         import uuid
         widget_id = f"{cls_name.lower()}_{uuid.uuid4().hex[:6]}"
 
@@ -189,32 +188,16 @@ class PraesidiumApp(QMainWindow):
         if w is None:
             return
 
-        # Stagger position so multiple spawns don't stack exactly
         offset = (len(self._widgets) % 8) * 24
         w.move(40 + offset, 40 + offset)
         w.resize(300, 260)
         w.show()
         self._widgets.append(w)
 
-        # Wire signals
-        cls = type(w).__name__
-        if hasattr(w, "git_status_updated"):
-            w.git_status_updated.connect(self._on_git_status)
-        if hasattr(w, "status_changed"):
-            w.status_changed.connect(self._on_widget_status)
-        if cls == "ChatWidget":
-            self._chat_widget = w
-            if self._token_tracker:
-                w.token_used.connect(self._token_tracker.record_usage)
-        elif cls == "TokenTracker":
-            self._token_tracker = w
-            if self._chat_widget:
-                self._chat_widget.token_used.connect(w.record_usage)
-            w.usage_recorded.connect(self._on_token_usage)
-        elif cls == "StatusLegend":
-            self._status_legend = w
+        # App-level signal wiring (non-layout)
+        self._wire_app_signals(w)
 
-        # Register with layout manager — handles persistence + signal wiring
+        # Layout manager handles persistence + layout signal wiring
         self._layout_mgr.register_widget(w, cls_name)
 
     def _build_statusbar(self) -> QFrame:
@@ -231,10 +214,10 @@ class PraesidiumApp(QMainWindow):
         self._status_labels: dict[str, QLabel] = {}
 
         for slot_id, initial_text in (
-            ("git",    "● GIT: Initialising"),
-            ("chat",   "● CHAT: —"),
-            ("token",  "● TOKEN: —"),
-            ("exo",    "● EXOCOGNII: —"),
+            ("git",   "● GIT: Initialising"),
+            ("chat",  "● CHAT: —"),
+            ("token", "● TOKEN: —"),
+            ("exo",   "● EXOCOGNII: —"),
         ):
             lbl = QLabel(initial_text)
             lbl.setStyleSheet(
@@ -252,7 +235,7 @@ class PraesidiumApp(QMainWindow):
     # ------------------------------------------------------------------
 
     def _init_managers(self) -> None:
-        self._registry = WidgetRegistry(self._cfg)
+        self._registry   = WidgetRegistry(self._cfg)
         self._layout_mgr = LayoutManager(
             storage_path=self._stor,
             registry=self._registry,
@@ -260,6 +243,13 @@ class PraesidiumApp(QMainWindow):
         )
 
     def _load_widgets(self) -> None:
+        # layout_manager.load() handles:
+        #   - reading layout.json (or DEFAULT_LAYOUT on corrupt/empty)
+        #   - instantiating widgets with correct parent
+        #   - restoring geometry, visibility, lock, font size
+        #   - purging stale entries
+        #   - wiring ALL layout signals (position, size, visibility, lock, font)
+        #   - synchronous clean write of layout.json after load
         self._widgets = self._layout_mgr.load()
 
         self._chat_widget   = None
@@ -267,32 +257,45 @@ class PraesidiumApp(QMainWindow):
         self._status_legend = None
 
         for w in self._widgets:
-            # Parent was set during instantiation — do NOT call setParent() here.
-            # setParent() resets geometry, undoing the positions restored from layout.json.
+            # Re-assert parent on X11: setParent() enforces embedding after
+            # the window has a native handle. Geometry is re-applied after.
+            if w.parent() is not self._canvas:
+                w.setParent(self._canvas)
+                w.move(w.x(), w.y())
             w.show()
-
-            cls = type(w).__name__
-            if cls == "ChatWidget":
-                self._chat_widget = w
-            elif cls == "TokenTracker":
-                self._token_tracker = w
-            elif cls == "StatusLegend":
-                self._status_legend = w
-
-            if hasattr(w, "git_status_updated"):
-                w.git_status_updated.connect(self._on_git_status)
-            if hasattr(w, "status_changed"):
-                w.status_changed.connect(self._on_widget_status)
-            if hasattr(w, "visibility_changed"):
-                w.visibility_changed.connect(self._layout_mgr.on_widget_visibility_changed)
-            if hasattr(w, "lock_changed"):
-                w.lock_changed.connect(self._layout_mgr.on_widget_lock_changed)
+            w.raise_()
+            self._wire_app_signals(w)
 
         if self._chat_widget and self._token_tracker:
             self._chat_widget.token_used.connect(self._token_tracker.record_usage)
 
         if self._token_tracker:
             self._token_tracker.usage_recorded.connect(self._on_token_usage)
+
+    def _wire_app_signals(self, w) -> None:
+        """
+        Wire application-level signals (git status, widget status, token usage).
+        Layout signals (position, size, visibility, lock) are wired exclusively
+        by LayoutManager._wire_widget() and must NOT be connected here.
+        """
+        cls = type(w).__name__
+
+        if hasattr(w, "git_status_updated"):
+            w.git_status_updated.connect(self._on_git_status)
+        if hasattr(w, "status_changed"):
+            w.status_changed.connect(self._on_widget_status)
+
+        if cls == "ChatWidget":
+            self._chat_widget = w
+            if self._token_tracker:
+                w.token_used.connect(self._token_tracker.record_usage)
+        elif cls == "TokenTracker":
+            self._token_tracker = w
+            if self._chat_widget:
+                self._chat_widget.token_used.connect(w.record_usage)
+            w.usage_recorded.connect(self._on_token_usage)
+        elif cls == "StatusLegend":
+            self._status_legend = w
 
     # ------------------------------------------------------------------
     # Status bar updates
@@ -315,20 +318,14 @@ class PraesidiumApp(QMainWindow):
         )
 
     def _on_widget_status(self, widget_id: str, status: str, message: str) -> None:
-        """Forward widget status_changed to StatusLegend and main status bar chat slot."""
         if self._status_legend:
-            # Map widget_id prefixes to legend slots
             slot = None
-            if widget_id.startswith("git"):
-                slot = "git"
-            elif widget_id.startswith("chat"):
-                slot = "chat"
-            elif widget_id.startswith("token"):
-                slot = "token"
+            if widget_id.startswith("git"):   slot = "git"
+            elif widget_id.startswith("chat"): slot = "chat"
+            elif widget_id.startswith("token"): slot = "token"
             if slot:
                 self._status_legend.update_slot(slot, status, message)
 
-        # Mirror chat status to status bar
         if widget_id.startswith("chat"):
             lbl = self._status_labels.get("chat")
             if lbl:
@@ -338,13 +335,13 @@ class PraesidiumApp(QMainWindow):
                     "error": "#8b1a1a",
                     "idle":  C_STATUS_IDLE,
                 }
-                colour = colour_map.get(status, C_STATUS_IDLE)
                 label_map = {
                     "ok":    "● CHAT: Ready",
                     "warn":  "● CHAT: Streaming",
                     "error": "● CHAT: Error",
                     "idle":  "● CHAT: Idle",
                 }
+                colour = colour_map.get(status, C_STATUS_IDLE)
                 lbl.setText(label_map.get(status, "● CHAT: —"))
                 lbl.setStyleSheet(
                     f"color: {colour}; font-family: Georgia, serif; "
@@ -367,19 +364,16 @@ class PraesidiumApp(QMainWindow):
 
     def _save_default_layout(self) -> None:
         self._layout_mgr.save_as_default()
-        # Brief visual confirmation in status bar
         lbl = self._status_labels.get("git")
         if lbl:
-            orig = lbl.text(), lbl.styleSheet()
+            orig_text, orig_style = lbl.text(), lbl.styleSheet()
             lbl.setText("✦ Default layout saved")
-            from PyQt6.QtCore import QTimer as _QT
-            _QT.singleShot(2000, lambda: (lbl.setText(orig[0]), lbl.setStyleSheet(orig[1])))
+            QTimer.singleShot(2000, lambda: (
+                lbl.setText(orig_text),
+                lbl.setStyleSheet(orig_style),
+            ))
 
     def _assign_monitor(self) -> None:
-        """
-        Place on the secondary monitor if available (first screen ≠ primary),
-        otherwise remain on primary. Resize to CANVAS_W × (CANVAS_H + chrome).
-        """
         screens = QApplication.screens()
         primary: QScreen = QApplication.primaryScreen()
 

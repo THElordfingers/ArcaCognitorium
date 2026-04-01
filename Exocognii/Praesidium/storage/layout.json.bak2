@@ -1,0 +1,226 @@
+{
+  "version": 1,
+  "widgets": {
+    "git_main": {
+      "cls": "GitWidget",
+      "x": 16,
+      "y": 54,
+      "w": 290,
+      "h": 656,
+      "visible": false,
+      "locked": false,
+      "docked": false,
+      "extra": {}
+    },
+    "chatwidget_51c260": {
+      "cls": "ChatWidget",
+      "x": 1330,
+      "y": 1,
+      "w": 518,
+      "h": 773,
+      "visible": true,
+      "locked": true,
+      "docked": false,
+      "extra": {}
+    },
+    "tokentracker_031ee2": {
+      "cls": "TokenTracker",
+      "x": 1,
+      "y": 778,
+      "w": 378,
+      "h": 231,
+      "visible": true,
+      "locked": false,
+      "docked": false,
+      "extra": {}
+    },
+    "todoboard_f3cd87": {
+      "cls": "TodoBoard",
+      "x": 597,
+      "y": 0,
+      "w": 434,
+      "h": 252,
+      "visible": false,
+      "locked": true,
+      "docked": false,
+      "extra": {}
+    },
+    "applauncher_9e1c86": {
+      "cls": "AppLauncher",
+      "x": 695,
+      "y": 254,
+      "w": 242,
+      "h": 252,
+      "visible": true,
+      "locked": true,
+      "docked": false,
+      "extra": {}
+    },
+    "stylereference_b0ac9b": {
+      "cls": "StyleReference",
+      "x": 804,
+      "y": 38,
+      "w": 215,
+      "h": 604,
+      "visible": false,
+      "locked": false,
+      "docked": false,
+      "extra": {}
+    },
+    "statuslegend_82e6e2": {
+      "cls": "StatusLegend",
+      "x": 609,
+      "y": 7,
+      "w": 375,
+      "h": 167,
+      "visible": false,
+      "locked": false,
+      "docked": false,
+      "extra": {}
+    },
+    "gitwidget_c0078a": {
+      "cls": "GitWidget",
+      "x": 48,
+      "y": 34,
+      "w": 300,
+      "h": 439,
+      "visible": false,
+      "locked": false,
+      "docked": false,
+      "extra": {}
+    },
+    "gitwidget_26ac17": {
+      "cls": "GitWidget",
+      "x": 452,
+      "y": 82,
+      "w": 548,
+      "h": 551,
+      "visible": false,
+      "locked": false,
+      "docked": false,
+      "extra": {}
+    },
+    "gitwidget_334d5e": {
+      "cls": "GitWidget",
+      "x": 0,
+      "y": 68,
+      "w": 587,
+      "h": 461,
+      "visible": false,
+      "locked": false,
+      "docked": false,
+      "extra": {}
+    },
+    "displaypanel_f303ff": {
+      "cls": "DisplayPanel",
+      "x": 105,
+      "y": 159,
+      "w": 296,
+      "h": 251,
+      "visible": false,
+      "locked": false,
+      "docked": false,
+      "extra": {}
+    },
+    "diffviewer_9bfc3c": {
+      "cls": "DiffViewer",
+      "x": 112,
+      "y": 112,
+      "w": 300,
+      "h": 260,
+      "visible": false,
+      "locked": false,
+      "docked": false,
+      "extra": {}
+    },
+    "referentiaaggregator_34bba8": {
+      "cls": "ReferentiaAggregator",
+      "x": 597,
+      "y": 506,
+      "w": 433,
+      "h": 267,
+      "visible": false,
+      "locked": true,
+      "docked": false,
+      "extra": {}
+    },
+    "displaypanel_69d889": {
+      "cls": "DisplayPanel",
+      "x": 0,
+      "y": 2,
+      "w": 598,
+      "h": 100,
+      "visible": false,
+      "locked": false,
+      "docked": false,
+      "extra": {}
+    },
+    "gitwidget_247548": {
+      "cls": "GitWidget",
+      "x": 1031,
+      "y": 477,
+      "w": 299,
+      "h": 296,
+      "visible": false,
+      "locked": true,
+      "docked": false,
+      "extra": {}
+    },
+    "tokentracker_7e8ec8": {
+      "cls": "TokenTracker",
+      "x": 1025,
+      "y": 161,
+      "w": 300,
+      "h": 315,
+      "visible": true,
+      "locked": true,
+      "docked": false,
+      "extra": {}
+    },
+    "statuslegend_e14b90": {
+      "cls": "StatusLegend",
+      "x": 1031,
+      "y": 0,
+      "w": 299,
+      "h": 160,
+      "visible": true,
+      "locked": true,
+      "docked": false,
+      "extra": {}
+    },
+    "repoactivity_ecd53b": {
+      "cls": "RepoActivity",
+      "x": 238,
+      "y": 147,
+      "w": 300,
+      "h": 260,
+      "visible": false,
+      "locked": false,
+      "docked": false,
+      "extra": {}
+    },
+    "quickfiledrop_0c6b9f": {
+      "cls": "QuickFileDrop",
+      "x": 584,
+      "y": 55,
+      "w": 695,
+      "h": 655,
+      "visible": false,
+      "locked": false,
+      "docked": false,
+      "extra": {}
+    },
+    "artwidget_132e25": {
+      "cls": "ArtWidget",
+      "x": 77,
+      "y": 52,
+      "w": 708,
+      "h": 601,
+      "visible": false,
+      "locked": false,
+      "docked": false,
+      "extra": {}
+    }
+  },
+  "docked_widgets": []
+}

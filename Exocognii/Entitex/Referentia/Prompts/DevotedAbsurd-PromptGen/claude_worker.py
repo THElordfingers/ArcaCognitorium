@@ -201,11 +201,18 @@ Your response must be valid, parseable JSON. Follow these rules exactly:
 
 _api_key = os.environ.get('CLAUDE_API_KEY')
 
+if not _api_key:
+    print("[DA:worker] WARNING — CLAUDE_API_KEY not found in environment. Claude calls will fail.")
+else:
+    print(f"[DA:worker] CLAUDE_API_KEY found ({len(_api_key)} chars). Initialising ClaudeBox instances...")
+
 _gen_box = ClaudeBox(api_key=_api_key, system_prompt=GENERATION_SYSTEM, stream=False)
 _gen_box_lock = threading.Lock()
 
 _analysis_box = ClaudeBox(api_key=_api_key, system_prompt=ANALYSIS_SYSTEM, stream=False)
 _analysis_box_lock = threading.Lock()
+
+print("[DA:worker] ClaudeBox instances ready.")
 
 
 # ── INTERNAL HELPERS ──────────────────────────────────────────────────────────
@@ -291,9 +298,14 @@ def _parse_json_response(text: str) -> dict:
 
 def _call_generation(seed_context: str) -> dict:
     """Single generation call. Returns parsed character dict."""
+    print(f"[DA:gen] Acquiring gen_box lock...")
     with _gen_box_lock:
+        print(f"[DA:gen] Lock acquired. Sending to Claude (len={len(seed_context)})...")
         response = _gen_box.send(seed_context, max_tokens=4096)
-    return _parse_json_response(response.text)
+    print(f"[DA:gen] Response received (len={len(response.text)}). Parsing JSON...")
+    result = _parse_json_response(response.text)
+    print(f"[DA:gen] JSON parsed OK. Role: {result.get('role','?')}")
+    return result
 
 
 def _call_analysis(prompt_content: str, session_id: str = None) -> dict:
@@ -301,11 +313,16 @@ def _call_analysis(prompt_content: str, session_id: str = None) -> dict:
     Analysis/refinement call using native ClaudeBox session management.
     If session_id is provided, the conversation history is maintained by ClaudeBox.
     """
+    print(f"[DA:analysis] Acquiring analysis_box lock (session={session_id})...")
     with _analysis_box_lock:
+        print(f"[DA:analysis] Lock acquired. Sending to Claude (len={len(prompt_content)})...")
         response = _analysis_box.send(
             prompt_content, session_id=session_id, max_tokens=4096
         )
-    return _parse_json_response(response.text)
+    print(f"[DA:analysis] Response received (len={len(response.text)}). Parsing JSON...")
+    result = _parse_json_response(response.text)
+    print(f"[DA:analysis] JSON parsed OK. Score: {result.get('score','?')}")
+    return result
 
 
 # ── PUBLIC API ────────────────────────────────────────────────────────────────
@@ -332,6 +349,7 @@ def generate_character_async(
     """
     def _run():
         try:
+            print(f"[DA:gen_thread] Starting generation. archetype={archetype_key}")
             override_lines = ""
             if overrides:
                 locked = [f"  {k}: {v}" for k, v in overrides.items() if v]
@@ -387,9 +405,11 @@ def generate_character_async(
                 "setting_hint": None,
                 "_source": "claude",
             }
+            print(f"[DA:gen_thread] Character built OK: {char.get('role','?')}")
             on_complete(char)
 
         except Exception as e:
+            print(f"[DA:gen_thread] ERROR: {e}")
             on_error(str(e))
 
     threading.Thread(target=_run, daemon=True).start()
@@ -404,6 +424,7 @@ def analyse_prompt_async(
     """Fire-and-forget background analysis of a prompt."""
     def _run():
         try:
+            print(f"[DA:analysis_thread] Starting analysis for entry={entry_id}")
             # Use entry_id as session_id for native ClaudeBox session tracking
             session_id = f"analysis_{entry_id}"
 
@@ -415,8 +436,10 @@ def analyse_prompt_async(
 
             content = f"Analyse and refine this character prompt:\n\n{prompt}"
             result = _call_analysis(content, session_id=session_id)
+            print(f"[DA:analysis_thread] Analysis complete for entry={entry_id}")
             on_complete(entry_id, result)
         except Exception as e:
+            print(f"[DA:analysis_thread] ERROR entry={entry_id}: {e}")
             on_error(entry_id, str(e))
 
     threading.Thread(target=_run, daemon=True).start()

@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import sys
 import json
-import os
+from datetime import datetime, timezone
 from pathlib import Path
 
 # ── ClaudeBox path resolution ─────────────────────────────────────────────────
@@ -33,6 +33,26 @@ except ImportError:
 
 from PyQt6.QtCore import QThread, pyqtSignal
 
+LOG_PATH = Path.home() / '.arca' / 'token_log.jsonl'
+
+
+def _write_token_log(session_id: str, model: str, input_tokens: int, output_tokens: int) -> None:
+    """Append one record to the shared cross-app token ledger."""
+    record = {
+        "ts":            datetime.now(timezone.utc).isoformat(),
+        "app":           "dolium",
+        "model":         model,
+        "input_tokens":  input_tokens,
+        "output_tokens": output_tokens,
+        "session_id":    session_id,
+    }
+    try:
+        LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+        with LOG_PATH.open('a', encoding='utf-8') as f:
+            f.write(json.dumps(record) + '\n')
+    except OSError:
+        pass
+
 
 # ── AmbientWorker ─────────────────────────────────────────────────────────────
 
@@ -42,9 +62,12 @@ class AmbientWorker(QThread):
     Uses the idea's ClaudeBox session — shares history with ConversationWorker.
 
     Lifecycle:
-        Created in WorkspacePanel._on_debounce_fire()
+        Created in ChamberPanel.on_whisper_requested()
         Started immediately after creation
-        Cleaned up via finished signal in ChamberPanel
+        Cleaned up via finished.connect(deleteLater) in ChamberPanel
+
+    Uses box.stream() generator directly — avoids bus.once() single-token
+    limitation of send_threaded().
     """
 
     token_received = pyqtSignal(str)
@@ -76,27 +99,25 @@ class AmbientWorker(QThread):
             return
 
         try:
-            self._box.send_threaded(
-                content    = self._content,
+            for token in self._box.stream(
+                self._content,
                 session_id = self._session_id,
                 system     = self._system,
-                on_token   = self._on_token,
-                on_complete= self._on_complete,
-                on_error   = self._on_error,
-            )
+            ):
+                self.token_received.emit(token)
+
+            # Log token usage after stream completes
+            try:
+                usage = self._box.get_token_usage(self._session_id)
+                model = self._box.config_snapshot().model
+                _write_token_log(self._session_id, model, usage.input_tokens, usage.output_tokens)
+            except Exception:
+                pass
+
+            self.complete.emit()
         except Exception as e:
             self.error.emit(str(e))
             self.complete.emit()
-
-    def _on_token(self, token: str) -> None:
-        self.token_received.emit(token)
-
-    def _on_complete(self) -> None:
-        self.complete.emit()
-
-    def _on_error(self, msg: str) -> None:
-        self.error.emit(msg)
-        self.complete.emit()
 
 
 # ── ConversationWorker ────────────────────────────────────────────────────────
@@ -108,6 +129,9 @@ class ConversationWorker(QThread):
 
     ChamberPanel sets _conv_active=True before starting this worker,
     and clears it on complete() — AmbientWorker checks this flag.
+
+    Uses box.stream() generator directly — avoids bus.once() single-token
+    limitation of send_threaded().
     """
 
     token_received = pyqtSignal(str)
@@ -134,24 +158,22 @@ class ConversationWorker(QThread):
             return
 
         try:
-            self._box.send_threaded(
-                content    = self._content,
+            for token in self._box.stream(
+                self._content,
                 session_id = self._session_id,
                 system     = self._system,
-                on_token   = self._on_token,
-                on_complete= self._on_complete,
-                on_error   = self._on_error,
-            )
+            ):
+                self.token_received.emit(token)
+
+            # Log token usage after stream completes
+            try:
+                usage = self._box.get_token_usage(self._session_id)
+                model = self._box.config_snapshot().model
+                _write_token_log(self._session_id, model, usage.input_tokens, usage.output_tokens)
+            except Exception:
+                pass
+
+            self.complete.emit()
         except Exception as e:
             self.error.emit(str(e))
             self.complete.emit()
-
-    def _on_token(self, token: str) -> None:
-        self.token_received.emit(token)
-
-    def _on_complete(self) -> None:
-        self.complete.emit()
-
-    def _on_error(self, msg: str) -> None:
-        self.error.emit(msg)
-        self.complete.emit()

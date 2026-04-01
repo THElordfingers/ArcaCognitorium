@@ -149,17 +149,43 @@ class ReferentiaAggregator(ArcaneWidget):
         try:
             import urllib.request
             import urllib.parse
-            url = f"{svc_url}/lore/search?q={urllib.parse.quote(query)}"
-            with urllib.request.urlopen(url, timeout=3) as resp:
+            q = urllib.parse.quote(query)
+
+            # Query Perpetuum Aedificare — build nodes
+            perp_url = self._cfg.perpetuum_aedificare_api
+            pa_url = f"{perp_url}/nodi?limit=10"
+            with urllib.request.urlopen(pa_url, timeout=3) as resp:
                 data = json.loads(resp.read())
-                for item in data[:20]:
-                    results.append({
-                        "title":   item.get("title", "—"),
-                        "snippet": item.get("snippet", ""),
-                        "source":  "service",
-                        "path":    item.get("path", ""),
-                    })
-            service_ok = True
+                for item in data.get("results", [])[:10]:
+                    title = item.get("title", "—")
+                    nodifex = item.get("nodifex", "")
+                    if query.lower() in title.lower() or query.lower() in nodifex.lower():
+                        results.append({
+                            "title":   f"[node] {title}",
+                            "snippet": nodifex[:200] if nodifex else item.get("nodicum", ""),
+                            "source":  "perpetuum",
+                            "path":    item.get("id", ""),
+                        })
+
+            # Query Exvacua Loricum — lore fragments
+            exv_url = self._cfg.exvacua_loricum_api
+            el_url = f"{exv_url}/lorixii?limit=10&status=consumed"
+            with urllib.request.urlopen(el_url, timeout=3) as resp:
+                data = json.loads(resp.read())
+                for item in data.get("results", [])[:10]:
+                    raw = item.get("raw_content", "")
+                    if query.lower() in raw.lower():
+                        idx = raw.lower().find(query.lower())
+                        start = max(0, idx - 60)
+                        snippet = "…" + raw[start:start+180].strip() + "…"
+                        results.append({
+                            "title":   f"[lore] {item.get('source_ref', '—')}",
+                            "snippet": snippet,
+                            "source":  "exvacua",
+                            "path":    item.get("id", ""),
+                        })
+
+            service_ok = bool(results) or True  # connected even if no hits
         except Exception:
             pass
 
@@ -168,7 +194,7 @@ class ReferentiaAggregator(ArcaneWidget):
             results = self._local_search(query)
 
         self._relay.results_ready.emit(results)
-        status = "service" if service_ok else "local"
+        status = "perpetuum/exvacua" if service_ok else "local"
         # Update indicator from main thread via signal
         self._relay.error.emit(f"__STATUS__{status}")
 

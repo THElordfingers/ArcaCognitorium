@@ -22,8 +22,8 @@ def run() -> None:
     app.setApplicationName("The Dolium")
     app.setStyleSheet(style.GLOBAL_STYLE)
 
-    # Storage directory resolution
-    storage_dir = Path(os.environ.get("DOLIUM_STORAGE", Path.home() / "Dolium" / "storage"))
+    # Storage directory resolution — default to app-local storage/
+    storage_dir = Path(os.environ.get("DOLIUM_STORAGE", Path(__file__).parent / "storage"))
     storage_dir.mkdir(parents=True, exist_ok=True)
 
     store  = IdeaStore(storage_dir)

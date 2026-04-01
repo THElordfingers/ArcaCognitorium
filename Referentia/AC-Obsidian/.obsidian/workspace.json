@@ -4,20 +4,20 @@
     "type": "split",
     "children": [
       {
-        "id": "698470cc12a50af6",
+        "id": "765dcf4400220bbc",
         "type": "tabs",
         "children": [
           {
-            "id": "b01b43cc03fc6033",
+            "id": "a1056c9cec93a0cc",
             "type": "leaf",
             "state": {
               "type": "canvas",
               "state": {
                 "file": "Exocognii.canvas",
                 "viewState": {
-                  "x": 193.41445105650095,
-                  "y": 898.6902215582786,
-                  "zoom": -2.4
+                  "x": 62.728425737366365,
+                  "y": -229.91910826834578,
+                  "zoom": -1.0336723462024509
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -186,14 +186,24 @@
       "bases:Create new base": false
     }
   },
-  "active": "b01b43cc03fc6033",
+  "active": "a1056c9cec93a0cc",
   "lastOpenFiles": [
+    "Nuntius/Nuntius.md",
+    "Exocognii.canvas",
+    "Nuntius",
+    "Aesthetic Authoritarian  Associative Alliance/Departamentum Documentalis.md",
+    "Aesthetic Authoritarian  Associative Alliance/Agentia Architecturalis.md",
+    "Arx Aedificarium/Arx Aedificarium.md",
+    "Arx Aedificarium",
+    "Aesthetic Authoritarian  Associative Alliance/Auctoritas Spectralis.md",
+    "Aesthetic Authoritarian  Associative Alliance",
+    "Gnosium/Gnosium.md",
+    "Exocognii Flow.md",
+    "Gnosium",
     "Praesidium/Praesidium - Read Layer.md",
     "Token Ledger/Token Ledger.md",
     "Codexium/Codexium.md",
     "Configuus/Configuus.md",
-    "Exocognii Flow.md",
-    "Exocognii.canvas",
     "Token Ledger",
     "Codexium",
     "Configuus",
@@ -205,14 +215,10 @@
     "Perpetuum Aedificare",
     "Exvacua Loricum",
     "Incitamentum",
-    "Vigilarum",
-    "Lexiferium",
     "Mythotex/Mythotex.md",
     "Praesidium/Praesidium.md",
     "Dolium/Dolium.md",
     "Entitex/Entitex.md",
-    "Mythotex",
-    "Entitex",
-    "ClaudeBox/ClaudeBox API.md"
+    "Maniacum Omnifex/Maniacum Omnifex.md"
   ]
 }

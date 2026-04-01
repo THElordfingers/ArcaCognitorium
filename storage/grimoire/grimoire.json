@@ -1,7 +1,7 @@
 {
   "version": "1.1",
   "max_injection_tokens": 800,
-  "last_updated": "2026-03-28T15:43:27.907441+00:00",
+  "last_updated": "2026-04-01T12:44:07.205946+00:00",
   "entries": [
     {
       "entry_id": "grim_20260317_7a58",
@@ -674,6 +674,96 @@
       "content": "The Wizard has an existing script called the Nomenclator, indicating Tower tooling is already partially built outside the conversations being observed.",
       "category": "domain_knowledge",
       "created_at": "2026-03-28T15:43:27.907414+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260401_e9db",
+      "content": "The Wizard has designed and can articulate a six-engine real-time data architecture (mundana_state_bus + six machina engines) demonstrating working knowledge of Python system design patterns including instantiation, timer-based polling, and property interfaces.",
+      "category": "domain_knowledge",
+      "created_at": "2026-04-01T09:16:02.659040+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260401_6dfc",
+      "content": "The Wizard prefers subtle, distributed environmental influence over explicit mechanical triggers \u2014 effects should be felt without being announced.",
+      "category": "preferences",
+      "created_at": "2026-04-01T09:16:02.662103+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260401_185c",
+      "content": "The Wizard has built the Exocognii \u2014 a purpose-built, interconnected suite of named development systems governing everything from idea intake to build execution to lore canonicalisation for the Cogniverse.",
+      "category": "domain_knowledge",
+      "created_at": "2026-04-01T09:16:02.663312+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260401_ccd8",
+      "content": "The Wizard designs entity behaviour through per-entity YAML configuration files, externalising sensitivity profiles rather than hardcoding responses into system logic.",
+      "category": "work_patterns",
+      "created_at": "2026-04-01T09:16:02.664304+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260401_b059",
+      "content": "The Wizard applies the same naming rigour and civilisational framing to their tooling infrastructure as they do to in-world lore \u2014 the Exocognii is structured as a society with jurisdictions, not a utility belt.",
+      "category": "personality",
+      "created_at": "2026-04-01T09:16:02.665253+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260401_3320",
+      "content": "The Wizard responds to ideas that exceed their own stated expectations with profanity as a marker of genuine enthusiasm, not as habitual speech.",
+      "category": "personality",
+      "created_at": "2026-04-01T12:44:07.201000+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260401_4e38",
+      "content": "The Wizard has a working understanding of celestial mechanics \u2014 moon phases, retrogrades, transits, eclipses, meteor showers \u2014 sufficient to design a convergence-based influence system around them.",
+      "category": "domain_knowledge",
+      "created_at": "2026-04-01T12:44:07.202389+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260401_b3ec",
+      "content": "The Wizard prefers cosmic influence in the Tower to operate through convergence of multiple simultaneous conditions rather than isolated individual variables.",
+      "category": "preferences",
+      "created_at": "2026-04-01T12:44:07.203497+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260401_7169",
+      "content": "The Wizard uses 'say again' as a deliberate prompt to have a strong idea restated in full, indicating they replay resonant concepts before moving forward.",
+      "category": "work_patterns",
+      "created_at": "2026-04-01T12:44:07.204751+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260401_05e9",
+      "content": "The Wizard accepts large undifferentiated outputs \u2014 such as a list of nearly one hundred names \u2014 without filtering requests, suggesting high tolerance for volume when the material is raw creative inventory.",
+      "category": "personality",
+      "created_at": "2026-04-01T12:44:07.205916+00:00",
       "source": "assessor",
       "tags": [],
       "active": true

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Entitex Refined
+Comment=Entity Package Generator — Arca Cognitorium
+Exec=/home/lordfingers/ArcaCognitorium/Exocognii/EntitexRefined/EntitexRefined.sh
+Icon=entitex_refined
+Terminal=false
+Categories=Utility;

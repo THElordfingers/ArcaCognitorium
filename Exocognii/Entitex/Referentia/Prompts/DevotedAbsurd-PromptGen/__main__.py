@@ -270,7 +270,9 @@ class PromptHighlighter(QSyntaxHighlighter):
 class MainWindow(QMainWindow):
     claude_done = pyqtSignal(str, dict)
     claude_error = pyqtSignal(str, str)
-
+    claude_generated = pyqtSignal(dict)
+    claude_generate_error = pyqtSignal(str)
+    
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Devoted Absurd — Character Prompt Generator")
@@ -285,6 +287,8 @@ class MainWindow(QMainWindow):
 
         self.claude_done.connect(self._on_claude_done)
         self.claude_error.connect(self._on_claude_error)
+        self.claude_generated.connect(self._on_claude_generated)
+        self.claude_generate_error.connect(self._on_claude_generate_error)
 
         self._build_ui()
         self._setup_shortcuts()
@@ -312,12 +316,18 @@ class MainWindow(QMainWindow):
         self.setStatusBar(QStatusBar())
 
     def _build_sidebar(self) -> QWidget:
+        outer = QWidget()
+        outer.setMinimumWidth(340)
+        outer.setMaximumWidth(480)
+        outer_lay = QVBoxLayout(outer)
+        outer_lay.setContentsMargins(0, 0, 0, 0)
+        outer_lay.setSpacing(0)
+
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        scroll.setMinimumWidth(300)
-        scroll.setMaximumWidth(480)
         scroll.setStyleSheet(f"QScrollArea {{ border: none; background: {C['panel']}; }}")
+        outer_lay.addWidget(scroll)
 
         w = QWidget()
         w.setStyleSheet(f"background: {C['panel']};")
@@ -431,7 +441,7 @@ class MainWindow(QMainWindow):
         self.btn_clear.clicked.connect(self.clear)
 
         scroll.setWidget(w)
-        return scroll
+        return outer
 
     def _build_main(self) -> QWidget:
         tabs = QTabWidget()
@@ -696,8 +706,8 @@ class MainWindow(QMainWindow):
             style_flex=arch["style_flex"],
             overrides=overrides,
             archetype_vocabulary=vocabulary,
-            on_complete=self._on_claude_generated,
-            on_error=self._on_claude_generate_error,
+            on_complete=lambda char: self.claude_generated.emit(char),
+            on_error=lambda err: self.claude_generate_error.emit(err),
         )
 
     def _on_claude_generated(self, char: dict):

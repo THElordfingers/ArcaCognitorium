@@ -7,6 +7,8 @@ _conv_active flag prevents QThread collision.
 
 from __future__ import annotations
 
+from PyQt6 import sip
+
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QSplitter, QTextEdit,
     QLineEdit, QPushButton, QLabel, QSizePolicy,
@@ -200,7 +202,10 @@ class ChamberPanel(QWidget):
         if self._conv_active:
             return  # Conversation in progress — suppress whisper
 
-        if self._ambient_worker and self._ambient_worker.isRunning():
+        # Guard against accessing a deleted C++ object from a previous worker
+        if (self._ambient_worker is not None
+                and not sip.isdeleted(self._ambient_worker)
+                and self._ambient_worker.isRunning()):
             self._ambient_worker.terminate()
             self._ambient_worker.wait(200)
 
@@ -408,7 +413,6 @@ class ChamberPanel(QWidget):
     def _get_last_conv_text(self) -> str:
         """Extract the last assistant response from the conversation display."""
         full = self._conv_edit.toPlainText()
-        # Find last entity label and extract text after it
         entity = self._get_entity_name()
         idx = full.rfind(f"{entity}\n")
         if idx >= 0:

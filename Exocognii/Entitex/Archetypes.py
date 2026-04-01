@@ -1,3 +1,4 @@
+"""
 ╭────────────────────────╮
 │#                      #│
 │# Ａｒｃｈｅｔｙｐｅｓ #│
@@ -7,6 +8,7 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # Canonical archetypes — each carries an implicit perspective and social charge.
 # Cognitive axis is selected separately and intersects with these.
+"""
 
 ARCHETYPES = [
     # — Position & Institutional —

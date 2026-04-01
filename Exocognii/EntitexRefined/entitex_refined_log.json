@@ -1,0 +1,26 @@
+[
+  {
+    "timestamp": "2026-04-01T05:46:57.052114",
+    "entity_id": "the_closed",
+    "display_name": "THE CLOSED",
+    "role": "Keeper of Concluded Matters"
+  },
+  {
+    "timestamp": "2026-04-01T05:49:56.902811",
+    "entity_id": "the_inquisitor",
+    "display_name": "THE INQUISITOR",
+    "role": "Prefect of Imminent Reckoning"
+  },
+  {
+    "timestamp": "2026-04-01T05:52:24.863402",
+    "entity_id": "the_auditor",
+    "display_name": "THE AUDITOR",
+    "role": "Auditor of Lapsed Obligations"
+  },
+  {
+    "timestamp": "2026-04-01T06:03:02.636077",
+    "entity_id": "the_warden",
+    "display_name": "THE WARDEN",
+    "role": "Warden of Unindexed Intervals"
+  }
+]

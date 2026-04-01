@@ -7,7 +7,7 @@
 
 
 
-nohup konsole --hold --profile "ArcaCognitorium" --geometry 423x276+5119+336 > /dev/null 2>&1 & kons_pid=$!
+nohup konsole --hold --profile "ArcaCognitorium" --qwindowgeometry 10x10+0+0 > /dev/null 2>&1 & kons_pid=$!
          
  kons_sessid=$(echo 'org.kde.konsole-')$kons_pid
  kons_id=$(xdotool search --sync --pid $kons_pid)

@@ -99,7 +99,7 @@ class WidgetRegistry:
     def _construct(self, cls, widget_id: str, extra: dict, parent) -> ArcaneWidget:
         """Dispatch construction by class name."""
         name = cls.__name__
-        stor = self._cfg.arca_repo_path.parent / "Praesidium" / "storage"
+        stor = self._cfg.arca_repo_path / "Exocognii" / "Praesidium" / "storage"
 
         if name == "GitWidget":
             repo_path = Path(extra.get("repo_path") or str(self._cfg.arca_repo_path))

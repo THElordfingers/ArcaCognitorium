@@ -1,3 +1,4 @@
+"""
 ╭──────────────────────────╮
 │⛓                        ⛓│
 │⛓ Ｄｉｓｐｏｓｉｔｉｏｎ ⛓│
@@ -8,6 +9,7 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # DISPOSITION SLIDERS  (INCLINATIONES)
 # ─────────────────────────────────────────────────────────────────────────────
+"""
 
 DISPOSITION_LABELS  = ["Benevolent", "Neutral", "Adversarial", "Unknowable"]
 REGISTER_LABELS     = ["Formal", "Institutional", "Colloquial", "Cryptic"]

@@ -6,6 +6,9 @@
 ######## Entitex.sh
 
 
-cd ~/ArcaCognitorium/Exocognii/Entitex
-source venv-ENTITEX/bin/activate
-python3 Entitex.py
+APP="Entitex"
+VENV=echo "${APP}" | tr '[:lower:]' '[:upper:]'
+
+cd ~/ArcaCognitorium/Exocognii/${APP}
+source venv-${VENV}/bin/activate
+python3 ${APP}.py
