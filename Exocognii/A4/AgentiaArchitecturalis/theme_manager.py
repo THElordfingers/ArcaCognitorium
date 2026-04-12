@@ -1,25 +1,43 @@
 """
-Theme Manager — token registry and QSS builder.
+Theme Manager — token registry, QSS builder, and live theme watcher.
 
 Bureau I is the sole writer of theme.json. Bureau II reads only.
 This is constitutional, not collegial.
+
+v1.1.0 — QFileSystemWatcher on ~/.arca/theme.json for hot-reload.
 """
 from __future__ import annotations
 
 import json
+import logging
 from pathlib import Path
 from typing import Optional
 
+from PyQt6.QtCore import QFileSystemWatcher, QObject, pyqtSignal
+
 from . import tokens
 
+log = logging.getLogger("agentia.theme")
 
-class ThemeManager:
-    """Loads, validates, and applies token-based themes."""
+THEME_JSON_PATH = Path.home() / ".arca" / "theme.json"
 
-    def __init__(self) -> None:
+
+class ThemeManager(QObject):
+    """Loads, validates, applies, and watches token-based themes."""
+
+    theme_reloaded = pyqtSignal(str)  # emits theme name on reload
+
+    def __init__(self, parent: QObject | None = None) -> None:
+        super().__init__(parent)
         self._active_tokens: dict[str, str] = dict(tokens.DEFAULTS)
         self._theme_name: str = "Nox Aurum"
         self._theme_path: Optional[Path] = None
+
+        # File watcher for hot-reload
+        self._watcher = QFileSystemWatcher(self)
+        if THEME_JSON_PATH.exists():
+            self._watcher.addPath(str(THEME_JSON_PATH))
+        self._watcher.fileChanged.connect(self._on_theme_file_changed)
 
     @property
     def theme_name(self) -> str:
@@ -50,6 +68,21 @@ class ThemeManager:
         self._active_tokens = dict(tokens.DEFAULTS)
         self._theme_name = "Nox Aurum"
         self._theme_path = None
+
+    def _on_theme_file_changed(self, path: str) -> None:
+        """Hot-reload theme when ~/.arca/theme.json changes on disk."""
+        p = Path(path)
+        if not p.exists():
+            return
+        ok, msg = self.load_theme(p)
+        if ok:
+            log.info("Theme hot-reloaded: %s", self._theme_name)
+            self.theme_reloaded.emit(self._theme_name)
+        else:
+            log.warning("Theme hot-reload failed: %s", msg)
+        # Re-add path — QFileSystemWatcher drops it after some editors
+        if str(p) not in self._watcher.files():
+            self._watcher.addPath(str(p))
 
     def build_qss(self) -> str:
         """Generate a global QSS stylesheet from active tokens."""

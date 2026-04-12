@@ -17,6 +17,7 @@ from pathlib import Path
 from PyQt6.QtCore import QRunnable, QThreadPool, QTimer, Qt, pyqtSlot
 from PyQt6.QtGui import QColor, QFont
 from PyQt6.QtWidgets import (
+    QComboBox,
     QFileDialog,
     QHBoxLayout,
     QLabel,
@@ -44,6 +45,7 @@ from ui.preview_pane import PreviewPane
 from ui.project_tree import ProjectTree
 from ui.token_gauge import TokenGauge
 from nuntius_emit import emit_event
+from core.build_doc_watcher import BuildDocWatcher
 
 logger = logging.getLogger("arx.main_window")
 
@@ -178,6 +180,7 @@ class MainWindow(QMainWindow):
         self._pool = QThreadPool.globalInstance()
 
         self._init_core()
+        self._init_build_doc_watcher()
         self._build_ui()
         self._wire_signals()
         self._restore_session()
@@ -189,6 +192,14 @@ class MainWindow(QMainWindow):
     # -----------------------------------------------------------------------
     # Initialisation
     # -----------------------------------------------------------------------
+
+    def _init_build_doc_watcher(self) -> None:
+        dolium_exports = Path(os.environ.get(
+            "ARX_BUILD_DOCS",
+            str(Path.home() / "ArcaCognitorium" / "Exocognii" / "Dolium" / "storage" / "exports"),
+        ))
+        self._build_watcher = BuildDocWatcher(dolium_exports, parent=self)
+        self._build_docs: list = []
 
     def _init_core(self) -> None:
         builder_prompt = PromptLoader.load(ConfigLoader.builder_prompt_path())
@@ -258,6 +269,27 @@ class MainWindow(QMainWindow):
 
         layout.addWidget(self._gauge)
 
+        # Build doc picker
+        self._build_doc_combo = QComboBox()
+        self._build_doc_combo.setFixedWidth(200)
+        self._build_doc_combo.setFixedHeight(24)
+        self._build_doc_combo.addItem("— no build doc —")
+        self._build_doc_combo.setStyleSheet(f"""
+            QComboBox {{
+                background: {C_BG}; color: {C_TEAL};
+                border: 1px solid {C_TEAL};
+                font-family: Georgia, serif; font-size: 9px;
+                padding: 2px 6px;
+            }}
+            QComboBox::drop-down {{ border: none; width: 16px; }}
+            QComboBox QAbstractItemView {{
+                background: {C_PANEL}; color: {C_TEXT};
+                border: 1px solid {C_GOLD_DARK};
+                selection-background-color: {C_TEAL};
+            }}
+        """)
+        layout.addWidget(self._build_doc_combo)
+
         self._conv_title_label = QLabel("")
         self._conv_title_label.setStyleSheet(
             f"color: {C_GOLD_DIM}; font-family: Georgia, serif; font-size: 10px;"
@@ -290,6 +322,9 @@ class MainWindow(QMainWindow):
         self._project_tree.conversation_selected.connect(self._on_conversation_selected)
         self._project_tree.conversation_created.connect(self._on_conversation_selected)
         self._project_tree.conversation_deleted.connect(self._on_conversation_deleted)
+
+        # BuildDocWatcher → footer combo
+        self._build_watcher.docs_changed.connect(self._on_build_docs_changed)
 
         # ChatPane → window
         self._chat_pane.send_requested.connect(self._on_send_requested)
@@ -543,6 +578,26 @@ class MainWindow(QMainWindow):
             self._set_status(f"Package exported — {dest.name}")
         except ExportError as exc:
             self._set_status(f"Export failed: {exc}")
+
+    # -----------------------------------------------------------------------
+    # Build doc pick list
+    # -----------------------------------------------------------------------
+
+    def _on_build_docs_changed(self, docs: list) -> None:
+        self._build_docs = docs
+        self._build_doc_combo.clear()
+        self._build_doc_combo.addItem("— no build doc —")
+        for doc in docs:
+            self._build_doc_combo.addItem(doc.title, str(doc.path))
+        if docs:
+            self._set_status(f"{len(docs)} build doc(s) available from Dolium")
+
+    def get_active_build_doc(self) -> str | None:
+        """Return the path of the selected build doc, or None."""
+        idx = self._build_doc_combo.currentIndex()
+        if idx <= 0:
+            return None
+        return self._build_doc_combo.currentData()
 
     # -----------------------------------------------------------------------
     # Status bar
