@@ -73,7 +73,7 @@
       "y": 47,
       "w": 300,
       "h": 260,
-      "visible": true,
+      "visible": false,
       "locked": false,
       "docked": false,
       "extra": {}
@@ -84,7 +84,18 @@
       "y": 197,
       "w": 798,
       "h": 513,
-      "visible": true,
+      "visible": false,
+      "locked": false,
+      "docked": false,
+      "extra": {}
+    },
+    "tokentracker_e3864e": {
+      "cls": "TokenTracker",
+      "x": 40,
+      "y": 40,
+      "w": 300,
+      "h": 260,
+      "visible": false,
       "locked": false,
       "docked": false,
       "extra": {}

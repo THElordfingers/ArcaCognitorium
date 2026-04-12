@@ -1,3 +1,7 @@
-# Agentia Architecturalis — Bureau II
-# v1.0.0
-"""The Architectural Alignment Enforcement Agency — visual UI component designer."""
+"""
+Agentia Architecturalis — Bureau II
+Architectural Alignment Enforcement Agency
+
+Triumviratus Aestheticus Imperialis
+In Linea · In Parallelo · In Perpetuum
+"""

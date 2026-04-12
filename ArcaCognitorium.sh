@@ -8,4 +8,4 @@
 
 cd ~/ArcaCognitorium/
 source venv-ARCOGNIT/bin/activate
-python3 main.py
+python3 __main__.py

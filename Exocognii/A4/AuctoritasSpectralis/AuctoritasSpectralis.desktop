@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Auctoritas Spectralis
+GenericName=Spectral Compliance Authority
+Comment=Codexium Chromaticus · Sequentiae Umbrarum
+Exec=/home/lordfingers/ArcaCognitorium/Exocognii/AuctoritasSpectralis/launch_auctoritasspectralis.sh
+Icon=auctoritasspectralis
+Terminal=false
+Categories=Utility;Graphics;
+Keywords=colour;palette;theme;spectralis;cogniverse;
+StartupWMClass=AuctoritasSpectralis

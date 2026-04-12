@@ -1,0 +1,6 @@
+# Mundana State Bus — stdlib only (no third-party deps for core)
+# PyQt6 is a dependency of host Exocognii apps, not this library.
+# Install PyQt6 in the consuming app's venv if using MundanaQtBridge.
+#
+# For running tests:
+#   pip install pytest --break-system-packages

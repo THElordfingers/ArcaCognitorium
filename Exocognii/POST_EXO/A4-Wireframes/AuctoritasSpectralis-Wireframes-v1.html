@@ -1,0 +1,945 @@
+# AUCTORITAS SPECTRALIS
+### Codexium Chromaticus — Redesign & Revision Plan
+### Bureau of Spectral Compliance · Triumviratus Aestheticus Imperialis
+
+---
+
+> *The apparatus does not merely select colours. It governs them.*
+> *It arbitrates. It ratifies. It remembers. It does not explain itself.*
+> *It is felt.*
+
+---
+
+## I. PREAMBLE
+
+This document is the complete design plan for the revision of Auctoritas
+Spectralis — Bureau I of the Triumviratus Aestheticus Imperialis. It is
+prepared for Council Review and submitted to the ratification process intact.
+
+The document addresses four mandates simultaneously:
+
+- What Auctoritas Spectralis must become as the Central Colour Authority
+  of the Cogniverse
+- How the A4 Common Shell design applies to Bureau I specifically
+- How the Codexium Chromaticus feature set must be revised to honour
+  that vision
+- What the complete workflow looks like, from first launch to sealed
+  ratification
+
+Luminarious is watching. This document does not waste his time.
+
+---
+
+## II. THE CENTRAL COLOUR AUTHORITY — VISION STATEMENT
+
+A central colour authority is not a palette picker. It is an instrument
+of governance. Its role in the Cogniverse is to:
+
+**Own** the canonical colour contract — `theme.json` — and be the sole
+writer of it across the entire Exocognii Suite. Every other application
+reads. Only Bureau I writes.
+
+**Generate** colour palettes with perceptual rigour — in OKLAB space,
+not HSL, not RGB. The human eye is the final arbiter and OKLAB honours
+it. Harmony algorithms govern the relationships between tokens. Contrast
+algorithms enforce legibility.
+
+**Evaluate** every meaningful foreground/background pairing against six
+contrast metrics simultaneously. Not one. Six. Failures surface immediately
+and are impossible to miss.
+
+**Ratify** palettes with cryptographic identity — SHA-256 seal, Latin
+designator, full registry entry. A sealed palette is a permanent record.
+
+**Distribute** the sealed palette to every format the Cogniverse requires:
+`theme.json`, `theme.qss`, `theme.md`, `theme.css`.
+
+**Remember** everything. The Chromatic Registry is not a cache. It is an
+archive. Every palette ever ratified lives there, queryable, loadable,
+forkable.
+
+This is what Bureau I must be. The current implementation has the correct
+bones. The revision builds the right body around them.
+
+---
+
+## III. ALIGNMENT WITH COGNIVERSE PHILOSOPHY
+
+The Tower's operating principles apply directly to Bureau I:
+
+**Emergence over instruction.** The Specularium Vivum does not explain
+what the palette looks like. It shows it. The Wizard discovers the
+palette's character by seeing it rendered in real UI surfaces — not by
+reading hex values.
+
+**Information is discoverable, not explained.** Contrast scores appear
+in context. Failures are visible in the matrix without being narrated.
+The apparatus does not announce itself.
+
+**Nothing is truly lost.** The Detritus principle applies: no palette
+is ever deleted. Rejected palettes enter the registry with status
+REJECTED. The Chromatic Registry is a sediment layer, not a bin.
+
+**The apparatus is an organism, not a sculpture.** Bureau I responds
+to what the Wizard feeds it. It derives, evaluates, and offers — but
+the Wizard ratifies. The machine proposes. The sovereign disposes.
+
+**Ordo Discordia, Cosmos Inania.** The colour generation system is
+deliberately probabilistic within mathematical constraints. The harmony
+algorithms introduce structured randomness. Running Complementary twice
+produces two different palettes. Both are valid. Neither is random.
+
+---
+
+## IV. A4 COMMON SHELL — APPLICATION TO BUREAU I
+
+The Common Shell wireframe establishes a unified structural grammar for
+all three bureaus. Bureau I implements it as follows.
+
+### IV.I Shell Structure
+
+```
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                               ┃                                          ┃
+┃   TITLE / DISPLAY LEGEND      ┃   FEATURE TOOLBAR                        ┃
+┃                               ┃   (context-sensitive buttons)            ┃
+┃   AUCTORITAS SPECTRALIS       ┃                                          ┃
+┃   Bureau of Spectral          ┠──────────────────────────────────────────┨
+┃   Compliance                  ┃                                          ┃
+┃                               ┃                                          ┃
+┃   "The apparatus governs.     ┃                                          ┃
+┃    It does not negotiate."    ┃                                          ┃
+┃                               ┃                                          ┃
+┃   Current Theme: [name]       ┃   FEATURE CANVAS                         ┃
+┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━┛   (one feature at a time)               ┃
+┃             │                                                            ┃
+┃  FEATURE    │                                                            ┃
+┃  MENU       │                                                            ┃
+┃             │                                                            ┃
+┃  > COLORES  │                                                            ┃
+┃  SCRUTINIUM │                                                            ┃
+┃  SPECULARIUM│                                                            ┃
+┃  BIBLIOTHECA│                                                            ┃
+┃  REGISTRUM  │                                                            ┃
+┃             │                                                            ┃
+┗━━━━━━━━━━━━━┷━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+```
+
+### IV.II Title / Display Legend
+
+The upper-left block is fixed across all features. It displays:
+
+- **Primary title:** AUCTORITAS SPECTRALIS (Stratum II Latin, ALL CAPS)
+- **Subtitle:** Bureau of Spectral Compliance (English bureaucratic register)
+- **Motto:** *Ordo Discordia, Cosmos Inania* (italic, Stratum I Latin)
+- **Bureau description:** One dry, absurd sentence. "The apparatus
+  adjudicates chromatic disputes with the gravity of a Roman senate
+  and the flexibility of a sealed vault."
+- **Pertinent state:** Current globally active theme name + seal hash
+  (truncated). Updates whenever a new palette is ratified or loaded.
+
+### IV.III Feature Menu
+
+A vertical list of named features. The active feature is gold-highlighted.
+Inactive features are in Aurum Dimmus. One feature occupies the canvas
+at a time. The menu does not collapse.
+
+```
+╭─────────────────────╮
+│  ✦ COLORES          │  ← active (gold)
+│    SCRUTINIUM       │
+│    SPECULARIUM      │
+│    BIBLIOTHECA      │
+│    REGISTRUM        │
+│    CONFIGURATIO     │
+╰─────────────────────╯
+```
+
+### IV.IV Feature Toolbar
+
+The top bar immediately below the title legend is context-sensitive.
+Its buttons change depending on which feature is active. The toolbar
+contains only what is relevant to the current feature. There is no
+global toolbar of everything.
+
+### IV.V Status Bar
+
+Fixed at the bottom. Shows: last action · gamut clipping warnings ·
+current stage (Compositio / Ratificatio) · LAT/EN toggle.
+
+---
+
+## V. FEATURE INVENTORY
+
+Six features constitute Codexium Chromaticus. Each owns its canvas
+entirely when active.
+
+---
+
+### FEATURE I — COLORES
+*The palette forge. The primary workspace.*
+
+**Purpose:** This is where palettes are created. The Wizard establishes
+a Lead Pair (Fundus and Scriptura) and selects a harmony model. The
+apparatus derives the full 10-token palette. The Wizard adjusts,
+approves, and passes to Scrutinium or ratifies directly.
+
+**Why it is needed:** Every downstream feature depends on having a
+palette. Colores is the originating act. Without it, nothing else has
+material to work with. It must be the most powerful and most immediate
+feature in the application.
+
+**How it works — two tabs:**
+
+#### Tab I — MANUAL (Compositio)
+
+The Wizard directly inputs or picks the base pair. LAB sliders provide
+perceptual fine-tuning. A harmony algorithm is selected from a radio
+group. The GENERATE button derives the remaining 8 tokens from the
+base pair using that harmony model.
+
+The harmony algorithms are:
+
+╭────────────────────────┬────────────────────────────────────────────────╮
+│ Algorithm              │ Behaviour                                      │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Complementary          │ Derived tokens use hues opposite the base      │
+│                        │ pair on the OKLAB hue wheel                    │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Monochromatic          │ All tokens share the base hue, varying only    │
+│                        │ in lightness and chroma                        │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Analogous              │ Derived tokens cluster within ±45° of the      │
+│                        │ base hue family                                │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Split-Complementary    │ Two hues at ±30° from the complement of the    │
+│                        │ base hue provide the accent tokens             │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Triadic                │ Three hues at 120° intervals, base pair sets   │
+│                        │ two, the algorithm finds the third family      │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Tetradic               │ Four hues at 90° intervals, maximum harmonic   │
+│                        │ complexity, highest variation potential        │
+╰────────────────────────┴────────────────────────────────────────────────╯
+
+Any individual derived token can be locked. Locked tokens are excluded
+from re-derivation when GENERATE fires again. The lock is per-token
+and visible in the palette list.
+
+#### Tab II — ALGORITHM (Forgia)
+
+The Wizard selects a contrast algorithm. The apparatus generates the
+entire palette — including the base pair — from mathematical constraints.
+No manual input required. The Wizard can lock either colour of the base
+pair before firing, constraining generation around that anchor.
+
+Contrast algorithms:
+
+╭────────────────────────┬────────────────────────────────────────────────╮
+│ Algorithm              │ Constraint Enforced                            │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ WCAG-Forced            │ All FG/BG pairs meet WCAG AA (≥ 4.5:1)        │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ APCA-Forced            │ All pairs meet APCA Lc ≥ 60                   │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Michelson              │ Targets Michelson contrast ≥ 0.85             │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Weber                  │ Targets Weber contrast ≥ 3.0                  │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ L* Differential        │ Targets CIE L* difference ≥ 50               │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Phi                    │ Targets WCAG ratio near 4.5 × φ ≈ 7.28       │
+╰────────────────────────┴────────────────────────────────────────────────╯
+
+After generation, the result is passed into the Compositio tab for
+review and manual adjustment before ratification.
+
+**Toolbar when COLORES is active:**
+
+```
+[ NEW ] [ OPEN ] [ SAVE ] [ SAVE AS ] [ SEAL ] [ EXPORT ] [ HELP ]
+```
+
+**Interaction with suite:** When a palette is sealed, `theme.json` is
+written immediately. All Exocognii applications that hold an active
+connection to the Mundana State Bus receive the update signal. They
+may then reload their QSS from `theme.json` without restarting.
+
+---
+
+### FEATURE II — SCRUTINIUM
+*The contrast audit workspace.*
+
+**Purpose:** Deep evaluation of every meaningful foreground/background
+pairing in the current palette across all six contrast metrics. This
+is where compliance is established and failures are confronted.
+
+**Why it is needed:** A palette that looks good in isolation may be
+unreadable in practice. Scrutinium makes legibility failures impossible
+to overlook. It is the conscience of the apparatus.
+
+**How it works:**
+
+The Scrutinium canvas is divided into two zones:
+
+**Zone A — Parium Colorum (Pair Display):** The current Lead Pair fills
+a large split field — Fundus left, Scriptura right — occupying the
+upper third of the canvas. The primary WCAG score is displayed in a
+large typographic treatment. Secondary metrics (APCA Lc, Michelson,
+Weber, L*, Phi) appear in a compact column beside it. AA/AAA/A badges
+confirm compliance status at a glance.
+
+**Zone B — Contrast Matrix:** A token grid. FG tokens on rows, BG
+tokens on columns. Each cell shows the value of the currently selected
+metric, coloured green (pass) or red (fail). A metric selector dropdown
+switches which metric the grid displays. Hovering a cell reveals all
+six metrics for that pair in a tooltip.
+
+**Interaction with COLORES:** Scrutinium reads the current working
+palette live. Any change made in COLORES is reflected immediately in
+Scrutinium without switching features.
+
+**Interaction with suite:** The contrast data produced by Scrutinium
+feeds the seal hash computation. A palette sealed with known failures
+carries a note in the registry record.
+
+**Toolbar when SCRUTINIUM is active:**
+
+```
+[ METRIC: WCAG ▾ ] [ EXPORT REPORT ] [ HELP ]
+```
+
+---
+
+### FEATURE III — SPECULARIUM VIVUM
+*The living preview. The apparatus rendered.*
+
+**Purpose:** Show the Wizard what the palette actually looks like when
+applied to real PyQt6 UI surfaces. Not swatches. Not abstractions. Real
+widgets, rendered live in the theme.
+
+**Why it is needed:** Colour decisions made in isolation fail in context.
+A Void background that reads as sophisticated in a swatch becomes
+oppressive or illegible on a full interface. The Specularium closes this
+gap. It is the most important evaluation surface in the entire apparatus.
+It deserves the most real estate.
+
+**How it works:**
+
+The Specularium canvas is occupied by multiple display context panels.
+The Wizard selects which context is active via a tab strip at the top
+of the canvas. Each context is a live PyQt6 widget composite skinned
+to the current palette's 10 tokens.
+
+**Display Contexts:**
+
+╭──────────────────────┬──────────────────────────────────────────────────╮
+│ Context              │ What it renders                                  │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Instrumentum         │ Dark instrument panel — the canonical Modus      │
+│                      │ Arcanus desktop surface. Titlebar, tabs, panels, │
+│                      │ inputs, buttons, statusbar, all 10 tokens in use │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Documentum           │ Document surface — long-form reading context.    │
+│                      │ Evaluates text legibility over extended content  │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Insignia             │ Badge / icon context. Small-scale rendering.     │
+│                      │ Evaluates token legibility at minimum sizes      │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Token Strip          │ All 10 tokens displayed as large labelled tiles  │
+│                      │ with generated Nomen, hex, and L value           │
+╰──────────────────────┴────────────────────────────────────────────────╯
+
+The Specularium updates live on every palette change. It does not require
+a separate refresh action.
+
+**Toolbar when SPECULARIUM is active:**
+
+```
+[ CONTEXT: Instrumentum ▾ ] [ HELP ]
+```
+
+---
+
+### FEATURE IV — BIBLIOTHECA
+*The Library. The registry made navigable.*
+
+**Purpose:** Browse, load, preview, and fork palettes from the Chromatic
+Registry. The Bibliotheca treats the registry not as a data store but
+as an archive of past deliberations.
+
+**Why it is needed:** Ratified palettes represent decisions. The Wizard
+must be able to return to past decisions, compare them, revise them,
+and understand the history of the apparatus's output. The registry as
+a drawer at the bottom of the screen is insufficient for an authority
+of this stature.
+
+**How it works:**
+
+The Bibliotheca canvas is split: a scrollable list of palette cards on
+the left, a full preview on the right.
+
+**Palette card** (in the list):
+
+```
+╭─────────────────────────────────────────────────────╮
+│  Aureus Crepuscularis                               │
+│  Sealed 2026-04-03 · WCAG AA ✓ · AAA ✗             │
+│  ░░ ░░ ▒▒ ▓▓ ░░ ▒▒ ░░ ▓▓ ░░ ▒▒  ← token swatches  │
+╰─────────────────────────────────────────────────────╯
+```
+
+Selecting a card populates the right panel with the full Specularium
+preview of that palette. The Wizard can:
+
+- **Load** — sets the palette as the working palette in COLORES
+- **Fork** — copies the palette into COLORES as an unsaved working draft
+- **Compare** — opens a split view of the current working palette vs
+  the selected registry palette, showing OKLAB distance per token
+
+**Toolbar when BIBLIOTHECA is active:**
+
+```
+[ LOAD ] [ FORK ] [ COMPARE ] [ HELP ]
+```
+
+**Interaction with suite:** BIBLIOTHECA is read-only with respect to
+`theme.json`. Loading a palette from the registry does not write the
+contract — the Wizard must explicitly Seal and Export from COLORES to
+update the live contract.
+
+---
+
+### FEATURE V — REGISTRUM
+*The ledger. The permanent record.*
+
+**Purpose:** Display the full Chromatic Registry as a queryable table.
+Every sealed palette, every export event, every override note. The
+audit trail.
+
+**Why it is needed:** An authority without a record is not an authority.
+The Registrum is the formal ledger of Bureau I's decisions. It is not
+editable. It is not deletable. It is read by council.
+
+**How it works:**
+
+A full-canvas table. Columns: ID · Designator · Sealed At · WCAG Min ·
+APCA Min · AA · AAA · Seal Hash (truncated) · Notes.
+
+Sorting by any column. Filtering by pass/fail status. Clicking a row
+opens the full record in a detail panel at the right: all 10 token
+hexes, full seal hash, export log, and notes.
+
+**Toolbar when REGISTRUM is active:**
+
+```
+[ EXPORT REGISTRY ] [ HELP ]
+```
+
+**Interaction with suite:** The registry SQLite file at
+`storage/chromatic_registry.db` is the single source of truth. GNOSIUM
+EXANIMA and other suite applications may query it read-only via the
+Involucrum when that service is live.
+
+---
+
+### FEATURE VI — CONFIGURATIO
+*Bureau settings. The apparatus adjusts itself.*
+
+**Purpose:** Configure the behaviour of Bureau I. Default harmony
+algorithm, default contrast algorithm, export directory, LAT/EN
+preference, Mundana State Bus connection target.
+
+**Why it is needed:** The apparatus must be configurable without being
+exposing. Settings that do not belong in the workflow do not appear in
+the workflow. They live here, behind a clearly labelled door.
+
+**Toolbar when CONFIGURATIO is active:**
+
+```
+[ SAVE SETTINGS ] [ RESET DEFAULTS ] [ HELP ]
+```
+
+---
+
+## VI. PALETTE MODEL — THE REVISED ARCHITECTURE
+
+The current implementation derives all tokens mathematically from a
+single BG/FG pair using fixed ratios. This is the correct foundation.
+The revision extends it in two directions.
+
+### VI.I Token Roles (unchanged)
+
+The 10-token hierarchy is maintained:
+
+╭──────────────────┬──────────────────────────────────────────────────────╮
+│ Token            │ Role                                                 │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ c_bg / Void      │ Primary background. The absolute dark.               │
+│ c_panel / Obsid. │ Panel surfaces, cards, dialogs.                      │
+│ c_gold / Aurum   │ Primary accent. Authority. The only bright colour.   │
+│ c_gold_dim       │ Aurum Dimmus. Hints, inactive labels.                │
+│ c_gold_dark      │ Aurum Nox. Borders, separators, hover fills.         │
+│ c_crimson        │ Sanguis. Destructive actions, warnings.              │
+│ c_teal           │ Viridis. Confirmations, saves.                       │
+│ c_text           │ Parchment. All body text.                            │
+│ c_subtle         │ Umbra. Very dark warm tone. Inactive regions.        │
+│ c_white          │ Vellum. Emphasis text, highlighted values.           │
+╰──────────────────┴────────────────────────────────────────────────────╯
+
+### VI.II Harmony Engine — What Changes
+
+In the current model, Crimson is always at 25° hue and Teal is always
+at 195° in OKLAB space, regardless of the base pair. This means a
+violet palette still produces a red Sanguis and a blue-green Viridis —
+colours that may be harmonically unrelated to the rest of the palette.
+
+In the revised model, the harmony algorithm governs all derived tokens,
+including Sanguis and Viridis. Their hue relationships derive from the
+base pair's hue angle, offset according to the selected harmony model.
+The Wizard can lock any token to override this behaviour.
+
+Example: a Complementary palette with a gold base pair (hue ~91°) will
+produce a Viridis at ~271° (blue-purple) rather than the fixed 195°
+teal. The result is harmonically coherent even in the accent tokens.
+
+### VI.III Token Lock
+
+Each derived token in the palette list has a lock toggle. A locked
+token is:
+
+- Excluded from re-derivation when GENERATE fires
+- Highlighted with a gold lock indicator in the palette list
+- Carried forward when switching harmony algorithms
+
+### VI.IV Generated Nomen
+
+Each token receives a generated two-word Latin name reflecting its
+actual perceptual character (hue family + lightness stratum). The Nomen
+updates on every derivation. It is distinct from the token role label.
+
+Example: the Aurum slot in a given palette might receive the Nomen
+"Chryseus Lucidus." The same token role in a different palette might
+receive "Solaris Candidus."
+
+The Nomen is stored in the registry alongside the token hex on
+ratification.
+
+---
+
+## VII. WIREFRAMES — FEATURE CANVASES
+
+### VII.I COLORES — Manual Tab
+
+```
+TOOLBAR: [ NEW ] [ OPEN ] [ SAVE ] [ SAVE AS ] [ SEAL ] [ EXPORT ] [ HELP ]
+─────────────────────────────────────────────────────────────────────────────
+
+   MANUAL  │  ALGORITHM
+ ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+
+  LEAD PAIR
+ ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+
+    FUNDUS                               SCRIPTURA
+  ┌─────────────────────────────────┐  ┌─────────────────────────────────┐
+  │                                 │  │                                 │
+  │         ████████████████        │  │         ████████████████        │
+  │         (colour well)           │  │         (colour well)           │
+  │         (2px gold border)       │  │         (2px gold border)       │
+  │                                 │  │                                 │
+  │  HEX:  [ #050507        ] [⬛]  │  │  HEX:  [ #d4af37        ] [⬛]  │
+  │                                 │  │                                 │
+  │  ⊙ UNLOCKED                     │  │  ⊙ UNLOCKED                     │
+  │                                 │  │                                 │
+  │  L ━━━━━●━━━━━━━━━━━━  0.038   │  │  L ━━━━━━━━━━━━━━●━━  0.790   │
+  │  a ━━━━━━━━━━━━━●━━━━  -0.002  │  │  a ━━━━━━━━●━━━━━━━━  -0.014  │
+  │  b ━━━━━━━━━━━━●━━━━━  -0.020  │  │  b ━━━━━━━━━━━━●━━━━   0.110  │
+  └─────────────────────────────────┘  └─────────────────────────────────┘
+
+ ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+  HARMONY
+ ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+
+  ● Complementary  ○ Monochromatic  ○ Analogous
+  ○ Split-Comp.    ○ Triadic        ○ Tetradic
+
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │  FG hue rotated 180° from BG in OKLAB space. Maximum chromatic     │
+  │  distance. Sanguis and Viridis derive from complement family.       │
+  └─────────────────────────────────────────────────────────────────────┘
+
+  [ ⚙  GENERATE PALETTE ]
+
+ ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+  DERIVED PALETTE
+ ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+
+  Void      ████  #050507   Abyssal Velvet    ⊙  L: 0.038
+  Obsidian  ████  #0a0a12   Crepuscular Void  ⊙  L: 0.054
+  Aurum     ████  #d4af37   Chryseus Lucidus  ⊙  L: 0.790
+  Aur. Dim  ████  #7a6a2a   Melleus Mediocris ⊙  L: 0.436
+  Aur. Nox  ████  #3a2e10   Fumidus Obscurus  ⊙  L: 0.182
+  Sanguis   ████  #8b1a1a   Igneus Obscurus   ⊙  L: 0.285
+  Viridis   ████  #1a5a5a   Caeruleus Umbralis⊙  L: 0.310
+  Parchment ████  #c8b88a   Melleus Lucidus   ⊙  L: 0.724
+  Umbra     ████  #3a3528   Fumidus Tenebris  ⊙  L: 0.198
+  Vellum    ████  #e8e0cc   Candidus Fulgens  ⊙  L: 0.856
+```
+
+---
+
+### VII.II COLORES — Algorithm Tab
+
+```
+TOOLBAR: [ NEW ] [ OPEN ] [ SAVE ] [ SAVE AS ] [ SEAL ] [ EXPORT ] [ HELP ]
+─────────────────────────────────────────────────────────────────────────────
+
+   MANUAL  │  ALGORITHM
+ ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+
+  CONTRAST ALGORITHM
+ ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+
+  ┌──────────────────────────────────────┐
+  │  WCAG-Forced                       ▾ │
+  └──────────────────────────────────────┘
+
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │  Generates a complete base pair and full palette satisfying WCAG   │
+  │  AA (≥ 4.5:1) for all foreground/background token combinations.    │
+  │  Harmony: Complementary by default. Lock a colour to anchor.       │
+  └─────────────────────────────────────────────────────────────────────┘
+
+  ANCHOR (optional)
+
+    FUNDUS                SCRIPTURA
+  ┌──────────────────┐  ┌──────────────────┐
+  │  ████████  ⊙     │  │  ████████  ⊙     │
+  │  #050507         │  │  ────────         │
+  │  LOCKED          │  │  (will generate) │
+  └──────────────────┘  └──────────────────┘
+
+  HARMONY FOR DERIVED TOKENS:
+  [ Complementary ▾ ]
+
+  [ ⚙  GENERATE FULL PALETTE ]
+
+ ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+  LAST GENERATED
+ ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+
+  FUNDUS  ████████████████████  SCRIPTURA  ████████████████████
+
+  WCAG: 8.3:1  ✓  APCA: 74.2  ✓
+
+  [ ↳  SEND TO MANUAL ]
+```
+
+---
+
+### VII.III SCRUTINIUM Canvas
+
+```
+TOOLBAR: [ METRIC: WCAG ▾ ] [ EXPORT REPORT ] [ HELP ]
+─────────────────────────────────────────────────────────────────────────────
+
+  PARIUM COLORUM
+ ─────────────────────────────────────────────────────────────────────────────
+
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │                         │                                               │
+  │   FUNDUS                │   SCRIPTURA                                   │
+  │   #050507               │   #d4af37                                     │
+  │                         │                                               │
+  │   (large colour field)  │   (large colour field)                        │
+  │                         │                                               │
+  └──────────────────────────────────────────────────────────────────────────┘
+
+  ┌───────────────────────────────────────────────────────────────┐
+  │                                                               │
+  │   ██████   16.2         APCA Lc:   -78.4                     │
+  │   WCAG                  Michelson:  0.990                     │
+  │   RATIO                 Weber:      15.200                    │
+  │                         L*:         71.4                      │
+  │          ▁▁▁▁▁   ▁▁▁▁   ▁▁▁▁▁▁▁   Phi:        1.612         │
+  │         🮇  A  🮇  🮇 AA  🮇  🮇  AAA  🮇                         │
+  │          ▔▔▔▔▔   ▔▔▔▔   ▔▔▔▔▔▔▔                              │
+  └───────────────────────────────────────────────────────────────┘
+
+  CONTRAST MATRIX  [ METRIC: WCAG ▾ ]
+ ─────────────────────────────────────────────────────────────────────────────
+
+  FG \ BG     Void    Obsidian  Umbra   Aurum Nox
+  ─────────────────────────────────────────────────
+  Aurum       16.2    15.6      12.8    4.2
+  Aur. Dim     5.5     3.4       2.8    1.2
+  Parchment    8.1     7.8       6.6    2.4
+  Vellum      12.7    12.2      10.3    3.8
+  Sanguis      1.6     1.6       1.5    1.3
+  Viridis      1.9     1.8       1.5    1.2
+
+  (cells coloured green / red by pass / fail)
+  (hover reveals all 6 metrics for that pair)
+```
+
+---
+
+### VII.IV SPECULARIUM — Instrumentum Context
+
+```
+TOOLBAR: [ CONTEXT: Instrumentum ▾ ] [ HELP ]
+─────────────────────────────────────────────────────────────────────────────
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ ✦  APPLICATION INSTRUMENTUM  ✦                    [nav] [nav] [✕]      │
+│ (Titlebar — c_panel bg, c_gold text, c_gold_dark border)               │
+├─────────────────────────────────────────────────────────────────────────┤
+│  OVERVIEW  │  DETAILS  │  ANALYSIS   (tab bar — c_panel, c_gold active)│
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  SECTION HEADER   (c_gold, bold, letter-spacing)                       │
+│                                                                         │
+│  Body text renders here in the parchment tone. This paragraph          │
+│  demonstrates readability at normal weight over the void surface.       │
+│  (c_text on c_bg)                                                       │
+│                                                                         │
+│  Emphasised value: 4,192 tokens processed.   (c_white, bold)           │
+│ ─────────────────────────────────────────────────────── (c_gold_dark)  │
+│                                                                         │
+│  ┌──────────────────────────────────────────────────────────────────┐  │
+│  │  PANEL SURFACE   (c_gold, letter-spacing 2px)                    │  │
+│  │  Secondary container — hint text in dimmed gold. (c_gold_dim)    │  │
+│  │  ┌──────────────────────────────────────────────────────────┐    │  │
+│  │  │  Umbra surface — inactive borders. (c_subtle bg)         │    │  │
+│  │  └──────────────────────────────────────────────────────────┘    │  │
+│  └──────────────────────────────────────────────────────────────────┘  │
+│                                                                         │
+│  [ Inscriptio...                     ] [ Selectio Prima        ▾ ]     │
+│  (c_text on c_bg, c_subtle border)     (c_gold on c_bg)                │
+│                                                                         │
+│  ████████████████████████████████░░░░  (progress — c_gold on c_subtle) │
+│                                                                         │
+│  [ ✦ Manifest ] [ ⊙ Sigillare ] [ ✕ Damnare ]                         │
+│  (c_gold)         (c_teal)        (c_crimson)                           │
+│                                                                         │
+│ TOKEN STRIP                                                             │
+│  ██ ██ ██ ██ ██ ██ ██ ██ ██ ██   (all 10 tokens, labelled, clickable)  │
+│                                                                         │
+├─────────────────────────────────────────────────────────────────────────┤
+│  Status: apparatus active.        Compositio · Unsaved    (c_gold_dim) │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### VII.V BIBLIOTHECA Canvas
+
+```
+TOOLBAR: [ LOAD ] [ FORK ] [ COMPARE ] [ HELP ]
+─────────────────────────────────────────────────────────────────────────────
+
+  ┌──────────────────────────────┐  ┌──────────────────────────────────────┐
+  │  CHROMATIC REGISTRY          │  │  Aureus Crepuscularis                │
+  │  [ Search...             ]   │  │  Sealed 2026-04-03                   │
+  │                              │  │  WCAG AA ✓ · AAA ✗ · APCA ✓        │
+  │  ┌──────────────────────┐    │  │                                      │
+  │  │  Aureus Crepuscularis│ ←  │  │  ██████████████ ██████████████████  │
+  │  │  2026-04-03 · AA ✓  │    │  │  FUNDUS #050507  SCRIPTURA #d4af37  │
+  │  │  ░░▒▒▓▓░░▒▒░░▓▓░░▒▒ │    │  │                                      │
+  │  └──────────────────────┘    │  │  (Specularium preview — Instrumentum)│
+  │                              │  │                                      │
+  │  ┌──────────────────────┐    │  │  TOKEN DETAIL                        │
+  │  │  Smaragdinus Noctis  │    │  │  Void      #050507  Abyssal Velvet  │
+  │  │  2026-04-03 · AA ✓  │    │  │  Obsidian  #0a0a12  Crepusc. Void   │
+  │  │  ░░▒▒▓▓░░▒▒░░▓▓░░▒▒ │    │  │  Aurum     #d4af37  Chryseus Lucidus│
+  │  └──────────────────────┘    │  │  ...                                 │
+  │                              │  │                                      │
+  │  ┌──────────────────────┐    │  │  Seal: 3f9a2c1d...                  │
+  │  │  Amethystinus Crep.. │    │  │                                      │
+  │  │  2026-04-03 · AA ✓  │    │  │  [ LOAD INTO COLORES ]               │
+  │  │  ░░▒▒▓▓░░▒▒░░▓▓░░▒▒ │    │  │  [ FORK AS WORKING DRAFT ]          │
+  │  └──────────────────────┘    │  │  [ COMPARE WITH CURRENT ]           │
+  └──────────────────────────────┘  └──────────────────────────────────────┘
+```
+
+---
+
+## VIII. WORKFLOW — END TO END
+
+```
+LAUNCH
+  │
+  ▼
+COLORES — Manual tab
+  │  Enter or pick Fundus + Scriptura hex
+  │  Select harmony algorithm
+  │  Click GENERATE PALETTE
+  │
+  ├─→ Inspect derived palette list
+  │     Lock any tokens as needed
+  │     Adjust sliders if desired
+  │     Re-GENERATE respects locks
+  │
+  ▼
+SCRUTINIUM (switch feature)
+  │  Review pair display — headline WCAG score
+  │  Inspect contrast matrix — switch metrics
+  │  Identify failures
+  │
+  ├─→ Return to COLORES to adjust
+  │     (Scrutinium updates live — no switch needed
+  │      for passive monitoring)
+  │
+  ▼
+SPECULARIUM (switch feature)
+  │  Switch display contexts
+  │  Evaluate legibility in real rendering
+  │
+  ├─→ Return to COLORES for final adjustments
+  │
+  ▼
+SEAL (toolbar, any feature)
+  │  Input Latin designator (suggested by apparatus)
+  │  Confirm or override
+  │  SHA-256 computed — registry entry written
+  │  theme.json written — Mundana State Bus notified
+  │
+  ▼
+EXPORT (toolbar, any feature)
+  │  theme.qss written
+  │  theme.md written
+  │  theme.css written
+  │  Export logged in registry
+  │
+  ▼
+BIBLIOTHECA (optional)
+    Browse past palettes
+    Compare, fork, or load
+```
+
+---
+
+## IX. INTERACTION WITH THE EXOCOGNII SUITE
+
+Bureau I sits at the base of the Triumviratus. Its outputs are consumed
+by Bureau II (Agentia Architecturalis) and Bureau III (Departamentum
+Documentalis). Both read `theme.json` but do not write it.
+
+Beyond the Triumviratus:
+
+**PRAESIDIUM** reads `theme.json` to skin its widget canvas. When Bureau
+I seals a new palette, PRAESIDIUM receives the Mundana State Bus
+notification and reloads its QSS without requiring a restart.
+
+**GNOSIUM EXANIMA** (when built) will display entity portraits and UI
+chrome skinned to the current theme. It reads `theme.json` on launch
+and on change events.
+
+**The Tower** itself does not skin to `theme.json` at present. The Tower's
+Textual TUI uses its own CSS. This is noted as a future alignment task —
+the Chromata Terminalis palette in the TUI already maps to the same token
+values as the desktop system.
+
+**Exvacua Loricum** (when built) will store palette designators and Nomen
+as lore canon entries. The naming layer of Bureau I feeds the lore layer
+of the Tower.
+
+---
+
+## X. WHAT THE CURRENT IMPLEMENTATION GETS RIGHT
+
+These are the decisions that must be preserved in the rebuild:
+
+- OKLAB as the colour space. This is rare and correct.
+- The 10-token hierarchy. The roles are well-defined.
+- SHA-256 seal + Latin designator. Palette identity is properly handled.
+- Multi-format export (json, qss, md). The contract is properly distributed.
+- Six-metric contrast scoring. No other tool in the Cogniverse does this.
+- The generated Nomen system. Naming derived from perceptual character.
+- The Chromatic Registry as SQLite. Persistent, queryable, auditable.
+
+---
+
+## XI. WHAT THE REBUILD ADDRESSES
+
+- Shell: The Common A4 Shell — Title Legend, Feature Menu, context toolbar.
+  Single Feature Presence. No everything-on-one-screen.
+- Harmony engine: Harmony algorithms govern *all* derived tokens, not just
+  the base pair. Crimson and Viridis derive from the base pair's hue.
+- Token lock: Per-token lock in the derived palette list.
+- Specularium: Multiple display contexts. More real estate. All 10 tokens
+  explicitly exercised.
+- Bibliotheca: Library as a first-class feature, not a collapsible drawer.
+- Help: Each feature has a dedicated, navigable help section accessible
+  from its toolbar.
+
+---
+
+## XII. FEATURES NOT INCLUDED
+
+The following are explicitly out of scope for this revision:
+
+- Vision simulation (deuteranopia, protanopia, achromatopsia) — removed
+  per Wizard directive. Was present in v1.0, will not return.
+- Multiple palettes in a single session — the session model is one working
+  palette at a time. The Bibliotheca handles historical access.
+- Colour blindness accessibility reporting — not a stated requirement of
+  the Cogniverse. Contrast metrics serve the legibility mandate.
+
+---
+
+## XIII. GLOSSARY
+
+╭──────────────────────────┬────────────────────────────────────────────────╮
+│ Term                     │ Definition (as used in Bureau I)               │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Lead Pair                │ The Fundus (BG) and Scriptura (FG) hex values  │
+│                          │ that seed all token derivation                 │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Harmony Algorithm        │ The model governing hue relationships between  │
+│                          │ derived tokens (Complementary, Triadic, etc.)  │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Contrast Algorithm       │ A mathematical constraint used to generate     │
+│                          │ palettes from compliance requirements up        │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Nomen                    │ The two-word Latin name generated for each     │
+│                          │ token based on its perceptual character        │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Designator               │ The two-word Latin name for the entire palette │
+│                          │ assigned at ratification                       │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Seal                     │ The SHA-256 hash computed from the canonical   │
+│                          │ token set. Changes when the palette changes.   │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Ratification             │ The act of sealing a palette and writing it    │
+│                          │ to the registry as a permanent record          │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Specularium Vivum        │ The live UI mockup panel that renders the      │
+│                          │ current palette in real widget surfaces        │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ Chromatic Registry       │ The SQLite database holding all ratified       │
+│                          │ palettes and export history                    │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ theme.json               │ The inter-app colour contract. Bureau I is     │
+│                          │ sole writer. All other apps are readers.       │
+╰──────────────────────────┴────────────────────────────────────────────────╯
+
+---
+
+## XIV. REVISION NOTES
+
+╭──────────────┬──────────────────────────────────────────────────────────╮
+│ Date         │ Note                                                     │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ 2026-04-05   │ v1.0 — Initial design plan compiled for Council Review.  │
+│              │ Based on Wizard wireframes A4-AuctoritasSpectralis-WF    │
+│              │ and A4-Common-WF, and Builder analysis of current        │
+│              │ implementation state.                                     │
+╰──────────────┴──────────────────────────────────────────────────────────╯
+
+---
+
+*AUCTORITAS SPECTRALIS · Design Plan v1.0 · MMXXVI*
+*Submitted for Council Review · Ratification Pending*
+*Ordo Discordia, Cosmos Inania*

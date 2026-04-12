@@ -30,6 +30,7 @@ from ui.dialogs import (
     NewIdeaDialog, AdvanceDialog, ReturnToDialog, CullDialog,
     DeclarationDialog, ExportDialog, CullRegisterDialog,
 )
+from nuntius_emit import emit_event
 
 # ── ClaudeBox import ──────────────────────────────────────────────────────────
 _config_file = Path.home() / '.arca' / 'config.json'
@@ -247,7 +248,14 @@ class DoliumWindow(QMainWindow):
         result = GateEngine.gate_for_current_chamber(self._active_idea)
         dlg = AdvanceDialog(self._active_idea, result, self)
         if dlg.exec() and result.passed:
+            from_chamber = self._active_idea.chamber
             self._store.advance(self._active_idea)
+            emit_event("idea_graduated", {
+                "idea_id": self._active_idea.id,
+                "from_chamber": from_chamber,
+                "to_chamber": self._active_idea.chamber,
+                "title": self._active_idea.title or "",
+            })
             self._pipeline.refresh(select_id=self._active_idea.id)
             self._workspace.load_idea(self._active_idea)
             self._chamber.load_idea(self._active_idea)
@@ -282,6 +290,11 @@ class DoliumWindow(QMainWindow):
             return
         engine  = ExportEngine(self._storage_dir / "exports")
         results = engine.export_all(self._active_idea)
+        emit_event("documentum_aedificii_complete", {
+            "idea_id": self._active_idea.id,
+            "title": self._active_idea.title or "",
+            "output_path": str(next((v for v in results.values() if v), "")),
+        })
         dlg     = ExportDialog(self._active_idea, results, self)
         dlg.exec()
 

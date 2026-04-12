@@ -35,15 +35,41 @@ from PyQt6.QtCore import QThread, pyqtSignal
 
 LOG_PATH = Path.home() / '.arca' / 'token_log.jsonl'
 
+# Cumulative usage snapshot per session — tracks last-written totals so we
+# can derive the per-call delta before writing to the log.
+_usage_baseline: dict[str, tuple[int, int]] = {}  # session_id → (input, output)
 
-def _write_token_log(session_id: str, model: str, input_tokens: int, output_tokens: int) -> None:
-    """Append one record to the shared cross-app token ledger."""
+
+def _write_token_log(
+    box: "ClaudeBox",
+    session_id: str,
+) -> None:
+    """
+    Derive the per-call token delta and append one record to the shared ledger.
+    Uses a module-level baseline dict to avoid double-counting cumulative totals.
+    """
+    try:
+        usage = box.get_token_usage(session_id)
+        model = box.config_snapshot().model
+        total_in  = usage.input_tokens
+        total_out = usage.output_tokens
+    except Exception:
+        return
+
+    prev_in, prev_out = _usage_baseline.get(session_id, (0, 0))
+    delta_in  = max(0, total_in  - prev_in)
+    delta_out = max(0, total_out - prev_out)
+    _usage_baseline[session_id] = (total_in, total_out)
+
+    if delta_in == 0 and delta_out == 0:
+        return  # nothing new to log
+
     record = {
         "ts":            datetime.now(timezone.utc).isoformat(),
         "app":           "dolium",
         "model":         model,
-        "input_tokens":  input_tokens,
-        "output_tokens": output_tokens,
+        "input_tokens":  delta_in,
+        "output_tokens": delta_out,
         "session_id":    session_id,
     }
     try:
@@ -106,14 +132,7 @@ class AmbientWorker(QThread):
             ):
                 self.token_received.emit(token)
 
-            # Log token usage after stream completes
-            try:
-                usage = self._box.get_token_usage(self._session_id)
-                model = self._box.config_snapshot().model
-                _write_token_log(self._session_id, model, usage.input_tokens, usage.output_tokens)
-            except Exception:
-                pass
-
+            _write_token_log(self._box, self._session_id)
             self.complete.emit()
         except Exception as e:
             self.error.emit(str(e))
@@ -165,14 +184,7 @@ class ConversationWorker(QThread):
             ):
                 self.token_received.emit(token)
 
-            # Log token usage after stream completes
-            try:
-                usage = self._box.get_token_usage(self._session_id)
-                model = self._box.config_snapshot().model
-                _write_token_log(self._session_id, model, usage.input_tokens, usage.output_tokens)
-            except Exception:
-                pass
-
+            _write_token_log(self._box, self._session_id)
             self.complete.emit()
         except Exception as e:
             self.error.emit(str(e))

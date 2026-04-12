@@ -1,0 +1,1 @@
+"""Inspector Proprietatum — Property Editor."""

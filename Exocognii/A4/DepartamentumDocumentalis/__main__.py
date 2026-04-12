@@ -1,11 +1,16 @@
-# Departamentum Documentalis — Entry Point
-# v1.0.0
-"""Launch GUI or dispatch CLI commands."""
+# Departamentum Documentalis · __main__.py · v1.1
 import sys
+import warnings
+warnings.filterwarnings("ignore", category=Warning, module="requests")
 
-if len(sys.argv) > 1:
-    from .cli import main as cli_main
-    sys.exit(cli_main())
-else:
-    from .app import main as gui_main
-    sys.exit(gui_main())
+from PyQt6.QtWidgets import QApplication
+from DepartamentumDocumentalis.app import launch
+
+def main():
+    app = QApplication(sys.argv)
+    app.setApplicationName("DepartamentumDocumentalis")
+    launch(app)
+    sys.exit(app.exec())
+
+if __name__ == "__main__":
+    main()

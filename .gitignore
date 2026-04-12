@@ -28,6 +28,11 @@ venv*/
 # Ephemeral storage 
 /home/lordfingers/ArcaCognitorium/storage/
 
+# Claude Code
+.claude/worktrees/
+.claude/settings.local.json
+.claude/plans/
+
 # OS
 .DS_Store
 Thumbs.db

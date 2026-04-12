@@ -1,0 +1,33 @@
+{
+  "_meta": {
+    "designator": "Prasinus Abyssi",
+    "seal": "4e0a793c7b4ab053eb0fbfd67e2d64f258e4d30ce25ac0f4b2255f6b1491bc51",
+    "sealed_at": "2026-04-09T06:54:51",
+    "bureau": "I — Auctoritas Spectralis",
+    "version": "1.0.0"
+  },
+  "tokens": {
+    "c_bg": "#050507",
+    "c_gold": "#d4af37",
+    "c_panel": "#060023",
+    "c_subtle": "#000002",
+    "c_gold_dark": "#341300",
+    "c_gold_dim": "#563f00",
+    "c_text": "#918564",
+    "c_white": "#dfd7c2",
+    "c_crimson": "#490000",
+    "c_teal": "#00401a"
+  },
+  "nomina": {
+    "c_bg": "Obscurus Cinereus",
+    "c_gold": "Candidus Smaragdinus",
+    "c_panel": "Caecus Purpureus",
+    "c_subtle": "Umbra Griseus",
+    "c_gold_dark": "Calidus Luteus",
+    "c_gold_dim": "Neutrum Smaragdinus",
+    "c_text": "Clarus Viridis",
+    "c_white": "Albus Cinereus",
+    "c_crimson": "Subobscurus Rutilus",
+    "c_teal": "Medius Aereus"
+  }
+}
