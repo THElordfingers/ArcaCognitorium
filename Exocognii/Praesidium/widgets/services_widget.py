@@ -57,14 +57,14 @@ SERVICES: tuple[_ServiceDef, ...] = (
         name          = "EXVACUA LORICUM",
         script        = "Exocognii/ExvacuaLoricum/Exvacua.sh",
         health_type   = "http",
-        health_target = "http://127.0.0.1:8731/status",
+        health_target = "http://127.0.0.1:8731/health",
     ),
     _ServiceDef(
         service_id    = "perpetuum",
         name          = "PERPETUUM AEDIFICARE",
         script        = "Exocognii/PerpetuumAedificare/Perpetuum.sh",
         health_type   = "http",
-        health_target = "http://127.0.0.1:8732/status",
+        health_target = "http://127.0.0.1:8732/health",
     ),
     _ServiceDef(
         service_id    = "mundana",
