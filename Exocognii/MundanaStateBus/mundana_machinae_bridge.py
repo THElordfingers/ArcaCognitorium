@@ -24,7 +24,7 @@ Requires:
     - Mundana State Bus running at /tmp/mundana.sock
     - MundanaClient importable from Exocognii.MundanaStateBus
 
-DROP THIS FILE INTO: ~/ArcaCognitorium/machinae/mundana_machinae_bridge.py
+Part of MundanaStateBus package. Run: python3 -m MundanaStateBus.mundana_machinae_bridge
 ═══════════════════════════════════════════════════════════════════════════════
 """
 
@@ -83,19 +83,21 @@ def run_bridge(interval: float = 3.0) -> None:
     Gracefully degrades if Mundana is not running.
     """
     # ── Import MundanaClient ──────────────────────────────────────────
-    exocognii_path = Path.home() / "ArcaCognitorium" / "Exocognii"
-    if str(exocognii_path) not in sys.path:
-        sys.path.insert(0, str(exocognii_path))
-
     try:
-        from MundanaStateBus.mundana_client import (
-            MundanaClient,
-            BusDaemonNotRunningError,
-        )
+        from .mundana_client import MundanaClient, BusDaemonNotRunningError
     except ImportError:
-        log.error("Cannot import MundanaClient. Is MundanaStateBus on the path?")
-        log.error("Expected at: %s/MundanaStateBus/", exocognii_path)
-        sys.exit(1)
+        # Fallback for standalone execution
+        exocognii_path = Path.home() / "ArcaCognitorium" / "Exocognii"
+        if str(exocognii_path) not in sys.path:
+            sys.path.insert(0, str(exocognii_path))
+        try:
+            from MundanaStateBus.mundana_client import (
+                MundanaClient,
+                BusDaemonNotRunningError,
+            )
+        except ImportError:
+            log.error("Cannot import MundanaClient.")
+            sys.exit(1)
 
     # ── Connect to bus ────────────────────────────────────────────────
     client = MundanaClient()

@@ -50,6 +50,7 @@ from ..session.store import SessionStore, SessionRow
 from ..connectivity.nuntius_emit import emit_event
 from ..connectivity.mundana import MundanaWatcher
 from ..connectivity.cognosis import CognosisClient, CognosisError
+from ..connectivity.context_assembler import ContextAssembler
 
 from .conversation_view import ConversationView
 from .entity_panel import EntityPanel
@@ -98,6 +99,8 @@ class MainWindow(QMainWindow):
             perpetuum_aedificare_url=self._cfg.perpetuum_aedificare_api,
             praesidium_url=self._cfg.praesidium_api,
         )
+
+        self._context_assembler = ContextAssembler(self._cognosis)
 
         # Ambient state
         self._mundana_watcher = MundanaWatcher(
@@ -308,16 +311,23 @@ class MainWindow(QMainWindow):
 
     def _build_current_prompt(self) -> str:
         entities = self._active_entities()
+        perpetuum = self._context_assembler.perpetuum_summary()
+        exvacua = self._context_assembler.exvacua_summary()
         if self._mode == MODE_SOLO:
             if not entities:
                 return ""
             return build_solo_prompt(
                 entities[0],
+                mundana_context=self._mundana_summary,
+                perpetuum_context=perpetuum,
+                exvacua_context=exvacua,
                 tower_memory_root=self._cfg.tower_entity_memory_root,
             )
         return build_chamber_prompt(
             entities,
             mundana_context=self._mundana_summary,
+            perpetuum_context=perpetuum,
+            exvacua_context=exvacua,
             tower_memory_root=self._cfg.tower_entity_memory_root,
         )
 

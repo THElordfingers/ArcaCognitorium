@@ -172,6 +172,7 @@ class MainWindow(QMainWindow):
         self.feature_codex.feature_selected.connect(self._on_feature_selected)
         self.fascia.help_requested.connect(lambda: self._on_feature_selected("auxilium"))
         self.fascia.help_dismiss.connect(lambda: self._on_feature_selected(self._previous_feature))
+        self.theme_manager.theme_reloaded.connect(lambda _: self._apply_theme())
 
     def _on_feature_selected(self, key: str) -> None:
         if key != "auxilium":

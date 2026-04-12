@@ -227,7 +227,10 @@ class PraesidiumApp(QMainWindow):
             "RepoActivity":         "⚡  Repo Activity",
             "QuickFileDrop":        "⬇  Quick File Drop",
             "ReferentiaAggregator": "⚙  Referentia",
-            "ServicesWidget":       "⚙  Services",
+            "ServicesWidget":         "⚙  Services",
+            "MundanaAmbientWidget":   "☽  Mundana Ambient",
+            "AppStatusWidget":        "●  App Status",
+            "ActivityFeedWidget":     "⚡  Activity Feed",
         }
 
         for cls_name in self._registry.available_classes():

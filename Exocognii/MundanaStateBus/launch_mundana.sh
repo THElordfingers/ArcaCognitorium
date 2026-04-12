@@ -34,6 +34,9 @@ done
 
 if [[ -S "${SOCK_FILE}" ]]; then
     echo "[mundana] Live — socket at ${SOCK_FILE}"
+    # Start Machinae Bridge
+    "${PYTHON}" -m MundanaStateBus.mundana_machinae_bridge >> "${LOG_DIR}/mundana_bridge.log" 2>&1 &
+    echo "[mundana] Machinae bridge started (PID $!)"
 else
     echo "[mundana] ERROR: Bus failed to start — see ${LOG_FILE}" >&2
     exit 1

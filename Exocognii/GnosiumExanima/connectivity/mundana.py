@@ -1,26 +1,28 @@
 # GNOSIUM EXANIMA — connectivity/mundana.py
-# v1.0.0
+# v1.1.0
 """
-Mundana state watcher — reads ~/.arca/mundana_state.json on a timer.
+Mundana state watcher — hybrid bus subscription + file polling.
 
-The machinae/mundana_state_bus.py module writes an atomic JSON file
-with cosmetic + behaviour tracks. GNOSIUM polls that file, emits a Qt
-signal when the content changes, and surfaces the summary in the
-status strip. If the file never appears (daemon not running), the
-watcher reports disconnected but never blocks.
+Tries to subscribe to Mundana State Bus channels via MundanaQtBridge
+for real-time updates. Falls back to polling ~/.arca/mundana_state.json
+if the bus is not running. Emits the same Qt signals either way.
 """
 
 from __future__ import annotations
 
 import json
+import logging
+import sys
 from pathlib import Path
 from typing import Optional
 
 from PyQt6.QtCore import QObject, QTimer, pyqtSignal
 
+logger = logging.getLogger("gnosium.mundana")
+
 
 class MundanaWatcher(QObject):
-    """Polls the mundana state file and emits updates on change."""
+    """Hybrid bus subscriber / file poller for ambient state."""
 
     state_changed = pyqtSignal(dict)       # cosmetic+behaviour payload
     connected     = pyqtSignal()
@@ -38,22 +40,67 @@ class MundanaWatcher(QObject):
         self._poll_ms = max(1, poll_seconds) * 1000
         self._last_mtime: Optional[float] = None
         self._is_connected = False
+        self._bus_connected = False
+        self._bridges: list = []
+        self._bus_state: dict = {}
 
+        # File polling timer (fallback)
         self._timer = QTimer(self)
         self._timer.setInterval(self._poll_ms)
         self._timer.timeout.connect(self._tick)
 
     def start(self) -> None:
-        self._tick()
-        self._timer.start()
+        # Try bus subscription first
+        if self._try_bus_connect():
+            logger.info("Mundana: connected via State Bus")
+        else:
+            logger.info("Mundana: falling back to file polling")
+            self._tick()
+            self._timer.start()
 
     def stop(self) -> None:
         self._timer.stop()
+        for bridge in self._bridges:
+            try:
+                bridge.disconnect()
+            except Exception:
+                pass
 
     def is_connected(self) -> bool:
         return self._is_connected
 
-    # ── Polling ──────────────────────────────────────────────────
+    # ── Bus subscription ──────────────────────────────────────────
+    def _try_bus_connect(self) -> bool:
+        """Attempt to subscribe to Mundana bus channels."""
+        try:
+            exo = Path.home() / "ArcaCognitorium" / "Exocognii"
+            if str(exo) not in sys.path:
+                sys.path.insert(0, str(exo))
+            from MundanaStateBus.mundana_qt_bridge import MundanaQtBridge
+            from MundanaStateBus.mundana_client import BusDaemonNotRunningError
+        except ImportError:
+            return False
+
+        channels = ["mundana.horologica", "mundana.caelestis"]
+        connected_count = 0
+        for channel in channels:
+            sig = pyqtSignal(dict)
+            bridge = MundanaQtBridge(channel, self.state_changed)
+            try:
+                bridge.connect()
+                connected_count += 1
+                self._bridges.append(bridge)
+            except BusDaemonNotRunningError:
+                pass
+
+        if connected_count > 0:
+            self._bus_connected = True
+            self._is_connected = True
+            self.connected.emit()
+            return True
+        return False
+
+    # ── File polling (fallback) ────────────────────────────────────
     def _tick(self) -> None:
         try:
             if not self._path.exists():

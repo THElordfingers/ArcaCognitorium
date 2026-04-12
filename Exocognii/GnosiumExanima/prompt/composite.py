@@ -61,6 +61,8 @@ def build_chamber_prompt(
     entities: Iterable[EntityPackage],
     *,
     mundana_context: Optional[str] = None,
+    perpetuum_context: Optional[str] = None,
+    exvacua_context: Optional[str] = None,
     tower_memory_root: Optional[Path] = None,
 ) -> str:
     """
@@ -94,12 +96,25 @@ def build_chamber_prompt(
         sections.append(mundana_context.strip())
         sections.append("")
 
+    if perpetuum_context and perpetuum_context.strip():
+        sections.append("─── BUILD STATE ───")
+        sections.append(perpetuum_context.strip())
+        sections.append("")
+
+    if exvacua_context and exvacua_context.strip():
+        sections.append("─── LORE REFERENCE ───")
+        sections.append(exvacua_context.strip())
+        sections.append("")
+
     return "\n".join(sections)
 
 
 def build_solo_prompt(
     entity: EntityPackage,
     *,
+    mundana_context: Optional[str] = None,
+    perpetuum_context: Optional[str] = None,
+    exvacua_context: Optional[str] = None,
     tower_memory_root: Optional[Path] = None,
 ) -> str:
     """Assemble the Solo prompt for a single entity."""
@@ -110,4 +125,22 @@ def build_solo_prompt(
     memory = None
     if tower_memory_root is not None:
         memory = read_tower_memory(tower_memory_root, entity.entity_id)
-    return "\n".join([preamble.strip(), "", entity.prompt_section(tower_memory=memory)])
+
+    sections = [preamble.strip(), "", entity.prompt_section(tower_memory=memory)]
+
+    if mundana_context and mundana_context.strip():
+        sections.append("─── AMBIENT CONTEXT ───")
+        sections.append(mundana_context.strip())
+        sections.append("")
+
+    if perpetuum_context and perpetuum_context.strip():
+        sections.append("─── BUILD STATE ───")
+        sections.append(perpetuum_context.strip())
+        sections.append("")
+
+    if exvacua_context and exvacua_context.strip():
+        sections.append("─── LORE REFERENCE ───")
+        sections.append(exvacua_context.strip())
+        sections.append("")
+
+    return "\n".join(sections)
