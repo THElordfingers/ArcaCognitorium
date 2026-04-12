@@ -49,6 +49,8 @@ import threading
 from datetime import datetime
 from pathlib import Path
 
+from nuntius_emit import emit_event
+
 from PyQt6.QtCore import Qt, QThread, pyqtSignal, QTimer, QSize
 from PyQt6.QtGui import (
     QColor, QTextCharFormat, QSyntaxHighlighter,
@@ -1499,7 +1501,8 @@ class FornaxEntiumApp(QMainWindow):
         self.fornax.card.set_portrait(path)
         name = self._entity.get('display_name', '?')
         try:
-            _vault_save(self._entity, path)
+            d = _vault_save(self._entity, path)
+            emit_event("entity_vaulted", {"name": name, "vault_dir": str(d)})
         except Exception as e:
             log.warning(f'vault_save: {e}')
         self.fornax.set_status(f'🜲  Complete — {name}')
@@ -1511,8 +1514,10 @@ class FornaxEntiumApp(QMainWindow):
         self._status('✕  Portrait generation failed.')
         # Still save entity without portrait
         if self._entity:
+            name = self._entity.get('display_name', '?')
             try:
-                _vault_save(self._entity, None)
+                d = _vault_save(self._entity, None)
+                emit_event("entity_vaulted", {"name": name, "vault_dir": str(d)})
             except Exception: pass
 
     def _on_portrait_tick(self, current, total):
