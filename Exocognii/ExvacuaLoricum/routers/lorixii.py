@@ -21,6 +21,7 @@ from typing import Optional
 
 from fastapi import APIRouter, HTTPException, Query, BackgroundTasks
 from pydantic import BaseModel
+from typing import Any
 
 from db import get_db, row_to_dict
 
@@ -36,7 +37,7 @@ class Involucrum(BaseModel):
     source_version: str = ""
     timestamp:      str = ""
     hint:           str = ""
-    body:           str
+    body:           Any = ""
 
 
 class FileDropRequest(BaseModel):
@@ -75,7 +76,7 @@ def _insert_lorix(conn, source_type: str, source_ref: str,
 @router.post("/lorix", status_code=201)
 async def ingest_lorix(payload: Involucrum):
     """Ingest a single Lorix from an app Involucrum envelope."""
-    content = payload.body
+    content = json.dumps(payload.body) if isinstance(payload.body, (dict, list)) else str(payload.body)
     if payload.hint:
         content = f"[hint: {payload.hint}]\n\n{content}"
 

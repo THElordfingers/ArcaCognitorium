@@ -14,6 +14,7 @@ PUT    /acquiuum/{id}/node    — Wizard manually assigns to a node
 DELETE /acquiuum/{id}         — dismiss
 """
 
+import json
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -21,6 +22,7 @@ from typing import Optional
 
 from fastapi import APIRouter, HTTPException, Query, BackgroundTasks
 from pydantic import BaseModel
+from typing import Any
 
 from db import get_db, row_to_dict
 
@@ -32,7 +34,7 @@ class Involucrum(BaseModel):
     source_version: str = ""
     timestamp:      str = ""
     hint:           str = ""
-    body:           str
+    body:           Any = ""
 
 
 class NotaBrevis(BaseModel):
@@ -66,7 +68,7 @@ def _insert(conn, source_type: str, source_ref: str, raw_content: str) -> str:
 @router.post("/acquiuum", status_code=201)
 async def ingest_acquiuum(payload: Involucrum):
     """Ingest an app emission via Involucrum envelope."""
-    content = payload.body
+    content = json.dumps(payload.body) if isinstance(payload.body, (dict, list)) else str(payload.body)
     if payload.hint:
         content = f"[hint: {payload.hint}]\n\n{content}"
     with get_db() as conn:

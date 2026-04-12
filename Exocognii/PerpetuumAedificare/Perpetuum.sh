@@ -6,8 +6,8 @@
 ######## Perpetuum.sh
 
 
-APP="Perpetuum"
-VENV=$(echo "${APP}" | tr '[:lower:]' '[:upper:]')
+APP="PerpetuumAedificare"
+VENV="PERPETUUM"
 
 cd ~/ArcaCognitorium/Exocognii/${APP}
 source venv-${VENV}/bin/activate
