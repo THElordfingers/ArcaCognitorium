@@ -49,6 +49,10 @@ WIDGET_MANIFEST: dict[str, str] = {
     "ReferentiaAggregator":   "widgets.referentia_aggregator",
     "ArtWidget":              "widgets.art_widget",
     "GlyphBrowser":           "widgets.glyph_browser",
+    "ServicesWidget":         "widgets.services_widget",
+    "MundanaAmbientWidget":   "widgets.mundana_ambient",
+    "AppStatusWidget":        "widgets.app_status",
+    "ActivityFeedWidget":     "widgets.activity_feed",
 }
 
 
@@ -122,8 +126,12 @@ class WidgetRegistry:
         if name == "ReferentiaAggregator":
             return cls(widget_id=widget_id, configuus=self._cfg, parent=parent)
 
+        if name == "ServicesWidget":
+            return cls(widget_id=widget_id, configuus=self._cfg, parent=parent)
+
         # ArtWidget, GlyphBrowser, DisplayPanel, QuickFileDrop,
-        # StyleReference, StatusLegend — no extra args
+        # StyleReference, StatusLegend, MundanaAmbientWidget,
+        # AppStatusWidget, ActivityFeedWidget — no extra args
         return cls(widget_id=widget_id, parent=parent)
 
     def available_classes(self) -> list[str]:
