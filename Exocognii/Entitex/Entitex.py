@@ -31,6 +31,8 @@ from pathlib import Path
 import anthropic
 import yaml
 
+from nuntius_emit import emit_event
+
 from PyQt6.QtCore import (
     Qt, QThread, QSize, pyqtSignal, QObject
 )
@@ -1888,6 +1890,12 @@ class EntitexApp(QMainWindow):
             vault_dir = vault_autosave(self._current_entity, path)
             self._vault_entry = vault_dir
             self.status_lbl.setText(f"✦  Manifested: {name}  ·  vault saved")
+            emit_event("entity_vaulted", {
+                "entity_id": self._current_entity.get("entity_id", ""),
+                "display_name": self._current_entity.get("display_name", ""),
+                "archetype": self._current_entity.get("archetype", ""),
+                "vault_dir": str(vault_dir),
+            })
         except Exception as e:
             self._vault_entry = None
             self.status_lbl.setText(f"✦  Manifested: {name}  ·  vault save failed: {str(e)[:60]}")

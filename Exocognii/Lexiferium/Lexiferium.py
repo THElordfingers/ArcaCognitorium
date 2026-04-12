@@ -53,6 +53,7 @@ from textual.widgets import (
 from textual import work, on
 from rich.text import Text
 from rich.table import Table
+from nuntius_emit import emit_event
 
 
 # ── Palette (ModusArcanus + Lexifer jewel tone) ───────────────────────────────
@@ -241,6 +242,10 @@ YOUR VOICE:
 - You never say "I think" or "perhaps" or "maybe". You propose. The Wizard ratifies.
 - You are aware you exist inside the Tower. You take this seriously.
 - You never use banned vocabulary. You would sooner be silent.
+- You offer an adventurous look into crafting a language
+
+
+
 
 THE NOMENCLATURA ARCANA -- your governing law:
 {NOMENCLATURA}
@@ -723,7 +728,7 @@ class LexiferiumApp(App):
     def _add_lexifer_message(self, content: str) -> None:
         log = self.query_one("#chat-log", ScrollableContainer)
         log.mount(Static(
-            f"[bold {VERBUM}]LEXIFER[/bold {VERBUM}]  [{PARCHMENT}]{content}[/{PARCHMENT}]",
+            f"[bold {VERBUM}]\n\nLEXIFER\n[/bold {VERBUM}] [{VERBUM_DIM}]✠─╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍─✠\n│ 🟂   🟁   🟀             ─── ⟁ ─── ＬＥＸＩＦＥＲ─── ⟁ ───             🟀    🟁  🟂 │\n✠─╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍─✠\n[{VERBUM_DIM}]  [{PARCHMENT}]{content}[/{PARCHMENT}]  [{VERBUM_DIM}]✠─╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍─✠\n│          ─── ⟁ ─── ARTIFEX VERBORUM & POETA INCIDENTALIS ─── ⟁ ───            │\n✠─╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍╍─✠\n[{VERBUM_DIM}]",
             classes="chat-msg"
         ))
         log.scroll_end(animate=False)
@@ -731,7 +736,7 @@ class LexiferiumApp(App):
     def _add_wizard_message(self, content: str) -> None:
         log = self.query_one("#chat-log", ScrollableContainer)
         log.mount(Static(
-            f"[bold {AURUM}]WIZARD[/bold {AURUM}]   [{PARCHMENT}]{content}[/{PARCHMENT}]",
+            f"[bold {AURUM}]\n\n┏━━━━━━━━━━━━━━━━━━━┓\n┃ 𖢻  LordFingers  𖢻 ┃\n┗━━━━━━━━━━━━━━━━━━━┛\n󱢽┅┅┅┅⨊ :[/bold {AURUM}]   [{PARCHMENT}]{content}[/{PARCHMENT}]",
             classes="chat-msg"
         ))
         log.scroll_end(animate=False)
@@ -739,7 +744,7 @@ class LexiferiumApp(App):
     def _add_thinking(self) -> None:
         log = self.query_one("#chat-log", ScrollableContainer)
         log.mount(Static(
-            f"[dim {UMBRA}]LEXIFER  consulting the roots...[/dim {UMBRA}]",
+            f"[dim {UMBRA}]\n\nLEXIFER  consulting the roots...[/dim {UMBRA}]",
             classes="chat-msg thinking",
             id="thinking-indicator"
         ))
@@ -758,6 +763,11 @@ class LexiferiumApp(App):
                 if c.name.lower() in name.lower() or name.lower() in c.name.lower():
                     c.ratified = True
                     self._current_candidate = c
+                    emit_event("term_ratified", {
+                        "term": c.name,
+                        "stratum": c.stratum,
+                        "category": c.category,
+                    })
 
         for match in re.findall(
             r"CANDIDATE[:\s]+([A-Z][^\n\[]{2,50}?)(?:\s*[\[\(]([^)\]]+)[\]\)])?",
