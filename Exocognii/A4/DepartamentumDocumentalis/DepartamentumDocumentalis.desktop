@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.1
+Type=Application
+Name=Departamentum Documentalis
+Comment=Template Sovereignty Engine · Bureau III
+Exec=bash /home/lordfingers/ArcaCognitorium/Exocognii/A4/DepartamentumDocumentalis/launch_dd.sh
+Icon=DepartamentumDocumentalis
+Terminal=false
+Categories=Utility;

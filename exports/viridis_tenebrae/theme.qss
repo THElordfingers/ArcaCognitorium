@@ -1,0 +1,141 @@
+/*
+  AUCTORITAS SPECTRALIS — Generated Theme
+  Designator: Viridis Tenebrae
+  Bureau I — Triumviratus Aestheticus Imperialis
+  Do not edit manually. Regenerate via Auctoritas Spectralis.
+*/
+
+/* ── Token definitions ── */
+/* c_bg:        #050507 */
+/* c_gold:      #d4af37 */
+/* c_panel:     #1a1a27 */
+/* c_subtle:    #0e0e17 */
+/* c_gold_dark: #250034 */
+/* c_gold_dim:  #67327c */
+/* c_text:      #a188ac */
+/* c_white:     #dbd0df */
+/* c_crimson:   #033400 */
+/* c_teal:      #003e21 */
+
+QWidget {
+    background-color: #050507;
+    color: #a188ac;
+    font-family: "IM Fell English", "Georgia", serif;
+    font-size: 12px;
+    border: none;
+    outline: none;
+}
+
+QMainWindow {
+    background-color: #050507;
+}
+
+QPushButton {
+    background-color: #050507;
+    color: #67327c;
+    border: 1px solid #250034;
+    font-family: "Share Tech Mono", "Courier New", monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    padding: 5px 12px;
+    min-height: 22px;
+}
+
+QPushButton:hover {
+    background-color: #250034;
+    color: #d4af37;
+    border-color: #67327c;
+}
+
+QPushButton:pressed {
+    background-color: #67327c;
+    color: #050507;
+}
+
+QLabel {
+    background: transparent;
+    color: #a188ac;
+}
+
+QLineEdit {
+    background-color: #050507;
+    color: #a188ac;
+    border: 1px solid #250034;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 10px;
+    padding: 4px 8px;
+    selection-background-color: #250034;
+    selection-color: #d4af37;
+}
+
+QLineEdit:focus {
+    border-color: #67327c;
+}
+
+QComboBox {
+    background-color: #050507;
+    color: #d4af37;
+    border: 1px solid #250034;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 9px;
+    padding: 4px 8px;
+}
+
+QScrollBar:vertical {
+    background: #050507;
+    width: 8px;
+    border: none;
+}
+
+QScrollBar::handle:vertical {
+    background: #250034;
+    min-height: 20px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: #67327c;
+}
+
+QTabBar::tab {
+    background-color: transparent;
+    color: #67327c;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    padding: 7px 16px;
+    border-bottom: 2px solid transparent;
+}
+
+QTabBar::tab:selected {
+    color: #d4af37;
+    border-bottom: 2px solid #d4af37;
+    background-color: rgba(212, 175, 55, 0.04);
+}
+
+QTableWidget, QTableView {
+    background-color: #050507;
+    color: #a188ac;
+    border: 1px solid #250034;
+    gridline-color: #250034;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 9px;
+}
+
+QHeaderView::section {
+    background-color: #1a1a27;
+    color: #d4af37;
+    border: 1px solid #250034;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 8px;
+    padding: 4px 8px;
+    font-weight: normal;
+}
+
+QToolTip {
+    background-color: #1a1a27;
+    color: #a188ac;
+    border: 1px solid #250034;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 10px;
+    padding: 4px 8px;
+}

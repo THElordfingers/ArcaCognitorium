@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Gnosium Exanima
+GenericName=Tower Entity Overseer
+Comment=Converse with Tower entities — Chamber and Solo modes
+Exec=/home/lordfingers/ArcaCognitorium/Exocognii/GnosiumExanima/launch_gnosium.sh
+Icon=gnosium_exanima
+Terminal=false
+Categories=Utility;Development;
+StartupWMClass=GnosiumExanima

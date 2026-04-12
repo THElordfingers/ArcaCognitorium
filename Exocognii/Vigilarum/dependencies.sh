@@ -5,8 +5,5 @@
 #####
 ######## dependencies.sh
 
-
-pip install 
-pip install 
-pip install 
-pip install 
+pip install PyQt6
+pip install pyswisseph

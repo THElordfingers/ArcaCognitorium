@@ -1,0 +1,33 @@
+{
+  "_meta": {
+    "designator": "Caeruleus Abyssi",
+    "seal": "fdf807977e862eb23760929abafb39d7b9dfa13c600fcaee1e1e1b969d4bc18f",
+    "sealed_at": "2026-04-09T22:44:07",
+    "bureau": "I — Auctoritas Spectralis",
+    "version": "1.0.0"
+  },
+  "tokens": {
+    "c_bg": "#050300",
+    "c_gold": "#4dea8a",
+    "c_panel": "#141108",
+    "c_subtle": "#0b0904",
+    "c_gold_dark": "#131c00",
+    "c_gold_dim": "#4f6000",
+    "c_text": "#7c8660",
+    "c_white": "#c3c8b8",
+    "c_crimson": "#00392b",
+    "c_teal": "#59002b"
+  },
+  "nomina": {
+    "c_bg": "Caecus Lividus",
+    "c_gold": "Purus Venetus",
+    "c_panel": "Caecus Lividus",
+    "c_subtle": "Obscurus Cinereus",
+    "c_gold_dark": "Opacus Smaragdinus",
+    "c_gold_dim": "Liquidus Prasinus",
+    "c_text": "Liquidus Prasinus",
+    "c_white": "Niveus Lividus",
+    "c_crimson": "Medius Aereus",
+    "c_teal": "Medius Sanguineus"
+  }
+}

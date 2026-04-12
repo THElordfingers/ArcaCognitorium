@@ -6,7 +6,7 @@
 ######## Exvacua.sh
 
 
-APP="Exvacua"
+APP="ExvacuaLoricum"
 VENV=$(echo "${APP}" | tr '[:lower:]' '[:upper:]')
 
 cd ~/ArcaCognitorium/Exocognii/${APP}

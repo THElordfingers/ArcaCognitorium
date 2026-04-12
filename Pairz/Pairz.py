@@ -848,7 +848,91 @@ class ColorDashboard(ctk.CTk):
         with open(json_path, "w") as jf:
             json.dump(payload, jf, indent=2)
 
+        self._write_konsole_colorscheme(bg_clean, fg_clean, has_tertiary)
+
         self.generate_new_pair()
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # KONSOLE COLORSCHEME EXPORT
+    # ══════════════════════════════════════════════════════════════════════════
+    def _write_konsole_colorscheme(self, bg_clean, fg_clean, has_tertiary):
+        """Write a Konsole .colorscheme file and signal running Konsole instances."""
+        def hex_to_rgb_tuple(hx):
+            h = hx.lstrip('#')
+            return int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+
+        bg_r, bg_g, bg_b = hex_to_rgb_tuple(self.bg_hex)
+        fg_r, fg_g, fg_b = hex_to_rgb_tuple(self.fg_hex)
+
+        description = f"{bg_clean}&{fg_clean}"
+        filename    = f"{description}.colorscheme"
+        konsole_dir = Path.home() / ".local" / "share" / "konsole"
+        konsole_dir.mkdir(parents=True, exist_ok=True)
+        out_path = konsole_dir / filename
+
+        lines = [
+            "[Background]",
+            f"Color={bg_r},{bg_g},{bg_b}",
+            "",
+            "[Foreground]",
+            f"Color={fg_r},{fg_g},{fg_b}",
+        ]
+
+        if has_tertiary:
+            acc_r, acc_g, acc_b = hex_to_rgb_tuple(self.accent_hex)
+            lines += [
+                "",
+                "[Color4]",
+                f"Color={acc_r},{acc_g},{acc_b}",
+            ]
+
+        lines += [
+            "",
+            "[General]",
+            "Anchor=0.5,0.5",
+            "Blur=False",
+            "ColorRandomization=false",
+            f"Description={description}",
+            "FillStyle=Tile",
+            "Opacity=1.0",
+            "Wallpaper=",
+            "WallpaperFlipType=NoFlip",
+            "WallpaperOpacity=1",
+            "",
+        ]
+
+        out_path.write_text("\n".join(lines))
+
+        # Signal running Konsole instances to reload their scheme list,
+        # skipping any Konsole that is an ancestor of this process.
+        try:
+            import subprocess, os
+
+            # Walk up the process tree to collect all ancestor PIDs
+            ancestor_pids = set()
+            pid = os.getpid()
+            while pid > 1:
+                try:
+                    ppid_out = subprocess.run(
+                        ["ps", "-o", "ppid=", "-p", str(pid)],
+                        capture_output=True, text=True)
+                    pid = int(ppid_out.stdout.strip())
+                    ancestor_pids.add(pid)
+                except Exception:
+                    break
+
+            # Find all Konsole PIDs
+            pgrep = subprocess.run(["pgrep", "-x", "konsole"],
+                                   capture_output=True, text=True)
+            for line in pgrep.stdout.splitlines():
+                try:
+                    kpid = int(line.strip())
+                    if kpid not in ancestor_pids:
+                        os.kill(kpid, 1)   # SIGHUP = 1
+                except Exception:
+                    pass
+        except Exception:
+            pass
 
     def _resolve_json_path(self, base_stem, new_payload):
         candidate = COLOUR_PAIRS_DIR / f"{base_stem}.json"

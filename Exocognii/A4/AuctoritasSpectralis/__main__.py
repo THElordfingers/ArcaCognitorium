@@ -1,10 +1,30 @@
-# Auctoritas Spectralis — Entry Point
-# v1.0.0
-"""Launch Codexium Chromaticus."""
+"""
+AUCTORITAS SPECTRALIS — v1.0.0
+Entry point: python3 -m AuctoritasSpectralis
+from Exocognii/ parent directory with PYTHONPATH=.
+"""
 
 import sys
+import os
 
-from .app import main
+def main():
+    from PyQt6.QtWidgets import QApplication
+    from PyQt6.QtCore import Qt
+    from AuctoritasSpectralis.app import AuctoritasSpectralisApp
 
-if __name__ == '__main__':
-    sys.exit(main())
+    # High-DPI support
+    os.environ.setdefault("QT_AUTO_SCREEN_SCALE_FACTOR", "1")
+
+    app = QApplication(sys.argv)
+    app.setApplicationName("AuctoritasSpectralis")
+    app.setApplicationDisplayName("AUCTORITAS SPECTRALIS")
+    app.setApplicationVersion("1.0.0")
+
+    window = AuctoritasSpectralisApp()
+    window.show()
+
+    sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    main()

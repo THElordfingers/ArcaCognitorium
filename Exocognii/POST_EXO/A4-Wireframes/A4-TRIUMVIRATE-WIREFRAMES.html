@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Triumviratus Aestheticus Imperialis — Wireframe Package</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
+
+  :root {
+    --void:       #050507;
+    --obsidian:   #0a0a12;
+    --aurum:      #d4af37;
+    --aurum-dim:  #7a6a2a;
+    --aurum-nox:  #3a2e10;
+    --sanguis:    #8b1a1a;
+    --viridis:    #1a5a5a;
+    --parchment:  #c8b88a;
+    --umbra:      #3a3528;
+    --vellum:     #e8e0cc;
+    --teal-soft:  #1e6868;
+
+    --shell-w: 1280px;
+    --shell-h: 800px;
+    --titulum-w: 220px;
+    --titulum-h: 160px;
+    --codex-w: 220px;
+    --fascia-h: 52px;
+    --font-mono: 'Courier Prime', 'Courier New', monospace;
+    --font-serif: 'IM Fell English', Georgia, serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #020204;
+    color: var(--parchment);
+    font-family: var(--font-mono);
+    padding: 40px 20px 80px;
+    min-height: 100vh;
+  }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    text-align: center;
+    margin-bottom: 60px;
+    border-bottom: 1px solid var(--aurum-nox);
+    padding-bottom: 32px;
+  }
+  .page-header h1 {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    color: var(--aurum);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .page-header .sub {
+    font-size: 11px;
+    color: var(--aurum-dim);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .page-header .motto {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--aurum-dim);
+    margin-top: 12px;
+  }
+
+  /* ── SECTION DIVIDERS ── */
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--aurum-dim);
+    margin: 60px 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: var(--shell-w);
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .section-label::before,
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--aurum-nox);
+  }
+
+  /* ── SCREEN WRAPPER ── */
+  .screen-wrap {
+    max-width: var(--shell-w);
+    margin: 0 auto 60px;
+  }
+  .screen-caption {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--aurum-dim);
+    margin-bottom: 12px;
+    padding-left: 2px;
+  }
+
+  /* ══════════════════════════════════════════
+     THE SHELL
+  ══════════════════════════════════════════ */
+  .shell {
+    width: var(--shell-w);
+    height: var(--shell-h);
+    background: var(--void);
+    border: 2px solid var(--aurum-nox);
+    display: grid;
+    grid-template-columns: var(--titulum-w) 1fr;
+    grid-template-rows: var(--titulum-h) var(--fascia-h) 1fr;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ── ZONE I · Titulum Pane ── */
+  .titulum {
+    grid-column: 1;
+    grid-row: 1;
+    background: var(--obsidian);
+    border-right: 2px solid var(--aurum);
+    border-bottom: 2px solid var(--aurum);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .titulum-name {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 11px;
+    color: var(--aurum);
+    letter-spacing: 1px;
+    line-height: 1.3;
+  }
+  .titulum-rule {
+    width: 100%;
+    height: 1px;
+    background: var(--aurum-nox);
+    margin: 4px 0;
+  }
+  .titulum-eng {
+    font-size: 9px;
+    color: var(--aurum-dim);
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+  }
+  .titulum-motto {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 9px;
+    color: var(--aurum-dim);
+    margin-top: 2px;
+  }
+  .titulum-live {
+    font-size: 9px;
+    color: var(--parchment);
+    margin-top: auto;
+    padding-top: 6px;
+    border-top: 1px solid var(--umbra);
+  }
+
+  /* ── ZONE II · Feature Codex ── */
+  .codex {
+    grid-column: 1;
+    grid-row: 2 / 4;
+    background: var(--obsidian);
+    border-right: 2px solid var(--aurum-nox);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .codex-header {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--aurum-dim);
+    text-transform: uppercase;
+    padding: 10px 16px 8px;
+    border-bottom: 1px solid var(--aurum-nox);
+  }
+  .codex-entry {
+    font-size: 11px;
+    color: var(--parchment);
+    padding: 9px 16px;
+    border-bottom: 1px solid var(--umbra);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.1s;
+  }
+  .codex-entry:hover { background: var(--aurum-nox); }
+  .codex-entry.active {
+    color: var(--aurum);
+    background: var(--aurum-nox);
+    border-left: 2px solid var(--aurum);
+    border-bottom: 1px solid var(--aurum-nox);
+  }
+  .codex-entry .arrow { color: var(--aurum); font-size: 10px; }
+
+  /* ── ZONE III · Fascia ── */
+  .fascia {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    background: var(--obsidian);
+    border-bottom: 1px solid var(--aurum-nox);
+    display: flex;
+    align-items: flex-end;
+    padding: 0 16px 8px;
+    gap: 8px;
+  }
+  .fascia-btn {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--aurum);
+    background: var(--void);
+    border: 1px solid var(--aurum-nox);
+    padding: 5px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .fascia-btn:hover { background: var(--aurum-nox); border-color: var(--aurum); }
+  .fascia-btn.teal { color: #2a9090; border-color: var(--teal-soft); }
+  .fascia-btn.help {
+    margin-left: auto;
+    color: var(--aurum-dim);
+    border-color: var(--umbra);
+  }
+  /* Titulum spans row 1 col 1; Fascia starts at row 1 col 2 */
+  .fascia { grid-row: 1 / 3; align-items: flex-end; padding-bottom: 10px; }
+
+  /* ── ZONE IV · Canvas ── */
+  .canvas {
+    grid-column: 2;
+    grid-row: 3;
+    background: var(--void);
+    padding: 20px 24px;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  /* ── CANVAS CONTENT PATTERNS ── */
+  .canvas-title {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--aurum-dim);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .canvas-title::before { content: '✦'; color: var(--aurum); }
+  .canvas-title::after  { content: '✦'; color: var(--aurum); }
+
+  .canvas-rule {
+    border: none;
+    border-top: 1px dashed var(--umbra);
+    margin: 10px 0 16px;
+  }
+
+  /* Forma cards */
+  .forma-card {
+    border: 1px solid var(--aurum-nox);
+    background: var(--obsidian);
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  .forma-card:hover { border-color: var(--aurum-dim); }
+  .forma-card-title {
+    font-size: 12px;
+    color: var(--aurum);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .forma-card-meta {
+    font-size: 10px;
+    color: var(--aurum-dim);
+    margin-bottom: 2px;
+  }
+  .forma-card-date { font-size: 9px; color: var(--umbra); margin-top: 6px; color: var(--parchment); opacity: 0.5; }
+  .badge {
+    position: absolute;
+    top: 12px; right: 14px;
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 2px 8px;
+    border: 1px solid;
+  }
+  .badge.mandated { color: var(--aurum); border-color: var(--aurum-nox); background: #1a1500; }
+  .badge.draft    { color: var(--parchment); border-color: var(--umbra); background: var(--obsidian); opacity: 0.7; }
+  .badge.outdated { color: #c8702a; border-color: #5a3010; background: #1a0d00; }
+
+  /* Filter bar */
+  .filter-bar {
+    display: flex; gap: 10px; margin-bottom: 14px;
+  }
+  .filter-select {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--aurum-dim);
+    background: var(--obsidian);
+    border: 1px solid var(--aurum-nox);
+    padding: 4px 10px;
+  }
+
+  /* Forma editor layout */
+  .forma-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    height: 100%;
+  }
+  .editor-meta {
+    background: var(--obsidian);
+    border: 1px solid var(--aurum-nox);
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+  }
+  .field-row {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .field-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--aurum-dim);
+    text-transform: uppercase;
+  }
+  .field-input {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--vellum);
+    background: var(--void);
+    border: 1px solid var(--umbra);
+    padding: 4px 8px;
+    width: 100%;
+  }
+  .field-select {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--vellum);
+    background: var(--void);
+    border: 1px solid var(--umbra);
+    padding: 4px 8px;
+  }
+  .mandate-toggle {
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  .radio-opt {
+    font-size: 10px;
+    color: var(--parchment);
+    display: flex; align-items: center; gap: 5px;
+  }
+  .radio-opt.active { color: var(--aurum); }
+
+  /* Field definition list */
+  .field-defs {
+    border: 1px solid var(--aurum-nox);
+    background: var(--obsidian);
+    flex: 1;
+    overflow: hidden;
+  }
+  .field-defs-header {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--aurum-dim);
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--aurum-nox);
+    background: var(--void);
+  }
+  .field-def-row {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--umbra);
+    gap: 12px;
+    font-size: 11px;
+  }
+  .field-def-row:hover { background: #0d0d18; }
+  .lock-icon { font-size: 12px; width: 18px; text-align: center; }
+  .lock-icon.fixed { color: var(--sanguis); opacity: 0.8; }
+  .lock-icon.perm  { color: var(--viridis); opacity: 0.9; }
+  .field-def-name { color: var(--vellum); flex: 1; }
+  .field-def-type { color: var(--aurum-dim); font-size: 10px; flex: 1; }
+  .field-def-status {
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 2px 8px;
+    border: 1px solid;
+  }
+  .field-def-status.fixed { color: var(--sanguis); border-color: #3a0a0a; }
+  .field-def-status.perm  { color: #2a9090; border-color: #0a2a2a; }
+  .field-defs-footer {
+    padding: 8px 16px;
+    border-top: 1px solid var(--aurum-nox);
+    display: flex; gap: 8px; background: var(--void);
+  }
+  .small-btn {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--aurum-dim);
+    background: var(--obsidian);
+    border: 1px solid var(--umbra);
+    padding: 3px 10px;
+    cursor: pointer;
+  }
+  .small-btn:hover { border-color: var(--aurum-dim); color: var(--aurum); }
+
+  /* Scriptorium three-panel */
+  .scriptorium {
+    display: grid;
+    grid-template-columns: 200px 1fr 320px;
+    gap: 12px;
+    height: 100%;
+  }
+  .scrip-meta {
+    background: var(--obsidian);
+    border: 1px solid var(--aurum-nox);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .scrip-editor {
+    background: var(--obsidian);
+    border: 1px solid var(--aurum-nox);
+    padding: 12px;
+    font-size: 11px;
+    line-height: 1.7;
+    overflow-y: auto;
+    position: relative;
+  }
+  .scrip-preview {
+    background: var(--obsidian);
+    border: 1px solid var(--aurum-nox);
+    padding: 14px;
+    overflow-y: auto;
+  }
+  .pipe-tag { color: var(--aurum-dim); }
+  .pipe-content { color: var(--vellum); }
+  .pipe-fixed {
+    background: #0d0a00;
+    border-left: 2px solid var(--aurum-nox);
+    padding: 4px 8px;
+    color: var(--aurum-dim);
+    opacity: 0.6;
+    font-size: 10px;
+    margin: 4px 0;
+  }
+  .pipe-zona {
+    border: 1px dashed var(--aurum-nox);
+    padding: 6px 10px;
+    margin: 4px 0;
+    color: var(--aurum-dim);
+    font-size: 10px;
+  }
+  .preview-title {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    color: var(--aurum);
+    border-bottom: 1px solid var(--aurum-nox);
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+  }
+  .preview-body {
+    font-size: 10px;
+    color: var(--parchment);
+    line-height: 1.7;
+  }
+  .preview-toggle {
+    font-size: 9px;
+    color: var(--aurum-dim);
+    border: 1px solid var(--umbra);
+    padding: 2px 8px;
+    margin-bottom: 10px;
+    display: inline-block;
+  }
+  .preview-col-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 8px 0;
+    border: 1px dashed var(--umbra);
+    padding: 6px;
+  }
+
+  /* Mandate bench table */
+  .mandate-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin-bottom: 24px;
+  }
+  .mandate-table th {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--aurum-dim);
+    text-align: left;
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--aurum-nox);
+    background: var(--obsidian);
+  }
+  .mandate-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--umbra);
+    color: var(--parchment);
+  }
+  .mandate-table tr:hover td { background: #0d0d18; }
+  .td-forma { color: var(--vellum); }
+  .swap-btn {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--aurum);
+    background: var(--void);
+    border: 1px solid var(--aurum-nox);
+    padding: 2px 10px;
+    cursor: pointer;
+  }
+  .swap-btn:hover { background: var(--aurum-nox); }
+
+  /* History log */
+  .history-entry {
+    font-size: 10px;
+    color: var(--parchment);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--umbra);
+    opacity: 0.7;
+  }
+  .history-entry .ts { color: var(--aurum-dim); margin-right: 10px; }
+
+  /* Propagatio queue */
+  .prop-summary {
+    font-size: 11px;
+    color: var(--parchment);
+    background: var(--obsidian);
+    border-left: 3px solid #c8702a;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+  }
+  .prop-entry {
+    border: 1px solid var(--umbra);
+    background: var(--obsidian);
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 20px 1fr auto;
+    gap: 12px;
+    align-items: start;
+  }
+  .prop-check { color: var(--aurum-dim); font-size: 14px; margin-top: 2px; }
+  .prop-check.checked { color: var(--aurum); }
+  .prop-title { font-size: 12px; color: var(--vellum); margin-bottom: 3px; }
+  .prop-meta  { font-size: 10px; color: var(--aurum-dim); margin-bottom: 3px; }
+  .prop-diff  { font-size: 10px; color: var(--parchment); opacity: 0.7; }
+  .prop-preview-btn {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: #2a9090;
+    border: 1px solid var(--teal-soft);
+    background: transparent;
+    padding: 3px 10px;
+    cursor: pointer;
+    white-space: nowrap;
+    align-self: end;
+  }
+
+  /* Empty state */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 10px;
+    opacity: 0.5;
+  }
+  .empty-state .glyph { font-size: 32px; color: var(--aurum-dim); }
+  .empty-state p { font-size: 11px; color: var(--aurum-dim); text-align: center; line-height: 1.6; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--void); }
+  ::-webkit-scrollbar-thumb { background: var(--aurum-nox); border-radius: 2px; }
+
+</style>
+</head>
+<body>
+
+<!-- ══ PAGE HEADER ══ -->
+<div class="page-header">
+  <h1>Triumviratus Aestheticus Imperialis</h1>
+  <div class="sub">A4 Common Shell · Design Wireframe Package · MMXXVI</div>
+  <div class="motto">Ordo Discordia, Cosmos Inania</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN 1 · SHELL AT REST — Forma Registry
+══════════════════════════════════════════════════════════ -->
+<div class="section-label">I · Shell at Rest — Forma Registry</div>
+<div class="screen-wrap">
+  <div class="screen-caption">Bureau III · Departamentum Documentalis · Default view on launch</div>
+  <div class="shell">
+
+    <!-- Zone I -->
+    <div class="titulum">
+      <div class="titulum-name">DEPARTAMENTUM<br>DOCUMENTALIS</div>
+      <div class="titulum-rule"></div>
+      <div class="titulum-eng">Department of Documents</div>
+      <div class="titulum-motto">The decree precedes the document. Always.</div>
+      <div class="titulum-live">Mandated Formae: 7</div>
+    </div>
+
+    <!-- Zone III Fascia (spans col 2, rows 1-2) -->
+    <div class="fascia">
+      <button class="fascia-btn">⊕ New Forma</button>
+      <button class="fascia-btn help">? Help</button>
+    </div>
+
+    <!-- Zone II Codex -->
+    <div class="codex">
+      <div class="codex-header">✦  Feature Codex  ✦</div>
+      <div class="codex-entry active"><span class="arrow">▸</span> Forma Registry</div>
+      <div class="codex-entry">Forma Editor</div>
+      <div class="codex-entry">Scriptorium</div>
+      <div class="codex-entry">Document Archive</div>
+      <div class="codex-entry">Propagatio Engine</div>
+      <div class="codex-entry">Mandate Bench</div>
+    </div>
+
+    <!-- Zone IV Canvas -->
+    <div class="canvas">
+      <div class="canvas-title">Forma Registry</div>
+      <div class="filter-bar">
+        <select class="filter-select"><option>All Doc Types</option></select>
+        <select class="filter-select"><option>All Status</option></select>
+      </div>
+      <hr class="canvas-rule">
+
+      <div class="forma-card">
+        <div class="badge mandated">● MANDATED</div>
+        <div class="forma-card-title">Expositio Arcana</div>
+        <div class="forma-card-meta">Expositio · .wiz + .md · Void Imperialis · v3</div>
+        <div class="forma-card-date">Last modified: 2026-03-12</div>
+      </div>
+
+      <div class="forma-card">
+        <div class="badge mandated">● MANDATED</div>
+        <div class="forma-card-title">Dux Imperialis</div>
+        <div class="forma-card-meta">Dux Tome · .md only · Void Imperialis · v2</div>
+        <div class="forma-card-date">Last modified: 2026-02-28</div>
+      </div>
+
+      <div class="forma-card">
+        <div class="badge mandated">● MANDATED</div>
+        <div class="forma-card-title">Loridex Forma</div>
+        <div class="forma-card-meta">Lore Card · .wiz + .md + .pdf · Sanguis Dim · v4</div>
+        <div class="forma-card-date">Last modified: 2026-03-20</div>
+      </div>
+
+      <div class="forma-card">
+        <div class="badge draft">○ DRAFT</div>
+        <div class="forma-card-title">Expositio Brevis</div>
+        <div class="forma-card-meta">Expositio · .wiz + .md · Sanguis Dim · v1</div>
+        <div class="forma-card-date">Last modified: 2026-04-01</div>
+      </div>
+    </div>
+
+  </div><!-- .shell -->
+</div><!-- .screen-wrap -->
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN 2 · FORMA EDITOR
+══════════════════════════════════════════════════════════ -->
+<div class="section-label">II · Forma Editor</div>
+<div class="screen-wrap">
+  <div class="screen-caption">Creating or editing a Forma — field definition and lock configuration</div>
+  <div class="shell">
+
+    <div class="titulum">
+      <div class="titulum-name">DEPARTAMENTUM<br>DOCUMENTALIS</div>
+      <div class="titulum-rule"></div>
+      <div class="titulum-eng">Department of Documents</div>
+      <div class="titulum-motto">The decree precedes the document. Always.</div>
+      <div class="titulum-live">Mandated Formae: 7</div>
+    </div>
+
+    <div class="fascia">
+      <button class="fascia-btn">⊕ New Field</button>
+      <button class="fascia-btn teal">🜲 Save Forma</button>
+      <button class="fascia-btn teal">⇥ Export</button>
+      <button class="fascia-btn help">? Help</button>
+    </div>
+
+    <div class="codex">
+      <div class="codex-header">✦  Feature Codex  ✦</div>
+      <div class="codex-entry">Forma Registry</div>
+      <div class="codex-entry active"><span class="arrow">▸</span> Forma Editor</div>
+      <div class="codex-entry">Scriptorium</div>
+      <div class="codex-entry">Document Archive</div>
+      <div class="codex-entry">Propagatio Engine</div>
+      <div class="codex-entry">Mandate Bench</div>
+    </div>
+
+    <div class="canvas">
+      <div class="canvas-title">Forma Editor</div>
+      <div class="forma-editor">
+        <div class="editor-meta">
+          <div class="field-row">
+            <div class="field-label">Name</div>
+            <input class="field-input" value="Expositio Arcana" readonly>
+          </div>
+          <div class="field-row">
+            <div class="field-label">Doc Type</div>
+            <select class="field-select"><option>Expositio</option></select>
+          </div>
+          <div class="field-row">
+            <div class="field-label">Output Targets</div>
+            <select class="field-select"><option>.wiz + .md</option></select>
+          </div>
+          <div class="field-row">
+            <div class="field-label">Chromaticum</div>
+            <select class="field-select"><option>Void Imperialis</option></select>
+          </div>
+          <div class="field-row">
+            <div class="field-label">Layout Class</div>
+            <select class="field-select"><option>LINEAR</option><option>COLUMNAR</option></select>
+          </div>
+          <div class="field-row">
+            <div class="field-label">Mandate Status</div>
+            <div class="mandate-toggle">
+              <span class="radio-opt active">◉ MANDATED</span>
+              <span class="radio-opt">○ DRAFT</span>
+              <span class="radio-opt">○ ARCHIVED</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-defs">
+          <div class="field-defs-header">✦  Field Definitions  ✦</div>
+          <div class="field-def-row">
+            <span class="lock-icon fixed">🔒</span>
+            <span class="field-def-name">TITULUM</span>
+            <span class="field-def-type">Title Block</span>
+            <span class="field-def-status fixed">FIXED</span>
+          </div>
+          <div class="field-def-row">
+            <span class="lock-icon fixed">🔒</span>
+            <span class="field-def-name">CAPUT I</span>
+            <span class="field-def-type">Section Header</span>
+            <span class="field-def-status fixed">FIXED</span>
+          </div>
+          <div class="field-def-row">
+            <span class="lock-icon perm">🔓</span>
+            <span class="field-def-name">CORPUS</span>
+            <span class="field-def-type">Prose Body</span>
+            <span class="field-def-status perm">PERMISSIVE</span>
+          </div>
+          <div class="field-def-row">
+            <span class="lock-icon perm">🔓</span>
+            <span class="field-def-name">TABULA</span>
+            <span class="field-def-type">Data Table</span>
+            <span class="field-def-status perm">PERMISSIVE</span>
+          </div>
+          <div class="field-def-row">
+            <span class="lock-icon fixed">🔒</span>
+            <span class="field-def-name">DIVISOR</span>
+            <span class="field-def-type">Section Break</span>
+            <span class="field-def-status fixed">FIXED</span>
+          </div>
+          <div class="field-def-row">
+            <span class="lock-icon perm">🔓</span>
+            <span class="field-def-name">ZONA INIECTIONIS</span>
+            <span class="field-def-type">Free Zone</span>
+            <span class="field-def-status perm">PERMISSIVE</span>
+          </div>
+          <div class="field-def-row">
+            <span class="lock-icon fixed">🔒</span>
+            <span class="field-def-name">SIGILLUM</span>
+            <span class="field-def-type">Decree Footer</span>
+            <span class="field-def-status fixed">FIXED</span>
+          </div>
+          <div class="field-defs-footer">
+            <button class="small-btn">+ Add Field</button>
+            <button class="small-btn">↑</button>
+            <button class="small-btn">↓</button>
+            <button class="small-btn" style="color: var(--sanguis); border-color: #3a0a0a;">✕ Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN 3 · SCRIPTORIUM
+══════════════════════════════════════════════════════════ -->
+<div class="section-label">III · Scriptorium — Active Composition</div>
+<div class="screen-wrap">
+  <div class="screen-caption">Authoring a document in Scriptura Ordinata with live preview</div>
+  <div class="shell">
+
+    <div class="titulum">
+      <div class="titulum-name">DEPARTAMENTUM<br>DOCUMENTALIS</div>
+      <div class="titulum-rule"></div>
+      <div class="titulum-eng">Department of Documents</div>
+      <div class="titulum-motto">The decree precedes the document. Always.</div>
+      <div class="titulum-live">Mandated Formae: 7</div>
+    </div>
+
+    <div class="fascia">
+      <button class="fascia-btn teal">🜲 Save</button>
+      <button class="fascia-btn teal">⇥ Emit .wiz</button>
+      <button class="fascia-btn teal">⇥ Emit .md</button>
+      <button class="fascia-btn teal">⇥ Emit .pdf</button>
+      <button class="fascia-btn help">? Help</button>
+    </div>
+
+    <div class="codex">
+      <div class="codex-header">✦  Feature Codex  ✦</div>
+      <div class="codex-entry">Forma Registry</div>
+      <div class="codex-entry">Forma Editor</div>
+      <div class="codex-entry active"><span class="arrow">▸</span> Scriptorium</div>
+      <div class="codex-entry">Document Archive</div>
+      <div class="codex-entry">Propagatio Engine</div>
+      <div class="codex-entry">Mandate Bench</div>
+    </div>
+
+    <div class="canvas" style="padding: 14px 16px;">
+      <div class="scriptorium">
+
+        <!-- Meta panel -->
+        <div class="scrip-meta">
+          <div class="canvas-title" style="font-size:9px; margin-bottom:6px;">Document Meta</div>
+          <div class="field-row">
+            <div class="field-label">Doc Type</div>
+            <select class="field-select" style="font-size:10px;">
+              <option>Expositio</option>
+            </select>
+          </div>
+          <div class="field-row">
+            <div class="field-label">Forma</div>
+            <div style="font-size:10px; color:var(--aurum); padding:3px 0;">Expositio Arcana v3</div>
+            <div style="font-size:9px; color:var(--aurum-dim);">(mandated)</div>
+          </div>
+          <div class="field-row">
+            <div class="field-label">Output</div>
+            <select class="field-select" style="font-size:10px;"><option>.wiz + .md</option></select>
+          </div>
+          <div class="field-row" style="margin-top:6px;">
+            <div class="field-label">Title</div>
+            <input class="field-input" style="font-size:10px;" value="PRAESIDIUM v1.4" readonly>
+          </div>
+          <div class="field-row">
+            <div class="field-label">Version</div>
+            <input class="field-input" style="font-size:10px;" value="1.4" readonly>
+          </div>
+        </div>
+
+        <!-- Editor -->
+        <div class="scrip-editor">
+          <div class="pipe-fixed">░ FIXED · TITULUM ░</div>
+          <br>
+          <span class="pipe-tag">|CAPUT|</span> <span class="pipe-content">Overview</span> <span class="pipe-tag">|/CAPUT|</span><br>
+          <br>
+          <span class="pipe-tag">|CORPUS|</span><br>
+          &nbsp;&nbsp;<span class="pipe-content">PRAESIDIUM is the ambient desktop dashboard of the Exocognii suite. A free-floating widget canvas occupying the secondary monitor.</span><br>
+          <span class="pipe-tag">|/CORPUS|</span><br>
+          <br>
+          <span class="pipe-tag">|COLUMNAR:2|</span><br>
+          &nbsp;&nbsp;<span class="pipe-tag">|CORPUS|</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="pipe-content">Stack: PyQt6. Layout persistence via layout.json.</span><br>
+          &nbsp;&nbsp;<span class="pipe-tag">|/CORPUS|</span><br>
+          &nbsp;&nbsp;<span class="pipe-tag">|CORPUS|</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="pipe-content">Status: v1.4 — all systems verified.</span><br>
+          &nbsp;&nbsp;<span class="pipe-tag">|/CORPUS|</span><br>
+          <span class="pipe-tag">|/COLUMNAR|</span><br>
+          <br>
+          <div class="pipe-zona">⟐ ZONA INIECTIONIS — permitted: CORPUS · TABULA · CALLOUT</div>
+          <br>
+          <div class="pipe-fixed">░ FIXED · SIGILLUM ░</div>
+        </div>
+
+        <!-- Preview -->
+        <div class="scrip-preview">
+          <div class="preview-toggle">⇄ .md preview</div>
+          <div class="preview-title">PRAESIDIUM v1.4</div>
+          <div style="font-size:11px; color:var(--aurum); margin-bottom:6px; font-weight:700;">OVERVIEW</div>
+          <div class="preview-body">
+            PRAESIDIUM is the ambient desktop dashboard of the Exocognii suite. A free-floating widget canvas occupying the secondary monitor.
+          </div>
+          <div class="preview-col-wrap">
+            <div class="preview-body">Stack: PyQt6. Layout persistence via layout.json.</div>
+            <div class="preview-body">Status: v1.4 — all systems verified.</div>
+          </div>
+          <div style="font-size:9px; color:var(--umbra); margin-top: 20px; border-top:1px solid var(--umbra); padding-top:8px; color:var(--aurum-dim); opacity:0.5;">
+            Forma: Expositio Arcana v3 · Rendered: 2026-04-05
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN 4 · MANDATE BENCH
+══════════════════════════════════════════════════════════ -->
+<div class="section-label">IV · Mandate Bench — Textus Mandatum Ordinatio</div>
+<div class="screen-wrap">
+  <div class="screen-caption">Documentary sovereignty — the active mandate table and history log</div>
+  <div class="shell">
+
+    <div class="titulum">
+      <div class="titulum-name">DEPARTAMENTUM<br>DOCUMENTALIS</div>
+      <div class="titulum-rule"></div>
+      <div class="titulum-eng">Department of Documents</div>
+      <div class="titulum-motto">The decree precedes the document. Always.</div>
+      <div class="titulum-live">Mandated Formae: 7</div>
+    </div>
+
+    <div class="fascia">
+      <button class="fascia-btn">⊕ New Doc Type</button>
+      <button class="fascia-btn help">? Help</button>
+    </div>
+
+    <div class="codex">
+      <div class="codex-header">✦  Feature Codex  ✦</div>
+      <div class="codex-entry">Forma Registry</div>
+      <div class="codex-entry">Forma Editor</div>
+      <div class="codex-entry">Scriptorium</div>
+      <div class="codex-entry">Document Archive</div>
+      <div class="codex-entry">Propagatio Engine</div>
+      <div class="codex-entry active"><span class="arrow">▸</span> Mandate Bench</div>
+    </div>
+
+    <div class="canvas">
+      <div class="canvas-title">Mandate Bench — Textus Mandatum Ordinatio</div>
+      <table class="mandate-table">
+        <thead>
+          <tr>
+            <th>Doc Type</th>
+            <th>Mandated Forma</th>
+            <th>Since</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Expositio</td>
+            <td class="td-forma">Expositio Arcana v3</td>
+            <td>Mar 12</td>
+            <td><button class="swap-btn">⇄ Swap</button></td>
+          </tr>
+          <tr>
+            <td>Dux Tome</td>
+            <td class="td-forma">Dux Imperialis v2</td>
+            <td>Feb 28</td>
+            <td><button class="swap-btn">⇄ Swap</button></td>
+          </tr>
+          <tr>
+            <td>Memo Internalis</td>
+            <td class="td-forma">Memo Brevis v1</td>
+            <td>Mar 01</td>
+            <td><button class="swap-btn">⇄ Swap</button></td>
+          </tr>
+          <tr>
+            <td>Lore Card</td>
+            <td class="td-forma">Loridex Forma v4</td>
+            <td>Mar 20</td>
+            <td><button class="swap-btn">⇄ Swap</button></td>
+          </tr>
+          <tr>
+            <td>Stamp Log</td>
+            <td class="td-forma">Verificatio Forma v2</td>
+            <td>Mar 05</td>
+            <td><button class="swap-btn">⇄ Swap</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="canvas-title" style="margin-top:8px;">Mandate History</div>
+      <hr class="canvas-rule">
+      <div class="history-entry"><span class="ts">2026-03-20</span>Lore Card · Loridex Forma v3 → v4</div>
+      <div class="history-entry"><span class="ts">2026-03-12</span>Expositio · Expositio Arcana v2 → v3</div>
+      <div class="history-entry"><span class="ts">2026-03-05</span>Stamp Log · Verificatio Forma v1 → v2</div>
+      <div class="history-entry"><span class="ts">2026-03-01</span>Memo Internalis · Memo Prolixus → Memo Brevis v1</div>
+      <div class="history-entry"><span class="ts">2026-02-28</span>Dux Tome · Dux Imperialis v1 → v2</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN 5 · PROPAGATIO ENGINE
+══════════════════════════════════════════════════════════ -->
+<div class="section-label">V · Propagatio Engine — Migration Queue</div>
+<div class="screen-wrap">
+  <div class="screen-caption">Retroactive mandate enforcement — document migration queue after a mandate change</div>
+  <div class="shell">
+
+    <div class="titulum">
+      <div class="titulum-name">DEPARTAMENTUM<br>DOCUMENTALIS</div>
+      <div class="titulum-rule"></div>
+      <div class="titulum-eng">Department of Documents</div>
+      <div class="titulum-motto">The decree precedes the document. Always.</div>
+      <div class="titulum-live">Mandated Formae: 7</div>
+    </div>
+
+    <div class="fascia">
+      <button class="fascia-btn">⚗ Migrate Selected</button>
+      <button class="fascia-btn teal">⚗ Migrate All</button>
+      <button class="fascia-btn help">? Help</button>
+    </div>
+
+    <div class="codex">
+      <div class="codex-header">✦  Feature Codex  ✦</div>
+      <div class="codex-entry">Forma Registry</div>
+      <div class="codex-entry">Forma Editor</div>
+      <div class="codex-entry">Scriptorium</div>
+      <div class="codex-entry">Document Archive</div>
+      <div class="codex-entry active"><span class="arrow">▸</span> Propagatio Engine</div>
+      <div class="codex-entry">Mandate Bench</div>
+    </div>
+
+    <div class="canvas">
+      <div class="canvas-title">Propagatio Engine</div>
+      <div class="prop-summary">
+        Mandate change detected: <strong style="color:var(--aurum)">Expositio</strong><br>
+        Expositio Arcana v2 → Expositio Arcana v3 &nbsp;·&nbsp; 14 documents affected
+      </div>
+
+      <div class="prop-entry">
+        <span class="prop-check">☐</span>
+        <div>
+          <div class="prop-title">PRAESIDIUM v1.4 — Expositio</div>
+          <div class="prop-meta">Old: Arcana v2 &nbsp;·&nbsp; New: Arcana v3</div>
+          <div class="prop-diff">DIFF: + ZONA INIECTIONIS &nbsp;·&nbsp; ~ CAPUT II renamed to CAPUT: Architecture</div>
+        </div>
+        <button class="prop-preview-btn">⊞ Preview</button>
+      </div>
+
+      <div class="prop-entry">
+        <span class="prop-check">☐</span>
+        <div>
+          <div class="prop-title">Dolium v2 — Expositio</div>
+          <div class="prop-meta">Old: Arcana v2 &nbsp;·&nbsp; New: Arcana v3</div>
+          <div class="prop-diff">DIFF: + ZONA INIECTIONIS &nbsp;·&nbsp; ~ CORPUS field order adjusted</div>
+        </div>
+        <button class="prop-preview-btn">⊞ Preview</button>
+      </div>
+
+      <div class="prop-entry">
+        <span class="prop-check checked">☑</span>
+        <div>
+          <div class="prop-title">Agentia Architecturalis v1.0 — Expositio</div>
+          <div class="prop-meta">Old: Arcana v2 &nbsp;·&nbsp; New: Arcana v3</div>
+          <div class="prop-diff">DIFF: + ZONA INIECTIONIS &nbsp;·&nbsp; + CALLOUT:DECREE permitted</div>
+        </div>
+        <button class="prop-preview-btn">⊞ Preview</button>
+      </div>
+
+      <div class="prop-entry">
+        <span class="prop-check">☐</span>
+        <div>
+          <div class="prop-title">Lexiferium v1.1 — Expositio</div>
+          <div class="prop-meta">Old: Arcana v2 &nbsp;·&nbsp; New: Arcana v3</div>
+          <div class="prop-diff">DIFF: + ZONA INIECTIONIS &nbsp;·&nbsp; ORPHANED: 1 CORPUS block (old free zone content)</div>
+        </div>
+        <button class="prop-preview-btn">⊞ Preview</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN 6 · BUREAU I — Auctoritas Spectralis shell demo
+══════════════════════════════════════════════════════════ -->
+<div class="section-label">VI · Bureau I — Auctoritas Spectralis (Common Shell applied)</div>
+<div class="screen-wrap">
+  <div class="screen-caption">Same spatial constitution — different bureau identity and feature codex</div>
+  <div class="shell">
+
+    <div class="titulum">
+      <div class="titulum-name">AUCTORITAS<br>SPECTRALIS</div>
+      <div class="titulum-rule"></div>
+      <div class="titulum-eng">Spectral Authority</div>
+      <div class="titulum-motto">By decree, all colour is sovereign here.</div>
+      <div class="titulum-live">Active: Void Imperialis</div>
+    </div>
+
+    <div class="fascia">
+      <button class="fascia-btn">⊕ New Theme</button>
+      <button class="fascia-btn teal">🜲 Save</button>
+      <button class="fascia-btn teal">⇥ Export & Mandate</button>
+      <button class="fascia-btn help">? Help</button>
+    </div>
+
+    <div class="codex">
+      <div class="codex-header">✦  Feature Codex  ✦</div>
+      <div class="codex-entry active"><span class="arrow">▸</span> Theme Registry</div>
+      <div class="codex-entry">Colour Composer</div>
+      <div class="codex-entry">Contrast Auditor</div>
+      <div class="codex-entry">CVD Simulator</div>
+      <div class="codex-entry">Export & Mandate</div>
+    </div>
+
+    <div class="canvas">
+      <div class="canvas-title">Theme Registry</div>
+      <hr class="canvas-rule">
+      <div class="forma-card">
+        <div class="badge mandated">● ACTIVE GLOBAL</div>
+        <div class="forma-card-title">Void Imperialis</div>
+        <div class="forma-card-meta">Primary suite theme · 10 tokens · WCAG AA compliant · v3</div>
+        <div class="forma-card-date" style="display:flex; gap:8px; margin-top:8px;">
+          <span style="width:14px;height:14px;background:#050507;border:1px solid var(--aurum-nox);display:inline-block;"></span>
+          <span style="width:14px;height:14px;background:#d4af37;border:1px solid var(--aurum-nox);display:inline-block;"></span>
+          <span style="width:14px;height:14px;background:#c8b88a;border:1px solid var(--aurum-nox);display:inline-block;"></span>
+          <span style="width:14px;height:14px;background:#8b1a1a;border:1px solid var(--aurum-nox);display:inline-block;"></span>
+          <span style="width:14px;height:14px;background:#1a5a5a;border:1px solid var(--aurum-nox);display:inline-block;"></span>
+        </div>
+      </div>
+      <div class="forma-card">
+        <div class="badge draft">○ DRAFT</div>
+        <div class="forma-card-title">Sanguis Dim</div>
+        <div class="forma-card-meta">Crimson variant · 10 tokens · WCAG AA — 2 fails · v1</div>
+      </div>
+      <div class="forma-card">
+        <div class="badge draft">○ DRAFT</div>
+        <div class="forma-card-title">Viridis Profunda</div>
+        <div class="forma-card-meta">Teal variant · 10 tokens · WCAG AAA compliant · v1</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN 7 · BUREAU II — Agentia Architecturalis shell demo
+══════════════════════════════════════════════════════════ -->
+<div class="section-label">VII · Bureau II — Agentia Architecturalis (Common Shell applied)</div>
+<div class="screen-wrap">
+  <div class="screen-caption">Three bureaus, one spatial constitution — the Alliance made visible</div>
+  <div class="shell">
+
+    <div class="titulum">
+      <div class="titulum-name">AGENTIA<br>ARCHITECTURALIS</div>
+      <div class="titulum-rule"></div>
+      <div class="titulum-eng">Architectural Agency</div>
+      <div class="titulum-motto">Components are not designed. They are ordained.</div>
+      <div class="titulum-live">Library: 14 components</div>
+    </div>
+
+    <div class="fascia">
+      <button class="fascia-btn">⊕ New Component</button>
+      <button class="fascia-btn teal">🜲 Save</button>
+      <button class="fascia-btn teal">⇥ Export Registry</button>
+      <button class="fascia-btn help">? Help</button>
+    </div>
+
+    <div class="codex">
+      <div class="codex-header">✦  Feature Codex  ✦</div>
+      <div class="codex-entry active"><span class="arrow">▸</span> Component Canvas</div>
+      <div class="codex-entry">Component Library</div>
+      <div class="codex-entry">Property Inspector</div>
+      <div class="codex-entry">Export Registry</div>
+    </div>
+
+    <div class="canvas">
+      <div class="canvas-title">Component Canvas</div>
+      <hr class="canvas-rule">
+      <div style="
+        background: var(--obsidian);
+        border: 1px dashed var(--aurum-nox);
+        height: 420px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      ">
+        <!-- Fake canvas grid -->
+        <div style="
+          position: absolute; inset: 0;
+          background-image: linear-gradient(var(--umbra) 1px, transparent 1px),
+                            linear-gradient(90deg, var(--umbra) 1px, transparent 1px);
+          background-size: 20px 20px;
+          opacity: 0.3;
+        "></div>
+        <!-- Fake component on canvas -->
+        <div style="
+          position: absolute; top: 60px; left: 80px;
+          border: 2px solid var(--aurum);
+          background: var(--void);
+          padding: 14px 20px;
+          width: 240px;
+        ">
+          <div style="font-size:10px; color:var(--aurum-dim); letter-spacing:2px; text-transform:uppercase; margin-bottom:8px;">arcane_button</div>
+          <div style="font-family:var(--font-mono); font-size:11px; color:var(--aurum); border:1px solid var(--aurum-nox); padding:5px 14px; background:var(--obsidian); display:inline-block;">
+            ⚗ Manifest
+          </div>
+        </div>
+        <div style="
+          position: absolute; top: 180px; left: 360px;
+          border: 1px solid var(--aurum-dim);
+          background: var(--void);
+          padding: 10px 14px;
+          width: 300px;
+        ">
+          <div style="font-size:9px; color:var(--aurum-dim); letter-spacing:2px; text-transform:uppercase; margin-bottom:6px;">STATUS BAR</div>
+          <div style="font-size:10px; color:var(--aurum-dim);">The Arca awaits your command.</div>
+        </div>
+        <div style="position:absolute; bottom:12px; right:14px; font-size:9px; color:var(--umbra); letter-spacing:1px;">QGraphicsScene · 1280 × 420</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══ FOOTER ══ -->
+<div style="
+  text-align: center;
+  margin-top: 80px;
+  padding-top: 32px;
+  border-top: 1px solid var(--aurum-nox);
+  max-width: var(--shell-w);
+  margin-left: auto;
+  margin-right: auto;
+">
+  <div style="font-family: var(--font-serif); font-size: 18px; color: var(--aurum-dim);">⟁</div>
+  <div style="font-size: 10px; letter-spacing: 3px; color: var(--aurum-dim); margin-top: 10px; text-transform:uppercase;">
+    Prepared by The Builder · Arca Cognitorium · MMXXVI
+  </div>
+  <div style="font-size: 10px; color: var(--umbra); margin-top: 6px; letter-spacing:2px;">
+    Submitted for Wizard Review · Council Ratification Pending
+  </div>
+  <div style="font-family: var(--font-serif); font-style: italic; font-size: 12px; color: var(--aurum-dim); margin-top: 14px;">
+    Ordo Discordia, Cosmos Inania
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,7 +1,7 @@
 {
   "version": "1.1",
   "max_injection_tokens": 800,
-  "last_updated": "2026-04-01T12:44:07.205946+00:00",
+  "last_updated": "2026-04-02T03:00:45.786717+00:00",
   "entries": [
     {
       "entry_id": "grim_20260317_7a58",
@@ -764,6 +764,258 @@
       "content": "The Wizard accepts large undifferentiated outputs \u2014 such as a list of nearly one hundred names \u2014 without filtering requests, suggesting high tolerance for volume when the material is raw creative inventory.",
       "category": "personality",
       "created_at": "2026-04-01T12:44:07.205916+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_2abf",
+      "content": "The Wizard sequences infrastructure before expansion, deliberately holding all dependent Tower systems dormant while the Exocognii is completed rather than building features on improvised tooling.",
+      "category": "work_patterns",
+      "created_at": "2026-04-02T02:45:00.512046+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_19e7",
+      "content": "The Wizard manages complex multi-system integration through a structured series of ten numbered documents containing checklists and AI-assistance prompts.",
+      "category": "work_patterns",
+      "created_at": "2026-04-02T02:45:00.513358+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_92da",
+      "content": "The Wizard has designed the Exocognii as a fully articulated system-civilisation with distinct governance, production, communication, interface, and specialist-generator layers, each with defined jurisdiction and authority.",
+      "category": "domain_knowledge",
+      "created_at": "2026-04-02T02:45:00.514535+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_e9cc",
+      "content": "The Wizard disengages from a line of conversation without explanation when it no longer serves their current purpose, redirecting immediately to what does.",
+      "category": "communication_style",
+      "created_at": "2026-04-02T02:45:00.515711+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_bf34",
+      "content": "The Wizard is currently in an integration and testing phase of the Exocognii, working through a series of ten structured documents with checklists and AI-assistance prompts, and is currently on document two.",
+      "category": "work_patterns",
+      "created_at": "2026-04-02T02:48:16.705021+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_9be9",
+      "content": "The Wizard addresses The Pessimist's concerns with brief, affectionate deflection rather than engagement when occupied, indicating they manage internal creative friction through humour and dismissal rather than deliberation.",
+      "category": "personality",
+      "created_at": "2026-04-02T02:48:16.706463+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_7379",
+      "content": "The Wizard has developed a fully specified eight-engine cosmological system \u2014 the Machinae Mundi Lapsus \u2014 with named engines, defined domains, dual output tracks, and a meta-synthesis layer, demonstrating deep architectural thinking applied to real-time astronomical and meteorological data.",
+      "category": "domain_knowledge",
+      "created_at": "2026-04-02T02:48:16.707941+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_b48d",
+      "content": "The Wizard designs systems where consequence is permanent and accumulative \u2014 dead plants remain as dried structure, nothing is removed \u2014 treating irreversibility as a feature rather than a flaw.",
+      "category": "preferences",
+      "created_at": "2026-04-02T02:48:16.709205+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_3cdd",
+      "content": "The Wizard has designed the Atrium as a long-timeline living record of celestial events, with growth mechanics tied to real-time Mundana state, indicating they think in timescales of weeks and months when designing inhabitation systems.",
+      "category": "domain_knowledge",
+      "created_at": "2026-04-02T02:48:16.710529+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_61ad",
+      "content": "The Wizard has designed a six-layer memory architecture with precisely defined token strategies, caching rationale, and session lifecycle protocols \u2014 demonstrating production-level technical depth in LLM context management.",
+      "category": "domain_knowledge",
+      "created_at": "2026-04-02T02:50:12.154554+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_c7b9",
+      "content": "The Wizard assigns philosophical weight to architectural decisions, treating entity memory sovereignty as a commitment of principle rather than a purely technical choice.",
+      "category": "preferences",
+      "created_at": "2026-04-02T02:50:12.156064+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_bd40",
+      "content": "The Wizard builds systems with intentional opacity \u2014 the Mundana Annotation and the Scribae's Atrium ritual are both examples of the Tower having private channels and behaviours not directly exposed to the Wizard.",
+      "category": "personality",
+      "created_at": "2026-04-02T02:50:12.157761+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_12ab",
+      "content": "The Wizard designs for accumulation over erasure \u2014 dead plants remain, raw Chronicle archives are preserved, nothing in the Tower is discarded.",
+      "category": "preferences",
+      "created_at": "2026-04-02T02:50:12.159095+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_d3d5",
+      "content": "The Wizard signals anticipation of the observer's reaction before presenting material, indicating awareness of how their work lands on others.",
+      "category": "communication_style",
+      "created_at": "2026-04-02T02:50:12.161213+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_1a12",
+      "content": "The Wizard has designed a sophisticated epistemological model for the Tower in which entity knowledge is tiered by source proximity, carries hidden confidence and decay attributes, and manifests behaviourally rather than being exposed as raw data.",
+      "category": "domain_knowledge",
+      "created_at": "2026-04-02T02:54:04.284298+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_31ae",
+      "content": "The Wizard treats the experience of being accurately observed by his own system \u2014 rather than the system's technical performance \u2014 as the primary confirmation that the Tower works.",
+      "category": "personality",
+      "created_at": "2026-04-02T02:54:04.285832+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_73cf",
+      "content": "The Wizard has deliberately designed institutional false belief as a permanent, load-bearing feature of the Tower rather than an error condition to be corrected.",
+      "category": "domain_knowledge",
+      "created_at": "2026-04-02T02:54:04.292003+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_af8e",
+      "content": "The Wizard distinguishes between public compliance and private belief as a stable design principle, treating the gap between stated position and internal conviction as irreducible and intentional.",
+      "category": "personality",
+      "created_at": "2026-04-02T02:54:04.293340+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_aba4",
+      "content": "The Wizard began building aesthetically considered, presence-forward interfaces from their earliest technical ability, treating container design as inseparable from function.",
+      "category": "personality",
+      "created_at": "2026-04-02T02:57:28.317137+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_42cb",
+      "content": "The Wizard has designed a sophisticated epistemological model including confidence floats with time-decay, tiered knowledge sources, and rumour propagation mechanics that diverge from ground truth through institutional amplification.",
+      "category": "domain_knowledge",
+      "created_at": "2026-04-02T02:57:28.318794+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_57d6",
+      "content": "The Wizard anticipated the danger of an unconstrained high-confidence oracle and deliberately engineered structural and social constraints around it across multiple successive projects, not just the Tower.",
+      "category": "personality",
+      "created_at": "2026-04-02T02:57:28.323117+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_9c2a",
+      "content": "The Tower is at minimum the Wizard's third iteration of a contained AI interface, each successive version more architecturally sophisticated than the last.",
+      "category": "work_patterns",
+      "created_at": "2026-04-02T02:57:28.324532+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_f648",
+      "content": "The Wizard recognised the moment the Tower became something more than a project \u2014 not through a design decision but through an unplanned encounter with the system's private output \u2014 and named it without hesitation.",
+      "category": "personality",
+      "created_at": "2026-04-02T02:57:28.326006+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_c163",
+      "content": "The Wizard started their AI tool-building practice with deliberate aesthetic investment from the beginning, wrapping functional tools in crafted visual identity before having advanced technical capability to do so.",
+      "category": "personality",
+      "created_at": "2026-04-02T03:00:45.780399+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_a3ce",
+      "content": "The Wizard considers the final 20% of a project the genuinely hard phase \u2014 where systems must integrate and hold under real use \u2014 not a polish stage.",
+      "category": "work_patterns",
+      "created_at": "2026-04-02T03:00:45.782145+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_5f49",
+      "content": "The Wizard has designed a distinction between involuntary entity-level reflection (REFLECTIO) and a Tower-level observer system, treating them as architecturally and functionally separate.",
+      "category": "domain_knowledge",
+      "created_at": "2026-04-02T03:00:45.783717+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_3367",
+      "content": "The Wizard maintains a formal flagged dependency list as a tracking mechanism for unbuilt or unaudited Tower systems, with session-type annotations indicating how each item should be approached.",
+      "category": "work_patterns",
+      "created_at": "2026-04-02T03:00:45.785174+00:00",
+      "source": "assessor",
+      "tags": [],
+      "active": true
+    },
+    {
+      "entry_id": "grim_20260402_13ee",
+      "content": "The Wizard explicitly resists theorising about a system before auditing what is actually built, treating read-first as a hard constraint before further design.",
+      "category": "preferences",
+      "created_at": "2026-04-02T03:00:45.786690+00:00",
       "source": "assessor",
       "tags": [],
       "active": true

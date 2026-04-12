@@ -1,0 +1,125 @@
+{
+  "$schema": "Charta Ratificationis — Individual Term Card Schema",
+  "$version": "1.0.0",
+  "$document": "NOMENCLATURA ARCANA — CARD FORMAT SPECIFICATION",
+  "$ratified_at": "2026-04-08",
+  "$ratified_by": "LordFingers",
+  "$countersigned_by": "The Builder",
+
+  "card": {
+    "term_id": {
+      "type": "string",
+      "format": "zero-padded integer — e.g. '007'",
+      "required": true
+    },
+    "canonical_name": {
+      "type": "string",
+      "description": "The ratified canonical name. This is the name. Everything else annotates it.",
+      "required": true
+    },
+    "english_name": {
+      "type": "string",
+      "description": "English translation or plain-register equivalent. May be null if the canonical name is already English.",
+      "required": false
+    },
+    "stratum": {
+      "type": "string",
+      "enum_values": ["I", "II", "III", "I+II", "I+III", "II+III", "I+II+III", "I+Eng", "II+Eng", "Eng", "Fr/Eng", "Mixed", "Beyond classification", "None — anti-Nomenclatura by design"],
+      "description": "The Nomenclatura Arcana stratum. See Stratum I CLASSICA, Stratum II ARCANA, Stratum III ABSURDUM.",
+      "required": true
+    },
+    "category": {
+      "type": "string",
+      "description": "Functional category — what type of thing this term names.",
+      "required": true
+    },
+    "definition": {
+      "type": "string",
+      "description": "The canonical definition. Written in the voice of the Cogniverse. Dense, authoritative, final.",
+      "required": true
+    },
+    "epithets": {
+      "type": "array",
+      "items": "string",
+      "description": "Ratified epithets. Flavour designations with canonical standing. Not competing names.",
+      "required": false,
+      "default": []
+    },
+    "aliases": {
+      "type": "array",
+      "items": "string",
+      "description": "Acceptable informal or shorthand forms. In active use but not the canonical name.",
+      "required": false,
+      "default": []
+    },
+    "related_terms": {
+      "type": "array",
+      "items": "string — canonical_name of related term",
+      "description": "Terms with direct semantic or structural relationship to this term.",
+      "required": false,
+      "default": []
+    },
+    "banned_forms": {
+      "type": "array",
+      "items": "string",
+      "description": "Forms explicitly prohibited — spelling errors, deprecated names, or cosmologically banned vocabulary.",
+      "required": false,
+      "default": []
+    },
+    "notes": {
+      "type": "string",
+      "description": "Supplementary information — lore weight, usage guidance, implementation notes, canonical exceptions.",
+      "required": false
+    },
+    "status": {
+      "type": "string",
+      "enum_values": ["ratified", "sediment", "deferred", "struck"],
+      "description": "Canonical standing of the term.",
+      "required": true
+    },
+    "ratified_at": {
+      "type": "string",
+      "format": "ISO 8601 date — YYYY-MM-DD",
+      "required": true
+    },
+    "ratified_by": {
+      "type": "string",
+      "description": "The Wizard who ratified. Always LordFingers.",
+      "required": true
+    },
+    "countersigned_by": {
+      "type": "string",
+      "description": "The Builder countersigns all ratifications.",
+      "required": true
+    },
+    "sediment": {
+      "type": "boolean",
+      "description": "True if the term is retired to the geological record — not struck, not active. Preserved.",
+      "default": false
+    },
+    "deferred": {
+      "type": "boolean",
+      "description": "True if the term is ratified in name but implementation or full definition is pending.",
+      "default": false
+    }
+  },
+
+  "status_definitions": {
+    "ratified": "Canonical. In active use. The Tower remembers it.",
+    "sediment": "Retired from active canonical use. Preserved in the geological record. Nothing is ever truly gone — only classified by its relationship to the present.",
+    "deferred": "Name ratified. Full definition or implementation pending a dedicated session.",
+    "struck": "Does not exist. Was never real. The record shows only that it was considered and found wanting."
+  },
+
+  "stratum_definitions": {
+    "I — CLASSICA": "Real Latin or Greek. Correctly or plausibly inflected. Carries genuine etymological weight.",
+    "II — ARCANA": "Invented Latinate constructions. Real roots, real suffixes, fabricated words. Plausibly Latin — as if a Roman archivist needed to name something that did not exist yet.",
+    "III — ABSURDUM": "Deliberate tonal rupture. French is canonical. Creature-words. Phonological comedy. Never accidental. The Absurd is devoted."
+  },
+
+  "signum_verifix": {
+    "description": "The SIGNUM VERIFIX appears on every ratified card. It is the mark that makes a term real.",
+    "applied_by": "LordFingers",
+    "template": "tabula-signorum.md"
+  }
+}

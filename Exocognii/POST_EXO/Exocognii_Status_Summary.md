@@ -41,7 +41,7 @@ services is **Nuntius**.
 ╭──────────────────────────────────────────────────────────────────────────────╮
 │  Classification  ·  Ambient PyQt6 desktop dashboard · secondary monitor      │
 │  Status          ·  Active · v1.4 · Phases 1–3 complete                      │
-│  Port            ·  8733 (advisory read surface for Cognosis services)        │
+│  Port            ·  8733 (advisory read surface for Cognosis services)       │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 
 The ambient command centre. Runs on the secondary monitor as a persistent
@@ -72,7 +72,7 @@ The three-service memory organism. Two producers, one reader.
 ╭──────────────────────────────────────────────────────────────────────────────╮
 │  Classification  ·  Local FastAPI lore canon memory service                  │
 │  Status          ·  Active · v1.0 · Session A complete                       │
-│  Port            ·  8731                                                      │
+│  Port            ·  8731                                                     │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 
 The lore accumulator. Watches all app emissions, classifies lore-relevant content
@@ -96,7 +96,7 @@ Nuntius wiring to all existing apps.
 ╭──────────────────────────────────────────────────────────────────────────────╮
 │  Classification  ·  Local FastAPI build continuity memory service            │
 │  Status          ·  Active · v1.0 · Core service complete                    │
-│  Port            ·  8732                                                      │
+│  Port            ·  8732                                                     │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 
 The build continuity prosthetic. Tracks the shape and momentum of all active work
@@ -139,7 +139,7 @@ No app needs to know either service exists. Nuntius is the only dependency.
 
 ╭──────────────────────────────────────────────────────────────────────────────╮
 │  Classification  ·  Shared read layer and file system substrate              │
-│  Status          ·  Active · v1.0 · Inert pending Exvacua Loricum writes    │
+│  Status          ·  Active · v1.0 · Inert pending Exvacua Loricum writes     │
 │  Path            ·  Shared/Lore/                                             │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 
@@ -180,7 +180,7 @@ Three bureaus. One authority over everything visible in the Cogniverse.
 │  Classification  ·  PyQt6 color theme governance tool                        │
 │  Status          ·  Complete · v1.0 · 26/26 tests passing                    │
 │  Path            ·  AestheticAuthoritarianAssociativeAlliance/               │
-│                     AuctoritasSpectralis/                                     │
+│                     AuctoritasSpectralis/                                    │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 
 The sole authority on color. Composes palettes in OKLAB perceptual space, audits
@@ -198,7 +198,7 @@ Ebon Sigil, Varnyx, VL Gothic, Runavess not yet enforced).
 │  Classification  ·  PyQt6 visual UI component designer                       │
 │  Status          ·  Complete · v1.0 · 21/21 tests passing                    │
 │  Path            ·  AestheticAuthoritarianAssociativeAlliance/               │
-│                     AgentiaArchitecturalis/                                   │
+│                     AgentiaArchitecturalis/                                  │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 
 Replaces the Fenestrarium. Visual canvas for composing PyQt6 UI panels. QGraphicsScene
@@ -233,7 +233,7 @@ uses fixed wizdoc palette.
 ## VIGILARUM v2
 
 ╭──────────────────────────────────────────────────────────────────────────────╮
-│  Classification  ·  Standalone PyQt6 celestial instrument                   │
+│  Classification  ·  Standalone PyQt6 celestial instrument                    │
 │  Status          ·  Complete · v2 migration · 38 widget types                │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 
@@ -363,7 +363,7 @@ Environment variables remain valid overrides. Config is the canonical source.
 │  Component                             │  Status        │  Notes                               │
 ├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┼┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄╯
 │  PRAESIDIUM v1.4                       │  ✦ Active      │  Phase 4 + Control Panel pending     │
-│  Exvacua Loricum v1.0                  │  ✦ Active      │  Session B (Judicium UI) pending      │
+│  Exvacua Loricum v1.0                  │  ✦ Active      │  Session B (Judicium UI) pending     │
 │  Perpetuum Aedificare v1.0             │  ✦ Active      │  Read layer pending                  │
 │  Lore Corpus v1.0                      │  ✦ Ready       │  Inert — awaiting Exvacua writes     │
 │  Nuntius                               │  ⏳ Pending    │  Named, not built                    │

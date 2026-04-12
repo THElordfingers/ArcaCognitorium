@@ -14,13 +14,23 @@
 # ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
 # PRAESIDIUM · praesidium_app.py
 # QMainWindow — entry point; owns monitor assignment.
-# version: 1.1.0
-# Changes:
+# version: 2.0.0
+# v2 changes:
+#   - NuntiusClient wired in __init__; _emit/_involucrum helpers.
+#   - Emission sites: chat_complete, token_usage, git_status, widget_spawn,
+#     widget_close. Fire-and-forget; silently degrades if NUNTIUS absent.
+#   - Non-wrapping spawn counter (fix B5) with (400, 400) clamp.
+#   - Order-independent post-load wiring pass for ChatWidget/TokenTracker (B4).
+#   - _wire_app_signals stripped of in-loop class discovery; handles only
+#     per-widget app signals + ServicesWidget connection.
+#   - exo status slot renamed '● NUNTIUS: —', driven by ServicesWidget.
+#   - ADD WIDGET picker includes ServicesWidget label.
+# Prior (v1.1.0):
 #   - _load_widgets() no longer re-connects visibility_changed / lock_changed
 #     to layout_manager — those are wired canonically inside LayoutManager._wire_widget()
-#   - Only app-level signals (git_status_updated, status_changed, token_used)
-#     are wired here; layout signals are layout_manager's responsibility
 
+import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 from PyQt6.QtWidgets import (
@@ -32,7 +42,7 @@ from PyQt6.QtGui import QScreen
 
 from theme import (
     GLOBAL_STYLE, C_BG, C_PANEL, C_GOLD, C_GOLD_DIM, C_GOLD_DARK,
-    C_STATUS_OK, C_STATUS_IDLE, arcane_button,
+    C_STATUS_OK, C_STATUS_WARN, C_STATUS_ERROR, C_STATUS_IDLE, arcane_button,
 )
 from configuus import Configuus
 from widget_registry import WidgetRegistry
@@ -43,6 +53,8 @@ STATUSBAR_H = 28
 CANVAS_W    = 1849
 CANVAS_H    = 779
 
+PRAESIDIUM_VERSION = "2.0.0"
+
 
 class PraesidiumApp(QMainWindow):
     """
@@ -51,6 +63,7 @@ class PraesidiumApp(QMainWindow):
       - Canvas (free-floating widget layer)
       - StatusBar (28px)
       - LayoutManager + WidgetRegistry
+      - NuntiusClient (optional, fire-and-forget)
     """
 
     def __init__(self, configuus: Configuus, storage_path: Path):
@@ -61,15 +74,63 @@ class PraesidiumApp(QMainWindow):
         self.setWindowTitle("PRAESIDIUM")
         self.setMinimumSize(800, 480)
 
+        # Spawn counter — never wraps, keeps ADD WIDGET offsets sane (fix B5)
+        self._spawn_count: int = 0
+
+        # NUNTIUS client (optional, graceful degradation)
+        self._init_nuntius()
+
         self._build_ui()
         self._init_managers()
         self._assign_monitor()
         # Defer widget load until after the event loop starts so the canvas
         # has resolved its geometry before move() / resize() are called.
         # 150ms: gives X11 time to assign a native window handle to the canvas
-        # before widgets are parented and shown. singleShot(0) fires before the
-        # window has a real handle on X11, causing children to go top-level.
+        # before widgets are parented and shown.
         QTimer.singleShot(150, self._load_widgets)
+
+    # ------------------------------------------------------------------
+    # NUNTIUS client
+    # ------------------------------------------------------------------
+
+    def _init_nuntius(self) -> None:
+        """Instantiate NuntiusClient. Silently degrades if unreachable/misconfigured."""
+        self._nuntius = None
+        self._NuntiusDaemonNotRunningError = Exception
+        try:
+            exocognii_dir = str(self._cfg.arca_repo_path / "Exocognii")
+            if exocognii_dir not in sys.path:
+                sys.path.insert(0, exocognii_dir)
+            from Nuntius.nuntius_client import (  # type: ignore
+                NuntiusClient, NuntiusDaemonNotRunningError,
+            )
+            self._nuntius = NuntiusClient()
+            self._NuntiusDaemonNotRunningError = NuntiusDaemonNotRunningError
+            print("[PRAESIDIUM] NuntiusClient initialised.")
+        except Exception as e:
+            print(f"[PRAESIDIUM] NuntiusClient unavailable: {e}")
+            self._nuntius = None
+
+    def _involucrum(self, hint: str, body: dict) -> dict:
+        """Wrap a body dict with source/timestamp metadata for NUNTIUS /emit."""
+        return {
+            "source_app":     "Praesidium",
+            "source_version": PRAESIDIUM_VERSION,
+            "timestamp":      datetime.now(timezone.utc).isoformat(),
+            "hint":           hint,
+            "body":           body,
+        }
+
+    def _emit(self, payload: dict) -> None:
+        """Fire-and-forget Involucrum emission. Silently degrades if NUNTIUS absent."""
+        if self._nuntius is None:
+            return
+        try:
+            self._nuntius.emit(payload)
+        except self._NuntiusDaemonNotRunningError:
+            pass  # NUNTIUS not running — observation dropped silently
+        except Exception as e:
+            print(f"[PRAESIDIUM] NUNTIUS emit error: {e}")
 
     # ------------------------------------------------------------------
     # UI construction
@@ -166,6 +227,7 @@ class PraesidiumApp(QMainWindow):
             "RepoActivity":         "⚡  Repo Activity",
             "QuickFileDrop":        "⬇  Quick File Drop",
             "ReferentiaAggregator": "⚙  Referentia",
+            "ServicesWidget":       "⚙  Services",
         }
 
         for cls_name in self._registry.available_classes():
@@ -188,8 +250,12 @@ class PraesidiumApp(QMainWindow):
         if w is None:
             return
 
-        offset = (len(self._widgets) % 8) * 24
-        w.move(40 + offset, 40 + offset)
+        # Non-wrapping offset, clamped to stay on-canvas (fix B5)
+        offset = self._spawn_count * 24
+        self._spawn_count += 1
+        x = min(40 + offset, 400)
+        y = min(40 + offset, 400)
+        w.move(x, y)
         w.resize(300, 260)
         w.show()
         self._widgets.append(w)
@@ -199,6 +265,12 @@ class PraesidiumApp(QMainWindow):
 
         # Layout manager handles persistence + layout signal wiring
         self._layout_mgr.register_widget(w, cls_name)
+
+        # NUNTIUS emission — widget_spawn
+        self._emit(self._involucrum("widget_spawn", {
+            "widget_id": widget_id,
+            "cls":       cls_name,
+        }))
 
     def _build_statusbar(self) -> QFrame:
         bar = QFrame()
@@ -217,7 +289,7 @@ class PraesidiumApp(QMainWindow):
             ("git",   "● GIT: Initialising"),
             ("chat",  "● CHAT: —"),
             ("token", "● TOKEN: —"),
-            ("exo",   "● EXOCOGNII: —"),
+            ("exo",   "● NUNTIUS: —"),
         ):
             lbl = QLabel(initial_text)
             lbl.setStyleSheet(
@@ -247,7 +319,7 @@ class PraesidiumApp(QMainWindow):
         #   - reading layout.json (or DEFAULT_LAYOUT on corrupt/empty)
         #   - instantiating widgets with correct parent
         #   - restoring geometry, visibility, lock, font size
-        #   - purging stale entries
+        #   - purging stale entries and DEDUPLICATING (v2)
         #   - wiring ALL layout signals (position, size, visibility, lock, font)
         #   - synchronous clean write of layout.json after load
         self._widgets = self._layout_mgr.load()
@@ -266,36 +338,62 @@ class PraesidiumApp(QMainWindow):
             w.raise_()
             self._wire_app_signals(w)
 
-        if self._chat_widget and self._token_tracker:
-            self._chat_widget.token_used.connect(self._token_tracker.record_usage)
+        # ------------------------------------------------------------------
+        # Post-load wiring pass — order-independent (fix B4).
+        # Discover ChatWidget and TokenTracker by class name after every
+        # widget has been loaded. Do not rely on iteration order.
+        # ------------------------------------------------------------------
+        chat  = next((w for w in self._widgets if type(w).__name__ == "ChatWidget"), None)
+        token = next((w for w in self._widgets if type(w).__name__ == "TokenTracker"), None)
+        legend = next((w for w in self._widgets if type(w).__name__ == "StatusLegend"), None)
 
-        if self._token_tracker:
-            self._token_tracker.usage_recorded.connect(self._on_token_usage)
+        if chat and token:
+            try:
+                chat.token_used.connect(token.record_usage)
+            except (RuntimeError, TypeError):
+                pass  # already connected / signal missing — guard
+
+        if token:
+            try:
+                token.usage_recorded.connect(self._on_token_usage)
+            except (RuntimeError, TypeError):
+                pass
+
+        self._chat_widget   = chat
+        self._token_tracker = token
+        self._status_legend = legend
 
     def _wire_app_signals(self, w) -> None:
         """
-        Wire application-level signals (git status, widget status, token usage).
-        Layout signals (position, size, visibility, lock) are wired exclusively
-        by LayoutManager._wire_widget() and must NOT be connected here.
+        Wire application-level signals (git status, widget status, visibility,
+        nuntius status from ServicesWidget).
+        Layout signals (position, size, lock) are wired exclusively by
+        LayoutManager._wire_widget() and must NOT be connected here.
+        Inter-widget wiring (Chat ↔ Token) is done in _load_widgets() in an
+        order-independent post-load pass — do not duplicate it here.
         """
-        cls = type(w).__name__
-
         if hasattr(w, "git_status_updated"):
-            w.git_status_updated.connect(self._on_git_status)
+            try:
+                w.git_status_updated.connect(self._on_git_status)
+            except (RuntimeError, TypeError):
+                pass
         if hasattr(w, "status_changed"):
-            w.status_changed.connect(self._on_widget_status)
+            try:
+                w.status_changed.connect(self._on_widget_status)
+            except (RuntimeError, TypeError):
+                pass
+        if hasattr(w, "visibility_changed"):
+            try:
+                w.visibility_changed.connect(self._on_widget_visibility)
+            except (RuntimeError, TypeError):
+                pass
 
-        if cls == "ChatWidget":
-            self._chat_widget = w
-            if self._token_tracker:
-                w.token_used.connect(self._token_tracker.record_usage)
-        elif cls == "TokenTracker":
-            self._token_tracker = w
-            if self._chat_widget:
-                self._chat_widget.token_used.connect(w.record_usage)
-            w.usage_recorded.connect(self._on_token_usage)
-        elif cls == "StatusLegend":
-            self._status_legend = w
+        # ServicesWidget drives the exo/NUNTIUS status slot
+        if type(w).__name__ == "ServicesWidget" and hasattr(w, "nuntius_status_changed"):
+            try:
+                w.nuntius_status_changed.connect(self._on_nuntius_status)
+            except (RuntimeError, TypeError):
+                pass
 
     # ------------------------------------------------------------------
     # Status bar updates
@@ -307,8 +405,8 @@ class PraesidiumApp(QMainWindow):
             return
         text_map = {
             "ok":    ("● GIT: Clean",    C_STATUS_OK),
-            "warn":  ("● GIT: Modified", "#d4af37"),
-            "error": ("● GIT: Error",    "#8b1a1a"),
+            "warn":  ("● GIT: Modified", C_STATUS_WARN),
+            "error": ("● GIT: Error",    C_STATUS_ERROR),
         }
         text, colour = text_map.get(status, ("● GIT: —", C_STATUS_IDLE))
         lbl.setText(text)
@@ -316,6 +414,12 @@ class PraesidiumApp(QMainWindow):
             f"color: {colour}; font-family: Georgia, serif; "
             "font-size: 10px; background: transparent;"
         )
+
+        # NUNTIUS emission — git_status
+        self._emit(self._involucrum("git_status", {
+            "widget_id": widget_id,
+            "status":    status,
+        }))
 
     def _on_widget_status(self, widget_id: str, status: str, message: str) -> None:
         if self._status_legend:
@@ -331,8 +435,8 @@ class PraesidiumApp(QMainWindow):
             if lbl:
                 colour_map = {
                     "ok":    C_STATUS_OK,
-                    "warn":  "#d4af37",
-                    "error": "#8b1a1a",
+                    "warn":  C_STATUS_WARN,
+                    "error": C_STATUS_ERROR,
                     "idle":  C_STATUS_IDLE,
                 }
                 label_map = {
@@ -348,6 +452,13 @@ class PraesidiumApp(QMainWindow):
                     "font-size: 10px; background: transparent;"
                 )
 
+            # NUNTIUS emission — chat_complete on successful response
+            if status == "ok":
+                self._emit(self._involucrum("chat_complete", {
+                    "widget_id": widget_id,
+                    "event":     "response_complete",
+                }))
+
     def _on_token_usage(self, model: str, input_tokens: int, output_tokens: int, session_id: str) -> None:
         lbl = self._status_labels.get("token")
         if lbl:
@@ -358,8 +469,48 @@ class PraesidiumApp(QMainWindow):
                 "font-size: 10px; background: transparent;"
             )
 
+        # NUNTIUS emission — token_usage
+        self._emit(self._involucrum("token_usage", {
+            "model":         model,
+            "input_tokens":  input_tokens,
+            "output_tokens": output_tokens,
+            "session_id":    session_id,
+            "total":         input_tokens + output_tokens,
+        }))
+
+    def _on_widget_visibility(self, widget_id: str, visible: bool) -> None:
+        """Emit widget_close observation when a widget is hidden via ✕."""
+        if visible:
+            return
+        self._emit(self._involucrum("widget_close", {
+            "widget_id": widget_id,
+        }))
+
+    def _on_nuntius_status(self, status: str, summary: str) -> None:
+        """Update the exo/NUNTIUS status bar slot from ServicesWidget signal."""
+        lbl = self._status_labels.get("exo")
+        if lbl is None:
+            return
+        colour_map = {
+            "running":  C_STATUS_OK,
+            "offline":  C_STATUS_ERROR,
+            "starting": C_STATUS_WARN,
+            "unknown":  C_STATUS_IDLE,
+        }
+        text_map = {
+            "running":  f"● NUNTIUS: {summary}",
+            "starting": f"● NUNTIUS: {summary}",
+            "offline":  "● NUNTIUS: Offline",
+            "unknown":  "● NUNTIUS: —",
+        }
+        lbl.setText(text_map.get(status, "● NUNTIUS: —"))
+        lbl.setStyleSheet(
+            f"color: {colour_map.get(status, C_STATUS_IDLE)}; "
+            "font-family: Georgia, serif; font-size: 10px; background: transparent;"
+        )
+
     # ------------------------------------------------------------------
-    # Monitor assignment
+    # Save default / monitor assignment
     # ------------------------------------------------------------------
 
     def _save_default_layout(self) -> None:

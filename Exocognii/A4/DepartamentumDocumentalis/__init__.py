@@ -1,3 +1,1 @@
-# Departamentum Documentalis — Bureau III
-# v1.0.0
-"""The Department of Documented Design Definitives."""
+# Departamentum Documentalis · Bureau III · A4 Alliance · v1.1

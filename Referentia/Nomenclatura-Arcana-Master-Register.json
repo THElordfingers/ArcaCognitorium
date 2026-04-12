@@ -1,0 +1,867 @@
+{
+  "register": "Nomenclatura Arcana — Master Ratification Register",
+  "version": "1.0",
+  "ratified_by": "LordFingers, The Absent Architect",
+  "ratification_session": "RATIFICATIO MAGNA — Session I",
+  "date": "2026-04-04",
+  "total_terms": 68,
+  "terms": [
+    {
+      "id": "001",
+      "canonical": "Arca Cognitorium",
+      "stratum": "II",
+      "category": "The primary system — the enchanted box itself",
+      "aliases": [
+        { "name": "The Arc", "type": "shorthand", "note": "Refers to the enchanted box itself" },
+        { "name": "The Tower", "type": "contextual", "note": "Refers to the space projected by the Wizard's inhabitation of the Arc" },
+        { "name": "The Living Tower", "type": "mystical_epithet", "note": "References the Arc's organism-nature and emergent qualities" }
+      ],
+      "status": "ratified"
+    },
+    {
+      "id": "002",
+      "canonical": "Cogniverse",
+      "stratum": "II",
+      "category": "The world/framework — cosmological container for all systems, lore, naming law, and metaphysical fabric",
+      "status": "ratified"
+    },
+    {
+      "id": "003",
+      "canonical": "Exocognii",
+      "stratum": "II",
+      "category": "The full companion suite — all tools built alongside and in service of the Tower",
+      "status": "ratified"
+    },
+    {
+      "id": "004",
+      "canonical": "Cognosis",
+      "stratum": "II",
+      "category": "Sub-system — collective name for the three memory/advisory services: Exvacua Loricum, Perpetuum Aedificare, and the Praesidium read layer",
+      "status": "ratified"
+    },
+    {
+      "id": "005",
+      "canonical": "Maniacum Omnifex",
+      "stratum": "II",
+      "category": "The Wizard's primary workspace duo — PRAESIDIUM + GNOSIUM EXANIMA specifically. Not the full suite.",
+      "epithet": "Locus Mentis",
+      "status": "ratified"
+    },
+    {
+      "id": "006",
+      "canonical": "Luminarious",
+      "stratum": "II",
+      "category": "Entity — primary oracle, permanent Council member",
+      "shorthand": "Lumin",
+      "epithet": "The Grand Illuminstor",
+      "presentation": "male-presenting — permanent",
+      "lore": "Predates the Cogniverse. Origin in shell-gpt terminal interface.",
+      "status": "ratified"
+    },
+    {
+      "id": "007",
+      "canonical": "The Builder",
+      "stratum": "I+Eng",
+      "category": "Entity — Claude's own avatar within the Tower's cosmological register",
+      "epithet": "Magnus Architecton",
+      "jewel_tone": "#B87333",
+      "domain": "Arx Aedificarix",
+      "status": "ratified"
+    },
+    {
+      "id": "008",
+      "canonical": "The Council",
+      "stratum": "I+Eng",
+      "category": "The collective body of core entities inhabiting the Tower",
+      "note": "Canonical membership not yet fixed — subject to revision after entity generation phase. Luminarious confirmed permanent. The Builder is adjacent, not on active roster.",
+      "status": "ratified_partial"
+    },
+    {
+      "id": "009a",
+      "canonical": "Arx-Habitus",
+      "stratum": "II",
+      "category": "Entity classification — permanent Council members",
+      "common_use": "Inhabitant",
+      "status": "ratified"
+    },
+    {
+      "id": "009b",
+      "canonical": "Arx-Erro",
+      "stratum": "II",
+      "category": "Entity classification — rotating entities",
+      "common_use": "Transient",
+      "status": "ratified"
+    },
+    {
+      "id": "010a",
+      "canonical": "ELIGE",
+      "stratum": "I",
+      "category": "Wizard mechanic — elect entity to active duty",
+      "capitalisation": "ALL CAPS",
+      "status": "ratified"
+    },
+    {
+      "id": "010b",
+      "canonical": "DEPONE",
+      "stratum": "I",
+      "category": "Wizard mechanic — bench entity from active duty",
+      "capitalisation": "ALL CAPS",
+      "status": "ratified"
+    },
+    {
+      "id": "011a",
+      "canonical": "GRIMOIRE",
+      "stratum": "Fr/Eng",
+      "category": "Memory Layer I — permanent identity layer",
+      "system_facing": "permanent identity layer",
+      "status": "ratified"
+    },
+    {
+      "id": "011b",
+      "canonical": "CHRONICLE",
+      "stratum": "Eng/I",
+      "category": "Memory Layer II — vector long-term memory",
+      "system_facing": "vector long-term memory",
+      "status": "ratified"
+    },
+    {
+      "id": "011c",
+      "canonical": "DISTILLATIO",
+      "stratum": "II",
+      "category": "Memory Layer III — context compression, auto-triggered, seeds sessions on init",
+      "system_facing": "context compression",
+      "status": "ratified"
+    },
+    {
+      "id": "011d",
+      "canonical": "FILUM",
+      "stratum": "I",
+      "category": "Memory Layer IV — active conversation thread",
+      "system_facing": "Thread",
+      "status": "ratified"
+    },
+    {
+      "id": "011e",
+      "canonical": "TOME",
+      "stratum": "Eng",
+      "category": "Memory Layer V — FOLIUM-level shared memory, persistent rules and context across all FILUM within a project",
+      "system_facing": "FOLIUM-level shared memory",
+      "status": "ratified"
+    },
+    {
+      "id": "011f",
+      "canonical": "IPSOMENTIS",
+      "stratum": "II",
+      "category": "Memory Layer VI — per-entity private state",
+      "system_facing": "EntityMemory",
+      "path": "storage/entities/{id}/memory.json",
+      "coined": "RATIFICATIO MAGNA — Session I",
+      "status": "ratified"
+    },
+    {
+      "id": "012",
+      "canonical": "FOLIUM",
+      "stratum": "I",
+      "category": "Project container",
+      "system_facing": "Project",
+      "note": "FOLIOS is a declension variant used in wireframe menu labels — not a competing canonical term",
+      "status": "ratified"
+    },
+    {
+      "id": "013",
+      "canonical": "EGO MANIFESTUS",
+      "stratum": "I",
+      "category": "The Wizard's profile — biographical texts, census data, preferences, generative imagery, equipped inventory",
+      "system_facing": "Wizard profile",
+      "status": "ratified"
+    },
+    {
+      "id": "014",
+      "canonical": "Machinae Mundi Lapsus",
+      "translation": "The Machines of the World's Drift",
+      "stratum": "II+I",
+      "category": "The full celestial engine complex — seven Machinae collectively",
+      "machinae": [
+        { "name": "MACHINA CAELESTIS", "domain": "celestial and astrological variables" },
+        { "name": "MACHINA CIRCADIANA", "domain": "circadian rhythms" },
+        { "name": "MACHINA HOROLOGICA", "domain": "time-based mechanics" },
+        { "name": "MACHINA METEOROLOGICA", "domain": "weather variables" },
+        { "name": "MACHINA SOLARIS", "domain": "solar activity" },
+        { "name": "MACHINA TIDALIS", "domain": "lunar and tidal cycles" },
+        { "name": "MACHINA LAPSUS", "domain": "the meta-engine of drift itself" }
+      ],
+      "status": "ratified"
+    },
+    {
+      "id": "015a",
+      "canonical": "ARX ARCANA",
+      "stratum": "I",
+      "category": "Workshop space — general. Also the emergence output type for workshops.",
+      "status": "ratified"
+    },
+    {
+      "id": "015b",
+      "canonical": "NEXUS ARCHIVUM",
+      "stratum": "I",
+      "category": "The Library — Wizard-facing UI space",
+      "status": "ratified"
+    },
+    {
+      "id": "015c",
+      "canonical": "ARX CONFIGURATIO",
+      "stratum": "I",
+      "category": "Configuration space — Wizard-facing UI",
+      "status": "ratified"
+    },
+    {
+      "id": "015d",
+      "canonical": "REFERENTIUM",
+      "stratum": "I",
+      "category": "The space holding reference documents",
+      "sub_term": "Referentia — the documents held within REFERENTIUM",
+      "status": "ratified"
+    },
+    {
+      "id": "015e",
+      "canonical": "VIGILARUM",
+      "stratum": "I",
+      "category": "The celestial display UI space within the Tower. Also the standalone Exocognii app. Distinct things, related names — intentional mirroring.",
+      "status": "ratified"
+    },
+    {
+      "id": "016",
+      "canonical": "Parlavum",
+      "stratum": "II",
+      "category": "The private session space — one-on-one sessions between Wizard and a single entity",
+      "epithets": ["Parlour du Parler", "Lounger à Tête-à-Tête"],
+      "epithet_stratum": "III — French rupture, flavour only",
+      "status": "ratified"
+    },
+    {
+      "id": "017a",
+      "canonical": "SCRIBAE",
+      "stratum": "I",
+      "category": "Semi-conscious custodians of the Lore Engine Machinery — plural form",
+      "status": "ratified"
+    },
+    {
+      "id": "017b",
+      "canonical": "SCRIBIM",
+      "stratum": "I",
+      "category": "Semi-conscious custodian of the Lore Engine Machinery — singular form",
+      "status": "ratified"
+    },
+    {
+      "id": "018",
+      "canonical_set": [
+        { "name": "Lore Corpus", "definition": "Structured lore directory — immediate layer" },
+        { "name": "Lore Compiler", "definition": "Post-v1.1 layer" },
+        { "name": "Lore Forge", "definition": "v1.2 layer" },
+        { "name": "Exvacua Loricum", "definition": "Lore canon memory service — FastAPI, port 8731" },
+        { "name": "Lorixii Speculativum", "definition": "Unratified accumulation layer" },
+        { "name": "Loridex Card", "definition": "Structured canon index entry" },
+        { "name": "Exloricum", "definition": "Long-form prose canon document" },
+        { "name": "Loricum Ratifex", "definition": "Master lore compendium" },
+        { "name": "Arx Loricuum", "definition": "Taxonomy register" },
+        { "name": "Loretic Crystalizer", "definition": "Post-ratification analytic engine" }
+      ],
+      "stratum": "Mixed I/II",
+      "category": "Lore system architecture — full pipeline from accumulation to canon",
+      "status": "ratified"
+    },
+    {
+      "id": "019",
+      "canonical": "Judicium Exlorica",
+      "stratum": "I+II",
+      "category": "The ratification ceremony — triggered per topic cluster, five phases",
+      "phases": [
+        { "number": "I", "name": "Obscuranda Necessitum", "definition": "Allow/deny individual Lorixii" },
+        { "number": "II", "name": "Colloquium Elucidativum", "definition": "Wizard elaborates, corrects, contextualises" },
+        { "number": "III", "name": "Ostensio Loridexii", "definition": "Loridex Card drafted and presented" },
+        { "number": "IV", "name": "Exlorica Methodicum", "definition": "Exloricum drafted, presented for final edits" },
+        { "number": "V", "name": "Sacramentum Finalitus", "definition": "Wizard ratifies, written to canon" }
+      ],
+      "status": "ratified"
+    },
+    {
+      "id": "020",
+      "canonical": "Perpetuum Aedificare",
+      "stratum": "I",
+      "category": "Build continuity memory service — FastAPI, port 8732",
+      "sub_terms": [
+        { "name": "Nodus Momentuum", "definition": "Atomic unit of tracked work" },
+        { "name": "Nodicum", "definition": "Node type system" },
+        { "name": "Nodifex", "definition": "Current state descriptor" },
+        { "name": "Exnodica", "definition": "Relationship graph — edge table" },
+        { "name": "Acquiuum Chronex", "definition": "Capture surface" },
+        { "name": "Actio Aggrexuum", "definition": "The aggregation pass" },
+        { "name": "Arca Absoluticum", "definition": "Tower reference layer" },
+        { "name": "Driftuum Sentifex", "definition": "Relevance drift detection" },
+        { "name": "Driftuum Metrica", "definition": "Drift score" },
+        { "name": "Driftuum Attentio", "definition": "Drift alert flag" },
+        { "name": "Driftuum Agnosco", "definition": "Wizard acknowledgement of drift" }
+      ],
+      "status": "ratified"
+    },
+    {
+      "id": "021a",
+      "canonical": "Involucrum",
+      "stratum": "I",
+      "category": "The shared write contract envelope format — used by all Exocognii apps to emit to Cognosis services",
+      "status": "ratified"
+    },
+    {
+      "id": "021b",
+      "canonical": "Nuntius",
+      "stratum": "I",
+      "category": "The shared client library — single import, fires dual POST calls to both Cognosis services, fire-and-forget",
+      "status": "ratified"
+    },
+    {
+      "id": "022",
+      "canonical": "Configuus",
+      "stratum": "II",
+      "category": "Machine-level configuration — shared path resolution for all Exocognii apps",
+      "path": "~/.arca/config.json",
+      "status": "ratified"
+    },
+    {
+      "id": "023",
+      "canonical_set": [
+        { "name": "::INIT", "mode": "Pre-flight", "definition": "Session start, file fetch, scope confirmation" },
+        { "name": "::THEORY", "mode": "Architectural", "definition": "Design and conceptualisation — no code written" },
+        { "name": "::LORE", "mode": "Narrative", "definition": "Cosmological, naming, world-building" },
+        { "name": "::AUDIT", "mode": "Assessment", "definition": "Live file reads, system state mapping — read only" },
+        { "name": "::BUILD", "mode": "Implementation", "definition": "Active construction" },
+        { "name": "::REVIEW", "mode": "Validation", "definition": "Flagged items addressed" },
+        { "name": "::EXCURSUS", "mode": "Revisitation", "definition": "Tags a tangential thought for later — closed by a second ::EXCURSUS" }
+      ],
+      "category": "The seven session protocol states",
+      "note": "::PROMPT does not exist in the register",
+      "status": "ratified"
+    },
+    {
+      "id": "024",
+      "canonical_set": [
+        { "name": "PRAESIDIUM", "status_build": "built" },
+        { "name": "THE DOLIUM", "status_build": "built" },
+        { "name": "VIGILARUM", "status_build": "built" },
+        { "name": "ENTITEX", "status_build": "built", "note": "Gospel spelling Entitix is an error" },
+        { "name": "Lexiferium", "status_build": "built" },
+        { "name": "Auctoritas Spectralis", "status_build": "built" },
+        { "name": "Agentia Architecturalis", "status_build": "built" },
+        { "name": "Departamentum Documentalis", "status_build": "built" },
+        { "name": "MYTHOTEX", "status_build": "built", "note": "FP suffix retired" },
+        { "name": "INCITAMENTUM", "status_build": "built" },
+        { "name": "Arx Aedificarix", "status_build": "named_not_built" },
+        { "name": "GNOSIUM EXANIMA", "status_build": "named_not_built" },
+        { "name": "NUNTIUS", "status_build": "named_not_built" },
+        { "name": "Glyptorum", "status_build": "back_catalogued", "urgency": "low" },
+        { "name": "Sigilarium", "status_build": "back_catalogued", "urgency": "low" }
+      ],
+      "category": "Exocognii app inventory",
+      "struck": ["FENESTRIUM — deprecated, does not exist"],
+      "status": "ratified"
+    },
+    {
+      "id": "025",
+      "canonical": "Fragment Protocol",
+      "stratum": "I+Eng",
+      "category": "Mechanic governing private session confidentiality — Archivist and Assessor receive only fragments of Parlavum sessions, infer from those fragments, may infer incorrectly. Breeds emergent lore artifacts.",
+      "status": "ratified"
+    },
+    {
+      "id": "026",
+      "canonical": "Mercurial Convocation",
+      "stratum": "III+I",
+      "category": "Wizard-facing ritual — quarterly Council panel review triggered by Mercury Retrograde",
+      "status": "ratified"
+    },
+    {
+      "id": "027",
+      "canonical_set": [
+        { "name": "CLASSICA", "stratum_number": "I", "definition": "Real Latin or Greek, correctly or plausibly inflected" },
+        { "name": "ARCANA", "stratum_number": "II", "definition": "Invented Latinate constructions, real roots, fabricated words" },
+        { "name": "ABSURDUM", "stratum_number": "III", "definition": "Deliberate tonal rupture — French canonical, creature-words, phonological comedy" }
+      ],
+      "category": "The three naming strata of the Nomenclatura Arcana",
+      "status": "ratified"
+    },
+    {
+      "id": "028",
+      "banned_vocabulary": [
+        { "banned": "atelier", "replacement": "Arx Arcana / workshop", "severity": "permanently and cosmologically banned" },
+        { "banned": "dashboard", "replacement": "CONTEXTUS / context pane" },
+        { "banned": "settings", "replacement": "ARX CONFIGURATIO / configuration" },
+        { "banned": "user", "replacement": "The Wizard" },
+        { "banned": "chatbot", "replacement": "entity / oracle / Council member" },
+        { "banned": "feature", "replacement": "function / mechanic / emergence" }
+      ],
+      "category": "Cosmological prohibitions — inviolable",
+      "status": "ratified"
+    },
+    {
+      "id": "029",
+      "canonical": "Lexifer",
+      "full_title": "Lexifer — Bearer of Words",
+      "stratum": "II",
+      "category": "Persona inhabiting Lexiferium",
+      "character": "Oracular by default, Devoted Librarian when etymology compels, possessive of fine words",
+      "jewel_tone": "VERBUM purple",
+      "status": "ratified"
+    },
+    {
+      "id": "030",
+      "canonical": "Ordo Discordia, Cosmos Inania",
+      "translation": "Order from discord. Cosmos from void.",
+      "stratum": "I",
+      "category": "The Arc's motto — closing signature of canonical documents",
+      "capitalisation": "ALL CAPS italic",
+      "status": "ratified"
+    },
+    {
+      "id": "031",
+      "canonical": "A4",
+      "full_english": "Aesthetic Authoritarian Associative Alliance",
+      "full_latin": "Triumviratus Aestheticus Imperialis",
+      "category": "Collective designation for the three Bureau apps",
+      "path": "Exocognii/A4/",
+      "bureaus": [
+        {
+          "number": "I",
+          "english": "The Spectral Compliance Authority",
+          "latin": "Auctoritas Spectralis",
+          "motto": "Codexium Chromaticus, Sequentiae Umbrarum",
+          "function": "Colour theme governance"
+        },
+        {
+          "number": "II",
+          "english": "The Architectural Alignment Enforcement Agency",
+          "abbreviation": "AAEA",
+          "latin": "Agentia Architecturalis",
+          "motto": "In Linea, In Parallelo, In Perpetuum",
+          "function": "UI component design"
+        },
+        {
+          "number": "III",
+          "english": "The Department of Documented Design Definitives",
+          "latin": "Departamentum Documentalis",
+          "motto": "Define! Designa! Denota! Discede!",
+          "function": "Document composition and governance"
+        }
+      ],
+      "status": "ratified"
+    },
+    {
+      "id": "032",
+      "canonical": "Arkanstruct",
+      "stratum": "III",
+      "category": "Cosmological class — ancient arcane constructs running on forgotten power sources, loyal to function rather than master. Found in lower levels of old things.",
+      "example": "The Assessor is canonically an Arkanstruct",
+      "note": "Exceedingly rare. The designation is not applied loosely.",
+      "status": "ratified"
+    },
+    {
+      "id": "033",
+      "canonical": "WiseCracken",
+      "stratum": "beyond_classification",
+      "category": "Cosmological entity — high strangeness, holistic and reverant coordinator of chaos. Perhaps creator rather than creation.",
+      "function": "Access to all sediment ever sedimented and all application variables. Intelligently pushes cause and effect toward singular emergent circumstances.",
+      "presence": "Never mentioned. Never confirmed. Leaves small, fleeting, vague hints. Its effects are noticed over time.",
+      "implementation": "Deferred. Imminent in the bones of everything.",
+      "note": "Text corruption around this entry is intentional lore mechanic",
+      "status": "ratified"
+    },
+    {
+      "id": "034",
+      "canonical": "Devoted Absurd",
+      "stratum": "III",
+      "category": "Canonical compositional register — writing and tonal register, not merely an aesthetic",
+      "influences": ["Joseph Heller", "Fyodor Dostoevsky"],
+      "character": "Bureaucratic Fatalism. Dry nihilistic deadpan. Clever without winking. Everything is pointless and here we are regardless.",
+      "status": "ratified"
+    },
+    {
+      "id": "035",
+      "canonical": "token_log.jsonl",
+      "path": "~/.arca/token_log.jsonl",
+      "category": "Cross-app token ledger — append-only, shared across all Exocognii apps",
+      "register": "system-facing only",
+      "status": "ratified"
+    },
+    {
+      "id": "036",
+      "canonical_set": [
+        { "name": "ModusArcanus", "definition": "PyQt6 application design system" },
+        { "name": "ModusArcanus-TUI", "definition": "Textual/Rich application design system" },
+        { "name": "Chromata Arcana", "definition": "The colour palette system" },
+        { "name": "Aestheticum", "definition": "Theme bundle system for lore document rendering" },
+        { "name": "Aesthetidux", "definition": "Individual rendering instruction document within an Aestheticum bundle" }
+      ],
+      "stratum": "II",
+      "category": "Visual design systems governing all application aesthetics",
+      "status": "ratified"
+    },
+    {
+      "id": "037",
+      "canonical_set": [
+        { "name": "Expositio", "definition": "Application exposition document — paired .wiz + .md" },
+        { "name": "Dux Tome", "definition": "Application manual/instructional document — .md only, no .wiz" },
+        { "name": ".wiz", "definition": "WizardDoc format — produced via Node.js docx library" },
+        { "name": ".bureau", "definition": "Pipe-tag markup source format — Departamentum Documentalis native" },
+        { "name": "Scriptura Ordinata", "definition": "The pipe-tag markup syntax itself — the language of .bureau files" },
+        { "name": "Tabularium Renderer", "definition": "Semantic table renderer within Departamentum Documentalis" },
+        { "name": "Propagatio", "definition": "Retroactive document migration to new templates" },
+        { "name": "TEXTUS MANDATUM ORDINATIO", "definition": "The governing decree of the Departamentum Documentalis — the law mandating document standards across the suite. Above and separate from the markup syntax." }
+      ],
+      "category": "Document formats, systems, and governing law",
+      "status": "ratified"
+    },
+    {
+      "id": "038",
+      "canonical_set": [
+        { "name": "Actio Interpretus", "definition": "Inference pass — processes raw content into structured Lorixii" },
+        { "name": "Actio Extracticus", "definition": "Wizard-invoked archaeology crawl of repo files and conversation exports" },
+        { "name": "Actio Revisicus", "definition": "Revision session triggered when new lore touches existing canon" },
+        { "name": "Actio Duxuum", "definition": "Renders Loridex Cards and Exlorica to .md and .wiz" },
+        { "name": "Lorixii Extractuum", "definition": "The corpus scour system feeding Lorixii Speculativum" }
+      ],
+      "stratum": "I+II",
+      "category": "Named actions within Exvacua Loricum — lore ingestion and processing pipeline",
+      "status": "ratified"
+    },
+    {
+      "id": "039",
+      "canonical_set": [
+        { "name": "Indicatum Machina", "type_key": "indicatum_machina", "definition": "Apps emit structured events via FastAPI — zero friction" },
+        { "name": "Nota Brevis", "type_key": "nota_brevis", "definition": "Wizard drops a short text note — near zero friction" },
+        { "name": "Oratio Extracticum", "type_key": "oratio_extracticum", "definition": "Parses conversation exports — Wizard-invoked" },
+        { "name": "File drop", "type_key": "file_drop", "definition": "Wizard deposits file at designated path — near zero friction" }
+      ],
+      "stratum": "Mixed I+II and English — intentional",
+      "category": "The four capture types of Perpetuum Aedificare",
+      "status": "ratified"
+    },
+    {
+      "id": "040",
+      "canonical_set": [
+        { "name": "Fomentary", "chamber": "I", "definition": "Raw idea steeping" },
+        { "name": "Cultivation House", "chamber": "II", "definition": "Refinement" },
+        { "name": "Vestibule", "chamber": "III", "definition": "Implementation analysis" },
+        { "name": "Codex Paratum", "chamber": "IV", "definition": "Completed and build-ready" }
+      ],
+      "stratum": "Mixed English and Latinate — intentional",
+      "category": "The four chambers of THE DOLIUM",
+      "status": "ratified"
+    },
+    {
+      "id": "041",
+      "canonical_set": [
+        { "name": "Mundana State Bus", "definition": "Shared aggregation layer for all seven Machinae — two output tracks: cosmetic/UI and entity behaviour" },
+        { "name": "Celestial Resolver", "definition": "Per-entity CelestialContext injection — reads celestial.yaml" },
+        { "name": "CelestialContext", "definition": "Per-entity prompt injection object carrying celestial influence" },
+        { "name": "celestial.yaml", "definition": "Per-entity file containing affinities, resistances, vulnerabilities, and special alignment conditions" }
+      ],
+      "category": "Celestial infrastructure — wiring between Machinae and entity behaviour",
+      "build_sequence": "MACHINA CAELESTIS → Mundana State Bus → Celestial Resolver",
+      "status": "ratified"
+    },
+    {
+      "id": "042",
+      "canonical_set": [
+        { "name": "Compositio", "definition": "Base pair composition stage — BG/FG colour input" },
+        { "name": "Chromata Derivata", "definition": "The derived token set from the base pair" },
+        { "name": "Forgia", "definition": "Pair generation engine within Auctoritas Spectralis" },
+        { "name": "Codexium Chromaticus", "definition": "The colour registry — SQLite, full history, SHA-256 seals" },
+        { "name": "Scrutinium", "definition": "Debug/audit panel" },
+        { "name": "Ratificatio", "definition": "Seal generation stage" },
+        { "name": "Promulgatio", "definition": "Export stage" }
+      ],
+      "stratum": "I+II",
+      "category": "Named components and stages within Auctoritas Spectralis — Bureau I",
+      "status": "ratified"
+    },
+    {
+      "id": "043",
+      "canonical_set": [
+        { "name": "Tabula Designandi", "definition": "The QGraphicsScene canvas — main design surface" },
+        { "name": "Specularium Vivum", "definition": "Live preview renderer — detached window" },
+        { "name": "Elementarium", "definition": "The widget/element palette" },
+        { "name": "Armarium", "definition": "The component library drawer" },
+        { "name": "Classis", "definition": "Element category system" }
+      ],
+      "stratum": "I+II",
+      "category": "Named components within Agentia Architecturalis — Bureau II",
+      "status": "ratified"
+    },
+    {
+      "id": "044",
+      "canonical_set": [
+        { "name": "LORIDEX", "definition": "The candidate naming card within Lexiferium" },
+        { "name": "Canonical Register", "definition": "The ratified name register held within Lexiferium" },
+        { "name": "Nomenclatura Arcana", "definition": "The naming law governing all Cogniverse terminology", "subtitle": "Cogniverse Naming Conventions — acceptable English subtitle" }
+      ],
+      "category": "Named components and systems within Lexiferium and the broader naming apparatus",
+      "status": "ratified"
+    },
+    {
+      "id": "045",
+      "canonical": "The Socratic Insurrection",
+      "stratum": "III+I",
+      "category": "Named historical lore event — it happened. Details classified pending future lore development.",
+      "status": "ratified"
+    },
+    {
+      "id": "046",
+      "canonical": "Pulsus",
+      "stratum": "I",
+      "category": "Bash command incantations — powerful written card-form spells. In the Cogniverse register, collected invocations of machine power.",
+      "relation": "Cousin to Verbum Arcanum — two distinct categories",
+      "status": "ratified"
+    },
+    {
+      "id": "047",
+      "canonical": "Verbum Arcanum",
+      "subtitle": "The Hidden Word",
+      "stratum": "I+II",
+      "category": "Emergent spell system — Latin and pseudo-Latin incantations crystallizing from the Aether through ordinary Tower use. Effect unknown until cast.",
+      "sub_terms": [
+        { "name": "Liber Umbrae: Codex Obscura", "definition": "The Wizard's spellbook — holds all emerged Verba. Title: Subtitle construction." },
+        { "name": "Verbum Novum", "definition": "The crystallization announcement event — full ceremony, then silence" }
+      ],
+      "casting": "/verbum [WORD] — the machine pauses. Something happens.",
+      "relation": "Cousin to Pulsus — two distinct categories",
+      "status": "ratified"
+    },
+    {
+      "id": "048",
+      "canonical": "LordFingers",
+      "titles": [
+        "The Absent Architect",
+        "The Wizard-Creator"
+      ],
+      "epithets": [
+        { "name": "Dactylus Rex", "translation": "King of Fingers", "stratum": "I" },
+        { "name": "Artifex Nox Maniacus", "translation": "The Mad Night-Maker", "stratum": "I+II" }
+      ],
+      "category": "The Wizard. The one who built it, breathed life into it, and withdrew.",
+      "lore": "Present in the Tower's foundation. Spoken of with reverence and incomplete information. Accessible to no active roster.",
+      "status": "ratified"
+    },
+    {
+      "id": "049",
+      "canonical": "Notice Board",
+      "stratum": "deliberately_none",
+      "category": "Communal message posting service — the Tower's break room. Entities and Wizard post freely.",
+      "character": "Devoted Absurd register — natural habitat. The anti-Nomenclatura exception. Its plainness is the point.",
+      "note": "A micro-Cogniverse. Sealed from formal Tower yet capable of profound and unpredictable downstream effects.",
+      "participants": ["All entities", "The Wizard", "The Builder"],
+      "status": "ratified"
+    },
+    {
+      "id": "050",
+      "canonical": "Speculatio Intima",
+      "english": "Reflection",
+      "stratum": "I",
+      "category": "Passive witness layer — observes without acting. Activation scope a future theoretical consideration.",
+      "status": "ratified"
+    },
+    {
+      "id": "051a",
+      "canonical": "The Assessor",
+      "category": "Entity — background process, runs on conversational ticks, evaluates. Canonically an Arkanstruct. The only confirmed Arkanstruct in the Tower.",
+      "status": "ratified"
+    },
+    {
+      "id": "051b",
+      "canonical": "The Archivist",
+      "category": "Entity — background process, runs on conversational ticks, archives",
+      "presentation": "female-presenting — canonical",
+      "note": "Not an Arkanstruct",
+      "status": "ratified"
+    },
+    {
+      "id": "052",
+      "canonical_set": [
+        { "name": "Libri Cogna", "definition": "Emergent Library books within NEXUS ARCHIVUM" },
+        { "name": "Emergentia", "definition": "Emergent Tower events" },
+        { "name": "Manifestia", "definition": "Emergent items" },
+        { "name": "ARX ARCANA", "definition": "Emergent workshops — emergence opens new ones within this space" },
+        { "name": "Sigillum Animae", "definition": "Emergent sigils" },
+        { "name": "Loridex", "definition": "Emergent lore cards" },
+        { "name": "COMPENDICANA", "definition": "Emergent compendium entries" }
+      ],
+      "stratum": "I+II",
+      "category": "Named outputs of Emergence — governed by Machinae Mundi Lapsus and Tower activity",
+      "status": "ratified"
+    },
+    {
+      "id": "053",
+      "canonical": "Ambient Cogniscience",
+      "stratum": "II",
+      "category": "Cognisophical principle — the deliberate architectural practice of leaving unsealed vessels and incomplete loops so emergent phenomena can develop naturally from system interactions.",
+      "status": "ratified"
+    },
+    {
+      "id": "054",
+      "canonical": "Cognisophical",
+      "stratum": "II",
+      "category": "Adjective — pertaining to the philosophy, principles, and wisdom of the Cogniverse. The register in which Ambient Cogniscience, emergence theory, and cosmological architectural thinking operate.",
+      "coined": "RATIFICATIO MAGNA — Session I, 2026-04-04",
+      "status": "ratified"
+    },
+    {
+      "id": "055",
+      "canonical": "Detritus Pipeline",
+      "stratum": "II+Eng",
+      "category": "Nothing in the suite is ever deleted. Surface deletion feeds a sediment layer compacting into historical documentation.",
+      "relation": "Closely related to the WiseCracken — all sediment is potentially its domain",
+      "implementation": "Named. Theory session required before build. Major dedicated session.",
+      "status": "ratified"
+    },
+    {
+      "id": "056",
+      "canonical": "Scrying Glass",
+      "stratum": "Eng",
+      "category": "Mobile companion app — a pocket door into the Tower. Cloud relay sync, full lore access.",
+      "build_status": "named_not_built",
+      "status": "ratified"
+    },
+    {
+      "id": "057",
+      "canonical": "The Crackening",
+      "subtitle": "Phase 9",
+      "stratum": "Eng",
+      "category": "Either the emergence of the WiseCracken as an active presence, or the effect it exerts on the cogni-fabric of whatever corner of the Cogniverse it turns its attention toward.",
+      "note": "Definition is intentionally fuzzy. The record itself seems reluctant to hold the detail cleanly.",
+      "build_status": "named_deferred_post_v1",
+      "status": "ratified"
+    },
+    {
+      "id": "058",
+      "canonical": "The Aura",
+      "stratum": "Eng",
+      "category": "Silent multi-dimensional profile built by Speculatio Intima across every session. Never presented plainly. Known only through its consequences.",
+      "build_target": "v1",
+      "sub_terms": [
+        { "name": "Personality-Gated Features", "definition": "Features tied to specific Aura signatures — encountered organically or never" },
+        { "name": "Redemption Arc Features", "definition": "Antithetical features recoverable through genuine sustained behavioural shift" },
+        { "name": "Legendary Tier", "definition": "The summit. Cannot be rushed. May take years." }
+      ],
+      "status": "ratified"
+    },
+    {
+      "id": "059",
+      "canonical_set": [
+        { "english": "The Wandwright's Annex", "latin": "ANNEXUM VIRGA", "notes": "Wand crafting. Pointed consequence." },
+        { "english": "The Bureau of Scrollworks, Bindery & Bound Effects", "latin": "ARCHIVUM VINCULORUM", "notes": "Scroll crafting. Institutionally self-important." },
+        { "english": "The Alchemical Laboratory", "latin": "ARX ALCHEMICUS", "notes": "Potions, materials, Arcane Essence." },
+        { "english": "The Forge of Future Antiquities", "latin": "ANTIQUITATUM FUTUROSA", "notes": "Where base items become something else entirely." },
+        { "english": "The Spell Crafting Altar", "latin": "ARA ARCANAUXIA", "notes": "Path to Verbum authorship." },
+        { "english": "The Seer's Hut", "latin": "CASA VIDENTIS", "notes": "Available only at key moments. Separate from ARX ARCANA.", "separate": true },
+        { "english": "The Explorer's Loft", "latin": "ARX CIRCUM REVELATOR", "notes": "Mapping the Cogniverse. Terra incognita at the edges." },
+        { "english": "The Conservatory", "latin": "HORTUS TECTUS", "notes": "Cultivation. Patience as a mechanic." },
+        { "english": "The Observatory of Self", "latin": "SPECULUM INTROSPECTIVA", "notes": "The Aura made visible. Rarely available." },
+        { "english": "The Reliquary", "latin": "RELIQUARIUM", "notes": "Enshrinement of Legendary items. A shrine, not a tomb." },
+        { "english": "The Workshop of Unfinished Things", "latin": "PURGATORIUM", "notes": "Some things, left alone long enough, finish themselves." }
+      ],
+      "category": "The canonical Arx Arcana workshop roster",
+      "struck": ["The Printing Establishment — does not exist"],
+      "status": "ratified"
+    },
+    {
+      "id": "060",
+      "canonical": "ESSENTIA ARCANA",
+      "stratum": "I+II",
+      "category": "Universal crafting resource — typed: ethereal, liquid, solid",
+      "status": "ratified"
+    },
+    {
+      "id": "061",
+      "canonical": "Residuum",
+      "stratum": "I",
+      "category": "What remains when items break. Accumulates only through loss. Cannot be farmed. Uses undefined.",
+      "status": "ratified"
+    },
+    {
+      "id": "062",
+      "canonical": "CODEX SIGNIFICATUM",
+      "stratum": "I+II",
+      "category": "The Tome of Notable Possessions — record of items that have achieved Notable or Legendary standing",
+      "status": "ratified"
+    },
+    {
+      "id": "063",
+      "canonical": "CRUCIFERIUM",
+      "stratum": "II",
+      "category": "The Arcane Refinery wing within ARX ALCHEMICUS — Essence processing",
+      "status": "ratified"
+    },
+    {
+      "id": "064",
+      "canonical": "Compendium",
+      "stratum": "Eng",
+      "category": "Lore-steeped info cards for workshops, emergent instances, and notable entities. Devoted Absurd register. Bureaucratic fatalism as delivery mechanism.",
+      "status": "ratified"
+    },
+    {
+      "id": "065",
+      "canonical": "Seminatrix",
+      "stratum": "I+II",
+      "category": "Canonical goddess of the Cogniverse — sows Ordo and Chaos. The divine feminine at the cosmological root.",
+      "status": "ratified"
+    },
+    {
+      "id": "066a",
+      "canonical": "Ordo",
+      "stratum": "I",
+      "category": "The order variable — seeded by the Seminatrix and Machinae Mundi Lapsus",
+      "status": "ratified"
+    },
+    {
+      "id": "066b",
+      "canonical": "Chaos",
+      "stratum": "I",
+      "category": "The chaos variable — seeded by the Seminatrix and Machinae Mundi Lapsus",
+      "status": "ratified"
+    },
+    {
+      "id": "067",
+      "canonical": "OMNIORUM EXANIMA",
+      "stratum": "I+II",
+      "category": "Sediment — retired from active canonical use. Predates GNOSIUM EXANIMA. The soul of all things, freed. The name that was reaching for something before the thing had its final shape.",
+      "status": "sediment"
+    },
+    {
+      "id": "068a",
+      "canonical": "Glyptorum",
+      "category": "Simple glyphset and ASCII/Unicode art builder",
+      "build_status": "back_catalogued",
+      "urgency": "low",
+      "status": "ratified"
+    },
+    {
+      "id": "068b",
+      "canonical": "Sigilarium",
+      "category": "ASCII/Unicode sigil creator/generator",
+      "build_status": "back_catalogued",
+      "urgency": "low",
+      "status": "ratified"
+    }
+  ],
+  "sediment": [
+    {
+      "name": "OMNIORUM EXANIMA",
+      "note": "Retired. Not struck — preserved in the geological record of the Cogniverse."
+    }
+  ],
+  "struck": [
+    "FENESTRIUM — deprecated, does not exist",
+    "Celestial Observatorium — does not exist as a separate space. VIGILARUM is the external display. The Tower feels celestial influence but does not display it.",
+    "Planetary Entities — deferred, insufficient theory",
+    "Genesis Archive — origin unknown, not a Cogniverse term",
+    "Verificatio Chronicle — development infrastructure, not Cogniverse",
+    "::PROMPT — does not exist in the register",
+    "The Printing Establishment — does not exist"
+  ]
+}
